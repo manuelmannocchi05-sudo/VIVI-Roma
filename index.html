@@ -20,7 +20,7 @@
 :root{
     --ivory:#f5f0e8;
     --paper:#fbf8f2;
-    --dark:#191816;
+    --dark:#292621;
     --red:#8e3027;
     --gold:#b28d55;
     --muted:#77736d;
@@ -289,16 +289,16 @@ nav{
 ========================= */
 
 .builder{
-    background:var(--dark);
-    color:white;
+    background:var(--paper);
+    color:var(--dark);
 }
 
 .builder .section-kicker{
-    color:#d1ad75;
+    color:var(--red);
 }
 
 .builder .section-intro{
-    color:#aaa59c;
+    color:var(--muted);
 }
 
 .builder-box{
@@ -315,7 +315,7 @@ nav{
 }
 
 .question-number{
-    color:#b8b1a6;
+    color:var(--muted);
     font-size:12px;
     letter-spacing:2px;
     margin-bottom:15px;
@@ -329,7 +329,7 @@ nav{
 }
 
 .question-help{
-    color:#969188;
+    color:var(--muted);
     font-size:13px;
     margin-bottom:30px;
 }
@@ -341,9 +341,9 @@ nav{
 }
 
 .option{
-    border:1px solid rgba(255,255,255,.18);
-    background:transparent;
-    color:white;
+    border:1px solid rgba(25,24,22,.16);
+    background:var(--ivory);
+    color:var(--dark);
     padding:22px;
     text-align:left;
     cursor:pointer;
@@ -351,10 +351,15 @@ nav{
     font-size:14px;
 }
 
-.option:hover,
+.option:hover{
+    background:#ebe3d7;
+    border-color:rgba(25,24,22,.3);
+}
+
 .option.selected{
-    background:white;
-    color:var(--dark);
+    background:var(--dark);
+    color:white;
+    border-color:var(--dark);
 }
 
 .option.selected::after{
@@ -371,7 +376,7 @@ nav{
 
 .progress{
     font-size:12px;
-    color:#9b978f;
+    color:var(--muted);
 }
 
 .next-button{
@@ -932,9 +937,7 @@ footer{
         <div class="builder-box">
 
 
-            <!-- =====================
-                 DOMANDA 1
-            ====================== -->
+            <!-- DOMANDA 1 -->
 
             <div
                 class="question active"
@@ -971,9 +974,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 2 MULTIPLA
-            ====================== -->
+            <!-- DOMANDA 2 -->
 
             <div
                 class="question"
@@ -1031,9 +1032,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 3 MULTIPLA
-            ====================== -->
+            <!-- DOMANDA 3 -->
 
             <div
                 class="question"
@@ -1091,9 +1090,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 4
-            ====================== -->
+            <!-- DOMANDA 4 -->
 
             <div
                 class="question"
@@ -1138,9 +1135,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 5
-            ====================== -->
+            <!-- DOMANDA 5 -->
 
             <div
                 class="question"
@@ -1157,15 +1152,15 @@ footer{
                 <div class="options">
 
                     <button class="option" data-value="slow">
-                        Piano
+                        Tranquillo
                     </button>
 
                     <button class="option" data-value="normal">
-                        Normale
+                        Equilibrato
                     </button>
 
                     <button class="option" data-value="fast">
-                        Voglio vedere tutto
+                        Intenso
                     </button>
 
                 </div>
@@ -1173,9 +1168,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 6
-            ====================== -->
+            <!-- DOMANDA 6 -->
 
             <div
                 class="question"
@@ -1192,15 +1185,15 @@ footer{
                 <div class="options">
 
                     <button class="option" data-value="little">
-                        Poco
+                        Poco — preferisco spostarmi facilmente
                     </button>
 
                     <button class="option" data-value="medium">
-                        Il giusto
+                        Il giusto — voglio alternare camminate e pause
                     </button>
 
                     <button class="option" data-value="much">
-                        Camminare mi piace
+                        Molto — voglio esplorare Roma a piedi
                     </button>
 
                 </div>
@@ -1208,9 +1201,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 7
-            ====================== -->
+            <!-- DOMANDA 7 -->
 
             <div
                 class="question"
@@ -1227,19 +1218,19 @@ footer{
                 <div class="options">
 
                     <button class="option" data-value="free">
-                        Quasi tutto gratis
+                        Essenziale — preferisco esperienze gratuite
                     </button>
 
                     <button class="option" data-value="low">
-                        Contenuto
+                        Contenuto — qualche esperienza senza esagerare
                     </button>
 
                     <button class="option" data-value="medium">
-                        Medio
+                        Medio — posso concedermi diverse esperienze
                     </button>
 
                     <button class="option" data-value="high">
-                        Voglio godermela
+                        Flessibile — voglio godermi Roma senza pensarci troppo
                     </button>
 
                 </div>
@@ -1247,9 +1238,7 @@ footer{
             </div>
 
 
-            <!-- =====================
-                 DOMANDA 8
-            ====================== -->
+            <!-- DOMANDA 8 -->
 
             <div
                 class="question"
@@ -1806,7 +1795,7 @@ const places = {
 
 
 /* =====================================================
-   PERCORSI BASE
+   PERCORSI
 ===================================================== */
 
 const routes = {
@@ -1900,14 +1889,8 @@ let currentQuestion = 1;
 let answers = {
 
     people:null,
-
-    /*
-     * ORA SONO ARRAY
-     */
     experiences:[],
-
     interests:[],
-
     time:null,
     pace:null,
     walking:null,
@@ -1937,7 +1920,7 @@ function startJourney(){
 
 
 /* =====================================================
-   ESPERIENZA DALLA SEZIONE SUPERIORE
+   ESPERIENZA
 ===================================================== */
 
 function selectExperience(type){
@@ -1954,7 +1937,7 @@ function selectExperience(type){
 
 
 /* =====================================================
-   SELEZIONE DELLE RISPOSTE
+   SELEZIONE RISPOSTE
 ===================================================== */
 
 document.querySelectorAll(".option").forEach(button => {
@@ -1971,10 +1954,6 @@ document.querySelectorAll(".option").forEach(button => {
             question.dataset.multiple === "true";
 
 
-        /*
-         * DOMANDE MULTIPLE
-         */
-
         if(isMultiple){
 
             this.classList.toggle("selected");
@@ -1986,25 +1965,17 @@ document.querySelectorAll(".option").forEach(button => {
 
 
             if(number === 2){
-
                 answers.experiences = values;
-
             }
 
             if(number === 3){
-
                 answers.interests = values;
-
             }
 
             return;
 
         }
 
-
-        /*
-         * DOMANDE SINGOLE
-         */
 
         question
             .querySelectorAll(".option")
@@ -2045,23 +2016,10 @@ document.querySelectorAll(".option").forEach(button => {
 
 
 /* =====================================================
-   CONTROLLO DOMANDA
+   CONTROLLO RISPOSTA
 ===================================================== */
 
 function hasAnswer(question){
-
-    const isMultiple =
-        question.dataset.multiple === "true";
-
-
-    if(isMultiple){
-
-        return question.querySelector(
-            ".option.selected"
-        ) !== null;
-
-    }
-
 
     return question.querySelector(
         ".option.selected"
@@ -2197,7 +2155,7 @@ function calculateStopCount(){
 
 
 /* =====================================================
-   PUNTEGGIO LUOGHI
+   PUNTEGGIO
 ===================================================== */
 
 function scorePlace(placeId){
@@ -2208,48 +2166,23 @@ function scorePlace(placeId){
     let score = 0;
 
 
-    /*
-     * =====================================
-     * ESPERIENZE MULTIPLE
-     * =====================================
-     *
-     * Ogni esperienza selezionata
-     * aggiunge punti.
-     */
-
     answers.experiences.forEach(experience => {
 
         if(place.tags.includes(experience)){
-
             score += 10;
-
         }
 
     });
 
-
-    /*
-     * =====================================
-     * INTERESSI MULTIPLI
-     * =====================================
-     */
 
     answers.interests.forEach(interest => {
 
         if(place.tags.includes(interest)){
-
             score += 7;
-
         }
 
     });
 
-
-    /*
-     * =====================================
-     * MOMENTO
-     * =====================================
-     */
 
     if(
         answers.moment &&
@@ -2260,12 +2193,6 @@ function scorePlace(placeId){
 
     }
 
-
-    /*
-     * =====================================
-     * COPPIA
-     * =====================================
-     */
 
     if(answers.people === "coppia"){
 
@@ -2279,12 +2206,6 @@ function scorePlace(placeId){
 
     }
 
-
-    /*
-     * =====================================
-     * AMICI
-     * =====================================
-     */
 
     if(answers.people === "amici"){
 
@@ -2303,12 +2224,6 @@ function scorePlace(placeId){
     }
 
 
-    /*
-     * =====================================
-     * FAMIGLIA
-     * =====================================
-     */
-
     if(answers.people === "famiglia"){
 
         if(place.tags.includes("natura")){
@@ -2322,12 +2237,6 @@ function scorePlace(placeId){
     }
 
 
-    /*
-     * =====================================
-     * DA SOLO
-     * =====================================
-     */
-
     if(answers.people === "solo"){
 
         if(place.tags.includes("nascosta")){
@@ -2340,12 +2249,6 @@ function scorePlace(placeId){
 
     }
 
-
-    /*
-     * =====================================
-     * CAMMINARE
-     * =====================================
-     */
 
     if(answers.walking === "much"){
 
@@ -2389,12 +2292,6 @@ function scorePlace(placeId){
     }
 
 
-    /*
-     * =====================================
-     * RITMO
-     * =====================================
-     */
-
     if(answers.pace === "slow"){
 
         if(
@@ -2423,12 +2320,6 @@ function scorePlace(placeId){
     }
 
 
-    /*
-     * =====================================
-     * TRAMONTO
-     * =====================================
-     */
-
     if(answers.moment === "sunset"){
 
         if(
@@ -2444,12 +2335,6 @@ function scorePlace(placeId){
 
     }
 
-
-    /*
-     * =====================================
-     * NOTTE
-     * =====================================
-     */
 
     if(answers.moment === "night"){
 
@@ -2468,12 +2353,6 @@ function scorePlace(placeId){
     }
 
 
-    /*
-     * =====================================
-     * MATTINA
-     * =====================================
-     */
-
     if(answers.moment === "morning"){
 
         if(
@@ -2490,6 +2369,76 @@ function scorePlace(placeId){
     }
 
 
+    /*
+     * BUDGET
+     *
+     * Al momento non ci sono prezzi rigidi
+     * associati alle tappe, quindi il budget
+     * influenza leggermente il tipo di percorso.
+     */
+
+    if(answers.budget === "free"){
+
+        if(
+            placeId === "pantheon" ||
+            placeId === "navona" ||
+            placeId === "trevi" ||
+            placeId === "spagna" ||
+            placeId === "pincio" ||
+            placeId === "isola" ||
+            placeId === "aranci" ||
+            placeId === "aventino"
+        ){
+
+            score += 3;
+
+        }
+
+    }
+
+
+    if(answers.budget === "low"){
+
+        if(
+            place.tags.includes("passeggiare") ||
+            place.tags.includes("foto")
+        ){
+
+            score += 2;
+
+        }
+
+    }
+
+
+    if(answers.budget === "medium"){
+
+        if(
+            place.tags.includes("monumenti") ||
+            place.tags.includes("storia")
+        ){
+
+            score += 2;
+
+        }
+
+    }
+
+
+    if(answers.budget === "high"){
+
+        if(
+            place.tags.includes("monumenti") ||
+            place.tags.includes("religiosa")
+        ){
+
+            score += 2;
+
+        }
+
+    }
+
+
     return score;
 
 }
@@ -2500,11 +2449,6 @@ function scorePlace(placeId){
 ===================================================== */
 
 function buildSmartRoute(){
-
-    /*
-     * Se l'utente ha scelto più esperienze,
-     * creiamo un ordine combinato.
-     */
 
     let preferredOrder = [];
 
@@ -2528,11 +2472,6 @@ function buildSmartRoute(){
     });
 
 
-    /*
-     * Se per qualche motivo non c'è un'esperienza,
-     * usiamo una base generale.
-     */
-
     if(preferredOrder.length === 0){
 
         preferredOrder =
@@ -2545,10 +2484,6 @@ function buildSmartRoute(){
         calculateStopCount();
 
 
-    /*
-     * Calcoliamo il punteggio di ogni luogo.
-     */
-
     const scoredPlaces =
         Object.keys(places).map(id => {
 
@@ -2560,10 +2495,6 @@ function buildSmartRoute(){
         });
 
 
-    /*
-     * Ordiniamo in base alla compatibilità.
-     */
-
     scoredPlaces.sort((a,b) => {
 
         if(b.score !== a.score){
@@ -2573,17 +2504,22 @@ function buildSmartRoute(){
         }
 
 
-        return (
-            preferredOrder.indexOf(a.id) -
-            preferredOrder.indexOf(b.id)
-        );
+        const indexA =
+            preferredOrder.indexOf(a.id);
+
+        const indexB =
+            preferredOrder.indexOf(b.id);
+
+
+        if(indexA === -1) return 1;
+
+        if(indexB === -1) return -1;
+
+
+        return indexA - indexB;
 
     });
 
-
-    /*
-     * Selezioniamo le migliori tappe.
-     */
 
     let selected =
         scoredPlaces
@@ -2591,16 +2527,21 @@ function buildSmartRoute(){
             .map(item => item.id);
 
 
-    /*
-     * Manteniamo un ordine sensato.
-     */
-
     selected.sort((a,b) => {
 
-        return (
-            preferredOrder.indexOf(a) -
-            preferredOrder.indexOf(b)
-        );
+        const indexA =
+            preferredOrder.indexOf(a);
+
+        const indexB =
+            preferredOrder.indexOf(b);
+
+
+        if(indexA === -1) return 1;
+
+        if(indexB === -1) return -1;
+
+
+        return indexA - indexB;
 
     });
 
@@ -2611,17 +2552,13 @@ function buildSmartRoute(){
 
 
 /* =====================================================
-   TESTO PERSONALIZZATO
+   RIASSUNTO
 ===================================================== */
 
 function createSmartSummary(){
 
     let parts = [];
 
-
-    /*
-     * COMPAGNIA
-     */
 
     if(answers.people === "coppia"){
 
@@ -2656,26 +2593,15 @@ function createSmartSummary(){
     }
 
 
-    /*
-     * ESPERIENZE MULTIPLE
-     */
-
     const experienceNames = {
 
         romantica:"romanticismo",
-
         storia:"storia e cultura",
-
         romano:"vita romana",
-
         foto:"fotografia",
-
         religiosa:"luoghi religiosi",
-
         natura:"natura e panorami",
-
         nascosta:"Roma meno conosciuta",
-
         notte:"Roma serale"
 
     };
@@ -2709,26 +2635,15 @@ function createSmartSummary(){
     }
 
 
-    /*
-     * INTERESSI MULTIPLI
-     */
-
     const interestNames = {
 
         monumenti:"monumenti",
-
         foto:"fotografia",
-
         tramonto:"tramonto",
-
         cibo:"cibo",
-
         passeggiare:"passeggiate",
-
         chiese:"chiese",
-
         natura:"natura",
-
         notte:"vita notturna"
 
     };
@@ -2762,18 +2677,11 @@ function createSmartSummary(){
     }
 
 
-    /*
-     * MOMENTO
-     */
-
     const momentNames = {
 
         morning:"ideale per la mattina",
-
         day:"pensato per la giornata",
-
         sunset:"con particolare attenzione alla luce del tramonto",
-
         night:"pensato per vivere Roma quando cala la sera"
 
     };
@@ -2788,10 +2696,6 @@ function createSmartSummary(){
     }
 
 
-    /*
-     * RITMO
-     */
-
     if(answers.pace === "slow"){
 
         parts.push(
@@ -2799,6 +2703,7 @@ function createSmartSummary(){
         );
 
     }
+
 
     if(answers.pace === "fast"){
 
@@ -2835,8 +2740,12 @@ function createJourney(){
         buildSmartRoute();
 
 
-    renderResult(route);
-
+    /*
+     * IMPORTANTE:
+     * mostriamo PRIMA la sezione risultati.
+     * Prima la mappa veniva creata quando
+     * #esplora era display:none.
+     */
 
     const results =
         document.getElementById("esplora");
@@ -2845,13 +2754,38 @@ function createJourney(){
     results.classList.add("show");
 
 
+    renderResult(route);
+
+
+    /*
+     * Aspettiamo che il browser abbia
+     * realmente mostrato la sezione.
+     */
+
     setTimeout(() => {
+
+        if(map){
+
+            map.invalidateSize();
+
+            map.fitBounds(
+                route.map(placeId => [
+                    places[placeId].lat,
+                    places[placeId].lng
+                ]),
+                {
+                    padding:[40,40]
+                }
+            );
+
+        }
+
 
         results.scrollIntoView({
             behavior:"smooth"
         });
 
-    },100);
+    },250);
 
 }
 
@@ -2868,19 +2802,11 @@ function renderResult(route){
     stops.innerHTML = "";
 
 
-    /*
-     * TESTO
-     */
-
     document.getElementById(
         "resultSummary"
     ).textContent =
         createSmartSummary();
 
-
-    /*
-     * TAG
-     */
 
     const tags =
         document.getElementById("resultTags");
@@ -2917,16 +2843,17 @@ function renderResult(route){
         tre:"3 giorni",
         quattro:"4+ giorni",
 
-        slow:"Ritmo lento",
-        normal:"Ritmo normale",
+        slow:"Ritmo tranquillo",
+        normal:"Ritmo equilibrato",
         fast:"Ritmo intenso",
 
         little:"Poca camminata",
-        medium:"Camminata media",
-        much:"Ami camminare",
+        medium:"Camminata equilibrata",
+        much:"Molto a piedi",
 
-        free:"Budget contenuto",
+        free:"Budget essenziale",
         low:"Budget contenuto",
+        medium:"Budget medio",
         high:"Budget flessibile",
 
         morning:"Mattina",
@@ -2936,10 +2863,6 @@ function renderResult(route){
 
     };
 
-
-    /*
-     * Mostriamo le esperienze multiple
-     */
 
     answers.experiences.forEach(value => {
 
@@ -2956,10 +2879,6 @@ function renderResult(route){
     });
 
 
-    /*
-     * Mostriamo gli interessi multipli
-     */
-
     answers.interests.forEach(value => {
 
         const tag =
@@ -2974,10 +2893,6 @@ function renderResult(route){
 
     });
 
-
-    /*
-     * Altri dati
-     */
 
     [
         answers.people,
@@ -3002,10 +2917,6 @@ function renderResult(route){
 
     });
 
-
-    /*
-     * SCHEDE TAPPE
-     */
 
     route.forEach((placeId,index) => {
 
@@ -3077,6 +2988,11 @@ function renderResult(route){
     });
 
 
+    /*
+     * La mappa viene creata QUI,
+     * quando la sezione è già visibile.
+     */
+
     createMap(route);
 
 }
@@ -3102,10 +3018,19 @@ function createMapsUrl(place){
 
 
 /* =====================================================
-   MAPPA
+   MAPPA LEAFLET
 ===================================================== */
 
 function createMap(route){
+
+    const mapElement =
+        document.getElementById("map");
+
+
+    if(!mapElement){
+        return;
+    }
+
 
     if(map){
 
@@ -3183,7 +3108,7 @@ function createMap(route){
                     rel="noopener noreferrer"
                     style="
                         display:inline-block;
-                        background:#191816;
+                        background:#292621;
                         color:white;
                         padding:9px 13px;
                         border-radius:20px;
@@ -3226,6 +3151,30 @@ function createMap(route){
         );
 
     }
+
+
+    /*
+     * Correzione importante:
+     * Leaflet ricalcola le dimensioni
+     * dopo che la sezione è comparsa.
+     */
+
+    setTimeout(() => {
+
+        map.invalidateSize();
+
+        if(coordinates.length){
+
+            map.fitBounds(
+                coordinates,
+                {
+                    padding:[40,40]
+                }
+            );
+
+        }
+
+    },300);
 
 }
 
@@ -3286,6 +3235,15 @@ function restartJourney(){
 
     document.getElementById("esplora")
         .classList.remove("show");
+
+
+    if(map){
+
+        map.remove();
+
+        map = null;
+
+    }
 
 
     document
