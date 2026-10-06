@@ -49,7 +49,6 @@ a {
 }
 
 /* NAV */
-
 nav {
     position: fixed;
     top: 0;
@@ -658,9 +657,10 @@ footer {
 
         <div class="hero-image">
 
-            <!-- PANORAMICA REALE DI ROMA -->
+            <!-- FOTO SCELTA PER "VIVI ROMA" -->
+
             <img
-                src="https://images.unsplash.com/photo-1715579422575-e7b500ff365d?auto=format&fit=crop&w=1400&q=90"
+                src="https://boscolo-res.cloudinary.com/images/w_2560,h_1706/f_auto,q_auto/v1615469218/Gift/magazine/Roma/Roma-PanoramicaRoma_ouedcb/Roma-PanoramicaRoma_ouedcb.jpg?_i=AA"
                 alt="Panorama di Roma"
             >
 
@@ -1086,7 +1086,7 @@ footer {
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1723642019377-492146b67626?auto=format&fit=crop&w=1000&q=85"
+                        src="https://images.pexels.com/photos/17649402/pexels-photo-17649402.jpeg?cs=srgb&dl=pexels-gonzalo-mendiola-95842233-17649402.jpg&fm=jpg"
                         alt="Colosseo a Roma"
                     >
 
@@ -1114,7 +1114,7 @@ footer {
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1767724805713-5469061fb21f?auto=format&fit=crop&w=1000&q=85"
+                        src="https://images.pexels.com/photos/36457900/pexels-photo-36457900.jpeg?cs=srgb&dl=pexels-jparradesign-36457900.jpg&fm=jpg"
                         alt="Panorama di Roma"
                     >
 
@@ -1135,15 +1135,15 @@ footer {
             </div>
 
 
-            <!-- TRASTEVERE -->
+            <!-- ROMA NASCOSTA -->
 
             <div class="place-card">
 
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1652794691816-65da24a9f476?auto=format&fit=crop&w=1000&q=85"
-                        alt="Trastevere Roma"
+                        src="https://images.pexels.com/photos/32661483/pexels-photo-32661483.jpeg?cs=srgb&dl=pexels-wai-sing-278507525-32661483.jpg&fm=jpg"
+                        alt="Roma nascosta"
                     >
 
                 </div>
@@ -1155,7 +1155,7 @@ footer {
                     </div>
 
                     <h3>
-                        Trastevere
+                        Roma nascosta
                     </h3>
 
                 </div>
@@ -1163,15 +1163,15 @@ footer {
             </div>
 
 
-            <!-- VILLA BORGHESE -->
+            <!-- VERDE -->
 
             <div class="place-card">
 
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1632153630769-01ab65e644d1?auto=format&fit=crop&w=1000&q=85"
-                        alt="Villa Borghese Roma"
+                        src="https://images.pexels.com/photos/13954189/pexels-photo-13954189.jpeg?cs=srgb&dl=pexels-andrei-l-335499537-13954189.jpg&fm=jpg"
+                        alt="Verde a Roma"
                     >
 
                 </div>
@@ -1191,15 +1191,15 @@ footer {
             </div>
 
 
-            <!-- PANTHEON -->
+            <!-- ARTE E STORIA -->
 
             <div class="place-card">
 
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1773413157850-4914e9553286?auto=format&fit=crop&w=1000&q=85"
-                        alt="Pantheon Roma"
+                        src="https://images.pexels.com/photos/18405963/pexels-photo-18405963.jpeg?cs=srgb&dl=pexels-c1superstar-18405963.jpg&fm=jpg"
+                        alt="Arte e storia a Roma"
                     >
 
                 </div>
@@ -1219,15 +1219,15 @@ footer {
             </div>
 
 
-            <!-- ROMA DI NOTTE -->
+            <!-- ROMA DI SERA -->
 
             <div class="place-card">
 
                 <div class="place-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1763446388141-db0d2a2ba1eb?auto=format&fit=crop&w=1000&q=85"
-                        alt="Roma di notte"
+                        src="https://images.pexels.com/photos/5927221/pexels-photo-5927221.jpeg?cs=srgb&dl=pexels-cristian-manieri-3039599-5927221.jpg&fm=jpg"
+                        alt="Roma di sera"
                     >
 
                 </div>
@@ -1239,7 +1239,7 @@ footer {
                     </div>
 
                     <h3>
-                        Roma di notte
+                        Roma di sera
                     </h3>
 
                 </div>
@@ -1391,6 +1391,7 @@ function startBuilder() {
     setTimeout(() => {
         renderStep();
     }, 300);
+
 }
 
 
@@ -1465,6 +1466,7 @@ function renderStep() {
     document
         .getElementById("result")
         .classList.remove("show");
+
 }
 
 
@@ -1477,6 +1479,7 @@ function nextStep() {
         alert("Scegli un'opzione per continuare.");
 
         return;
+
     }
 
 
@@ -1491,6 +1494,7 @@ function nextStep() {
         generateTrip();
 
     }
+
 }
 
 
@@ -1503,6 +1507,7 @@ function previousStep() {
         renderStep();
 
     }
+
 }
 
 
@@ -1565,6 +1570,7 @@ function generateTrip() {
         behavior: "smooth",
         block: "center"
     });
+
 }
 
 
@@ -1582,6 +1588,7 @@ function resetBuilder() {
     };
 
     renderStep();
+
 }
 
 
@@ -1590,6 +1597,7 @@ function quickExperience(type) {
     selections.experience = type;
 
     startBuilder();
+
 }
 
 
@@ -1613,6 +1621,7 @@ function quickWho(type, card) {
 
 
     startBuilder();
+
 }
 
 
