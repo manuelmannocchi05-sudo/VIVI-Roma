@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#171512">
 <meta name="description" content="VIVI — Non visitare Roma. Vivila.">
-<title>VIVI — Roma, come la vivresti tu</title>
+<title>VIVI — Non visitare Roma. Vivila.</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
@@ -14,10 +14,11 @@
   --bg:#f4f0e8;
   --paper:#fffdf8;
   --dark:#171512;
+  --dark2:#24211d;
   --muted:#777067;
   --line:#ded7ca;
   --red:#9d332d;
-  --red-dark:#76231f;
+  --red2:#76231f;
   --gold:#b08a52;
   --shadow:0 20px 60px rgba(23,21,18,.10);
   --radius:24px;
@@ -67,7 +68,7 @@ a{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:rgba(244,240,232,.88);
+  background:rgba(244,240,232,.90);
   backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(0,0,0,.05);
 }
@@ -82,7 +83,7 @@ a{
 .nav-links{
   display:flex;
   align-items:center;
-  gap:28px;
+  gap:27px;
 }
 
 .nav-links a{
@@ -270,16 +271,16 @@ section{
   max-width:420px;
 }
 
-/* MOODS */
+/* EXPERIENCE CARDS */
 
-.moods{
+.experience-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:16px;
 }
 
-.mood{
-  min-height:250px;
+.experience-card{
+  min-height:260px;
   border-radius:var(--radius);
   overflow:hidden;
   position:relative;
@@ -294,48 +295,48 @@ section{
   transition:.3s;
 }
 
-.mood:hover{
+.experience-card:hover{
   transform:translateY(-7px);
 }
 
-.mood::after{
+.experience-card::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(transparent 25%,rgba(0,0,0,.78));
+  background:linear-gradient(transparent 20%,rgba(0,0,0,.80));
 }
 
-.mood-content{
+.experience-content{
   position:relative;
   z-index:2;
 }
 
-.mood small{
+.experience-content small{
   opacity:.8;
   text-transform:uppercase;
   letter-spacing:1.5px;
 }
 
-.mood h3{
+.experience-content h3{
   font-family:"Playfair Display",serif;
   font-size:29px;
   margin-top:5px;
 }
 
-.mood:nth-child(1){
+.experience-card:nth-child(1){
+  background-image:url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=85");
+}
+
+.experience-card:nth-child(2){
   background-image:url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=85");
 }
 
-.mood:nth-child(2){
-  background-image:url("https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=900&q=85");
-}
-
-.mood:nth-child(3){
+.experience-card:nth-child(3){
   background-image:url("https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=900&q=85");
 }
 
-.mood:nth-child(4){
-  background-image:url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=85");
+.experience-card:nth-child(4){
+  background-image:url("https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=900&q=85");
 }
 
 /* BUILDER */
@@ -346,26 +347,42 @@ section{
 }
 
 .builder-box{
-  background:#24211d;
+  background:var(--dark2);
   border:1px solid #3a3530;
   border-radius:32px;
   padding:35px;
-  max-width:1100px;
+  max-width:1150px;
   margin:auto;
+}
+
+.builder-intro{
+  text-align:center;
+  max-width:650px;
+  margin:0 auto 35px;
+}
+
+.builder-intro h3{
+  font-family:"Playfair Display",serif;
+  font-size:42px;
+}
+
+.builder-intro p{
+  color:#aaa39b;
+  margin-top:8px;
 }
 
 .steps{
   display:flex;
   justify-content:space-between;
   margin-bottom:35px;
-  gap:10px;
+  gap:8px;
 }
 
 .step{
   flex:1;
   text-align:center;
   font-size:12px;
-  color:#8e8880;
+  color:#77716a;
   position:relative;
 }
 
@@ -374,8 +391,8 @@ section{
 }
 
 .step-number{
-  width:34px;
-  height:34px;
+  width:36px;
+  height:36px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -388,6 +405,11 @@ section{
   background:var(--red);
 }
 
+.step.done .step-number{
+  background:var(--gold);
+  color:white;
+}
+
 .builder-question{
   text-align:center;
   margin-bottom:28px;
@@ -395,7 +417,7 @@ section{
 
 .builder-question h3{
   font-family:"Playfair Display",serif;
-  font-size:36px;
+  font-size:35px;
 }
 
 .builder-question p{
@@ -404,7 +426,7 @@ section{
 
 .options{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
@@ -412,16 +434,23 @@ section{
   background:#302c27;
   border:1px solid #47413a;
   color:white;
-  padding:18px;
+  padding:20px;
   border-radius:18px;
   text-align:left;
   transition:.2s;
+  min-height:105px;
 }
 
 .option:hover,
 .option.selected{
   border-color:#c89570;
   background:#3a332d;
+  transform:translateY(-2px);
+}
+
+.option-icon{
+  font-size:25px;
+  margin-bottom:7px;
 }
 
 .option strong{
@@ -444,6 +473,47 @@ section{
 .progress{
   color:#aaa39b;
   font-size:13px;
+}
+
+.back-btn{
+  background:transparent;
+  color:#aaa39b;
+  border:0;
+  margin-right:10px;
+}
+
+.builder-summary{
+  margin-top:25px;
+  padding:18px;
+  border-radius:18px;
+  background:#1c1a17;
+  border:1px solid #37322d;
+  display:none;
+}
+
+.builder-summary.show{
+  display:block;
+}
+
+.summary-title{
+  color:#aaa39b;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:12px;
+}
+
+.summary-items{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.summary-pill{
+  background:#37322d;
+  border-radius:20px;
+  padding:7px 11px;
+  font-size:12px;
 }
 
 /* ITINERARY */
@@ -519,6 +589,78 @@ section{
   height:38px;
   border-radius:50%;
   font-size:18px;
+}
+
+/* WHO */
+
+.who-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.who-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:25px;
+  border-radius:22px;
+  transition:.25s;
+}
+
+.who-card:hover{
+  transform:translateY(-5px);
+}
+
+.who-icon{
+  font-size:30px;
+  margin-bottom:14px;
+}
+
+.who-card h3{
+  font-family:"Playfair Display",serif;
+  font-size:25px;
+}
+
+.who-card p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* ACTIONS */
+
+.actions{
+  background:#e9e2d5;
+}
+
+.action-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.action{
+  background:var(--paper);
+  border-radius:22px;
+  padding:25px;
+  border:1px solid var(--line);
+  min-height:180px;
+}
+
+.action-icon{
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+.action h3{
+  font-family:"Playfair Display",serif;
+  font-size:23px;
+}
+
+.action p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
 }
 
 /* WALK */
@@ -805,7 +947,7 @@ footer p{
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.68);
   backdrop-filter:blur(8px);
   z-index:500;
   display:none;
@@ -820,7 +962,7 @@ footer p{
 
 .modal-box{
   background:var(--paper);
-  width:min(650px,100%);
+  width:min(680px,100%);
   max-height:90vh;
   overflow:auto;
   border-radius:30px;
@@ -867,6 +1009,47 @@ footer p{
   outline:none;
 }
 
+/* RESULT */
+
+.result{
+  margin-top:25px;
+  padding:25px;
+  border-radius:22px;
+  background:#f1ebe1;
+  display:none;
+}
+
+.result.show{
+  display:block;
+}
+
+.result h3{
+  font-family:"Playfair Display",serif;
+  font-size:30px;
+}
+
+.result p{
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.result-list{
+  margin-top:20px;
+}
+
+.result-item{
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.result-item:last-child{
+  border-bottom:0;
+}
+
+.result-item strong{
+  display:block;
+}
+
 /* TOAST */
 
 .toast{
@@ -890,6 +1073,22 @@ footer p{
 
 /* MOBILE */
 
+@media(max-width:1000px){
+
+  .experience-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .who-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .action-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
 @media(max-width:900px){
 
   .nav-links{
@@ -911,10 +1110,6 @@ footer p{
 
   .hero-photo{
     height:480px;
-  }
-
-  .moods{
-    grid-template-columns:1fr 1fr;
   }
 
   .options{
@@ -947,6 +1142,7 @@ footer p{
   .footer-inner{
     display:block;
   }
+
 }
 
 @media(max-width:600px){
@@ -973,11 +1169,11 @@ footer p{
     height:420px;
   }
 
-  .moods{
+  .experience-grid{
     grid-template-columns:1fr;
   }
 
-  .mood{
+  .experience-card{
     min-height:220px;
   }
 
@@ -994,11 +1190,16 @@ footer p{
   }
 
   .step{
-    min-width:65px;
+    min-width:70px;
   }
 
   .builder-question h3{
     font-size:29px;
+  }
+
+  .who-grid,
+  .action-grid{
+    grid-template-columns:1fr;
   }
 
   .place-image{
@@ -1025,6 +1226,7 @@ footer p{
   .profile-box{
     grid-template-columns:1fr;
   }
+
 }
 </style>
 </head>
@@ -1034,18 +1236,24 @@ footer p{
 <!-- NAV -->
 
 <nav class="nav">
+
   <a href="#" class="logo">VIVI</a>
 
   <div class="nav-links">
+
     <a href="#esperienze">Esperienze</a>
     <a href="#crea">Crea il tuo giro</a>
-    <a href="#esplora">Esplora</a>
+    <a href="#esplora">Esplora Roma</a>
     <a href="#guide">VIVI Guide</a>
+
     <button class="lang" onclick="changeLanguage()">IT</button>
+
   </div>
 
   <button class="mobile-menu" onclick="toggleMobile()">☰</button>
+
 </nav>
+
 
 <!-- HERO -->
 
@@ -1053,7 +1261,9 @@ footer p{
 
   <div class="hero-copy">
 
-    <div class="eyebrow">Roma, ma vissuta davvero</div>
+    <div class="eyebrow">
+      Roma, come vuoi viverla
+    </div>
 
     <h1>
       Non visitare Roma.<br>
@@ -1061,22 +1271,29 @@ footer p{
     </h1>
 
     <p>
-      Dimentica gli itinerari tutti uguali.
-      Dimmi che tipo di giornata vuoi vivere e VIVI costruirà
-      un'esperienza pensata per te.
+      Dimmi chi sei, con chi sei, quanto tempo hai
+      e cosa vuoi vivere. VIVI costruisce un'esperienza
+      pensata per te, in tutta Roma.
     </p>
 
     <div class="hero-actions">
-      <button class="btn btn-primary" onclick="openBuilder()">
+
+      <button
+        class="btn btn-primary"
+        onclick="openBuilder()">
         Crea la mia esperienza →
       </button>
 
-      <button class="btn btn-light" onclick="scrollToSection('esperienze')">
+      <button
+        class="btn btn-light"
+        onclick="scrollToSection('esperienze')">
         Scopri Roma
       </button>
+
     </div>
 
   </div>
+
 
   <div class="hero-photo">
 
@@ -1085,19 +1302,30 @@ footer p{
       alt="Roma">
 
     <div class="hero-caption">
+
       <small>Oggi potresti...</small>
-      <strong>Perderti tra le strade di Roma.</strong>
+
+      <strong>
+        Vivere Roma in un modo diverso.
+      </strong>
+
     </div>
 
   </div>
 
 </header>
 
+
 <div class="marquee">
+
   <div class="marquee-track">
-    ROMA · STORIE · SAPORI · TRAMONTI · STRADE NASCOSTE · ESPERIENZE · ROMA · STORIE · SAPORI · TRAMONTI · STRADE NASCOSTE · ESPERIENZE ·
+
+    ROMA · QUARTIERI · STORIE · SAPORI · TRAMONTI · ARTE · NATURA · NOTTE · LUOGHI NASCOSTI · ESPERIENZE · ROMA · QUARTIERI · STORIE · SAPORI · TRAMONTI · ARTE · NATURA · NOTTE · LUOGHI NASCOSTI ·
+
   </div>
+
 </div>
+
 
 <!-- ESPERIENZE -->
 
@@ -1106,54 +1334,99 @@ footer p{
   <div class="section-head">
 
     <div>
-      <div class="eyebrow">Scegli come vuoi viverla</div>
+
+      <div class="eyebrow">
+        Come vuoi viverla?
+      </div>
 
       <h2>
-        Roma cambia<br>
-        insieme a te.
+        Non esiste<br>
+        una sola Roma.
       </h2>
+
     </div>
 
     <p>
-      Non tutti cercano la stessa Roma.
-      Scegli il tuo mood e lasciati guidare.
+      Scegli un'esperienza oppure lascia che VIVI
+      costruisca qualcosa partendo dalle tue preferenze.
     </p>
 
   </div>
 
-  <div class="moods">
 
-    <button class="mood" onclick="selectMood('Romantica')">
-      <div class="mood-content">
+  <div class="experience-grid">
+
+    <button
+      class="experience-card"
+      onclick="quickExperience('Romantica')">
+
+      <div class="experience-content">
+
         <small>Per due</small>
-        <h3>Romantica</h3>
+
+        <h3>
+          Passeggiata romantica
+        </h3>
+
       </div>
+
     </button>
 
-    <button class="mood" onclick="selectMood('Storia & cultura')">
-      <div class="mood-content">
+
+    <button
+      class="experience-card"
+      onclick="quickExperience('Storia')">
+
+      <div class="experience-content">
+
         <small>Scopri</small>
-        <h3>Storia & cultura</h3>
+
+        <h3>
+          Storia & cultura
+        </h3>
+
       </div>
+
     </button>
 
-    <button class="mood" onclick="selectMood('Come un romano')">
-      <div class="mood-content">
-        <small>Local</small>
-        <h3>Come un romano</h3>
+
+    <button
+      class="experience-card"
+      onclick="quickExperience('Locale')">
+
+      <div class="experience-content">
+
+        <small>Come un romano</small>
+
+        <h3>
+          Roma autentica
+        </h3>
+
       </div>
+
     </button>
 
-    <button class="mood" onclick="selectMood('Roma nascosta')">
-      <div class="mood-content">
-        <small>Lontano dai soliti posti</small>
-        <h3>Roma nascosta</h3>
+
+    <button
+      class="experience-card"
+      onclick="quickExperience('Nascosta')">
+
+      <div class="experience-content">
+
+        <small>Fuori rotta</small>
+
+        <h3>
+          Roma nascosta
+        </h3>
+
       </div>
+
     </button>
 
   </div>
 
 </section>
+
 
 <!-- BUILDER -->
 
@@ -1162,70 +1435,147 @@ footer p{
   <div class="section-head">
 
     <div>
-      <div class="eyebrow">Il tuo viaggio</div>
 
-      <h2>Costruiamo<br>la tua Roma.</h2>
+      <div class="eyebrow">
+        Il cuore di VIVI
+      </div>
+
+      <h2>
+        Costruiamo<br>
+        la tua esperienza.
+      </h2>
+
     </div>
 
     <p>
-      Quattro domande.
-      Poi VIVI penserà al resto.
+      Più VIVI conosce quello che cerchi,
+      più può costruire un'esperienza adatta a te.
     </p>
 
   </div>
 
+
   <div class="builder-box">
 
-    <div class="steps">
+    <div class="builder-intro">
 
-      <div class="step active" id="step1">
-        <div class="step-number">1</div>
-        Mood
-      </div>
-
-      <div class="step" id="step2">
-        <div class="step-number">2</div>
-        Tempo
-      </div>
-
-      <div class="step" id="step3">
-        <div class="step-number">3</div>
-        Con chi
-      </div>
-
-      <div class="step" id="step4">
-        <div class="step-number">4</div>
-        Ritmo
-      </div>
-
-    </div>
-
-    <div class="builder-question">
-
-      <h3 id="question">
-        Che Roma vuoi vivere?
+      <h3>
+        Raccontami la tua giornata.
       </h3>
 
-      <p id="questionText">
-        Scegli quello che ti rappresenta di più.
+      <p>
+        Non ci sono risposte giuste o sbagliate.
       </p>
 
     </div>
 
+
+    <div class="steps">
+
+      <div class="step active" id="step1">
+
+        <div class="step-number">1</div>
+        Con chi
+
+      </div>
+
+
+      <div class="step" id="step2">
+
+        <div class="step-number">2</div>
+        Esperienza
+
+      </div>
+
+
+      <div class="step" id="step3">
+
+        <div class="step-number">3</div>
+        Cosa fare
+
+      </div>
+
+
+      <div class="step" id="step4">
+
+        <div class="step-number">4</div>
+        Tempo
+
+      </div>
+
+
+      <div class="step" id="step5">
+
+        <div class="step-number">5</div>
+        Ritmo
+
+      </div>
+
+
+      <div class="step" id="step6">
+
+        <div class="step-number">6</div>
+        Budget
+
+      </div>
+
+    </div>
+
+
+    <div class="builder-question">
+
+      <h3 id="question">
+        Con chi sei?
+      </h3>
+
+      <p id="questionText">
+        VIVI adatterà l'esperienza alle persone con cui sei.
+      </p>
+
+    </div>
+
+
     <div class="options" id="options"></div>
+
+
+    <div class="builder-summary" id="builderSummary">
+
+      <div class="summary-title">
+        La tua esperienza
+      </div>
+
+      <div
+        class="summary-items"
+        id="summaryItems">
+      </div>
+
+    </div>
+
 
     <div class="builder-footer">
 
       <div class="progress" id="progress">
-        1 di 4
+        1 di 6
       </div>
 
-      <button
-        class="btn btn-red"
-        id="nextBtn"
-        onclick="nextBuilder()">
-        Continua →
-      </button>
+      <div>
+
+        <button
+          class="back-btn"
+          id="backBtn"
+          onclick="previousBuilder()"
+          style="display:none">
+          ← Indietro
+        </button>
+
+        <button
+          class="btn btn-red"
+          id="nextBtn"
+          onclick="nextBuilder()">
+          Continua →
+        </button>
+
+      </div>
 
     </div>
 
@@ -1233,27 +1583,307 @@ footer p{
 
 </section>
 
-<!-- ITINERARIO -->
+
+<!-- CHI -->
+
+<section>
+
+  <div class="section-head">
+
+    <div>
+
+      <div class="eyebrow">
+        Con chi vivi Roma?
+      </div>
+
+      <h2>
+        La stessa città.<br>
+        Esperienze diverse.
+      </h2>
+
+    </div>
+
+    <p>
+      Una passeggiata in coppia non è la stessa
+      esperienza di una giornata con gli amici.
+    </p>
+
+  </div>
+
+
+  <div class="who-grid">
+
+    <div class="who-card">
+
+      <div class="who-icon">🧍</div>
+
+      <h3>Da solo</h3>
+
+      <p>
+        Scopri Roma seguendo solo i tuoi tempi e i tuoi interessi.
+      </p>
+
+    </div>
+
+
+    <div class="who-card">
+
+      <div class="who-icon">❤️</div>
+
+      <h3>In coppia</h3>
+
+      <p>
+        Passeggiate, tramonti, luoghi speciali e momenti da condividere.
+      </p>
+
+    </div>
+
+
+    <div class="who-card">
+
+      <div class="who-icon">👥</div>
+
+      <h3>Con amici</h3>
+
+      <p>
+        Esperienze dinamiche, luoghi particolari e cose da fare insieme.
+      </p>
+
+    </div>
+
+
+    <div class="who-card">
+
+      <div class="who-icon">👨‍👩‍👧</div>
+
+      <h3>In famiglia</h3>
+
+      <p>
+        Percorsi semplici, interessanti e adatti a più età.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- AZIONI -->
+
+<section class="actions">
+
+  <div class="section-head">
+
+    <div>
+
+      <div class="eyebrow">
+        Non solo luoghi
+      </div>
+
+      <h2>
+        Cosa vuoi<br>
+        fare davvero?
+      </h2>
+
+    </div>
+
+    <p>
+      VIVI può costruire il percorso anche
+      in base all'attività che vuoi vivere.
+    </p>
+
+  </div>
+
+
+  <div class="action-grid">
+
+    <div class="action">
+
+      <div class="action-icon">🚶</div>
+
+      <h3>Passeggiare</h3>
+
+      <p>
+        Percorsi da vivere lentamente, strada dopo strada.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">❤️</div>
+
+      <h3>Vivere un momento romantico</h3>
+
+      <p>
+        Passeggiate, scorci, tramonti e luoghi da condividere.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🏛️</div>
+
+      <h3>Scoprire la storia</h3>
+
+      <p>
+        Dai grandi monumenti ai piccoli dettagli nascosti.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">⛪</div>
+
+      <h3>Roma religiosa</h3>
+
+      <p>
+        Basiliche, chiese, arte sacra e luoghi spirituali.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🎨</div>
+
+      <h3>Arte</h3>
+
+      <p>
+        Musei, opere, architettura e angoli pieni di bellezza.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">📸</div>
+
+      <h3>Fotografare</h3>
+
+      <p>
+        Scorci, prospettive e punti perfetti per le tue foto.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🌅</div>
+
+      <h3>Vedere il tramonto</h3>
+
+      <p>
+        Trova il posto giusto nel momento giusto.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🌳</div>
+
+      <h3>Natura</h3>
+
+      <p>
+        Parchi, ville, verde e angoli tranquilli lontani dal caos.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🍝</div>
+
+      <h3>Vivere i sapori</h3>
+
+      <p>
+        Mercati, tradizioni e cultura gastronomica romana.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🌙</div>
+
+      <h3>Vivere Roma di notte</h3>
+
+      <p>
+        Quartieri, passeggiate e atmosfere quando cala il sole.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">🔎</div>
+
+      <h3>Scoprire luoghi nascosti</h3>
+
+      <p>
+        Allontanati dalle rotte più conosciute.
+      </p>
+
+    </div>
+
+
+    <div class="action">
+
+      <div class="action-icon">💶</div>
+
+      <h3>Spendere poco</h3>
+
+      <p>
+        Esperienze interessanti anche con un budget ridotto.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ESPLORA -->
 
 <section id="esplora">
 
   <div class="section-head">
 
     <div>
-      <div class="eyebrow">Un assaggio</div>
+
+      <div class="eyebrow">
+        Tutta Roma
+      </div>
 
       <h2>
-        Non solo luoghi.<br>
-        Momenti.
+        Dai grandi classici<br>
+        ai luoghi che non conosci.
       </h2>
+
     </div>
 
     <p>
-      Ogni tappa ha una storia.
-      VIVI ti porta lì quando ha davvero senso.
+      I monumenti più famosi sono solo l'inizio.
+      VIVI deve conoscere Roma in tutta la sua varietà.
     </p>
 
   </div>
+
 
   <div class="itinerary">
 
@@ -1265,25 +1895,34 @@ footer p{
           src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=85"
           alt="Colosseo">
 
-        <span class="place-tag">Da non perdere</span>
+        <span class="place-tag">
+          Roma iconica
+        </span>
 
       </div>
 
+
       <div class="place-body">
 
-        <button class="save" onclick="savePlace(this,'Colosseo')">♡</button>
+        <button
+          class="save"
+          onclick="savePlace(this,'Colosseo')">
+          ♡
+        </button>
 
         <h3>Colosseo</h3>
 
         <p>
-          Non guardarlo soltanto.
-          Fermati, osserva i dettagli e immagina la Roma che c'era qui.
+          Uno dei simboli di Roma.
+          VIVI può inserirlo quando è davvero adatto alla tua esperienza.
         </p>
 
         <div class="place-meta">
+
           <span class="pill">📍 Centro</span>
-          <span class="pill">⏱ 30 min</span>
           <span class="pill">🏛 Storia</span>
+          <span class="pill">⭐ Iconico</span>
+
         </div>
 
       </div>
@@ -1299,25 +1938,34 @@ footer p{
           src="https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=1200&q=85"
           alt="Pantheon">
 
-        <span class="place-tag">Atmosfera</span>
+        <span class="place-tag">
+          Roma iconica
+        </span>
 
       </div>
 
+
       <div class="place-body">
 
-        <button class="save" onclick="savePlace(this,'Pantheon')">♡</button>
+        <button
+          class="save"
+          onclick="savePlace(this,'Pantheon')">
+          ♡
+        </button>
 
         <h3>Pantheon</h3>
 
         <p>
-          Una delle piazze più belle per rallentare,
-          guardarsi intorno e lasciarsi sorprendere.
+          Un luogo dove storia, architettura e atmosfera
+          si incontrano nel cuore della città.
         </p>
 
         <div class="place-meta">
+
           <span class="pill">📍 Centro</span>
-          <span class="pill">⏱ 25 min</span>
-          <span class="pill">✨ Iconico</span>
+          <span class="pill">🏛 Storia</span>
+          <span class="pill">⛪ Religioso</span>
+
         </div>
 
       </div>
@@ -1333,25 +1981,34 @@ footer p{
           src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=85"
           alt="Roma">
 
-        <span class="place-tag">Tramonto</span>
+        <span class="place-tag">
+          Panorami
+        </span>
 
       </div>
 
+
       <div class="place-body">
 
-        <button class="save" onclick="savePlace(this,'Gianicolo')">♡</button>
+        <button
+          class="save"
+          onclick="savePlace(this,'Gianicolo')">
+          ♡
+        </button>
 
         <h3>Gianicolo</h3>
 
         <p>
-          Quando il sole scende,
-          Roma si apre davanti a te.
+          Un punto panoramico perfetto quando vuoi
+          vedere Roma dall'alto.
         </p>
 
         <div class="place-meta">
+
           <span class="pill">🌅 Tramonto</span>
           <span class="pill">📸 Foto</span>
-          <span class="pill">❤️ Coppia</span>
+          <span class="pill">🌆 Panorama</span>
+
         </div>
 
       </div>
@@ -1367,24 +2024,34 @@ footer p{
           src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1200&q=85"
           alt="Roma">
 
-        <span class="place-tag">Da scoprire</span>
+        <span class="place-tag">
+          Quartieri
+        </span>
 
       </div>
 
+
       <div class="place-body">
 
-        <button class="save" onclick="savePlace(this,'Trastevere')">♡</button>
+        <button
+          class="save"
+          onclick="savePlace(this,'Trastevere')">
+          ♡
+        </button>
 
         <h3>Trastevere</h3>
 
         <p>
-          Vicoli, piazze e scorci da attraversare senza fretta.
+          Vicoli, piazze e atmosfere da vivere senza seguire
+          necessariamente il percorso più turistico.
         </p>
 
         <div class="place-meta">
+
           <span class="pill">🚶 Passeggiata</span>
-          <span class="pill">📸 Foto</span>
           <span class="pill">🌙 Sera</span>
+          <span class="pill">📸 Foto</span>
+
         </div>
 
       </div>
@@ -1395,7 +2062,8 @@ footer p{
 
 </section>
 
-<!-- CAMMINA CON ME -->
+
+<!-- CAMMINA -->
 
 <section>
 
@@ -1404,23 +2072,35 @@ footer p{
     <div class="walk-card">
 
       <div>
-        <div class="eyebrow" style="color:#f3c6a5">
+
+        <div
+          class="eyebrow"
+          style="color:#f3c6a5">
           Modalità VIVI
         </div>
 
-        <h2>Cammina<br>con me.</h2>
+        <h2>
+          Cammina<br>
+          con me.
+        </h2>
 
         <p style="margin-top:20px">
-          Non devi continuare a guardare lo schermo.
-          VIVI ti accompagna passo dopo passo.
+          Quando arriverà la modalità GPS,
+          VIVI potrà accompagnarti mentre cammini,
+          senza costringerti a guardare continuamente lo schermo.
         </p>
+
       </div>
 
-      <button class="btn btn-light" onclick="startWalk()">
+
+      <button
+        class="btn btn-light"
+        onclick="startWalk()">
         Inizia la passeggiata →
       </button>
 
     </div>
+
 
     <div class="walk-map">
 
@@ -1429,23 +2109,54 @@ footer p{
         <div class="route-line">
 
           <div class="route-point">
-            <strong>📍 Punto di partenza</strong>
-            <span>Piazza Venezia</span>
+
+            <strong>
+              📍 Punto di partenza
+            </strong>
+
+            <span>
+              La tua posizione
+            </span>
+
           </div>
 
-          <div class="route-point">
-            <strong>01 · Il primo incontro</strong>
-            <span>Altare della Patria · 8 min</span>
-          </div>
 
           <div class="route-point">
-            <strong>02 · Una deviazione</strong>
-            <span>Via dei Fori Imperiali · 12 min</span>
+
+            <strong>
+              01 · Prima tappa
+            </strong>
+
+            <span>
+              VIVI sceglierà il posto più adatto
+            </span>
+
           </div>
 
+
           <div class="route-point">
-            <strong>03 · La sorpresa</strong>
-            <span>Colosseo · 7 min</span>
+
+            <strong>
+              02 · Una deviazione
+            </strong>
+
+            <span>
+              Un luogo interessante lungo il percorso
+            </span>
+
+          </div>
+
+
+          <div class="route-point">
+
+            <strong>
+              03 · La sorpresa
+            </strong>
+
+            <span>
+              Un posto che probabilmente non avresti cercato
+            </span>
+
           </div>
 
         </div>
@@ -1457,6 +2168,7 @@ footer p{
   </div>
 
 </section>
+
 
 <!-- GUIDE -->
 
@@ -1466,36 +2178,48 @@ footer p{
 
     <div class="guide-title">
 
-      <div class="eyebrow">Il tuo compagno di viaggio</div>
+      <div class="eyebrow">
+        Il tuo compagno di viaggio
+      </div>
 
-      <h2>Chiedi a<br>VIVI.</h2>
+      <h2>
+        Chiedi a<br>
+        VIVI.
+      </h2>
 
       <p>
-        Una domanda, una situazione, un dubbio.
-        VIVI ti risponde in base a dove sei e a quello che vuoi vivere.
+        Una domanda, una situazione, un'idea.
+        VIVI deve poter adattare il viaggio a quello
+        che sta succedendo in quel momento.
       </p>
 
     </div>
 
+
     <div class="chat">
 
       <div class="message user">
-        Ho solo 2 ore. Cosa posso fare?
+        Sono a Roma per la prima volta.
       </div>
 
       <div class="message ai">
-        Perfetto. Ti preparo un giro senza correre,
-        con 3 tappe e un finale con vista.
+        Perfetto. Dimmi quanto tempo hai e che tipo
+        di Roma vuoi vivere. Partiamo da lì.
       </div>
+
 
       <div class="message user">
-        Voglio vedere il tramonto.
+        Sono in coppia e voglio qualcosa di romantico,
+        ma non voglio passare tutta la giornata tra turisti.
       </div>
 
+
       <div class="message ai">
-        Allora cambierei il finale.
-        Ti porterei verso un punto panoramico proprio prima che scenda il sole. 🌅
+        Allora eviterei un itinerario classico.
+        Posso costruirti una passeggiata con qualche
+        luogo iconico e diverse tappe più tranquille.
       </div>
+
 
       <div class="chat-input">
 
@@ -1504,7 +2228,9 @@ footer p{
           type="text"
           placeholder="Chiedi qualcosa a VIVI...">
 
-        <button onclick="askGuide()">→</button>
+        <button onclick="askGuide()">
+          →
+        </button>
 
       </div>
 
@@ -1514,6 +2240,7 @@ footer p{
 
 </section>
 
+
 <!-- MISSIONI -->
 
 <section>
@@ -1521,12 +2248,16 @@ footer p{
   <div class="section-head">
 
     <div>
-      <div class="eyebrow">Scopri giocando</div>
+
+      <div class="eyebrow">
+        Scopri giocando
+      </div>
 
       <h2>
         Roma ha ancora<br>
         qualche segreto.
       </h2>
+
     </div>
 
     <p>
@@ -1536,17 +2267,22 @@ footer p{
 
   </div>
 
+
   <div class="missions">
 
     <div class="mission">
 
-      <div class="mission-icon">🔎</div>
+      <div class="mission-icon">
+        🔎
+      </div>
 
-      <h3>Trova il dettaglio</h3>
+      <h3>
+        Trova il dettaglio
+      </h3>
 
       <p>
-        Trova un dettaglio nascosto
-        in una delle piazze più famose di Roma.
+        Cerca qualcosa che probabilmente
+        avresti ignorato passando.
       </p>
 
       <div class="mission-progress">
@@ -1555,15 +2291,20 @@ footer p{
 
     </div>
 
+
     <div class="mission">
 
-      <div class="mission-icon">📸</div>
+      <div class="mission-icon">
+        📸
+      </div>
 
-      <h3>La tua Roma</h3>
+      <h3>
+        La tua Roma
+      </h3>
 
       <p>
-        Scatta una foto di Roma
-        che nessun turista avrebbe scattato.
+        Scatta una foto che racconti
+        la tua giornata romana.
       </p>
 
       <div class="mission-progress">
@@ -1572,15 +2313,20 @@ footer p{
 
     </div>
 
+
     <div class="mission">
 
-      <div class="mission-icon">🚶</div>
+      <div class="mission-icon">
+        🚶
+      </div>
 
-      <h3>Perditi apposta</h3>
+      <h3>
+        Perditi apposta
+      </h3>
 
       <p>
-        Segui una strada secondaria
-        e scopri dove ti porta.
+        Esci dal percorso principale
+        e scopri dove ti porta una strada.
       </p>
 
       <div class="mission-progress">
@@ -1593,6 +2339,7 @@ footer p{
 
 </section>
 
+
 <!-- PROFILO -->
 
 <section class="profile">
@@ -1600,7 +2347,10 @@ footer p{
   <div class="section-head">
 
     <div>
-      <div class="eyebrow" style="color:#c9a66b">
+
+      <div
+        class="eyebrow"
+        style="color:#c9a66b">
         Il tuo viaggio
       </div>
 
@@ -1608,6 +2358,7 @@ footer p{
         Roma che hai<br>
         già vissuto.
       </h2>
+
     </div>
 
     <p style="color:#9b958d">
@@ -1617,34 +2368,52 @@ footer p{
 
   </div>
 
+
   <div class="profile-box">
 
     <div class="profile-card">
 
-      <h3>Esploratore</h3>
+      <h3>
+        Esploratore
+      </h3>
 
       <p style="color:#aaa39b;margin-top:6px">
         Livello 4 · 720 XP
       </p>
 
+
       <div class="xp">
 
-        <div style="display:flex;justify-content:space-between;font-size:12px">
-          <span>Progressi</span>
-          <span>720 / 1000 XP</span>
+        <div
+          style="display:flex;justify-content:space-between;font-size:12px">
+
+          <span>
+            Progressi
+          </span>
+
+          <span>
+            720 / 1000 XP
+          </span>
+
         </div>
 
+
         <div class="xp-bar">
+
           <div></div>
+
         </div>
 
       </div>
 
     </div>
 
+
     <div class="profile-card">
 
-      <h3>I tuoi badge</h3>
+      <h3>
+        I tuoi badge
+      </h3>
 
       <div class="badges">
 
@@ -1662,6 +2431,7 @@ footer p{
 
 </section>
 
+
 <!-- FOOTER -->
 
 <footer>
@@ -1669,166 +2439,368 @@ footer p{
   <div class="footer-inner">
 
     <div>
-      <div class="logo">VIVI</div>
-      <p>Non visitare Roma. Vivila.</p>
+
+      <div class="logo">
+        VIVI
+      </div>
+
+      <p>
+        Non visitare Roma. Vivila.
+      </p>
+
     </div>
 
+
     <div>
-      <p>Roma · Italia</p>
-      <p>Un nuovo modo di scoprire la città.</p>
+
+      <p>
+        Roma · Italia
+      </p>
+
+      <p>
+        Un nuovo modo di scoprire la città.
+      </p>
+
     </div>
 
   </div>
 
 </footer>
 
-<!-- MODAL BUILDER -->
+
+<!-- MODAL -->
 
 <div class="modal" id="builderModal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('builderModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('builderModal')">
+      ×
+    </button>
 
-    <div class="eyebrow">Crea la tua esperienza</div>
 
-    <h2>La tua Roma.</h2>
+    <div class="eyebrow">
+      Crea la tua esperienza
+    </div>
+
+    <h2>
+      La tua Roma.
+    </h2>
 
     <p style="color:var(--muted)">
-      Dimmi qualcosa in più e iniziamo a costruire il tuo giro.
+      Raccontami cosa stai cercando.
     </p>
 
-    <div class="form-group">
-
-      <label>Che tipo di esperienza vuoi?</label>
-
-      <select id="modalMood">
-        <option>Romantica</option>
-        <option>Storia & cultura</option>
-        <option>Come un romano</option>
-        <option>Roma nascosta</option>
-      </select>
-
-    </div>
 
     <div class="form-group">
 
-      <label>Quanto tempo hai?</label>
-
-      <select id="modalTime">
-        <option>1 ora</option>
-        <option>2 ore</option>
-        <option>Mezza giornata</option>
-        <option>Giornata intera</option>
-      </select>
-
-    </div>
-
-    <div class="form-group">
-
-      <label>Con chi sei?</label>
+      <label>
+        Con chi sei?
+      </label>
 
       <select id="modalPeople">
+
         <option>Da solo</option>
         <option>In coppia</option>
         <option>Con amici</option>
         <option>In famiglia</option>
+
       </select>
 
     </div>
+
 
     <div class="form-group">
 
-      <label>Che ritmo preferisci?</label>
+      <label>
+        Che tipo di esperienza vuoi?
+      </label>
 
-      <select id="modalPace">
-        <option>Tranquillo</option>
-        <option>Normale</option>
-        <option>Voglio vedere tutto</option>
+      <select id="modalExperience">
+
+        <option>Passeggiata romantica</option>
+        <option>Storia & cultura</option>
+        <option>Religiosa</option>
+        <option>Arte</option>
+        <option>Fotografica</option>
+        <option>Panoramica</option>
+        <option>Natura</option>
+        <option>Enogastronomica</option>
+        <option>Roma di notte</option>
+        <option>Roma nascosta</option>
+        <option>Come un romano</option>
+        <option>Low cost</option>
+
       </select>
 
     </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Cosa vuoi fare?
+      </label>
+
+      <select id="modalAction">
+
+        <option>Passeggiare</option>
+        <option>Scoprire luoghi nuovi</option>
+        <option>Fotografare</option>
+        <option>Vedere il tramonto</option>
+        <option>Conoscere la storia</option>
+        <option>Visitare chiese e basiliche</option>
+        <option>Rilassarmi</option>
+        <option>Scoprire il cibo romano</option>
+        <option>Vivere la notte</option>
+        <option>Fare qualcosa di diverso</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Quanto tempo hai?
+      </label>
+
+      <select id="modalTime">
+
+        <option>1 ora</option>
+        <option>2 ore</option>
+        <option>3 ore</option>
+        <option>Mezza giornata</option>
+        <option>Giornata intera</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Che ritmo preferisci?
+      </label>
+
+      <select id="modalPace">
+
+        <option>Tranquillo</option>
+        <option>Normale</option>
+        <option>Voglio vedere più cose possibile</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Budget
+      </label>
+
+      <select id="modalBudget">
+
+        <option>Gratis / quasi gratis</option>
+        <option>Basso</option>
+        <option>Medio</option>
+        <option>Non è importante</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Da dove vuoi partire?
+      </label>
+
+      <input
+        id="modalStart"
+        type="text"
+        placeholder="Es. Colosseo, Garbatella, Roma Nord...">
+
+    </div>
+
 
     <button
       class="btn btn-red"
       style="width:100%;margin-top:25px"
       onclick="generateTrip()">
+
       Crea il mio itinerario →
+
     </button>
+
+
+    <div
+      class="result"
+      id="result">
+
+      <h3>
+        La tua esperienza
+      </h3>
+
+      <p id="resultDescription"></p>
+
+      <div
+        class="result-list"
+        id="resultList">
+      </div>
+
+    </div>
 
   </div>
 
 </div>
 
+
 <div class="toast" id="toast"></div>
+
 
 <script>
 
-/* =========================
-   DATI BUILDER
-========================= */
+/* ==========================================
+   CONFIGURAZIONE BUILDER
+========================================== */
 
 const builderData = [
 
   {
-    question:"Che Roma vuoi vivere?",
-    text:"Scegli quello che ti rappresenta di più.",
-    options:[
-      ["❤️","Romantica","Una giornata da vivere in due"],
-      ["🏛️","Storia & cultura","Voglio conoscere Roma"],
-      ["🍝","Come un romano","Voglio vivere la città"],
-      ["🔎","Roma nascosta","Voglio evitare i soliti posti"]
-    ]
-  },
+    key:"people",
 
-  {
-    question:"Quanto tempo hai?",
-    text:"Costruiamo qualcosa che abbia senso per te.",
-    options:[
-      ["⚡","1 ora","Un'esperienza veloce"],
-      ["🕑","2 ore","Un giro completo"],
-      ["☀️","Mezza giornata","Posso prendermela comoda"],
-      ["🌙","Giornata intera","Voglio viverla tutta"]
-    ]
-  },
-
-  {
     question:"Con chi sei?",
-    text:"Questo cambia completamente il modo di vivere Roma.",
+
+    text:"L'esperienza cambia in base alle persone con cui vivi Roma.",
+
     options:[
-      ["🧍","Da solo","Voglio seguire il mio ritmo"],
-      ["❤️","In coppia","Un'esperienza da condividere"],
-      ["👥","Con amici","Divertiamoci insieme"],
-      ["👨‍👩‍👧","In famiglia","Qualcosa per tutti"]
+      ["🧍","Da solo","Segui solo i tuoi interessi e il tuo ritmo."],
+      ["❤️","In coppia","Costruiamo qualcosa da condividere in due."],
+      ["👥","Con amici","Più movimento, divertimento e cose da fare insieme."],
+      ["👨‍👩‍👧","In famiglia","Un'esperienza piacevole per tutti."]
     ]
   },
 
+
   {
-    question:"Che ritmo vuoi?",
-    text:"Niente corse se non vuoi.",
+    key:"experience",
+
+    question:"Che tipo di esperienza cerchi?",
+
+    text:"Puoi scegliere tra tante anime diverse di Roma.",
+
     options:[
-      ["🌿","Tranquillo","Poche tappe, molto tempo"],
-      ["🚶","Normale","Il giusto equilibrio"],
-      ["🔥","Voglio vedere tutto","Massimizziamo il tempo"],
-      ["🎲","Sorprendimi","Decidi tu"]
+      ["❤️","Romantica","Passeggiate e momenti da vivere in due."],
+      ["🏛️","Storia & cultura","Roma attraverso le sue storie."],
+      ["⛪","Religiosa","Chiese, basiliche e arte sacra."],
+      ["🎨","Arte","Opere, architettura e musei."],
+      ["📸","Fotografica","Scorci e prospettive da fotografare."],
+      ["🌿","Natura","Parchi, ville e verde."],
+      ["🔎","Roma nascosta","Luoghi fuori dalle rotte classiche."],
+      ["🍝","Come un romano","Quartieri e atmosfera locale."],
+      ["🌙","Roma di notte","La città quando cambia volto."]
+    ]
+  },
+
+
+  {
+    key:"action",
+
+    question:"Cosa vuoi fare?",
+
+    text:"Non pensiamo solo a dove andare. Pensiamo a cosa vuoi vivere.",
+
+    options:[
+      ["🚶","Passeggiare","Un percorso da vivere a piedi."],
+      ["📸","Fotografare","Trova gli scorci migliori."],
+      ["🌅","Vedere il tramonto","Arrivare nel posto giusto al momento giusto."],
+      ["🏛️","Conoscere la storia","Storie e curiosità lungo il percorso."],
+      ["⛪","Visitare chiese","Arte e luoghi religiosi."],
+      ["🌿","Rilassarmi","Pochi posti e niente corse."],
+      ["🍝","Scoprire il cibo","Sapori e tradizioni romane."],
+      ["🌙","Vivere la notte","Atmosfere e quartieri serali."],
+      ["🎲","Fare qualcosa di diverso","Sorprendimi."]
+    ]
+  },
+
+
+  {
+    key:"time",
+
+    question:"Quanto tempo hai?",
+
+    text:"L'itinerario deve adattarsi al tempo reale che hai.",
+
+    options:[
+      ["⚡","1 ora","Un'esperienza breve."],
+      ["🕑","2 ore","Un giro completo senza correre."],
+      ["🕒","3 ore","Più spazio per esplorare."],
+      ["☀️","Mezza giornata","Puoi vivere più tappe."],
+      ["🌙","Giornata intera","Costruiamo una vera giornata romana."]
+    ]
+  },
+
+
+  {
+    key:"pace",
+
+    question:"Che ritmo preferisci?",
+
+    text:"Roma non va sempre vissuta di corsa.",
+
+    options:[
+      ["🌿","Tranquillo","Poche tappe e tempo per viverle."],
+      ["🚶","Normale","Il giusto equilibrio."],
+      ["🔥","Voglio vedere tutto","Massimizziamo il tempo."]
+    ]
+  },
+
+
+  {
+    key:"budget",
+
+    question:"Quanto vuoi spendere?",
+
+    text:"Anche una grande esperienza può costare poco.",
+
+    options:[
+      ["🆓","Gratis / quasi gratis","Puntiamo sulle esperienze gratuite."],
+      ["💶","Basso","Spendiamo poco ma scegliamo bene."],
+      ["💳","Medio","Possiamo includere qualche esperienza a pagamento."],
+      ["✨","Non è importante","Il budget non è un limite."]
     ]
   }
 
 ];
 
+
 let currentStep=0;
 let selectedOptions=[];
+
+
+/* ==========================================
+   BUILDER
+========================================== */
 
 function renderBuilder(){
 
   const data=builderData[currentStep];
 
   document.getElementById("question").textContent=data.question;
+
   document.getElementById("questionText").textContent=data.text;
 
   const options=document.getElementById("options");
 
   options.innerHTML="";
+
 
   data.options.forEach((option,index)=>{
 
@@ -1837,13 +2809,28 @@ function renderBuilder(){
     button.className="option";
 
     button.innerHTML=`
-      <strong>${option[0]} ${option[1]}</strong>
-      <span>${option[2]}</span>
+
+      <div class="option-icon">
+        ${option[0]}
+      </div>
+
+      <strong>
+        ${option[1]}
+      </strong>
+
+      <span>
+        ${option[2]}
+      </span>
+
     `;
 
+
     if(selectedOptions[currentStep]===index){
+
       button.classList.add("selected");
+
     }
+
 
     button.onclick=()=>{
 
@@ -1855,26 +2842,52 @@ function renderBuilder(){
 
       button.classList.add("selected");
 
+      updateSummary();
+
     };
+
 
     options.appendChild(button);
 
   });
 
+
   document.getElementById("progress").textContent=
     `${currentStep+1} di ${builderData.length}`;
 
-  for(let i=1;i<=4;i++){
 
-    document
-      .getElementById("step"+i)
-      .classList.toggle("active",i===currentStep+1);
+  for(let i=1;i<=builderData.length;i++){
+
+    const step=document.getElementById("step"+i);
+
+    step.classList.remove("active","done");
+
+    if(i===currentStep+1){
+
+      step.classList.add("active");
+
+    }
+
+    if(i<currentStep+1){
+
+      step.classList.add("done");
+
+    }
 
   }
 
+
+  document.getElementById("backBtn").style.display=
+    currentStep>0 ? "inline-block" : "none";
+
+
   document.getElementById("nextBtn").textContent=
-    currentStep===3 ? "Crea il mio giro →" : "Continua →";
+    currentStep===builderData.length-1
+      ? "Crea la mia esperienza →"
+      : "Continua →";
+
 }
+
 
 function nextBuilder(){
 
@@ -1886,7 +2899,8 @@ function nextBuilder(){
 
   }
 
-  if(currentStep<3){
+
+  if(currentStep<builderData.length-1){
 
     currentStep++;
 
@@ -1894,70 +2908,358 @@ function nextBuilder(){
 
   }else{
 
-    generatePersonalizedTrip();
+    showToast("✨ Perfetto. Ho tutte le informazioni.");
+
+    setTimeout(()=>{
+
+      openBuilder();
+
+    },300);
 
   }
 
 }
 
+
+function previousBuilder(){
+
+  if(currentStep>0){
+
+    currentStep--;
+
+    renderBuilder();
+
+  }
+
+}
+
+
+function updateSummary(){
+
+  const box=document.getElementById("builderSummary");
+
+  const items=document.getElementById("summaryItems");
+
+  items.innerHTML="";
+
+
+  selectedOptions.forEach((choice,index)=>{
+
+    if(choice===undefined) return;
+
+    const data=builderData[index];
+
+    const option=data.options[choice];
+
+    const pill=document.createElement("div");
+
+    pill.className="summary-pill";
+
+    pill.textContent=
+      option[0]+" "+option[1];
+
+    items.appendChild(pill);
+
+  });
+
+
+  if(selectedOptions.length>0){
+
+    box.classList.add("show");
+
+  }
+
+}
+
+
+/* ==========================================
+   APERTURA BUILDER
+========================================== */
+
 function openBuilder(){
 
   currentStep=0;
+
   selectedOptions=[];
+
+  document.getElementById("builderSummary")
+    .classList.remove("show");
 
   renderBuilder();
 
   document
     .getElementById("builderModal")
     .classList.add("show");
+
 }
 
-function generatePersonalizedTrip(){
 
-  closeModal("builderModal");
+/* ==========================================
+   QUICK EXPERIENCE
+========================================== */
+
+function quickExperience(type){
+
+  openBuilder();
+
+  const experienceMap={
+
+    "Romantica":0,
+    "Storia":1,
+    "Locale":7,
+    "Nascosta":6
+
+  };
 
   setTimeout(()=>{
 
-    document
-      .getElementById("esplora")
-      .scrollIntoView();
+    const index=experienceMap[type];
 
-    showToast(
-      "✨ Il tuo itinerario è pronto. Roma ti aspetta."
-    );
+    if(index!==undefined){
 
-  },300);
+      selectedOptions[1]=index;
 
-}
+      renderBuilder();
 
-/* =========================
-   MOOD
-========================= */
+      updateSummary();
 
-function selectMood(mood){
+    }
 
-  showToast("Hai scelto: "+mood);
-
-  setTimeout(()=>{
-
-    document
-      .getElementById("crea")
-      .scrollIntoView();
-
-    openBuilder();
-
-  },500);
+  },100);
 
 }
 
-/* =========================
+
+/* ==========================================
+   GENERAZIONE ITINERARIO
+========================================== */
+
+function generateTrip(){
+
+  const people=
+    document.getElementById("modalPeople").value;
+
+  const experience=
+    document.getElementById("modalExperience").value;
+
+  const action=
+    document.getElementById("modalAction").value;
+
+  const time=
+    document.getElementById("modalTime").value;
+
+  const pace=
+    document.getElementById("modalPace").value;
+
+  const budget=
+    document.getElementById("modalBudget").value;
+
+  const start=
+    document.getElementById("modalStart").value ||
+    "Roma";
+
+
+  const result=
+    document.getElementById("result");
+
+  const description=
+    document.getElementById("resultDescription");
+
+  const list=
+    document.getElementById("resultList");
+
+
+  description.textContent=
+    `${experience}, ${action}, ${time}, ${people.toLowerCase()}, partendo da ${start}. Ritmo: ${pace}. Budget: ${budget}.`;
+
+
+  list.innerHTML="";
+
+
+  const suggestions=getSuggestions(
+    experience,
+    action,
+    people,
+    time,
+    budget
+  );
+
+
+  suggestions.forEach((item,index)=>{
+
+    const div=document.createElement("div");
+
+    div.className="result-item";
+
+    div.innerHTML=`
+
+      <strong>
+        ${index+1}. ${item.title}
+      </strong>
+
+      <span>
+        ${item.description}
+      </span>
+
+    `;
+
+    list.appendChild(div);
+
+  });
+
+
+  result.classList.add("show");
+
+  result.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+/* ==========================================
+   SUGGERIMENTI
+========================================== */
+
+function getSuggestions(
+  experience,
+  action,
+  people,
+  time,
+  budget
+){
+
+  if(
+    experience==="Romantica" ||
+    action==="Vedere il tramonto"
+  ){
+
+    return [
+
+      {
+        title:"Una passeggiata scelta per voi",
+        description:"Il percorso dovrebbe privilegiare atmosfera, scorci e tempo per fermarsi."
+      },
+
+      {
+        title:"Una tappa panoramica",
+        description:"Un punto dove fermarsi insieme e godersi Roma senza correre."
+      },
+
+      {
+        title:"Una deviazione speciale",
+        description:"Un luogo meno conosciuto inserito nel percorso."
+      }
+
+    ];
+
+  }
+
+
+  if(experience==="Religiosa"){
+
+    return [
+
+      {
+        title:"Un luogo di arte sacra",
+        description:"Una tappa dedicata alla storia religiosa e artistica di Roma."
+      },
+
+      {
+        title:"Una seconda chiesa o basilica",
+        description:"Una tappa collegata al percorso, senza trasformarlo in una semplice lista di monumenti."
+      },
+
+      {
+        title:"Una passeggiata nel quartiere",
+        description:"Per vivere anche la Roma intorno ai luoghi religiosi."
+      }
+
+    ];
+
+  }
+
+
+  if(experience==="Roma nascosta"){
+
+    return [
+
+      {
+        title:"Fuori dalla rotta classica",
+        description:"VIVI privilegia un luogo meno conosciuto rispetto ai percorsi turistici tradizionali."
+      },
+
+      {
+        title:"Una strada da esplorare",
+        description:"Un tratto del quartiere da vivere lentamente."
+      },
+
+      {
+        title:"La sorpresa",
+        description:"Una deviazione scelta in base alle tue preferenze."
+      }
+
+    ];
+
+  }
+
+
+  if(experience==="Come un romano"){
+
+    return [
+
+      {
+        title:"Un quartiere da vivere",
+        description:"L'itinerario parte dall'atmosfera del quartiere, non solo dai monumenti."
+      },
+
+      {
+        title:"Una piazza o una strada",
+        description:"Una tappa per osservare la vita quotidiana della città."
+      },
+
+      {
+        title:"Un'esperienza locale",
+        description:"Una proposta collegata ai tuoi interessi e al budget."
+      }
+
+    ];
+
+  }
+
+
+  return [
+
+    {
+      title:"Prima tappa",
+      description:"Un luogo coerente con il tuo tipo di esperienza."
+    },
+
+    {
+      title:"Seconda tappa",
+      description:"Una tappa collegata alla prima per evitare spostamenti inutili."
+    },
+
+    {
+      title:"La sorpresa VIVI",
+      description:"Un luogo o un'esperienza meno ovvia, scelta in base alle tue preferenze."
+    }
+
+  ];
+
+}
+
+
+/* ==========================================
    SAVE
-========================= */
+========================================== */
 
 function savePlace(button,name){
 
   let saved=
     JSON.parse(localStorage.getItem("viviSaved")||"[]");
+
 
   if(saved.includes(name)){
 
@@ -1965,7 +3267,9 @@ function savePlace(button,name){
 
     button.textContent="♡";
 
-    showToast(name+" rimosso dai salvati.");
+    showToast(
+      name+" rimosso dai salvati."
+    );
 
   }else{
 
@@ -1973,9 +3277,12 @@ function savePlace(button,name){
 
     button.textContent="♥";
 
-    showToast(name+" salvato nel tuo viaggio.");
+    showToast(
+      name+" salvato nel tuo viaggio."
+    );
 
   }
+
 
   localStorage.setItem(
     "viviSaved",
@@ -1984,13 +3291,15 @@ function savePlace(button,name){
 
 }
 
-/* =========================
+
+/* ==========================================
    GUIDE
-========================= */
+========================================== */
 
 function askGuide(){
 
-  const input=document.getElementById("guideInput");
+  const input=
+    document.getElementById("guideInput");
 
   const text=input.value.trim();
 
@@ -2002,29 +3311,38 @@ function askGuide(){
 
   }
 
-  const chat=document.querySelector(".chat");
 
-  const user=document.createElement("div");
+  const chat=
+    document.querySelector(".chat");
+
+
+  const user=
+    document.createElement("div");
 
   user.className="message user";
 
   user.textContent=text;
+
 
   chat.insertBefore(
     user,
     document.querySelector(".chat-input")
   );
 
+
   input.value="";
+
 
   setTimeout(()=>{
 
-    const ai=document.createElement("div");
+    const ai=
+      document.createElement("div");
 
     ai.className="message ai";
 
     ai.textContent=
-      "Bella domanda. In una versione completa di VIVI potrei usare la tua posizione, il tempo che hai e le tue preferenze per consigliarti esattamente cosa fare adesso. ✨";
+      "Capito. In una versione completa di VIVI userò la tua posizione, il tempo che hai, chi è con te e quello che vuoi fare per proporti qualcosa di realmente adatto a questo momento. ✨";
+
 
     chat.insertBefore(
       ai,
@@ -2035,19 +3353,23 @@ function askGuide(){
 
 }
 
+
 document
   .getElementById("guideInput")
   .addEventListener("keydown",function(e){
 
     if(e.key==="Enter"){
+
       askGuide();
+
     }
 
   });
 
-/* =========================
+
+/* ==========================================
    WALK
-========================= */
+========================================== */
 
 function startWalk(){
 
@@ -2057,9 +3379,10 @@ function startWalk(){
 
 }
 
-/* =========================
+
+/* ==========================================
    MODAL
-========================= */
+========================================== */
 
 function closeModal(id){
 
@@ -2069,37 +3392,17 @@ function closeModal(id){
 
 }
 
-function generateTrip(){
 
-  closeModal("builderModal");
-
-  showToast(
-    "✨ Sto preparando la tua esperienza..."
-  );
-
-  setTimeout(()=>{
-
-    document
-      .getElementById("esplora")
-      .scrollIntoView();
-
-    showToast(
-      "Il tuo giro è pronto."
-    );
-
-  },1000);
-
-}
-
-/* =========================
+/* ==========================================
    TOAST
-========================= */
+========================================== */
 
 let toastTimer;
 
 function showToast(message){
 
-  const toast=document.getElementById("toast");
+  const toast=
+    document.getElementById("toast");
 
   toast.textContent=message;
 
@@ -2115,9 +3418,10 @@ function showToast(message){
 
 }
 
-/* =========================
+
+/* ==========================================
    NAV
-========================= */
+========================================== */
 
 function scrollToSection(id){
 
@@ -2127,9 +3431,12 @@ function scrollToSection(id){
 
 }
 
+
 function toggleMobile(){
 
-  const links=document.querySelector(".nav-links");
+  const links=
+    document.querySelector(".nav-links");
+
 
   if(links.style.display==="flex"){
 
@@ -2138,34 +3445,54 @@ function toggleMobile(){
   }else{
 
     links.style.display="flex";
+
     links.style.position="absolute";
+
     links.style.top="70px";
+
     links.style.left="0";
+
     links.style.right="0";
+
     links.style.padding="20px";
+
     links.style.background="var(--paper)";
+
     links.style.flexDirection="column";
 
   }
 
 }
 
-/* =========================
-   LINGUE
-========================= */
+
+/* ==========================================
+   LINGUA
+========================================== */
 
 let language="IT";
 
+
 function changeLanguage(){
 
-  const languages=["IT","EN","ES"];
+  const languages=[
+    "IT",
+    "EN",
+    "ES"
+  ];
 
-  const current=languages.indexOf(language);
+  const current=
+    languages.indexOf(language);
+
 
   language=
-    languages[(current+1)%languages.length];
+    languages[
+      (current+1)%languages.length
+    ];
 
-  document.querySelector(".lang").textContent=language;
+
+  document.querySelector(".lang")
+    .textContent=language;
+
 
   showToast(
     "Lingua selezionata: "+language
@@ -2173,23 +3500,22 @@ function changeLanguage(){
 
 }
 
-/* =========================
-   CHIUDI MODAL CLICCANDO FUORI
-========================= */
+
+/* ==========================================
+   CHIUDI MODAL FUORI
+========================================== */
 
 document
   .getElementById("builderModal")
   .addEventListener("click",function(e){
 
     if(e.target===this){
+
       closeModal("builderModal");
+
     }
 
   });
-
-/* AVVIO */
-
-renderBuilder();
 
 </script>
 
