@@ -5,59 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>VIVI — Non visitare Roma. Vivila.</title>
-<meta name="description" content="VIVI è la tua guida personale per scoprire Roma in base ai tuoi gusti, al tuo tempo e al tuo budget.">
+<meta name="description" content="VIVI è la tua guida personale per vivere Roma in modo autentico e su misura.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 />
 
 <style>
-
 :root{
-    --ivory:#f5f0e8;
-    --paper:#fbf8f2;
-    --dark:#292621;
-    --red:#8e3027;
-    --gold:#b28d55;
-    --muted:#77736d;
-    --line:rgba(25,24,22,.12);
+  --ivory:#f5f0e8;
+  --paper:#fffdf8;
+  --dark:#211f1c;
+  --dark2:#2d2925;
+  --red:#8d3028;
+  --red-dark:#70231e;
+  --gold:#b28d55;
+  --gold-light:#d1b27a;
+  --muted:#77716a;
+  --line:rgba(33,31,28,.11);
+  --shadow:0 18px 55px rgba(32,27,22,.12);
+  --radius:24px;
 }
 
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 html{
-    scroll-behavior:smooth;
+  scroll-behavior:smooth;
 }
 
 body{
-    font-family:Inter,sans-serif;
-    background:var(--ivory);
-    color:var(--dark);
-    line-height:1.6;
+  font-family:'Inter',sans-serif;
+  background:var(--ivory);
+  color:var(--dark);
+  overflow-x:hidden;
 }
 
 button,
 select{
-    font:inherit;
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
 }
 
 a{
-    color:inherit;
-    text-decoration:none;
+  color:inherit;
+  text-decoration:none;
 }
 
-.container{
-    width:min(1180px,92%);
-    margin:auto;
+img{
+  max-width:100%;
+  display:block;
 }
 
 /* =========================
@@ -65,462 +73,830 @@ a{
 ========================= */
 
 .navbar{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:1000;
-    background:rgba(245,240,232,.94);
-    backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--line);
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  padding:18px 5%;
+  transition:.3s ease;
+}
+
+.navbar.scrolled{
+  background:rgba(33,31,28,.94);
+  backdrop-filter:blur(18px);
+  padding:13px 5%;
+  box-shadow:0 8px 30px rgba(0,0,0,.16);
 }
 
 .nav-inner{
-    height:76px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:30px;
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
 
 .logo{
-    font-family:"Cormorant Garamond",serif;
-    font-size:34px;
-    font-weight:700;
-    letter-spacing:3px;
+  color:white;
+  font-family:'Cormorant Garamond',serif;
+  font-size:34px;
+  font-weight:700;
+  letter-spacing:2px;
 }
 
 .logo span{
-    color:var(--red);
+  color:var(--gold-light);
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:22px;
 }
 
 .nav-links{
-    display:flex;
-    align-items:center;
-    gap:28px;
-    font-size:13px;
-    font-weight:600;
+  display:flex;
+  gap:25px;
+  color:rgba(255,255,255,.88);
+  font-size:13px;
+  font-weight:600;
 }
 
 .nav-links a{
-    transition:.2s;
+  transition:.2s;
 }
 
 .nav-links a:hover{
-    color:var(--red);
+  color:var(--gold-light);
 }
 
-/* LANGUAGE */
-
-.language-selector{
-    position:relative;
+.language-box{
+  position:relative;
 }
 
-.language-button{
-    border:1px solid var(--line);
-    background:transparent;
-    padding:9px 12px;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:.2s;
+.language-select{
+  appearance:none;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);
+  color:white;
+  padding:10px 32px 10px 13px;
+  border-radius:999px;
+  outline:none;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.language-button:hover{
-    background:white;
-}
-
-.language-menu{
-    position:absolute;
-    top:calc(100% + 10px);
-    right:0;
-    min-width:160px;
-    background:#fff;
-    border:1px solid var(--line);
-    box-shadow:0 15px 40px rgba(0,0,0,.12);
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(-5px);
-    transition:.2s;
-    padding:6px;
-}
-
-.language-selector.open .language-menu{
-    opacity:1;
-    visibility:visible;
-    transform:translateY(0);
-}
-
-.language-option{
-    width:100%;
-    border:0;
-    background:transparent;
-    text-align:left;
-    padding:10px 11px;
-    cursor:pointer;
-    font-size:13px;
-    transition:.2s;
-}
-
-.language-option:hover{
-    background:var(--ivory);
-}
-
-.language-option.active{
-    color:var(--red);
-    font-weight:700;
+.language-select option{
+  color:#222;
 }
 
 /* =========================
-   HERO
+   HERO / APP HOME
 ========================= */
 
 .hero{
-    min-height:100vh;
-    padding:150px 0 90px;
-    display:flex;
-    align-items:center;
-    background:
-        linear-gradient(rgba(35,31,27,.48),rgba(35,31,27,.58)),
-        url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=2000&q=85")
-        center/cover;
-    color:white;
+  min-height:100svh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(17,14,12,.84),rgba(17,14,12,.45),rgba(17,14,12,.20)),
+    url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=2200&q=90")
+    center/cover;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(20,16,13,.82),transparent 45%);
+  pointer-events:none;
 }
 
 .hero-content{
-    max-width:760px;
+  width:min(1250px,90%);
+  margin:110px auto 60px;
+  position:relative;
+  z-index:2;
+  color:white;
 }
 
-.hero-kicker{
-    text-transform:uppercase;
-    letter-spacing:4px;
-    font-size:12px;
-    margin-bottom:25px;
-    color:#ead9b9;
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(10px);
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+
+.hero-badge::before{
+  content:"";
+  width:7px;
+  height:7px;
+  background:#c7a76d;
+  border-radius:50%;
+  box-shadow:0 0 14px #c7a76d;
 }
 
 .hero h1{
-    font-family:"Cormorant Garamond",serif;
-    font-size:clamp(58px,9vw,110px);
-    line-height:.9;
-    font-weight:600;
-    margin-bottom:30px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(64px,9vw,128px);
+  line-height:.83;
+  max-width:900px;
+  font-weight:600;
+  letter-spacing:-2px;
 }
 
-.hero h1 span{
-    color:#d7b77d;
+.hero h1 em{
+  color:var(--gold-light);
+  font-style:normal;
 }
 
-.hero p{
-    max-width:610px;
-    font-size:18px;
-    color:rgba(255,255,255,.87);
-    margin-bottom:35px;
+.hero-subtitle{
+  max-width:570px;
+  margin-top:28px;
+  color:rgba(255,255,255,.82);
+  font-size:17px;
+  line-height:1.7;
 }
 
-.hero-button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    background:white;
-    color:var(--dark);
-    padding:15px 24px;
-    font-size:13px;
-    font-weight:700;
-    transition:.25s;
+.hero-actions{
+  margin-top:36px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
 }
 
-.hero-button:hover{
-    background:#e8d8bc;
+.primary-btn,
+.secondary-btn{
+  border:none;
+  border-radius:999px;
+  padding:15px 23px;
+  font-size:13px;
+  font-weight:700;
+  transition:.25s;
+}
+
+.primary-btn{
+  background:var(--gold);
+  color:white;
+  box-shadow:0 12px 35px rgba(178,141,85,.28);
+}
+
+.primary-btn:hover{
+  transform:translateY(-3px);
+  background:#c29e63;
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.25);
+  color:white;
+  backdrop-filter:blur(12px);
+}
+
+.secondary-btn:hover{
+  background:rgba(255,255,255,.17);
+}
+
+.hero-bottom{
+  position:absolute;
+  z-index:3;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1250px,90%);
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  color:rgba(255,255,255,.7);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+}
+
+.scroll-indicator{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.scroll-line{
+  width:55px;
+  height:1px;
+  background:rgba(255,255,255,.45);
 }
 
 /* =========================
-   GENERIC SECTIONS
+   APP INTRO
 ========================= */
 
-section{
-    padding:110px 0;
+.intro{
+  padding:105px 5%;
+  background:var(--paper);
 }
 
-.section-kicker{
-    text-transform:uppercase;
-    letter-spacing:3px;
-    font-size:11px;
-    color:var(--red);
-    font-weight:700;
-    margin-bottom:15px;
+.intro-grid{
+  max-width:1150px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  align-items:center;
 }
 
-.section-title{
-    font-family:"Cormorant Garamond",serif;
-    font-size:clamp(44px,6vw,72px);
-    line-height:1;
-    margin-bottom:20px;
+.section-label{
+  color:var(--red);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:17px;
 }
 
-.section-intro{
-    max-width:650px;
-    color:var(--muted);
-    font-size:16px;
+.intro h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(43px,5vw,70px);
+  line-height:.96;
+  font-weight:600;
+}
+
+.intro h2 span{
+  color:var(--red);
+}
+
+.intro-text{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.85;
+}
+
+.intro-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:30px;
+}
+
+.mini-card{
+  background:var(--ivory);
+  padding:18px;
+  border-radius:18px;
+  border:1px solid var(--line);
+}
+
+.mini-icon{
+  font-size:20px;
+  margin-bottom:11px;
+}
+
+.mini-card strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.mini-card span{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
 }
 
 /* =========================
-   EXPERIENCES
+   EXPERIENCE
 ========================= */
 
 .experiences{
-    background:white;
+  padding:110px 5%;
+  background:var(--dark);
+  color:white;
+}
+
+.experiences-inner{
+  max-width:1150px;
+  margin:auto;
+}
+
+.experiences-head{
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+  align-items:end;
+  margin-bottom:40px;
+}
+
+.experiences h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(45px,5vw,68px);
+  line-height:.95;
+}
+
+.experiences-head p{
+  max-width:390px;
+  color:rgba(255,255,255,.58);
+  line-height:1.7;
+  font-size:13px;
 }
 
 .experience-grid{
-    margin-top:55px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
 .experience-card{
-    min-height:340px;
-    padding:30px;
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    color:white;
-    background-size:cover;
-    background-position:center;
-    cursor:pointer;
+  min-height:400px;
+  border-radius:25px;
+  overflow:hidden;
+  position:relative;
+  background-size:cover;
+  background-position:center;
+  border:1px solid rgba(255,255,255,.1);
+  transition:.35s;
 }
 
-.experience-card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(transparent 25%,rgba(0,0,0,.75));
-}
-
-.experience-card > *{
-    position:relative;
-    z-index:1;
-}
-
-.experience-card h3{
-    font-family:"Cormorant Garamond",serif;
-    font-size:35px;
-    margin-bottom:7px;
-}
-
-.experience-card p{
-    font-size:13px;
-    color:rgba(255,255,255,.82);
+.experience-card:hover{
+  transform:translateY(-7px);
 }
 
 .experience-card:nth-child(1){
-    background-image:url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=80");
+  background-image:
+  linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.05)),
+  url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80");
 }
 
 .experience-card:nth-child(2){
-    background-image:url("https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1000&q=80");
+  background-image:
+  linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.05)),
+  url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80");
 }
 
 .experience-card:nth-child(3){
-    background-image:url("https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1000&q=80");
+  background-image:
+  linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.05)),
+  url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80");
+}
+
+.experience-content{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:27px;
+}
+
+.experience-number{
+  color:var(--gold-light);
+  font-size:11px;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+
+.experience-content h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  margin-bottom:7px;
+}
+
+.experience-content p{
+  color:rgba(255,255,255,.68);
+  font-size:12px;
+  line-height:1.6;
 }
 
 /* =========================
-   BUILDER
+   APP BUILDER
 ========================= */
 
 .builder{
-    background:linear-gradient(
-        180deg,
-        #fbf8f2 0%,
-        #f1eadf 100%
-    );
-    color:var(--dark);
+  padding:110px 5%;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(178,141,85,.15),transparent 30%),
+    linear-gradient(135deg,#f8f4ed,#eee7dc);
 }
 
-.builder .section-kicker{
-    color:var(--red);
+.builder-shell{
+  max-width:900px;
+  margin:auto;
 }
 
-.builder .section-intro{
-    color:var(--muted);
+.builder-top{
+  text-align:center;
+  margin-bottom:45px;
 }
 
-.question{
-    margin-top:70px;
+.builder-top h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,6vw,72px);
+  line-height:.95;
 }
 
-.question-number{
-    font-size:11px;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:2px;
-    margin-bottom:8px;
+.builder-top p{
+  max-width:570px;
+  margin:18px auto 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
 }
 
-.question h3{
-    font-family:"Cormorant Garamond",serif;
-    font-size:38px;
-    margin-bottom:25px;
+.progress-wrap{
+  margin-bottom:25px;
 }
 
-.question-help{
-    color:var(--muted);
-    font-size:13px;
-    margin-bottom:20px;
+.progress-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+  margin-bottom:9px;
+}
+
+.progress{
+  height:5px;
+  background:rgba(0,0,0,.08);
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:14.28%;
+  background:var(--red);
+  border-radius:99px;
+  transition:.3s;
+}
+
+.question-card{
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(30,28,24,.1);
+  border-radius:30px;
+  padding:38px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(10px);
+}
+
+.question-kicker{
+  color:var(--red);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.7px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.question-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;
+  line-height:1.05;
+  margin-bottom:28px;
 }
 
 .options{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.options.four{
-    grid-template-columns:repeat(4,1fr);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
 .option{
-    border:1px solid rgba(25,24,22,.16);
-    background:var(--ivory);
-    color:var(--dark);
-    padding:22px;
-    text-align:left;
-    cursor:pointer;
-    transition:.25s;
-    font-size:14px;
+  position:relative;
+  border:1px solid var(--line);
+  background:white;
+  border-radius:19px;
+  padding:18px;
+  text-align:left;
+  transition:.22s;
+  min-height:88px;
 }
 
 .option:hover{
-    background:#ebe3d7;
-    border-color:rgba(25,24,22,.3);
+  border-color:var(--gold);
+  transform:translateY(-2px);
 }
 
 .option.selected{
-    background:var(--dark);
-    color:white;
-    border-color:var(--dark);
+  border-color:var(--red);
+  background:#fbf0ec;
+  box-shadow:0 8px 25px rgba(141,48,40,.1);
 }
 
-.builder-actions{
-    margin-top:60px;
+.option.selected::after{
+  content:"✓";
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--red);
+  color:white;
+  font-size:11px;
 }
 
-.primary-button{
-    border:0;
-    background:var(--red);
-    color:white;
-    padding:17px 28px;
-    cursor:pointer;
-    font-weight:700;
-    font-size:13px;
-    transition:.25s;
+.option-icon{
+  font-size:21px;
+  margin-bottom:8px;
 }
 
-.primary-button:hover{
-    background:#70251f;
-    transform:translateY(-1px);
+.option-title{
+  display:block;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:4px;
+  padding-right:25px;
+}
+
+.option-desc{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.builder-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+  gap:15px;
+}
+
+.step-note{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.next-btn{
+  border:none;
+  background:var(--dark);
+  color:white;
+  padding:14px 23px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  transition:.25s;
+}
+
+.next-btn:hover{
+  background:var(--red);
+  transform:translateY(-2px);
+}
+
+.next-btn:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+  transform:none;
 }
 
 /* =========================
-   RESULTS
+   RESULTS APP
 ========================= */
 
 .results{
-    display:none;
-    background:white;
+  display:none;
+  padding:100px 5%;
+  background:var(--paper);
 }
 
-.results.show{
-    display:block;
+.results.visible{
+  display:block;
+  animation:fadeUp .6s ease both;
 }
 
-.result-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    gap:30px;
-    margin-bottom:45px;
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
-.result-header h2{
-    font-family:"Cormorant Garamond",serif;
-    font-size:clamp(45px,6vw,70px);
-    line-height:1;
+.results-shell{
+  max-width:1250px;
+  margin:auto;
 }
 
-.result-header p{
-    max-width:420px;
-    color:var(--muted);
-    font-size:14px;
+.results-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:30px;
 }
 
-.route-list{
-    display:grid;
-    gap:15px;
+.results-title small{
+  display:block;
+  color:var(--red);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:10px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.results-title h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(47px,5vw,70px);
+  line-height:.9;
+}
+
+.results-actions{
+  display:flex;
+  gap:10px;
+}
+
+.outline-btn{
+  border:1px solid var(--line);
+  background:white;
+  padding:12px 17px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.outline-btn:hover{
+  border-color:var(--red);
+  color:var(--red);
+}
+
+.result-layout{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:25px;
+  align-items:start;
+}
+
+.route-panel{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
 .route-card{
-    display:grid;
-    grid-template-columns:100px 1fr auto;
-    gap:25px;
-    align-items:center;
-    border-top:1px solid var(--line);
-    padding:25px 0;
+  display:grid;
+  grid-template-columns:47px 1fr;
+  gap:15px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:21px;
+  padding:18px;
+  box-shadow:0 8px 25px rgba(20,17,13,.05);
+  transition:.2s;
+}
+
+.route-card:hover{
+  transform:translateX(4px);
+  box-shadow:0 12px 30px rgba(20,17,13,.09);
 }
 
 .route-number{
-    font-family:"Cormorant Garamond",serif;
-    font-size:48px;
-    color:var(--gold);
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--dark);
+  color:white;
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;
 }
 
-.route-card h3{
-    font-family:"Cormorant Garamond",serif;
-    font-size:29px;
+.route-info h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:27px;
+  margin-bottom:4px;
 }
 
-.route-card p{
-    font-size:13px;
-    color:var(--muted);
-    margin-top:4px;
+.route-info p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
 }
 
-.route-tags{
-    display:flex;
-    gap:7px;
-    flex-wrap:wrap;
-    margin-top:10px;
+.route-meta{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:10px;
 }
 
 .route-tag{
-    font-size:10px;
-    padding:5px 8px;
-    border:1px solid var(--line);
-    text-transform:uppercase;
-    letter-spacing:.5px;
+  background:#f4efe7;
+  color:#665f57;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:700;
 }
 
 .map-wrapper{
-    margin-top:60px;
+  position:sticky;
+  top:100px;
+  height:620px;
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  border:1px solid var(--line);
+  background:#ddd;
 }
 
 #map{
-    width:100%;
-    height:500px;
-    border:1px solid var(--line);
+  width:100%;
+  height:100%;
 }
 
-.map-note{
-    margin-top:12px;
-    color:var(--muted);
-    font-size:12px;
+.map-overlay{
+  position:absolute;
+  z-index:500;
+  top:17px;
+  left:17px;
+  right:17px;
+  display:flex;
+  justify-content:space-between;
+  pointer-events:none;
+}
+
+.map-label{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  padding:10px 13px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:700;
+  box-shadow:0 5px 20px rgba(0,0,0,.12);
+}
+
+/* =========================
+   MAP POPUP
+========================= */
+
+.leaflet-popup-content-wrapper{
+  border-radius:17px;
+}
+
+.leaflet-popup-content{
+  margin:15px;
+}
+
+.popup-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:700;
+}
+
+.popup-text{
+  color:#777;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:4px;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.final-cta{
+  padding:100px 5%;
+  background:var(--dark);
+  color:white;
+  text-align:center;
+}
+
+.final-cta-inner{
+  max-width:750px;
+  margin:auto;
+}
+
+.final-cta h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,7vw,82px);
+  line-height:.9;
+}
+
+.final-cta p{
+  margin:22px auto 30px;
+  max-width:510px;
+  color:rgba(255,255,255,.6);
+  line-height:1.7;
+  font-size:13px;
 }
 
 /* =========================
@@ -528,116 +904,199 @@ section{
 ========================= */
 
 footer{
-    background:var(--dark);
-    color:white;
-    padding:60px 0;
+  background:#171513;
+  color:white;
+  padding:35px 5%;
 }
 
 .footer-inner{
-    display:flex;
-    justify-content:space-between;
-    gap:30px;
-    align-items:flex-end;
+  max-width:1150px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
 }
 
 .footer-logo{
-    font-family:"Cormorant Garamond",serif;
-    font-size:42px;
-    letter-spacing:3px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
 }
 
 .footer-logo span{
-    color:#cda96e;
+  color:var(--gold-light);
 }
 
-.footer-text{
-    color:rgba(255,255,255,.55);
-    font-size:12px;
-    max-width:350px;
+.footer-copy{
+  color:rgba(255,255,255,.42);
+  font-size:10px;
 }
 
 /* =========================
    MOBILE
 ========================= */
 
-@media(max-width:800px){
+@media(max-width:850px){
 
-    .nav-inner{
-        height:68px;
-    }
+  .navbar{
+    padding:13px 18px;
+  }
 
-    .nav-links{
-        display:none;
-    }
+  .navbar.scrolled{
+    padding:10px 18px;
+  }
 
-    .logo{
-        font-size:29px;
-    }
+  .nav-links{
+    display:none;
+  }
 
-    .hero{
-        padding-top:120px;
-        min-height:90vh;
-    }
+  .nav-right{
+    gap:9px;
+  }
 
-    .hero h1{
-        font-size:65px;
-    }
+  .language-select{
+    padding:8px 26px 8px 10px;
+    font-size:10px;
+  }
 
-    section{
-        padding:80px 0;
-    }
+  .logo{
+    font-size:29px;
+  }
 
-    .experience-grid{
-        grid-template-columns:1fr;
-    }
+  .hero{
+    min-height:100svh;
+    background-position:58% center;
+  }
 
-    .experience-card{
-        min-height:280px;
-    }
+  .hero-content{
+    width:calc(100% - 36px);
+    margin:95px auto 50px;
+  }
 
-    .options,
-    .options.four{
-        grid-template-columns:1fr;
-    }
+  .hero h1{
+    font-size:clamp(66px,19vw,105px);
+    letter-spacing:-1px;
+  }
 
-    .question h3{
-        font-size:34px;
-    }
+  .hero-subtitle{
+    font-size:14px;
+    max-width:350px;
+  }
 
-    .result-header{
-        display:block;
-    }
+  .hero-bottom{
+    width:calc(100% - 36px);
+    bottom:20px;
+  }
 
-    .result-header p{
-        margin-top:20px;
-    }
+  .intro,
+  .experiences,
+  .builder,
+  .results,
+  .final-cta{
+    padding:75px 18px;
+  }
 
-    .route-card{
-        grid-template-columns:55px 1fr;
-        gap:15px;
-    }
+  .intro-grid{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
 
-    .route-number{
-        font-size:38px;
-    }
+  .intro-cards{
+    grid-template-columns:1fr;
+  }
 
-    .route-card .route-action{
-        grid-column:2;
-    }
+  .experiences-head{
+    display:block;
+  }
 
-    #map{
-        height:400px;
-    }
+  .experiences-head p{
+    margin-top:17px;
+  }
 
-    .footer-inner{
-        display:block;
-    }
+  .experience-grid{
+    grid-template-columns:1fr;
+  }
 
-    .footer-text{
-        margin-top:20px;
-    }
+  .experience-card{
+    min-height:320px;
+  }
+
+  .question-card{
+    padding:25px 18px;
+    border-radius:24px;
+  }
+
+  .question-card h3{
+    font-size:35px;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .option{
+    min-height:82px;
+  }
+
+  .builder-footer{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .next-btn{
+    width:100%;
+  }
+
+  .results-head{
+    display:block;
+  }
+
+  .results-actions{
+    margin-top:20px;
+  }
+
+  .result-layout{
+    grid-template-columns:1fr;
+  }
+
+  .map-wrapper{
+    position:relative;
+    top:auto;
+    height:420px;
+    order:-1;
+    margin-bottom:10px;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+    text-align:center;
+  }
 }
 
+@media(max-width:450px){
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .primary-btn,
+  .secondary-btn{
+    width:100%;
+    text-align:center;
+  }
+
+  .hero-badge{
+    font-size:9px;
+  }
+
+  .results-actions{
+    flex-direction:column;
+  }
+
+  .outline-btn{
+    width:100%;
+  }
+}
 </style>
 </head>
 
@@ -647,219 +1106,251 @@ footer{
      NAVBAR
 ========================= -->
 
-<nav class="navbar">
+<header class="navbar" id="navbar">
 
-    <div class="container nav-inner">
+  <div class="nav-inner">
 
-        <a href="#" class="logo">
-            VI<span>V</span>I
-        </a>
+    <a href="#home" class="logo">
+      VIVI<span>.</span>
+    </a>
 
-        <div class="nav-links">
+    <div class="nav-right">
 
-            <a href="#esperienze" data-i18n="navExperiences">
-                Esperienze
-            </a>
+      <nav class="nav-links">
+        <a href="#home" data-i18n="navHome">Home</a>
+        <a href="#experience" data-i18n="navExperience">Esperienze</a>
+        <a href="#builder" data-i18n="navPlan">Il tuo viaggio</a>
+      </nav>
 
-            <a href="#costruisci" data-i18n="navBuild">
-                Costruisci
-            </a>
-
-            <a href="#esplora" data-i18n="navExplore">
-                Esplora
-            </a>
-
-        </div>
-
-        <div class="language-selector" id="languageSelector">
-
-            <button
-                class="language-button"
-                id="languageButton"
-                type="button"
-            >
-                🇮🇹 IT ▾
-            </button>
-
-            <div class="language-menu">
-
-                <button
-                    class="language-option"
-                    data-lang="it"
-                    type="button"
-                >
-                    🇮🇹 Italiano
-                </button>
-
-                <button
-                    class="language-option"
-                    data-lang="en"
-                    type="button"
-                >
-                    🇬🇧 English
-                </button>
-
-                <button
-                    class="language-option"
-                    data-lang="es"
-                    type="button"
-                >
-                    🇪🇸 Español
-                </button>
-
-                <button
-                    class="language-option"
-                    data-lang="fr"
-                    type="button"
-                >
-                    🇫🇷 Français
-                </button>
-
-                <button
-                    class="language-option"
-                    data-lang="de"
-                    type="button"
-                >
-                    🇩🇪 Deutsch
-                </button>
-
-            </div>
-
-        </div>
+      <div class="language-box">
+        <select id="languageSelect" class="language-select">
+          <option value="it">🇮🇹 IT</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="fr">🇫🇷 FR</option>
+          <option value="de">🇩🇪 DE</option>
+        </select>
+      </div>
 
     </div>
 
-</nav>
+  </div>
+
+</header>
 
 
 <!-- =========================
      HERO
 ========================= -->
 
-<header class="hero">
+<section class="hero" id="home">
 
-    <div class="container">
+  <div class="hero-content">
 
-        <div class="hero-content">
+    <div class="hero-badge" data-i18n="heroBadge">
+      La tua Roma, su misura
+    </div>
 
-            <div
-                class="hero-kicker"
-                data-i18n="heroKicker"
-            >
-                LA TUA ROMA, A MODO TUO
-            </div>
+    <h1>
+      <span data-i18n="heroTitle1">Non visitare</span><br>
+      <em data-i18n="heroTitle2">Roma.</em><br>
+      <span data-i18n="heroTitle3">Vivila.</span>
+    </h1>
 
-            <h1>
-                <span>Non visitare</span><br>
-                Roma.<br>
-                <span>Vivila.</span>
-            </h1>
+    <p class="hero-subtitle" data-i18n="heroSubtitle">
+      Dimmi chi sei, quanto tempo hai e cosa vuoi vivere.
+      VIVI costruisce per te un percorso pensato davvero per te.
+    </p>
 
-            <p data-i18n="heroText">
-                Dimentica gli itinerari tutti uguali.
-                Raccontaci come vuoi vivere Roma e VIVI
-                costruirà un percorso pensato per te.
-            </p>
+    <div class="hero-actions">
 
-            <a
-                href="#costruisci"
-                class="hero-button"
-                data-i18n="heroButton"
-            >
-                Costruisci il tuo viaggio
-            </a>
+      <button
+        class="primary-btn"
+        onclick="startJourney()"
+        data-i18n="startBtn">
+        Inizia il tuo viaggio
+      </button>
 
-        </div>
+      <a
+        href="#experience"
+        class="secondary-btn"
+        data-i18n="discoverBtn">
+        Scopri VIVI
+      </a>
 
     </div>
 
-</header>
+  </div>
+
+  <div class="hero-bottom">
+
+    <div data-i18n="heroBottom">
+      Roma · Italia
+    </div>
+
+    <div class="scroll-indicator">
+      <span data-i18n="scroll">Scorri</span>
+      <span class="scroll-line"></span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section class="intro">
+
+  <div class="intro-grid">
+
+    <div>
+
+      <div class="section-label" data-i18n="introLabel">
+        Non una guida
+      </div>
+
+      <h2>
+        Roma non è uguale per
+        <span>tutti.</span>
+      </h2>
+
+    </div>
+
+    <div>
+
+      <p class="intro-text" data-i18n="introText">
+        VIVI non ti propone semplicemente una lista di monumenti.
+        Capisce cosa cerchi e costruisce un'esperienza attorno a te:
+        ritmo, interessi, compagnia, tempo, camminate e budget.
+      </p>
+
+      <div class="intro-cards">
+
+        <div class="mini-card">
+          <div class="mini-icon">🧭</div>
+          <strong data-i18n="mini1Title">Su misura</strong>
+          <span data-i18n="mini1Text">Il percorso cambia in base a te.</span>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-icon">📍</div>
+          <strong data-i18n="mini2Title">Tutto vicino</strong>
+          <span data-i18n="mini2Text">Tappe organizzate con logica.</span>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-icon">❤️</div>
+          <strong data-i18n="mini3Title">Vivi davvero</strong>
+          <span data-i18n="mini3Text">Non solo vedere. Ricordare.</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
 
 <!-- =========================
      EXPERIENCES
 ========================= -->
 
-<section class="experiences" id="esperienze">
+<section class="experiences" id="experience">
 
-    <div class="container">
+  <div class="experiences-inner">
 
-        <div
-            class="section-kicker"
-            data-i18n="experiencesKicker"
-        >
-            SCEGLI COME VIVERE ROMA
+    <div class="experiences-head">
+
+      <div>
+
+        <div class="section-label" style="color:#d1b27a" data-i18n="experienceLabel">
+          Scegli il tuo modo
         </div>
 
-        <h2
-            class="section-title"
-            data-i18n="experiencesTitle"
-        >
-            Roma non è una sola.
+        <h2 data-i18n="experienceTitle">
+          Roma, come<br>la vuoi tu.
         </h2>
 
-        <p
-            class="section-intro"
-            data-i18n="experiencesIntro"
-        >
-            Ogni persona può vivere la città in modo diverso.
-            Scegli un punto di partenza oppure costruisci
-            il tuo percorso da zero.
-        </p>
+      </div>
+
+      <p data-i18n="experienceText">
+        Che tu voglia scoprire la Roma antica,
+        perderti nell'arte o vivere i quartieri più autentici,
+        VIVI parte sempre da te.
+      </p>
+
+    </div>
 
 
-        <div class="experience-grid">
+    <div class="experience-grid">
 
-            <div
-                class="experience-card"
-                onclick="selectExperience('history')"
-            >
+      <div class="experience-card">
 
-                <h3 data-i18n="experienceHistoryTitle">
-                    Roma Antica
-                </h3>
+        <div class="experience-content">
 
-                <p data-i18n="experienceHistoryText">
-                    Imperatori, rovine e luoghi che hanno cambiato la storia.
-                </p>
+          <div class="experience-number">01</div>
 
-            </div>
+          <h3 data-i18n="exp1Title">
+            Roma Antica
+          </h3>
 
-
-            <div
-                class="experience-card"
-                onclick="selectExperience('art')"
-            >
-
-                <h3 data-i18n="experienceArtTitle">
-                    Arte & Bellezza
-                </h3>
-
-                <p data-i18n="experienceArtText">
-                    Piazze, fontane, palazzi e angoli da scoprire lentamente.
-                </p>
-
-            </div>
-
-
-            <div
-                class="experience-card"
-                onclick="selectExperience('local')"
-            >
-
-                <h3 data-i18n="experienceLocalTitle">
-                    Roma Autentica
-                </h3>
-
-                <p data-i18n="experienceLocalText">
-                    Quartieri, atmosfere e luoghi lontani dalle solite rotte.
-                </p>
-
-            </div>
+          <p data-i18n="exp1Text">
+            Colosseo, Fori, Pantheon e i luoghi
+            che raccontano la storia di Roma.
+          </p>
 
         </div>
 
+      </div>
+
+
+      <div class="experience-card">
+
+        <div class="experience-content">
+
+          <div class="experience-number">02</div>
+
+          <h3 data-i18n="exp2Title">
+            Arte & Bellezza
+          </h3>
+
+          <p data-i18n="exp2Text">
+            Fontane, piazze, capolavori e scorci
+            che fanno di Roma un museo a cielo aperto.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="experience-card">
+
+        <div class="experience-content">
+
+          <div class="experience-number">03</div>
+
+          <h3 data-i18n="exp3Title">
+            Roma Autentica
+          </h3>
+
+          <p data-i18n="exp3Text">
+            Trastevere, Monti e angoli dove
+            Roma smette di sembrare una cartolina.
+          </p>
+
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
 
 </section>
 
@@ -868,393 +1359,80 @@ footer{
      BUILDER
 ========================= -->
 
-<section class="builder" id="costruisci">
+<section class="builder" id="builder">
 
-    <div class="container">
+  <div class="builder-shell">
 
-        <div
-            class="section-kicker"
-            data-i18n="builderKicker"
-        >
-            CREA IL TUO PERCORSO
-        </div>
+    <div class="builder-top">
 
-        <h2
-            class="section-title"
-            data-i18n="builderTitle"
-        >
-            Raccontaci che viaggiatore sei.
-        </h2>
+      <div class="section-label" data-i18n="builderLabel">
+        Il tuo viaggio
+      </div>
 
-        <p
-            class="section-intro"
-            data-i18n="builderIntro"
-        >
-            Bastano poche scelte. VIVI userà le tue risposte
-            per costruire un itinerario su misura.
-        </p>
+      <h2 data-i18n="builderTitle">
+        Costruiamo<br>la tua Roma.
+      </h2>
 
-
-        <!-- Q1 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                01
-            </div>
-
-            <h3 data-i18n="q1Title">
-                Cosa vuoi vivere?
-            </h3>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="type"
-                    data-value="history"
-                    data-i18n="q1History"
-                >
-                    Storia e monumenti
-                </button>
-
-                <button
-                    class="option"
-                    data-question="type"
-                    data-value="art"
-                    data-i18n="q1Art"
-                >
-                    Arte e bellezza
-                </button>
-
-                <button
-                    class="option"
-                    data-question="type"
-                    data-value="local"
-                    data-i18n="q1Local"
-                >
-                    Roma autentica
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q2 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                02
-            </div>
-
-            <h3 data-i18n="q2Title">
-                Con chi sei?
-            </h3>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="company"
-                    data-value="solo"
-                    data-i18n="q2Solo"
-                >
-                    Da solo
-                </button>
-
-                <button
-                    class="option"
-                    data-question="company"
-                    data-value="couple"
-                    data-i18n="q2Couple"
-                >
-                    In coppia
-                </button>
-
-                <button
-                    class="option"
-                    data-question="company"
-                    data-value="friends"
-                    data-i18n="q2Friends"
-                >
-                    Con amici
-                </button>
-
-                <button
-                    class="option"
-                    data-question="company"
-                    data-value="family"
-                    data-i18n="q2Family"
-                >
-                    In famiglia
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q3 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                03
-            </div>
-
-            <h3 data-i18n="q3Title">
-                Quanto tempo hai?
-            </h3>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="time"
-                    data-value="half"
-                    data-i18n="q3Half"
-                >
-                    Mezza giornata
-                </button>
-
-                <button
-                    class="option"
-                    data-question="time"
-                    data-value="one"
-                    data-i18n="q3One"
-                >
-                    Una giornata
-                </button>
-
-                <button
-                    class="option"
-                    data-question="time"
-                    data-value="two"
-                    data-i18n="q3Two"
-                >
-                    Due giorni
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q4 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                04
-            </div>
-
-            <h3 data-i18n="q4Title">
-                Cosa hai già visto?
-            </h3>
-
-            <p
-                class="question-help"
-                data-i18n="q4Help"
-            >
-                Se è la tua prima volta a Roma, puoi scegliere “Quasi nulla”.
-            </p>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="seen"
-                    data-value="nothing"
-                    data-i18n="q4Nothing"
-                >
-                    Quasi nulla
-                </button>
-
-                <button
-                    class="option"
-                    data-question="seen"
-                    data-value="classic"
-                    data-i18n="q4Classic"
-                >
-                    I grandi classici
-                </button>
-
-                <button
-                    class="option"
-                    data-question="seen"
-                    data-value="many"
-                    data-i18n="q4Many"
-                >
-                    Ho già visto molto
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q5 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                05
-            </div>
-
-            <h3 data-i18n="q5Title">
-                Che ritmo vuoi?
-            </h3>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="pace"
-                    data-value="slow"
-                    data-i18n="q5Slow"
-                >
-                    Molto tranquillo — poche tappe e tempo per fermarmi
-                </button>
-
-                <button
-                    class="option"
-                    data-question="pace"
-                    data-value="normal"
-                    data-i18n="q5Normal"
-                >
-                    Equilibrato — vedere bene Roma senza correre
-                </button>
-
-                <button
-                    class="option"
-                    data-question="pace"
-                    data-value="fast"
-                    data-i18n="q5Fast"
-                >
-                    Intenso — voglio sfruttare al massimo la giornata
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q6 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                06
-            </div>
-
-            <h3 data-i18n="q6Title">
-                Quanto vuoi camminare?
-            </h3>
-
-            <div class="options">
-
-                <button
-                    class="option"
-                    data-question="walking"
-                    data-value="little"
-                    data-i18n="q6Little"
-                >
-                    Poca — preferisco tappe vicine e pochi spostamenti
-                </button>
-
-                <button
-                    class="option"
-                    data-question="walking"
-                    data-value="medium"
-                    data-i18n="q6Medium"
-                >
-                    Media — camminare va bene, ma voglio alternare le tappe
-                </button>
-
-                <button
-                    class="option"
-                    data-question="walking"
-                    data-value="much"
-                    data-i18n="q6Much"
-                >
-                    Molta — mi piace esplorare Roma soprattutto a piedi
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Q7 -->
-
-        <div class="question">
-
-            <div class="question-number">
-                07
-            </div>
-
-            <h3 data-i18n="q7Title">
-                Qual è il tuo budget?
-            </h3>
-
-            <div class="options four">
-
-                <button
-                    class="option"
-                    data-question="budget"
-                    data-value="budget_free"
-                    data-i18n="q7Free"
-                >
-                    Quasi tutto gratuito — piazze, passeggiate e luoghi esterni
-                </button>
-
-                <button
-                    class="option"
-                    data-question="budget"
-                    data-value="budget_low"
-                    data-i18n="q7Low"
-                >
-                    Contenuto — qualche attività a pagamento, senza esagerare
-                </button>
-
-                <button
-                    class="option"
-                    data-question="budget"
-                    data-value="budget_medium"
-                    data-i18n="q7Medium"
-                >
-                    Medio — posso inserire ingressi e qualche esperienza
-                </button>
-
-                <button
-                    class="option"
-                    data-question="budget"
-                    data-value="budget_high"
-                    data-i18n="q7High"
-                >
-                    Flessibile — posso includere anche esperienze più costose
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="builder-actions">
-
-            <button
-                class="primary-button"
-                onclick="createJourney()"
-                data-i18n="createButton"
-            >
-                Crea il mio percorso
-            </button>
-
-        </div>
+      <p data-i18n="builderText">
+        Rispondi a poche domande.
+        Al resto pensiamo noi.
+      </p>
 
     </div>
+
+
+    <div class="progress-wrap">
+
+      <div class="progress-meta">
+
+        <span id="progressText">
+          1 / 7
+        </span>
+
+        <span id="progressPercent">
+          14%
+        </span>
+
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+    </div>
+
+
+    <div class="question-card">
+
+      <div class="question-kicker" id="questionKicker">
+        Domanda 1
+      </div>
+
+      <h3 id="questionTitle">
+        Cosa vuoi vivere a Roma?
+      </h3>
+
+      <div class="options" id="options"></div>
+
+      <div class="builder-footer">
+
+        <div class="step-note" id="stepNote">
+          Scegli una risposta per continuare
+        </div>
+
+        <button
+          class="next-btn"
+          id="nextBtn"
+          onclick="nextQuestion()"
+          disabled>
+          Continua →
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
@@ -1263,55 +1441,104 @@ footer{
      RESULTS
 ========================= -->
 
-<section class="results" id="esplora">
+<section class="results" id="results">
 
-    <div class="container">
+  <div class="results-shell">
 
-        <div class="result-header">
+    <div class="results-head">
 
-            <div>
+      <div class="results-title">
 
-                <div
-                    class="section-kicker"
-                    data-i18n="resultKicker"
-                >
-                    IL TUO PERCORSO
-                </div>
+        <small data-i18n="resultLabel">
+          Il tuo itinerario
+        </small>
 
-                <h2 data-i18n="resultTitle">
-                    Roma, fatta per te.
-                </h2>
+        <h2 data-i18n="resultTitle">
+          Roma,<br>secondo te.
+        </h2>
 
-            </div>
+      </div>
 
-            <p data-i18n="resultIntro">
-                Abbiamo selezionato luoghi e tappe in base alle
-                tue preferenze. Puoi seguirle tutte oppure
-                scegliere liberamente dove fermarti.
-            </p>
+      <div class="results-actions">
 
-        </div>
+        <button
+          class="outline-btn"
+          onclick="editJourney()"
+          data-i18n="editBtn">
+          ← Modifica preferenze
+        </button>
 
-        <div
-            class="route-list"
-            id="routeList"
-        ></div>
+        <button
+          class="outline-btn"
+          onclick="scrollToMap()"
+          data-i18n="mapBtn">
+          Vedi mappa
+        </button>
 
-
-        <div class="map-wrapper">
-
-            <div id="map"></div>
-
-            <p
-                class="map-note"
-                data-i18n="mapNote"
-            >
-                La mappa mostra le tappe del tuo percorso.
-            </p>
-
-        </div>
+      </div>
 
     </div>
+
+
+    <div class="result-layout">
+
+      <div class="route-panel" id="routePanel"></div>
+
+      <div class="map-wrapper" id="mapWrapper">
+
+        <div class="map-overlay">
+
+          <div class="map-label" data-i18n="mapLabel">
+            Il tuo percorso
+          </div>
+
+          <div class="map-label" id="mapCount">
+            0 tappe
+          </div>
+
+        </div>
+
+        <div id="map"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL CTA
+========================= -->
+
+<section class="final-cta">
+
+  <div class="final-cta-inner">
+
+    <div class="section-label" style="color:#d1b27a">
+      VIVI
+    </div>
+
+    <h2 data-i18n="finalTitle">
+      La città è la stessa.<br>
+      L'esperienza no.
+    </h2>
+
+    <p data-i18n="finalText">
+      Roma ha qualcosa di diverso da raccontare a ogni persona.
+      Lascia che VIVI trovi la tua versione.
+    </p>
+
+    <button
+      class="primary-btn"
+      onclick="startJourney()"
+      data-i18n="finalBtn">
+      Crea il mio viaggio
+    </button>
+
+  </div>
 
 </section>
 
@@ -1322,20 +1549,17 @@ footer{
 
 <footer>
 
-    <div class="container footer-inner">
+  <div class="footer-inner">
 
-        <div class="footer-logo">
-            VI<span>V</span>I
-        </div>
-
-        <p
-            class="footer-text"
-            data-i18n="footerText"
-        >
-            Non visitare Roma. Vivila.
-        </p>
-
+    <div class="footer-logo">
+      VIVI<span>.</span>
     </div>
+
+    <div class="footer-copy" data-i18n="footer">
+      Non visitare Roma. Vivila.
+    </div>
+
+  </div>
 
 </footer>
 
@@ -1344,1358 +1568,1873 @@ footer{
 
 <script>
 
-/* =========================================
-   TRADUZIONI
-========================================= */
+/* =====================================================
+   TRANSLATIONS
+===================================================== */
 
 const translations = {
 
-    it:{
-        navExperiences:"Esperienze",
-        navBuild:"Costruisci",
-        navExplore:"Esplora",
-
-        heroKicker:"LA TUA ROMA, A MODO TUO",
-        heroText:"Dimentica gli itinerari tutti uguali. Raccontaci come vuoi vivere Roma e VIVI costruirà un percorso pensato per te.",
-        heroButton:"Costruisci il tuo viaggio",
-
-        experiencesKicker:"SCEGLI COME VIVERE ROMA",
-        experiencesTitle:"Roma non è una sola.",
-        experiencesIntro:"Ogni persona può vivere la città in modo diverso. Scegli un punto di partenza oppure costruisci il tuo percorso da zero.",
-
-        experienceHistoryTitle:"Roma Antica",
-        experienceHistoryText:"Imperatori, rovine e luoghi che hanno cambiato la storia.",
-        experienceArtTitle:"Arte & Bellezza",
-        experienceArtText:"Piazze, fontane, palazzi e angoli da scoprire lentamente.",
-        experienceLocalTitle:"Roma Autentica",
-        experienceLocalText:"Quartieri, atmosfere e luoghi lontani dalle solite rotte.",
-
-        builderKicker:"CREA IL TUO PERCORSO",
-        builderTitle:"Raccontaci che viaggiatore sei.",
-        builderIntro:"Bastano poche scelte. VIVI userà le tue risposte per costruire un itinerario su misura.",
-
-        q1Title:"Cosa vuoi vivere?",
-        q1History:"Storia e monumenti",
-        q1Art:"Arte e bellezza",
-        q1Local:"Roma autentica",
-
-        q2Title:"Con chi sei?",
-        q2Solo:"Da solo",
-        q2Couple:"In coppia",
-        q2Friends:"Con amici",
-        q2Family:"In famiglia",
-
-        q3Title:"Quanto tempo hai?",
-        q3Half:"Mezza giornata",
-        q3One:"Una giornata",
-        q3Two:"Due giorni",
-
-        q4Title:"Cosa hai già visto?",
-        q4Help:"Se è la tua prima volta a Roma, puoi scegliere “Quasi nulla”.",
-        q4Nothing:"Quasi nulla",
-        q4Classic:"I grandi classici",
-        q4Many:"Ho già visto molto",
-
-        q5Title:"Che ritmo vuoi?",
-        q5Slow:"Molto tranquillo — poche tappe e tempo per fermarmi",
-        q5Normal:"Equilibrato — vedere bene Roma senza correre",
-        q5Fast:"Intenso — voglio sfruttare al massimo la giornata",
-
-        q6Title:"Quanto vuoi camminare?",
-        q6Little:"Poca — preferisco tappe vicine e pochi spostamenti",
-        q6Medium:"Media — camminare va bene, ma voglio alternare le tappe",
-        q6Much:"Molta — mi piace esplorare Roma soprattutto a piedi",
-
-        q7Title:"Qual è il tuo budget?",
-        q7Free:"Quasi tutto gratuito — piazze, passeggiate e luoghi esterni",
-        q7Low:"Contenuto — qualche attività a pagamento, senza esagerare",
-        q7Medium:"Medio — posso inserire ingressi e qualche esperienza",
-        q7High:"Flessibile — posso includere anche esperienze più costose",
-
-        createButton:"Crea il mio percorso",
-
-        resultKicker:"IL TUO PERCORSO",
-        resultTitle:"Roma, fatta per te.",
-        resultIntro:"Abbiamo selezionato luoghi e tappe in base alle tue preferenze. Puoi seguirle tutte oppure scegliere liberamente dove fermarti.",
-        mapNote:"La mappa mostra le tappe del tuo percorso.",
-
-        routeButton:"Portami qui",
-
-        tags:{
-            history:"Storia",
-            art:"Arte",
-            local:"Roma autentica",
-            slow:"Ritmo tranquillo",
-            normal:"Ritmo equilibrato",
-            fast:"Ritmo intenso",
-            little:"Poca camminata",
-            mediumWalk:"Camminata media",
-            much:"Molta camminata",
-            budget_free:"Budget quasi tutto gratuito",
-            budget_low:"Budget contenuto",
-            budget_medium:"Budget medio",
-            budget_high:"Budget flessibile"
-        },
-
-        footerText:"Non visitare Roma. Vivila."
-    },
-
-    en:{
-        navExperiences:"Experiences",
-        navBuild:"Build",
-        navExplore:"Explore",
-
-        heroKicker:"YOUR ROME, YOUR WAY",
-        heroText:"Forget the same old itineraries. Tell us how you want to experience Rome and VIVI will create a route made for you.",
-        heroButton:"Build your trip",
-
-        experiencesKicker:"CHOOSE HOW TO EXPERIENCE ROME",
-        experiencesTitle:"Rome is not just one thing.",
-        experiencesIntro:"Everyone can experience the city differently. Choose a starting point or build your route from scratch.",
-
-        experienceHistoryTitle:"Ancient Rome",
-        experienceHistoryText:"Emperors, ruins and places that changed history.",
-        experienceArtTitle:"Art & Beauty",
-        experienceArtText:"Squares, fountains, palaces and places to discover slowly.",
-        experienceLocalTitle:"Authentic Rome",
-        experienceLocalText:"Neighbourhoods, atmospheres and places away from the usual routes.",
-
-        builderKicker:"BUILD YOUR ROUTE",
-        builderTitle:"Tell us what kind of traveller you are.",
-        builderIntro:"Just a few choices. VIVI will use your answers to build a personalised itinerary.",
-
-        q1Title:"What do you want to experience?",
-        q1History:"History and monuments",
-        q1Art:"Art and beauty",
-        q1Local:"Authentic Rome",
-
-        q2Title:"Who are you travelling with?",
-        q2Solo:"Alone",
-        q2Couple:"As a couple",
-        q2Friends:"With friends",
-        q2Family:"With family",
-
-        q3Title:"How much time do you have?",
-        q3Half:"Half a day",
-        q3One:"One day",
-        q3Two:"Two days",
-
-        q4Title:"What have you already seen?",
-        q4Help:"If this is your first time in Rome, choose “Almost nothing”.",
-        q4Nothing:"Almost nothing",
-        q4Classic:"The main classics",
-        q4Many:"I've already seen a lot",
-
-        q5Title:"What pace do you want?",
-        q5Slow:"Very relaxed — fewer stops and time to slow down",
-        q5Normal:"Balanced — see Rome well without rushing",
-        q5Fast:"Intense — I want to make the most of the day",
-
-        q6Title:"How much do you want to walk?",
-        q6Little:"A little — I prefer nearby stops and fewer transfers",
-        q6Medium:"Moderate — walking is fine, but I want to alternate stops",
-        q6Much:"A lot — I enjoy exploring Rome mainly on foot",
-
-        q7Title:"What is your budget?",
-        q7Free:"Mostly free — squares, walks and outdoor places",
-        q7Low:"Limited — a few paid activities without going overboard",
-        q7Medium:"Medium — I can include entrances and some experiences",
-        q7High:"Flexible — I can include more expensive experiences",
-
-        createButton:"Create my route",
-
-        resultKicker:"YOUR ROUTE",
-        resultTitle:"Rome, made for you.",
-        resultIntro:"We selected places and stops based on your preferences. Follow them all or choose freely where to stop.",
-        mapNote:"The map shows the stops in your route.",
-
-        routeButton:"Take me there",
-
-        tags:{
-            history:"History",
-            art:"Art",
-            local:"Authentic Rome",
-            slow:"Relaxed pace",
-            normal:"Balanced pace",
-            fast:"Intense pace",
-            little:"Little walking",
-            mediumWalk:"Moderate walking",
-            much:"Lots of walking",
-            budget_free:"Mostly free",
-            budget_low:"Limited budget",
-            budget_medium:"Medium budget",
-            budget_high:"Flexible budget"
-        },
-
-        footerText:"Don't just visit Rome. Live it."
-    },
-
-    es:{
-        navExperiences:"Experiencias",
-        navBuild:"Crear",
-        navExplore:"Explorar",
-
-        heroKicker:"TU ROMA, A TU MANERA",
-        heroText:"Olvídate de los itinerarios de siempre. Cuéntanos cómo quieres vivir Roma y VIVI creará una ruta pensada para ti.",
-        heroButton:"Crear mi viaje",
-
-        experiencesKicker:"ELIGE CÓMO VIVIR ROMA",
-        experiencesTitle:"Roma no es una sola.",
-        experiencesIntro:"Cada persona puede vivir la ciudad de una manera diferente. Elige un punto de partida o crea tu ruta desde cero.",
-
-        experienceHistoryTitle:"Roma Antigua",
-        experienceHistoryText:"Emperadores, ruinas y lugares que cambiaron la historia.",
-        experienceArtTitle:"Arte y Belleza",
-        experienceArtText:"Plazas, fuentes, palacios y rincones para descubrir sin prisa.",
-        experienceLocalTitle:"Roma Auténtica",
-        experienceLocalText:"Barrios, ambientes y lugares alejados de las rutas habituales.",
-
-        builderKicker:"CREA TU RUTA",
-        builderTitle:"Cuéntanos qué tipo de viajero eres.",
-        builderIntro:"Solo unas pocas elecciones. VIVI utilizará tus respuestas para crear un itinerario personalizado.",
-
-        q1Title:"¿Qué quieres vivir?",
-        q1History:"Historia y monumentos",
-        q1Art:"Arte y belleza",
-        q1Local:"Roma auténtica",
-
-        q2Title:"¿Con quién viajas?",
-        q2Solo:"Solo",
-        q2Couple:"En pareja",
-        q2Friends:"Con amigos",
-        q2Family:"En familia",
-
-        q3Title:"¿Cuánto tiempo tienes?",
-        q3Half:"Medio día",
-        q3One:"Un día",
-        q3Two:"Dos días",
-
-        q4Title:"¿Qué has visto ya?",
-        q4Help:"Si es tu primera vez en Roma, elige “Casi nada”.",
-        q4Nothing:"Casi nada",
-        q4Classic:"Los grandes clásicos",
-        q4Many:"Ya he visto bastante",
-
-        q5Title:"¿Qué ritmo quieres?",
-        q5Slow:"Muy tranquilo — pocas paradas y tiempo para disfrutar",
-        q5Normal:"Equilibrado — ver Roma bien sin correr",
-        q5Fast:"Intenso — quiero aprovechar al máximo el día",
-
-        q6Title:"¿Cuánto quieres caminar?",
-        q6Little:"Poco — prefiero lugares cercanos y pocos desplazamientos",
-        q6Medium:"Medio — caminar está bien, pero quiero alternar las paradas",
-        q6Much:"Mucho — me gusta explorar Roma principalmente a pie",
-
-        q7Title:"¿Cuál es tu presupuesto?",
-        q7Free:"Casi todo gratis — plazas, paseos y lugares exteriores",
-        q7Low:"Contenido — alguna actividad de pago, sin exagerar",
-        q7Medium:"Medio — puedo incluir entradas y alguna experiencia",
-        q7High:"Flexible — puedo incluir experiencias más caras",
-
-        createButton:"Crear mi ruta",
-
-        resultKicker:"TU RUTA",
-        resultTitle:"Roma, hecha para ti.",
-        resultIntro:"Hemos seleccionado lugares y paradas según tus preferencias. Puedes seguirlas todas o elegir libremente.",
-        mapNote:"El mapa muestra las paradas de tu ruta.",
-
-        routeButton:"Llévame allí",
-
-        tags:{
-            history:"Historia",
-            art:"Arte",
-            local:"Roma auténtica",
-            slow:"Ritmo tranquilo",
-            normal:"Ritmo equilibrado",
-            fast:"Ritmo intenso",
-            little:"Poco caminar",
-            mediumWalk:"Caminata media",
-            much:"Mucho caminar",
-            budget_free:"Casi todo gratis",
-            budget_low:"Presupuesto contenido",
-            budget_medium:"Presupuesto medio",
-            budget_high:"Presupuesto flexible"
-        },
-
-        footerText:"No visites Roma. Vívela."
-    },
-
-    fr:{
-        navExperiences:"Expériences",
-        navBuild:"Créer",
-        navExplore:"Explorer",
-
-        heroKicker:"VOTRE ROME, À VOTRE FAÇON",
-        heroText:"Oubliez les itinéraires classiques. Dites-nous comment vous souhaitez vivre Rome et VIVI créera un parcours pensé pour vous.",
-        heroButton:"Créer mon voyage",
-
-        experiencesKicker:"CHOISISSEZ COMMENT VIVRE ROME",
-        experiencesTitle:"Rome n'est pas unique.",
-        experiencesIntro:"Chacun peut découvrir la ville à sa manière. Choisissez un point de départ ou créez votre parcours de zéro.",
-
-        experienceHistoryTitle:"Rome Antique",
-        experienceHistoryText:"Empereurs, ruines et lieux qui ont changé l'histoire.",
-        experienceArtTitle:"Art & Beauté",
-        experienceArtText:"Places, fontaines, palais et coins à découvrir tranquillement.",
-        experienceLocalTitle:"Rome Authentique",
-        experienceLocalText:"Quartiers, ambiances et lieux loin des itinéraires habituels.",
-
-        builderKicker:"CRÉEZ VOTRE PARCOURS",
-        builderTitle:"Dites-nous quel voyageur vous êtes.",
-        builderIntro:"Quelques choix suffisent. VIVI utilisera vos réponses pour créer un itinéraire personnalisé.",
-
-        q1Title:"Que voulez-vous vivre ?",
-        q1History:"Histoire et monuments",
-        q1Art:"Art et beauté",
-        q1Local:"Rome authentique",
-
-        q2Title:"Avec qui voyagez-vous ?",
-        q2Solo:"Seul",
-        q2Couple:"En couple",
-        q2Friends:"Entre amis",
-        q2Family:"En famille",
-
-        q3Title:"Combien de temps avez-vous ?",
-        q3Half:"Une demi-journée",
-        q3One:"Une journée",
-        q3Two:"Deux jours",
-
-        q4Title:"Qu'avez-vous déjà vu ?",
-        q4Help:"Si c'est votre première fois à Rome, choisissez « Presque rien ».",
-        q4Nothing:"Presque rien",
-        q4Classic:"Les grands classiques",
-        q4Many:"J'ai déjà beaucoup vu",
-
-        q5Title:"Quel rythme voulez-vous ?",
-        q5Slow:"Très tranquille — peu d'étapes et du temps pour profiter",
-        q5Normal:"Équilibré — bien voir Rome sans courir",
-        q5Fast:"Intense — je veux profiter au maximum de la journée",
-
-        q6Title:"Combien voulez-vous marcher ?",
-        q6Little:"Peu — je préfère les étapes proches",
-        q6Medium:"Moyen — marcher me convient, mais je veux alterner les étapes",
-        q6Much:"Beaucoup — j'aime explorer Rome principalement à pied",
-
-        q7Title:"Quel est votre budget ?",
-        q7Free:"Presque tout gratuit — places, promenades et lieux extérieurs",
-        q7Low:"Limité — quelques activités payantes, sans exagérer",
-        q7Medium:"Moyen — je peux inclure des entrées et quelques expériences",
-        q7High:"Flexible — je peux inclure des expériences plus coûteuses",
-
-        createButton:"Créer mon parcours",
-
-        resultKicker:"VOTRE PARCOURS",
-        resultTitle:"Rome, faite pour vous.",
-        resultIntro:"Nous avons sélectionné les lieux selon vos préférences. Suivez-les tous ou choisissez librement.",
-        mapNote:"La carte montre les étapes de votre parcours.",
-
-        routeButton:"M'y emmener",
-
-        tags:{
-            history:"Histoire",
-            art:"Art",
-            local:"Rome authentique",
-            slow:"Rythme tranquille",
-            normal:"Rythme équilibré",
-            fast:"Rythme intense",
-            little:"Peu de marche",
-            mediumWalk:"Marche modérée",
-            much:"Beaucoup de marche",
-            budget_free:"Presque tout gratuit",
-            budget_low:"Budget limité",
-            budget_medium:"Budget moyen",
-            budget_high:"Budget flexible"
-        },
-
-        footerText:"Ne visitez pas Rome. Vivez-la."
-    },
-
-    de:{
-        navExperiences:"Erlebnisse",
-        navBuild:"Erstellen",
-        navExplore:"Entdecken",
-
-        heroKicker:"DEIN ROM, AUF DEINE ART",
-        heroText:"Vergiss gewöhnliche Reiserouten. Sag uns, wie du Rom erleben möchtest, und VIVI erstellt eine Route für dich.",
-        heroButton:"Meine Reise erstellen",
-
-        experiencesKicker:"WÄHLE, WIE DU ROM ERLEBEN MÖCHTEST",
-        experiencesTitle:"Rom ist nicht nur eine Stadt.",
-        experiencesIntro:"Jeder kann die Stadt anders erleben. Wähle einen Ausgangspunkt oder erstelle deine Route von Grund auf.",
-
-        experienceHistoryTitle:"Antikes Rom",
-        experienceHistoryText:"Kaiser, Ruinen und Orte, die Geschichte geschrieben haben.",
-        experienceArtTitle:"Kunst & Schönheit",
-        experienceArtText:"Plätze, Brunnen, Paläste und Orte zum langsamen Entdecken.",
-        experienceLocalTitle:"Authentisches Rom",
-        experienceLocalText:"Viertel, Atmosphäre und Orte abseits der üblichen Wege.",
-
-        builderKicker:"ERSTELLE DEINE ROUTE",
-        builderTitle:"Erzähl uns, welcher Reisetyp du bist.",
-        builderIntro:"Nur wenige Entscheidungen. VIVI nutzt deine Antworten für eine persönliche Route.",
-
-        q1Title:"Was möchtest du erleben?",
-        q1History:"Geschichte und Monumente",
-        q1Art:"Kunst und Schönheit",
-        q1Local:"Authentisches Rom",
-
-        q2Title:"Mit wem reist du?",
-        q2Solo:"Allein",
-        q2Couple:"Als Paar",
-        q2Friends:"Mit Freunden",
-        q2Family:"Mit der Familie",
-
-        q3Title:"Wie viel Zeit hast du?",
-        q3Half:"Ein halber Tag",
-        q3One:"Ein Tag",
-        q3Two:"Zwei Tage",
-
-        q4Title:"Was hast du bereits gesehen?",
-        q4Help:"Wenn du zum ersten Mal in Rom bist, wähle „Fast nichts“.",
-        q4Nothing:"Fast nichts",
-        q4Classic:"Die großen Klassiker",
-        q4Many:"Ich habe schon viel gesehen",
-
-        q5Title:"Welches Tempo möchtest du?",
-        q5Slow:"Sehr entspannt — wenige Stopps und Zeit zum Genießen",
-        q5Normal:"Ausgewogen — Rom sehen, ohne zu hetzen",
-        q5Fast:"Intensiv — ich möchte den Tag optimal nutzen",
-
-        q6Title:"Wie viel möchtest du laufen?",
-        q6Little:"Wenig — ich bevorzuge nahe Ziele und kurze Wege",
-        q6Medium:"Mittel — Laufen ist okay, aber ich möchte die Etappen abwechseln",
-        q6Much:"Viel — ich erkunde Rom gerne hauptsächlich zu Fuß",
-
-        q7Title:"Wie hoch ist dein Budget?",
-        q7Free:"Fast alles kostenlos — Plätze, Spaziergänge und Außenbereiche",
-        q7Low:"Begrenzt — einige kostenpflichtige Aktivitäten",
-        q7Medium:"Mittel — ich kann Eintritte und einige Erlebnisse einplanen",
-        q7High:"Flexibel — auch teurere Erlebnisse sind möglich",
-
-        createButton:"Meine Route erstellen",
-
-        resultKicker:"DEINE ROUTE",
-        resultTitle:"Rom, für dich gemacht.",
-        resultIntro:"Wir haben Orte und Etappen nach deinen Vorlieben ausgewählt. Folge allen oder wähle frei.",
-        mapNote:"Die Karte zeigt die Etappen deiner Route.",
-
-        routeButton:"Hierhin",
-
-        tags:{
-            history:"Geschichte",
-            art:"Kunst",
-            local:"Authentisches Rom",
-            slow:"Entspanntes Tempo",
-            normal:"Ausgewogenes Tempo",
-            fast:"Intensives Tempo",
-            little:"Wenig Laufen",
-            mediumWalk:"Mittleres Laufen",
-            much:"Viel Laufen",
-            budget_free:"Fast alles kostenlos",
-            budget_low:"Begrenztes Budget",
-            budget_medium:"Mittleres Budget",
-            budget_high:"Flexibles Budget"
-        },
-
-        footerText:"Besuche Rom nicht nur. Erlebe es."
-    }
+  it: {
+
+    navHome:"Home",
+    navExperience:"Esperienze",
+    navPlan:"Il tuo viaggio",
+
+    heroBadge:"La tua Roma, su misura",
+    heroTitle1:"Non visitare",
+    heroTitle2:"Roma.",
+    heroTitle3:"Vivila.",
+    heroSubtitle:"Dimmi chi sei, quanto tempo hai e cosa vuoi vivere. VIVI costruisce per te un percorso pensato davvero per te.",
+    startBtn:"Inizia il tuo viaggio",
+    discoverBtn:"Scopri VIVI",
+    heroBottom:"Roma · Italia",
+    scroll:"Scorri",
+
+    introLabel:"Non una guida",
+    introText:"VIVI non ti propone semplicemente una lista di monumenti. Capisce cosa cerchi e costruisce un'esperienza attorno a te: ritmo, interessi, compagnia, tempo, camminate e budget.",
+
+    mini1Title:"Su misura",
+    mini1Text:"Il percorso cambia in base a te.",
+    mini2Title:"Tutto vicino",
+    mini2Text:"Tappe organizzate con logica.",
+    mini3Title:"Vivi davvero",
+    mini3Text:"Non solo vedere. Ricordare.",
+
+    experienceLabel:"Scegli il tuo modo",
+    experienceTitle:"Roma, come<br>la vuoi tu.",
+    experienceText:"Che tu voglia scoprire la Roma antica, perderti nell'arte o vivere i quartieri più autentici, VIVI parte sempre da te.",
+
+    exp1Title:"Roma Antica",
+    exp1Text:"Colosseo, Fori, Pantheon e i luoghi che raccontano la storia di Roma.",
+    exp2Title:"Arte & Bellezza",
+    exp2Text:"Fontane, piazze, capolavori e scorci che fanno di Roma un museo a cielo aperto.",
+    exp3Title:"Roma Autentica",
+    exp3Text:"Trastevere, Monti e angoli dove Roma smette di sembrare una cartolina.",
+
+    builderLabel:"Il tuo viaggio",
+    builderTitle:"Costruiamo<br>la tua Roma.",
+    builderText:"Rispondi a poche domande. Al resto pensiamo noi.",
+
+    resultLabel:"Il tuo itinerario",
+    resultTitle:"Roma,<br>secondo te.",
+    editBtn:"← Modifica preferenze",
+    mapBtn:"Vedi mappa",
+    mapLabel:"Il tuo percorso",
+
+    finalTitle:"La città è la stessa.<br>L'esperienza no.",
+    finalText:"Roma ha qualcosa di diverso da raccontare a ogni persona. Lascia che VIVI trovi la tua versione.",
+    finalBtn:"Crea il mio viaggio",
+    footer:"Non visitare Roma. Vivila.",
+
+    continue:"Continua →",
+    generate:"Scopri il mio itinerario →",
+    choose:"Scegli una risposta per continuare",
+    question:"Domanda",
+    steps:"tappe",
+    walk:"a piedi",
+    minutes:"min",
+
+    q1:"Cosa vuoi vivere a Roma?",
+    q2:"Con chi sei?",
+    q3:"Quanto tempo hai?",
+    q4:"Cosa hai già visto?",
+    q5:"Che ritmo vuoi?",
+    q6:"Quanto vuoi camminare?",
+    q7:"Qual è il tuo budget?",
+
+    ancient:"Roma Antica",
+    ancientDesc:"Storia, imperi e monumenti iconici",
+    art:"Arte & Bellezza",
+    artDesc:"Piazze, fontane e capolavori",
+    authentic:"Roma Autentica",
+    authenticDesc:"Quartieri, vicoli e atmosfera romana",
+    food:"Cibo & Vita Romana",
+    foodDesc:"Mercati, quartieri e sapori locali",
+
+    couple:"In coppia",
+    friends:"Con amici",
+    family:"In famiglia",
+    alone:"Da solo",
+
+    short:"Poche ore",
+    shortDesc:"Una fuga veloce",
+    half:"Mezza giornata",
+    halfDesc:"Circa 4 ore",
+    full:"Una giornata",
+    fullDesc:"Circa 8 ore",
+    more:"Più giorni",
+    moreDesc:"Voglio prendermela con calma",
+
+    none:"Quasi nulla",
+    noneDesc:"Voglio scoprire i grandi classici",
+    some:"Qualcosa",
+    someDesc:"Ho già visto alcune cose",
+    most:"Molto",
+    mostDesc:"Voglio vedere qualcosa di diverso",
+
+    slow:"Molto tranquillo",
+    slowDesc:"Poche tappe e tempo per fermarmi",
+    normal:"Equilibrato",
+    normalDesc:"Vedere bene Roma senza correre",
+    fast:"Intenso",
+    fastDesc:"Sfruttare al massimo la giornata",
+
+    little:"Poca",
+    littleDesc:"Tappe vicine e pochi spostamenti",
+    mediumWalk:"Media",
+    mediumWalkDesc:"Camminare va bene, ma alternare le tappe",
+    much:"Molta",
+    muchDesc:"Mi piace esplorare Roma soprattutto a piedi",
+
+    budget_free:"Quasi tutto gratuito",
+    budget_freeDesc:"Piazze, passeggiate e luoghi esterni",
+    budget_low:"Contenuto",
+    budget_lowDesc:"Qualche attività a pagamento, senza esagerare",
+    budget_medium:"Medio",
+    budget_mediumDesc:"Posso inserire ingressi e qualche esperienza",
+    budget_high:"Flessibile",
+    budget_highDesc:"Anche esperienze più costose",
+
+    go:"Portami qui",
+
+    mapPopup:"Tappa del tuo viaggio",
+    noWalking:"Spostamento breve",
+    walking:"Passeggiata",
+
+    routeTitle:"La tua Roma",
+
+    placeColosseum:"Colosseo",
+    placeColosseumDesc:"Il simbolo di Roma e uno dei monumenti più iconici del mondo.",
+
+    placeForums:"Fori Imperiali",
+    placeForumsDesc:"Passeggia tra le rovine del cuore politico dell'antica Roma.",
+
+    placePantheon:"Pantheon",
+    placePantheonDesc:"Un capolavoro dell'architettura romana ancora perfettamente conservato.",
+
+    placeTrevi:"Fontana di Trevi",
+    placeTreviDesc:"La fontana più famosa di Roma, da vedere soprattutto al tramonto.",
+
+    placeNavona:"Piazza Navona",
+    placeNavonaDesc:"Una delle piazze più eleganti e scenografiche di Roma.",
+
+    placeSpain:"Piazza di Spagna",
+    placeSpainDesc:"La Scalinata di Trinità dei Monti e uno degli angoli più iconici della città.",
+
+    placeTrastevere:"Trastevere",
+    placeTrastevereDesc:"Vicoli, piazze e atmosfera romana nel cuore del quartiere.",
+
+    placeMonti:"Monti",
+    placeMontiDesc:"Uno dei quartieri più vivi, creativi e autentici vicino al centro.",
+
+    placeCampo:"Campo de' Fiori",
+    placeCampoDesc:"Una piazza vivace nel cuore di Roma, famosa per il mercato.",
+
+    placeAventino:"Aventino",
+    placeAventinoDesc:"Un lato più tranquillo e romantico di Roma, lontano dalla folla."
+  },
+
+
+  en: {
+
+    navHome:"Home",
+    navExperience:"Experiences",
+    navPlan:"Your journey",
+
+    heroBadge:"Your Rome, made for you",
+    heroTitle1:"Don't visit",
+    heroTitle2:"Rome.",
+    heroTitle3:"Live it.",
+    heroSubtitle:"Tell me who you are, how much time you have and what you want to experience. VIVI creates a route made for you.",
+    startBtn:"Start your journey",
+    discoverBtn:"Discover VIVI",
+    heroBottom:"Rome · Italy",
+    scroll:"Scroll",
+
+    introLabel:"Not just a guide",
+    introText:"VIVI doesn't simply give you a list of monuments. It understands what you're looking for and builds an experience around you: pace, interests, company, time, walking and budget.",
+
+    mini1Title:"Made for you",
+    mini1Text:"Your route changes with you.",
+    mini2Title:"Smart route",
+    mini2Text:"Stops organized with logic.",
+    mini3Title:"Live it",
+    mini3Text:"Not just see. Remember.",
+
+    experienceLabel:"Choose your way",
+    experienceTitle:"Rome,<br>your way.",
+    experienceText:"Whether you want ancient Rome, art or authentic neighbourhoods, VIVI always starts with you.",
+
+    exp1Title:"Ancient Rome",
+    exp1Text:"The Colosseum, Forums, Pantheon and the places that tell Rome's story.",
+    exp2Title:"Art & Beauty",
+    exp2Text:"Fountains, squares, masterpieces and views that make Rome an open-air museum.",
+    exp3Title:"Authentic Rome",
+    exp3Text:"Trastevere, Monti and places where Rome feels less like a postcard.",
+
+    builderLabel:"Your journey",
+    builderTitle:"Let's build<br>your Rome.",
+    builderText:"Answer a few questions. We'll take care of the rest.",
+
+    resultLabel:"Your itinerary",
+    resultTitle:"Rome,<br>your way.",
+    editBtn:"← Edit preferences",
+    mapBtn:"View map",
+    mapLabel:"Your route",
+
+    finalTitle:"The city is the same.<br>The experience isn't.",
+    finalText:"Rome has something different to tell every person. Let VIVI find your version.",
+    finalBtn:"Create my journey",
+    footer:"Don't visit Rome. Live it.",
+
+    continue:"Continue →",
+    generate:"Discover my itinerary →",
+    choose:"Choose an answer to continue",
+    question:"Question",
+    steps:"stops",
+    walk:"walking",
+    minutes:"min",
+
+    q1:"What do you want to experience in Rome?",
+    q2:"Who are you travelling with?",
+    q3:"How much time do you have?",
+    q4:"What have you already seen?",
+    q5:"What pace do you want?",
+    q6:"How much do you want to walk?",
+    q7:"What's your budget?",
+
+    ancient:"Ancient Rome",
+    ancientDesc:"History, empires and iconic monuments",
+    art:"Art & Beauty",
+    artDesc:"Squares, fountains and masterpieces",
+    authentic:"Authentic Rome",
+    authenticDesc:"Neighbourhoods, alleys and Roman atmosphere",
+    food:"Food & Roman Life",
+    foodDesc:"Markets, neighbourhoods and local flavours",
+
+    couple:"As a couple",
+    friends:"With friends",
+    family:"With family",
+    alone:"Solo",
+
+    short:"A few hours",
+    shortDesc:"A quick escape",
+    half:"Half a day",
+    halfDesc:"Around 4 hours",
+    full:"A full day",
+    fullDesc:"Around 8 hours",
+    more:"Several days",
+    moreDesc:"I want to take it slow",
+
+    none:"Almost nothing",
+    noneDesc:"I want the classics",
+    some:"Some",
+    someDesc:"I've already seen a few things",
+    most:"A lot",
+    mostDesc:"I want something different",
+
+    slow:"Very relaxed",
+    slowDesc:"Few stops and time to enjoy",
+    normal:"Balanced",
+    normalDesc:"See Rome without rushing",
+    fast:"Intense",
+    fastDesc:"Make the most of the day",
+
+    little:"A little",
+    littleDesc:"Nearby stops and little walking",
+    mediumWalk:"Medium",
+    mediumWalkDesc:"Walking is fine, but I want variety",
+    much:"A lot",
+    muchDesc:"I love exploring Rome on foot",
+
+    budget_free:"Mostly free",
+    budget_freeDesc:"Squares, walks and outdoor places",
+    budget_low:"Limited",
+    budget_lowDesc:"A few paid activities",
+    budget_medium:"Medium",
+    budget_mediumDesc:"I can include entrances and experiences",
+    budget_high:"Flexible",
+    budget_highDesc:"Even more expensive experiences",
+
+    go:"Take me here",
+
+    mapPopup:"Stop on your journey",
+    noWalking:"Short transfer",
+    walking:"Walk",
+
+    routeTitle:"Your Rome",
+
+    placeColosseum:"Colosseum",
+    placeColosseumDesc:"Rome's symbol and one of the world's most iconic monuments.",
+    placeForums:"Roman Forum",
+    placeForumsDesc:"Walk among the ruins of ancient Rome's political heart.",
+    placePantheon:"Pantheon",
+    placePantheonDesc:"A masterpiece of Roman architecture, still remarkably preserved.",
+    placeTrevi:"Trevi Fountain",
+    placeTreviDesc:"Rome's most famous fountain, especially beautiful around sunset.",
+    placeNavona:"Piazza Navona",
+    placeNavonaDesc:"One of Rome's most elegant and spectacular squares.",
+    placeSpain:"Spanish Steps",
+    placeSpainDesc:"The Spanish Steps and one of the city's most iconic corners.",
+    placeTrastevere:"Trastevere",
+    placeTrastevereDesc:"Alleys, squares and Roman atmosphere in the heart of the neighbourhood.",
+    placeMonti:"Monti",
+    placeMontiDesc:"One of the liveliest and most authentic neighbourhoods near the centre.",
+    placeCampo:"Campo de' Fiori",
+    placeCampoDesc:"A lively square in the heart of Rome, famous for its market.",
+    placeAventino:"Aventine Hill",
+    placeAventinoDesc:"A quieter and more romantic side of Rome, away from the crowds."
+  },
+
+
+  es: {
+
+    navHome:"Inicio",
+    navExperience:"Experiencias",
+    navPlan:"Tu viaje",
+
+    heroBadge:"Tu Roma, hecha para ti",
+    heroTitle1:"No visites",
+    heroTitle2:"Roma.",
+    heroTitle3:"Vívela.",
+    heroSubtitle:"Dime quién eres, cuánto tiempo tienes y qué quieres vivir. VIVI crea una ruta pensada para ti.",
+    startBtn:"Empieza tu viaje",
+    discoverBtn:"Descubre VIVI",
+    heroBottom:"Roma · Italia",
+    scroll:"Desliza",
+
+    introLabel:"No es una guía más",
+    introText:"VIVI no te da simplemente una lista de monumentos. Entiende qué buscas y crea una experiencia a tu medida: ritmo, intereses, compañía, tiempo, caminatas y presupuesto.",
+
+    mini1Title:"A tu medida",
+    mini1Text:"La ruta cambia contigo.",
+    mini2Title:"Ruta inteligente",
+    mini2Text:"Paradas organizadas con lógica.",
+    mini3Title:"Vívela",
+    mini3Text:"No solo ver. Recordar.",
+
+    experienceLabel:"Elige tu forma",
+    experienceTitle:"Roma,<br>a tu manera.",
+    experienceText:"Ya quieras descubrir la Roma antigua, perderte en el arte o vivir los barrios más auténticos, VIVI empieza contigo.",
+
+    exp1Title:"Roma Antigua",
+    exp1Text:"Coliseo, Foros, Panteón y los lugares que cuentan la historia de Roma.",
+    exp2Title:"Arte y Belleza",
+    exp2Text:"Fuentes, plazas, obras maestras y rincones que convierten Roma en un museo al aire libre.",
+    exp3Title:"Roma Auténtica",
+    exp3Text:"Trastevere, Monti y rincones donde Roma deja de parecer una postal.",
+
+    builderLabel:"Tu viaje",
+    builderTitle:"Construyamos<br>tu Roma.",
+    builderText:"Responde unas preguntas. Nosotros hacemos el resto.",
+
+    resultLabel:"Tu itinerario",
+    resultTitle:"Roma,<br>a tu manera.",
+    editBtn:"← Cambiar preferencias",
+    mapBtn:"Ver mapa",
+    mapLabel:"Tu ruta",
+
+    finalTitle:"La ciudad es la misma.<br>La experiencia no.",
+    finalText:"Roma tiene algo diferente que contar a cada persona. Deja que VIVI encuentre tu versión.",
+    finalBtn:"Crear mi viaje",
+    footer:"No visites Roma. Vívela.",
+
+    continue:"Continuar →",
+    generate:"Descubrir mi itinerario →",
+    choose:"Elige una respuesta para continuar",
+    question:"Pregunta",
+    steps:"paradas",
+    walk:"a pie",
+    minutes:"min",
+
+    q1:"¿Qué quieres vivir en Roma?",
+    q2:"¿Con quién estás?",
+    q3:"¿Cuánto tiempo tienes?",
+    q4:"¿Qué has visto ya?",
+    q5:"¿Qué ritmo quieres?",
+    q6:"¿Cuánto quieres caminar?",
+    q7:"¿Cuál es tu presupuesto?",
+
+    ancient:"Roma Antigua",
+    ancientDesc:"Historia, imperios y monumentos icónicos",
+    art:"Arte y Belleza",
+    artDesc:"Plazas, fuentes y obras maestras",
+    authentic:"Roma Auténtica",
+    authenticDesc:"Barrios, callejones y ambiente romano",
+    food:"Comida y Vida Romana",
+    foodDesc:"Mercados, barrios y sabores locales",
+
+    couple:"En pareja",
+    friends:"Con amigos",
+    family:"En familia",
+    alone:"Solo",
+
+    short:"Unas horas",
+    shortDesc:"Una escapada rápida",
+    half:"Medio día",
+    halfDesc:"Unas 4 horas",
+    full:"Un día completo",
+    fullDesc:"Unas 8 horas",
+    more:"Varios días",
+    moreDesc:"Quiero ir con calma",
+
+    none:"Casi nada",
+    noneDesc:"Quiero descubrir los clásicos",
+    some:"Algo",
+    someDesc:"Ya he visto algunas cosas",
+    most:"Mucho",
+    mostDesc:"Quiero ver algo diferente",
+
+    slow:"Muy tranquilo",
+    slowDesc:"Pocas paradas y tiempo para disfrutar",
+    normal:"Equilibrado",
+    normalDesc:"Ver Roma sin correr",
+    fast:"Intenso",
+    fastDesc:"Aprovechar al máximo el día",
+
+    little:"Poco",
+    littleDesc:"Paradas cercanas y pocos desplazamientos",
+    mediumWalk:"Medio",
+    mediumWalkDesc:"Caminar está bien, pero quiero alternar",
+    much:"Mucho",
+    muchDesc:"Me encanta explorar Roma a pie",
+
+    budget_free:"Casi todo gratis",
+    budget_freeDesc:"Plazas, paseos y lugares exteriores",
+    budget_low:"Contenido",
+    budget_lowDesc:"Algunas actividades de pago",
+    budget_medium:"Medio",
+    budget_mediumDesc:"Puedo incluir entradas y experiencias",
+    budget_high:"Flexible",
+    budget_highDesc:"También experiencias más caras",
+
+    go:"Llévame aquí",
+
+    mapPopup:"Parada de tu viaje",
+    noWalking:"Trayecto corto",
+    walking:"Paseo",
+
+    routeTitle:"Tu Roma",
+
+    placeColosseum:"Coliseo",
+    placeColosseumDesc:"El símbolo de Roma y uno de los monumentos más famosos del mundo.",
+    placeForums:"Foros Romanos",
+    placeForumsDesc:"Pasea entre las ruinas del corazón político de la antigua Roma.",
+    placePantheon:"Panteón",
+    placePantheonDesc:"Una obra maestra de la arquitectura romana.",
+    placeTrevi:"Fontana di Trevi",
+    placeTreviDesc:"La fuente más famosa de Roma, especialmente bonita al atardecer.",
+    placeNavona:"Piazza Navona",
+    placeNavonaDesc:"Una de las plazas más elegantes y espectaculares de Roma.",
+    placeSpain:"Plaza de España",
+    placeSpainDesc:"La Escalinata de España y uno de los rincones más icónicos de la ciudad.",
+    placeTrastevere:"Trastevere",
+    placeTrastevereDesc:"Callejones, plazas y ambiente romano en el corazón del barrio.",
+    placeMonti:"Monti",
+    placeMontiDesc:"Uno de los barrios más vivos y auténticos cerca del centro.",
+    placeCampo:"Campo de' Fiori",
+    placeCampoDesc:"Una plaza animada en el corazón de Roma, famosa por su mercado.",
+    placeAventino:"Aventino",
+    placeAventinoDesc:"Una parte más tranquila y romántica de Roma."
+  },
+
+
+  fr: {
+
+    navHome:"Accueil",
+    navExperience:"Expériences",
+    navPlan:"Votre voyage",
+
+    heroBadge:"Votre Rome, sur mesure",
+    heroTitle1:"Ne visitez pas",
+    heroTitle2:"Rome.",
+    heroTitle3:"Vivez-la.",
+    heroSubtitle:"Dites-moi qui vous êtes, combien de temps vous avez et ce que vous voulez vivre. VIVI crée un itinéraire pour vous.",
+    startBtn:"Commencer votre voyage",
+    discoverBtn:"Découvrir VIVI",
+    heroBottom:"Rome · Italie",
+    scroll:"Défiler",
+
+    introLabel:"Pas seulement un guide",
+    introText:"VIVI ne vous donne pas simplement une liste de monuments. Il comprend ce que vous recherchez et crée une expérience autour de vous : rythme, intérêts, compagnie, temps, marche et budget.",
+
+    mini1Title:"Sur mesure",
+    mini1Text:"L'itinéraire change avec vous.",
+    mini2Title:"Itinéraire malin",
+    mini2Text:"Des étapes organisées intelligemment.",
+    mini3Title:"Vivez-la",
+    mini3Text:"Pas seulement voir. Se souvenir.",
+
+    experienceLabel:"Choisissez votre façon",
+    experienceTitle:"Rome,<br>comme vous l'aimez.",
+    experienceText:"Que vous souhaitiez découvrir la Rome antique, l'art ou les quartiers authentiques, VIVI commence toujours par vous.",
+
+    exp1Title:"Rome Antique",
+    exp1Text:"Colisée, Forums, Panthéon et les lieux qui racontent l'histoire de Rome.",
+    exp2Title:"Art & Beauté",
+    exp2Text:"Fontaines, places, chefs-d'œuvre et panoramas.",
+    exp3Title:"Rome Authentique",
+    exp3Text:"Trastevere, Monti et les endroits où Rome devient plus vraie.",
+
+    builderLabel:"Votre voyage",
+    builderTitle:"Construisons<br>votre Rome.",
+    builderText:"Répondez à quelques questions. Nous nous occupons du reste.",
+
+    resultLabel:"Votre itinéraire",
+    resultTitle:"Rome,<br>à votre façon.",
+    editBtn:"← Modifier les préférences",
+    mapBtn:"Voir la carte",
+    mapLabel:"Votre itinéraire",
+
+    finalTitle:"La ville est la même.<br>L'expérience ne l'est pas.",
+    finalText:"Rome a quelque chose de différent à raconter à chacun. Laissez VIVI trouver votre version.",
+    finalBtn:"Créer mon voyage",
+    footer:"Ne visitez pas Rome. Vivez-la.",
+
+    continue:"Continuer →",
+    generate:"Découvrir mon itinéraire →",
+    choose:"Choisissez une réponse pour continuer",
+    question:"Question",
+    steps:"étapes",
+    walk:"à pied",
+    minutes:"min",
+
+    q1:"Que voulez-vous vivre à Rome ?",
+    q2:"Avec qui êtes-vous ?",
+    q3:"Combien de temps avez-vous ?",
+    q4:"Qu'avez-vous déjà vu ?",
+    q5:"Quel rythme voulez-vous ?",
+    q6:"Combien voulez-vous marcher ?",
+    q7:"Quel est votre budget ?",
+
+    ancient:"Rome Antique",
+    ancientDesc:"Histoire, empires et monuments emblématiques",
+    art:"Art & Beauté",
+    artDesc:"Places, fontaines et chefs-d'œuvre",
+    authentic:"Rome Authentique",
+    authenticDesc:"Quartiers, ruelles et atmosphère romaine",
+    food:"Cuisine & Vie Romaine",
+    foodDesc:"Marchés, quartiers et saveurs locales",
+
+    couple:"En couple",
+    friends:"Entre amis",
+    family:"En famille",
+    alone:"Seul",
+
+    short:"Quelques heures",
+    shortDesc:"Une escapade rapide",
+    half:"Une demi-journée",
+    halfDesc:"Environ 4 heures",
+    full:"Une journée",
+    fullDesc:"Environ 8 heures",
+    more:"Plusieurs jours",
+    moreDesc:"Je veux prendre mon temps",
+
+    none:"Presque rien",
+    noneDesc:"Je veux découvrir les classiques",
+    some:"Quelques-uns",
+    someDesc:"J'ai déjà vu certaines choses",
+    most:"Beaucoup",
+    mostDesc:"Je veux découvrir autre chose",
+
+    slow:"Très tranquille",
+    slowDesc:"Peu d'étapes et du temps pour profiter",
+    normal:"Équilibré",
+    normalDesc:"Bien voir Rome sans courir",
+    fast:"Intense",
+    fastDesc:"Profiter au maximum de la journée",
+
+    little:"Peu",
+    littleDesc:"Étapes proches et peu de déplacements",
+    mediumWalk:"Moyen",
+    mediumWalkDesc:"Marcher me va, mais je veux varier",
+    much:"Beaucoup",
+    muchDesc:"J'aime explorer Rome à pied",
+
+    budget_free:"Presque tout gratuit",
+    budget_freeDesc:"Places, promenades et lieux extérieurs",
+    budget_low:"Modéré",
+    budget_lowDesc:"Quelques activités payantes",
+    budget_medium:"Moyen",
+    budget_mediumDesc:"Je peux inclure des entrées et expériences",
+    budget_high:"Flexible",
+    budget_highDesc:"Même des expériences plus chères",
+
+    go:"Emmène-moi ici",
+
+    mapPopup:"Étape de votre voyage",
+    noWalking:"Petit trajet",
+    walking:"Promenade",
+
+    routeTitle:"Votre Rome",
+
+    placeColosseum:"Colisée",
+    placeColosseumDesc:"Le symbole de Rome et l'un des monuments les plus célèbres du monde.",
+    placeForums:"Forums Romains",
+    placeForumsDesc:"Promenez-vous parmi les ruines du cœur politique de la Rome antique.",
+    placePantheon:"Panthéon",
+    placePantheonDesc:"Un chef-d'œuvre de l'architecture romaine.",
+    placeTrevi:"Fontaine de Trevi",
+    placeTreviDesc:"La fontaine la plus célèbre de Rome.",
+    placeNavona:"Piazza Navona",
+    placeNavonaDesc:"L'une des places les plus élégantes de Rome.",
+    placeSpain:"Place d'Espagne",
+    placeSpainDesc:"Les célèbres marches et l'un des coins les plus emblématiques.",
+    placeTrastevere:"Trastevere",
+    placeTrastevereDesc:"Ruelles, places et atmosphère romaine.",
+    placeMonti:"Monti",
+    placeMontiDesc:"Un quartier vivant et authentique près du centre.",
+    placeCampo:"Campo de' Fiori",
+    placeCampoDesc:"Une place animée célèbre pour son marché.",
+    placeAventino:"Aventin",
+    placeAventinoDesc:"Un côté plus calme et romantique de Rome."
+  },
+
+
+  de: {
+
+    navHome:"Start",
+    navExperience:"Erlebnisse",
+    navPlan:"Deine Reise",
+
+    heroBadge:"Dein Rom, für dich gemacht",
+    heroTitle1:"Besuche nicht",
+    heroTitle2:"Rom.",
+    heroTitle3:"Erlebe es.",
+    heroSubtitle:"Sag uns, wer du bist, wie viel Zeit du hast und was du erleben möchtest. VIVI erstellt deine persönliche Route.",
+    startBtn:"Reise starten",
+    discoverBtn:"VIVI entdecken",
+    heroBottom:"Rom · Italien",
+    scroll:"Scrollen",
+
+    introLabel:"Mehr als ein Reiseführer",
+    introText:"VIVI gibt dir nicht einfach eine Liste von Sehenswürdigkeiten. Es versteht, was du suchst, und erstellt ein Erlebnis rund um dich: Tempo, Interessen, Begleitung, Zeit, Gehen und Budget.",
+
+    mini1Title:"Für dich",
+    mini1Text:"Deine Route passt sich dir an.",
+    mini2Title:"Smarte Route",
+    mini2Text:"Stops sinnvoll organisiert.",
+    mini3Title:"Erleben",
+    mini3Text:"Nicht nur sehen. Erinnern.",
+
+    experienceLabel:"Wähle deinen Stil",
+    experienceTitle:"Rom,<br>wie du es willst.",
+    experienceText:"Ob antikes Rom, Kunst oder authentische Viertel – VIVI beginnt immer bei dir.",
+
+    exp1Title:"Antikes Rom",
+    exp1Text:"Kolosseum, Forum, Pantheon und die Orte, die Roms Geschichte erzählen.",
+    exp2Title:"Kunst & Schönheit",
+    exp2Text:"Brunnen, Plätze, Meisterwerke und beeindruckende Ausblicke.",
+    exp3Title:"Authentisches Rom",
+    exp3Text:"Trastevere, Monti und Orte, an denen Rom weniger wie eine Postkarte wirkt.",
+
+    builderLabel:"Deine Reise",
+    builderTitle:"Wir bauen<br>dein Rom.",
+    builderText:"Beantworte ein paar Fragen. Den Rest übernehmen wir.",
+
+    resultLabel:"Deine Route",
+    resultTitle:"Rom,<br>nach deinem Geschmack.",
+    editBtn:"← Präferenzen ändern",
+    mapBtn:"Karte ansehen",
+    mapLabel:"Deine Route",
+
+    finalTitle:"Die Stadt ist dieselbe.<br>Das Erlebnis nicht.",
+    finalText:"Rom hat für jeden Menschen etwas anderes zu erzählen. Lass VIVI deine Version finden.",
+    finalBtn:"Meine Reise erstellen",
+    footer:"Besuche Rom nicht. Erlebe es.",
+
+    continue:"Weiter →",
+    generate:"Meine Route entdecken →",
+    choose:"Wähle eine Antwort",
+    question:"Frage",
+    steps:"Stops",
+    walk:"zu Fuß",
+    minutes:"Min.",
+
+    q1:"Was möchtest du in Rom erleben?",
+    q2:"Mit wem bist du unterwegs?",
+    q3:"Wie viel Zeit hast du?",
+    q4:"Was hast du schon gesehen?",
+    q5:"Welches Tempo möchtest du?",
+    q6:"Wie viel möchtest du laufen?",
+    q7:"Wie hoch ist dein Budget?",
+
+    ancient:"Antikes Rom",
+    ancientDesc:"Geschichte, Imperien und berühmte Monumente",
+    art:"Kunst & Schönheit",
+    artDesc:"Plätze, Brunnen und Meisterwerke",
+    authentic:"Authentisches Rom",
+    authenticDesc:"Viertel, Gassen und römische Atmosphäre",
+    food:"Essen & Römisches Leben",
+    foodDesc:"Märkte, Viertel und lokale Spezialitäten",
+
+    couple:"Als Paar",
+    friends:"Mit Freunden",
+    family:"Mit Familie",
+    alone:"Alleine",
+
+    short:"Ein paar Stunden",
+    shortDesc:"Ein kurzer Ausflug",
+    half:"Ein halber Tag",
+    halfDesc:"Etwa 4 Stunden",
+    full:"Ein ganzer Tag",
+    fullDesc:"Etwa 8 Stunden",
+    more:"Mehrere Tage",
+    moreDesc:"Ich möchte es langsam angehen",
+
+    none:"Fast nichts",
+    noneDesc:"Ich möchte die Klassiker sehen",
+    some:"Etwas",
+    someDesc:"Ich habe schon einiges gesehen",
+    most:"Viel",
+    mostDesc:"Ich möchte etwas anderes entdecken",
+
+    slow:"Sehr entspannt",
+    slowDesc:"Wenige Stops und Zeit zum Genießen",
+    normal:"Ausgeglichen",
+    normalDesc:"Rom sehen ohne Stress",
+    fast:"Intensiv",
+    fastDesc:"Den Tag maximal nutzen",
+
+    little:"Wenig",
+    littleDesc:"Nahe Stops und wenig Bewegung",
+    mediumWalk:"Mittel",
+    mediumWalkDesc:"Gehen ist okay, aber ich möchte abwechseln",
+    much:"Viel",
+    muchDesc:"Ich erkunde Rom gerne zu Fuß",
+
+    budget_free:"Fast alles kostenlos",
+    budget_freeDesc:"Plätze, Spaziergänge und Außenbereiche",
+    budget_low:"Begrenzt",
+    budget_lowDesc:"Einige kostenpflichtige Aktivitäten",
+    budget_medium:"Mittel",
+    budget_mediumDesc:"Eintritte und Erlebnisse sind möglich",
+    budget_high:"Flexibel",
+    budget_highDesc:"Auch teurere Erlebnisse",
+
+    go:"Hierhin führen",
+
+    mapPopup:"Stop deiner Reise",
+    noWalking:"Kurzer Weg",
+    walking:"Spaziergang",
+
+    routeTitle:"Dein Rom",
+
+    placeColosseum:"Kolosseum",
+    placeColosseumDesc:"Das Wahrzeichen Roms und eines der berühmtesten Monumente der Welt.",
+    placeForums:"Forum Romanum",
+    placeForumsDesc:"Spaziere durch die Ruinen des politischen Zentrums des antiken Roms.",
+    placePantheon:"Pantheon",
+    placePantheonDesc:"Ein Meisterwerk römischer Architektur.",
+    placeTrevi:"Trevi-Brunnen",
+    placeTreviDesc:"Der berühmteste Brunnen Roms.",
+    placeNavona:"Piazza Navona",
+    placeNavonaDesc:"Einer der elegantesten Plätze Roms.",
+    placeSpain:"Spanische Treppe",
+    placeSpainDesc:"Die Spanische Treppe und einer der berühmtesten Orte der Stadt.",
+    placeTrastevere:"Trastevere",
+    placeTrastevereDesc:"Gassen, Plätze und echte römische Atmosphäre.",
+    placeMonti:"Monti",
+    placeMontiDesc:"Eines der lebendigsten und authentischsten Viertel nahe dem Zentrum.",
+    placeCampo:"Campo de' Fiori",
+    placeCampoDesc:"Ein lebhafter Platz im Herzen Roms, bekannt für seinen Markt.",
+    placeAventino:"Aventin",
+    placeAventinoDesc:"Eine ruhigere und romantischere Seite Roms."
+  }
 
 };
 
 
-/* =========================================
-   LINGUA AUTOMATICA
-========================================= */
+/* =====================================================
+   PLACES
+===================================================== */
 
-const languageSelector =
-    document.getElementById("languageSelector");
+const places = {
 
-const languageButton =
-    document.getElementById("languageButton");
+  colosseum:{
+    lat:41.8902,
+    lng:12.4922,
+    key:"placeColosseum",
+    category:"ancient"
+  },
+
+  forums:{
+    lat:41.8925,
+    lng:12.4853,
+    key:"placeForums",
+    category:"ancient"
+  },
+
+  pantheon:{
+    lat:41.8986,
+    lng:12.4769,
+    key:"placePantheon",
+    category:"art"
+  },
+
+  trevi:{
+    lat:41.9009,
+    lng:12.4833,
+    key:"placeTrevi",
+    category:"art"
+  },
+
+  navona:{
+    lat:41.8992,
+    lng:12.4731,
+    key:"placeNavona",
+    category:"art"
+  },
+
+  spagna:{
+    lat:41.9059,
+    lng:12.4823,
+    key:"placeSpain",
+    category:"art"
+  },
+
+  trastevere:{
+    lat:41.8897,
+    lng:12.4694,
+    key:"placeTrastevere",
+    category:"authentic"
+  },
+
+  monti:{
+    lat:41.8955,
+    lng:12.4907,
+    key:"placeMonti",
+    category:"authentic"
+  },
+
+  campo:{
+    lat:41.8956,
+    lng:12.4722,
+    key:"placeCampo",
+    category:"authentic"
+  },
+
+  aventino:{
+    lat:41.8836,
+    lng:12.4773,
+    key:"placeAventino",
+    category:"authentic"
+  }
+
+};
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+const questionData = [
+
+  {
+    key:"q1",
+    options:[
+      {
+        value:"ancient",
+        icon:"🏛️",
+        title:"ancient",
+        desc:"ancientDesc"
+      },
+      {
+        value:"art",
+        icon:"🎨",
+        title:"art",
+        desc:"artDesc"
+      },
+      {
+        value:"authentic",
+        icon:"🛵",
+        title:"authentic",
+        desc:"authenticDesc"
+      },
+      {
+        value:"food",
+        icon:"🍝",
+        title:"food",
+        desc:"foodDesc"
+      }
+    ]
+  },
+
+  {
+    key:"q2",
+    options:[
+      {
+        value:"couple",
+        icon:"❤️",
+        title:"couple"
+      },
+      {
+        value:"friends",
+        icon:"🥂",
+        title:"friends"
+      },
+      {
+        value:"family",
+        icon:"👨‍👩‍👧",
+        title:"family"
+      },
+      {
+        value:"alone",
+        icon:"🧭",
+        title:"alone"
+      }
+    ]
+  },
+
+  {
+    key:"q3",
+    options:[
+      {
+        value:"short",
+        icon:"⏳",
+        title:"short",
+        desc:"shortDesc"
+      },
+      {
+        value:"half",
+        icon:"🌤️",
+        title:"half",
+        desc:"halfDesc"
+      },
+      {
+        value:"full",
+        icon:"☀️",
+        title:"full",
+        desc:"fullDesc"
+      },
+      {
+        value:"more",
+        icon:"🗓️",
+        title:"more",
+        desc:"moreDesc"
+      }
+    ]
+  },
+
+  {
+    key:"q4",
+    options:[
+      {
+        value:"none",
+        icon:"✨",
+        title:"none",
+        desc:"noneDesc"
+      },
+      {
+        value:"some",
+        icon:"👀",
+        title:"some",
+        desc:"someDesc"
+      },
+      {
+        value:"most",
+        icon:"🔎",
+        title:"most",
+        desc:"mostDesc"
+      }
+    ]
+  },
+
+  {
+    key:"q5",
+    options:[
+      {
+        value:"slow",
+        icon:"🌿",
+        title:"slow",
+        desc:"slowDesc"
+      },
+      {
+        value:"normal",
+        icon:"🚶",
+        title:"normal",
+        desc:"normalDesc"
+      },
+      {
+        value:"fast",
+        icon:"⚡",
+        title:"fast",
+        desc:"fastDesc"
+      }
+    ]
+  },
+
+  {
+    key:"q6",
+    options:[
+      {
+        value:"little",
+        icon:"👟",
+        title:"little",
+        desc:"littleDesc"
+      },
+      {
+        value:"mediumWalk",
+        icon:"🚶‍♂️",
+        title:"mediumWalk",
+        desc:"mediumWalkDesc"
+      },
+      {
+        value:"much",
+        icon:"🥾",
+        title:"much",
+        desc:"muchDesc"
+      }
+    ]
+  },
+
+  {
+    key:"q7",
+    options:[
+      {
+        value:"budget_free",
+        icon:"🆓",
+        title:"budget_free",
+        desc:"budget_freeDesc"
+      },
+      {
+        value:"budget_low",
+        icon:"💶",
+        title:"budget_low",
+        desc:"budget_lowDesc"
+      },
+      {
+        value:"budget_medium",
+        icon:"💳",
+        title:"budget_medium",
+        desc:"budget_mediumDesc"
+      },
+      {
+        value:"budget_high",
+        icon:"✨",
+        title:"budget_high",
+        desc:"budget_highDesc"
+      }
+    ]
+  }
+
+];
+
+
+/* =====================================================
+   STATE
+===================================================== */
 
 let currentLanguage =
-    localStorage.getItem("vivi-language");
+  localStorage.getItem("viviLanguage") ||
+  detectLanguage();
 
+let currentQuestion = 0;
+
+let answers = {};
+
+let selectedAnswer = null;
+
+let map = null;
+
+let mapMarkers = [];
+
+let currentRoute = [];
+
+
+/* =====================================================
+   LANGUAGE
+===================================================== */
 
 function detectLanguage(){
 
-    if(currentLanguage && translations[currentLanguage]){
-        return currentLanguage;
-    }
+  const browser =
+    (navigator.language || "it")
+    .toLowerCase()
+    .split("-")[0];
 
-    const browserLanguage =
-        navigator.language.toLowerCase();
-
-    if(browserLanguage.startsWith("en")){
-        return "en";
-    }
-
-    if(browserLanguage.startsWith("es")){
-        return "es";
-    }
-
-    if(browserLanguage.startsWith("fr")){
-        return "fr";
-    }
-
-    if(browserLanguage.startsWith("de")){
-        return "de";
-    }
-
-    return "it";
+  return translations[browser]
+    ? browser
+    : "it";
 }
 
 
-function updateLanguageButton(){
+function t(key){
 
-    const data = {
+  return (
+    translations[currentLanguage]?.[key] ??
+    translations.it[key] ??
+    key
+  );
 
-        it:"🇮🇹 IT",
-        en:"🇬🇧 EN",
-        es:"🇪🇸 ES",
-        fr:"🇫🇷 FR",
-        de:"🇩🇪 DE"
+}
 
-    };
 
-    languageButton.textContent =
-        data[currentLanguage] + " ▾";
+function applyTranslations(){
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+
+    const key = element.dataset.i18n;
+
+    if(translations[currentLanguage][key] !== undefined){
+
+      element.innerHTML =
+        translations[currentLanguage][key];
+
+    }
+
+  });
+
+  document.documentElement.lang = currentLanguage;
+
+  document.getElementById("languageSelect").value =
+    currentLanguage;
+
+  renderQuestion();
+
+  if(currentRoute.length){
+
+    renderRoute(currentRoute);
+
+    setTimeout(() => {
+      createMap(currentRoute);
+    },100);
+
+  }
+
 }
 
 
 function setLanguage(language){
 
-    if(!translations[language]){
-        language = "it";
-    }
+  if(!translations[language]){
+    return;
+  }
 
-    currentLanguage = language;
+  currentLanguage = language;
 
-    localStorage.setItem(
-        "vivi-language",
-        language
-    );
+  localStorage.setItem(
+    "viviLanguage",
+    language
+  );
 
-    document.documentElement.lang = language;
-
-    const dictionary =
-        translations[language];
-
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(element => {
-
-            const key =
-                element.getAttribute("data-i18n");
-
-            if(dictionary[key]){
-                element.textContent =
-                    dictionary[key];
-            }
-
-        });
-
-    updateLanguageButton();
-
-    document
-        .querySelectorAll(".language-option")
-        .forEach(option => {
-
-            option.classList.toggle(
-                "active",
-                option.dataset.lang === language
-            );
-
-        });
+  applyTranslations();
 
 }
 
 
-currentLanguage = detectLanguage();
+/* =====================================================
+   START
+===================================================== */
 
-setLanguage(currentLanguage);
+function startJourney(){
 
-
-/* =========================================
-   MENU LINGUE
-========================================= */
-
-languageButton.addEventListener("click", function(event){
-
-    event.stopPropagation();
-
-    languageSelector.classList.toggle("open");
-
-});
-
-
-document
-    .querySelectorAll(".language-option")
-    .forEach(option => {
-
-        option.addEventListener("click", function(){
-
-            setLanguage(this.dataset.lang);
-
-            languageSelector.classList.remove("open");
-
-        });
-
+  document
+    .getElementById("builder")
+    .scrollIntoView({
+      behavior:"smooth"
     });
 
+}
 
-document.addEventListener("click", function(event){
 
-    if(!languageSelector.contains(event.target)){
-        languageSelector.classList.remove("open");
+/* =====================================================
+   QUESTION RENDER
+===================================================== */
+
+function renderQuestion(){
+
+  const q =
+    questionData[currentQuestion];
+
+  const translation =
+    translations[currentLanguage];
+
+  document.getElementById("questionKicker").textContent =
+    `${translation.question} ${currentQuestion + 1}`;
+
+  document.getElementById("questionTitle").textContent =
+    translation[q.key];
+
+  const optionsContainer =
+    document.getElementById("options");
+
+  optionsContainer.innerHTML = "";
+
+  selectedAnswer =
+    answers[q.key] || null;
+
+  q.options.forEach(option => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "option";
+
+    if(selectedAnswer === option.value){
+
+      button.classList.add("selected");
+
     }
 
-});
+    button.innerHTML = `
 
+      <span class="option-icon">
+        ${option.icon}
+      </span>
 
-/* =========================================
-   DATI ROMA
-========================================= */
+      <span class="option-title">
+        ${translation[option.title]}
+      </span>
 
-const places = {
+      ${
+        option.desc
+        ?
+        `<span class="option-desc">
+          ${translation[option.desc]}
+        </span>`
+        :
+        ""
+      }
 
-    colosseo:{
-        name:{
-            it:"Colosseo",
-            en:"Colosseum",
-            es:"Coliseo",
-            fr:"Colisée",
-            de:"Kolosseum"
-        },
-        description:{
-            it:"Il simbolo di Roma e uno dei luoghi più importanti della storia antica.",
-            en:"The symbol of Rome and one of the most important places in ancient history.",
-            es:"El símbolo de Roma y uno de los lugares más importantes de la historia antigua.",
-            fr:"Le symbole de Rome et l'un des lieux les plus importants de l'histoire antique.",
-            de:"Das Symbol Roms und einer der wichtigsten Orte der antiken Geschichte."
-        },
-        type:"history",
-        lat:41.8902,
-        lng:12.4922
-    },
+    `;
 
-    fori:{
-        name:{
-            it:"Fori Imperiali",
-            en:"Imperial Forums",
-            es:"Foros Imperiales",
-            fr:"Forums impériaux",
-            de:"Kaiserforen"
-        },
-        description:{
-            it:"Una passeggiata tra le rovine del cuore politico dell'antica Roma.",
-            en:"A walk through the ruins of the political heart of ancient Rome.",
-            es:"Un paseo entre las ruinas del corazón político de la antigua Roma.",
-            fr:"Une promenade parmi les ruines du cœur politique de la Rome antique.",
-            de:"Ein Spaziergang durch die Ruinen des politischen Zentrums des antiken Roms."
-        },
-        type:"history",
-        lat:41.8925,
-        lng:12.4853
-    },
+    button.onclick = () => {
 
-    pantheon:{
-        name:{
-            it:"Pantheon",
-            en:"Pantheon",
-            es:"Panteón",
-            fr:"Panthéon",
-            de:"Pantheon"
-        },
-        description:{
-            it:"Uno degli edifici antichi meglio conservati e una delle piazze più affascinanti.",
-            en:"One of the best-preserved ancient buildings and one of Rome's most beautiful squares.",
-            es:"Uno de los edificios antiguos mejor conservados y una de las plazas más fascinantes.",
-            fr:"L'un des bâtiments antiques les mieux conservés et l'une des plus belles places de Rome.",
-            de:"Eines der besterhaltenen antiken Gebäude und einer der schönsten Plätze Roms."
-        },
-        type:"history",
-        lat:41.8986,
-        lng:12.4769
-    },
+      selectedAnswer =
+        option.value;
 
-    trevi:{
-        name:{
-            it:"Fontana di Trevi",
-            en:"Trevi Fountain",
-            es:"Fontana di Trevi",
-            fr:"Fontaine de Trevi",
-            de:"Trevi-Brunnen"
-        },
-        description:{
-            it:"La fontana più famosa di Roma, perfetta da vedere soprattutto al tramonto.",
-            en:"Rome's most famous fountain, especially beautiful around sunset.",
-            es:"La fuente más famosa de Roma, especialmente bonita al atardecer.",
-            fr:"La fontaine la plus célèbre de Rome, particulièrement belle au coucher du soleil.",
-            de:"Roms berühmtester Brunnen, besonders schön bei Sonnenuntergang."
-        },
-        type:"art",
-        lat:41.9009,
-        lng:12.4833
-    },
+      answers[q.key] =
+        option.value;
 
-    navona:{
-        name:{
-            it:"Piazza Navona",
-            en:"Piazza Navona",
-            es:"Piazza Navona",
-            fr:"Piazza Navona",
-            de:"Piazza Navona"
-        },
-        description:{
-            it:"Una delle piazze più spettacolari di Roma, tra fontane, barocco e vita romana.",
-            en:"One of Rome's most spectacular squares, filled with fountains, Baroque architecture and Roman life.",
-            es:"Una de las plazas más espectaculares de Roma, con fuentes, barroco y vida romana.",
-            fr:"L'une des places les plus spectaculaires de Rome, entre fontaines, baroque et vie romaine.",
-            de:"Einer der beeindruckendsten Plätze Roms mit Brunnen, Barock und römischem Leben."
-        },
-        type:"art",
-        lat:41.8992,
-        lng:12.4731
-    },
-
-    spanish:{
-        name:{
-            it:"Piazza di Spagna",
-            en:"Spanish Steps",
-            es:"Plaza de España",
-            fr:"Place d'Espagne",
-            de:"Spanische Treppe"
-        },
-        description:{
-            it:"La scalinata monumentale che collega Piazza di Spagna a Trinità dei Monti.",
-            en:"The monumental staircase connecting Piazza di Spagna with Trinità dei Monti.",
-            es:"La escalinata monumental que conecta Piazza di Spagna con Trinità dei Monti.",
-            fr:"L'escalier monumental reliant la Piazza di Spagna à la Trinità dei Monti.",
-            de:"Die monumentale Treppe zwischen Piazza di Spagna und Trinità dei Monti."
-        },
-        type:"art",
-        lat:41.9059,
-        lng:12.4823
-    },
-
-    trastevere:{
-        name:{
-            it:"Trastevere",
-            en:"Trastevere",
-            es:"Trastevere",
-            fr:"Trastevere",
-            de:"Trastevere"
-        },
-        description:{
-            it:"Vicoli, piazze e atmosfera romana in uno dei quartieri più caratteristici della città.",
-            en:"Alleys, squares and Roman atmosphere in one of the city's most characteristic neighbourhoods.",
-            es:"Callejuelas, plazas y ambiente romano en uno de los barrios más característicos.",
-            fr:"Ruelles, places et atmosphère romaine dans l'un des quartiers les plus typiques.",
-            de:"Gassen, Plätze und römische Atmosphäre in einem der charakteristischsten Viertel."
-        },
-        type:"local",
-        lat:41.8897,
-        lng:12.4692
-    },
-
-    monti:{
-        name:{
-            it:"Monti",
-            en:"Monti",
-            es:"Monti",
-            fr:"Monti",
-            de:"Monti"
-        },
-        description:{
-            it:"Un quartiere creativo e autentico, perfetto per vivere una Roma più locale.",
-            en:"A creative and authentic neighbourhood, perfect for experiencing a more local Rome.",
-            es:"Un barrio creativo y auténtico, perfecto para descubrir una Roma más local.",
-            fr:"Un quartier créatif et authentique, parfait pour découvrir une Rome plus locale.",
-            de:"Ein kreatives und authentisches Viertel für ein lokaleres Rom."
-        },
-        type:"local",
-        lat:41.8955,
-        lng:12.4907
-    },
-
-    campo:{
-        name:{
-            it:"Campo de' Fiori",
-            en:"Campo de' Fiori",
-            es:"Campo de' Fiori",
-            fr:"Campo de' Fiori",
-            de:"Campo de' Fiori"
-        },
-        description:{
-            it:"Una piazza vivace nel centro storico, tra mercato, palazzi e vita romana.",
-            en:"A lively square in the historic centre, surrounded by markets, palaces and Roman life.",
-            es:"Una plaza animada en el centro histórico, con mercado, palacios y vida romana.",
-            fr:"Une place animée du centre historique, entre marché, palais et vie romaine.",
-            de:"Ein lebhafter Platz im historischen Zentrum mit Markt, Palästen und römischem Leben."
-        },
-        type:"local",
-        lat:41.8956,
-        lng:12.4722
-    },
-
-    aventino:{
-        name:{
-            it:"Colle Aventino",
-            en:"Aventine Hill",
-            es:"Colina del Aventino",
-            fr:"Colline de l'Aventin",
-            de:"Aventin"
-        },
-        description:{
-            it:"Un angolo più tranquillo di Roma con viste spettacolari e atmosfere eleganti.",
-            en:"A quieter corner of Rome with spectacular views and elegant surroundings.",
-            es:"Un rincón más tranquilo de Roma con vistas espectaculares y un ambiente elegante.",
-            fr:"Un coin plus calme de Rome avec des vues spectaculaires et une atmosphère élégante.",
-            de:"Eine ruhigere Ecke Roms mit spektakulären Ausblicken und eleganter Atmosphäre."
-        },
-        type:"local",
-        lat:41.8845,
-        lng:12.4768
-    }
-
-};
-
-
-/* =========================================
-   RISPOSTE
-========================================= */
-
-const answers = {};
-
-document
-    .querySelectorAll(".option")
-    .forEach(button => {
-
-        button.addEventListener("click", function(){
-
-            const question =
-                this.dataset.question;
-
-            document
-                .querySelectorAll(
-                    `.option[data-question="${question}"]`
-                )
-                .forEach(option => {
-
-                    option.classList.remove("selected");
-
-                });
-
-            this.classList.add("selected");
-
-            answers[question] =
-                this.dataset.value;
-
-        });
-
-    });
-
-
-/* =========================================
-   ESPERIENZE RAPIDE
-========================================= */
-
-function selectExperience(type){
-
-    answers.type = type;
-
-    const target =
-        document.querySelector(
-            `.option[data-question="type"][data-value="${type}"]`
+      document
+        .querySelectorAll(".option")
+        .forEach(el =>
+          el.classList.remove("selected")
         );
 
-    if(target){
+      button.classList.add("selected");
 
-        document
-            .querySelectorAll(
-                '.option[data-question="type"]'
-            )
-            .forEach(option =>
-                option.classList.remove("selected")
-            );
+      updateNextButton();
 
-        target.classList.add("selected");
+    };
+
+    optionsContainer.appendChild(button);
+
+  });
+
+  updateProgress();
+
+  updateNextButton();
+
+}
+
+
+function updateProgress(){
+
+  const total =
+    questionData.length;
+
+  const current =
+    currentQuestion + 1;
+
+  const percent =
+    Math.round((current / total) * 100);
+
+  document.getElementById("progressText")
+    .textContent =
+      `${current} / ${total}`;
+
+  document.getElementById("progressPercent")
+    .textContent =
+      `${percent}%`;
+
+  document.getElementById("progressBar")
+    .style.width =
+      `${percent}%`;
+
+}
+
+
+function updateNextButton(){
+
+  const button =
+    document.getElementById("nextBtn");
+
+  button.disabled =
+    !selectedAnswer;
+
+  if(currentQuestion === questionData.length - 1){
+
+    button.textContent =
+      t("generate");
+
+  }else{
+
+    button.textContent =
+      t("continue");
+
+  }
+
+}
+
+
+/* =====================================================
+   NEXT QUESTION
+===================================================== */
+
+function nextQuestion(){
+
+  if(!selectedAnswer){
+    return;
+  }
+
+  if(
+    currentQuestion ===
+    questionData.length - 1
+  ){
+
+    generateJourney();
+
+    return;
+
+  }
+
+  currentQuestion++;
+
+  selectedAnswer =
+    answers[
+      questionData[currentQuestion].key
+    ] || null;
+
+  renderQuestion();
+
+}
+
+
+/* =====================================================
+   JOURNEY GENERATOR
+===================================================== */
+
+function generateJourney(){
+
+  let route = [];
+
+  const interest =
+    answers.q1 || "ancient";
+
+  const time =
+    answers.q3 || "full";
+
+  const seen =
+    answers.q4 || "none";
+
+  const pace =
+    answers.q5 || "normal";
+
+  const walking =
+    answers.q6 || "mediumWalk";
+
+  /*
+    Prima scegliamo la famiglia di percorso.
+  */
+
+  if(interest === "ancient"){
+
+    route = [
+      places.colosseum,
+      places.forums,
+      places.pantheon,
+      places.trevi
+    ];
+
+  }
+
+  else if(interest === "art"){
+
+    route = [
+      places.pantheon,
+      places.navona,
+      places.trevi,
+      places.spagna
+    ];
+
+  }
+
+  else if(interest === "authentic"){
+
+    route = [
+      places.monti,
+      places.colosseum,
+      places.campo,
+      places.trastevere
+    ];
+
+  }
+
+  else{
+
+    route = [
+      places.campo,
+      places.trastevere,
+      places.navona,
+      places.pantheon
+    ];
+
+  }
+
+
+  /*
+    Se l'utente ha già visto molto,
+    proviamo a spostare il percorso
+    verso zone meno classiche.
+  */
+
+  if(seen === "most"){
+
+    if(interest === "ancient"){
+
+      route = [
+        places.monti,
+        places.aventino,
+        places.campo,
+        places.trastevere
+      ];
 
     }
+
+    else if(interest === "art"){
+
+      route = [
+        places.aventino,
+        places.navona,
+        places.campo,
+        places.trastevere
+      ];
+
+    }
+
+  }
+
+
+  /*
+    Poche ore = meno tappe.
+  */
+
+  if(time === "short"){
+
+    route =
+      route.slice(0,2);
+
+  }
+
+  else if(time === "half"){
+
+    route =
+      route.slice(0,3);
+
+  }
+
+  else if(time === "full"){
+
+    route =
+      route.slice(0,4);
+
+  }
+
+  else{
+
+    route =
+      route.slice(0,5);
+
+  }
+
+
+  /*
+    Ritmo lento = massimo 3 tappe.
+  */
+
+  if(pace === "slow"){
+
+    route =
+      route.slice(0,Math.min(3,route.length));
+
+  }
+
+
+  /*
+    Poco cammino = limita le tappe.
+  */
+
+  if(walking === "little"){
+
+    route =
+      route.slice(0,Math.min(3,route.length));
+
+  }
+
+
+  /*
+    Sicurezza.
+  */
+
+  if(route.length < 2){
+
+    route = [
+      places.pantheon,
+      places.trevi
+    ];
+
+  }
+
+
+  currentRoute =
+    route;
+
+  renderRoute(route);
+
+  document
+    .getElementById("results")
+    .classList.add("visible");
+
+  setTimeout(() => {
 
     document
-        .getElementById("costruisci")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+      .getElementById("results")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  },100);
+
+  /*
+    Leaflet deve essere creato
+    quando il contenitore è visibile.
+  */
+
+  setTimeout(() => {
+
+    createMap(route);
+
+  },350);
 
 }
 
 
-/* =========================================
-   SCORE
-========================================= */
+/* =====================================================
+   ROUTE RENDER
+===================================================== */
 
-function scorePlace(place){
+function renderRoute(route){
 
-    let score = 0;
+  const panel =
+    document.getElementById("routePanel");
 
-    if(answers.type === place.type){
-        score += 8;
-    }
+  panel.innerHTML = "";
 
-    if(answers.type === "history" &&
-       place.type === "history"){
-        score += 5;
-    }
+  const walkMode =
+    answers.q6 || "mediumWalk";
 
-    if(answers.type === "art" &&
-       place.type === "art"){
-        score += 5;
-    }
+  route.forEach((place,index) => {
 
-    if(answers.type === "local" &&
-       place.type === "local"){
-        score += 5;
-    }
+    const card =
+      document.createElement("div");
 
-    if(answers.walking === "little"){
-        if(
-            place === places.colosseo ||
-            place === places.fori ||
-            place === places.pantheon
-        ){
-            score += 2;
-        }
-    }
+    card.className =
+      "route-card";
 
-    if(answers.walking === "much"){
-        score += 3;
-    }
+    const info =
+      translations[currentLanguage][place.key];
 
-    if(answers.pace === "slow"){
-        if(
-            place === places.aventino ||
-            place === places.trastevere
-        ){
-            score += 4;
-        }
-    }
+    const descKey =
+      place.key + "Desc";
 
-    if(answers.pace === "fast"){
-        score += 2;
-    }
+    const description =
+      translations[currentLanguage][descKey] ||
+      translations.it[descKey];
 
-    if(answers.budget === "budget_free"){
-        if(
-            place === places.trastevere ||
-            place === places.aventino ||
-            place === places.navona
-        ){
-            score += 3;
-        }
-    }
+    const walkingText =
+      index === 0
+      ? t("routeTitle")
+      : walkMode === "little"
+        ? t("noWalking")
+        : `${Math.max(4,index * 5)} ${t("minutes")} · ${t("walking")}`;
 
-    if(answers.budget === "budget_low"){
-        score += 2;
-    }
+    card.innerHTML = `
 
-    if(answers.budget === "budget_medium"){
-        score += 3;
-    }
+      <div class="route-number">
+        ${index + 1}
+      </div>
 
-    if(answers.budget === "budget_high"){
-        score += 4;
-    }
+      <div class="route-info">
 
-    if(
-        answers.seen === "many" &&
-        (
-            place === places.colosseo ||
-            place === places.fori
-        )
-    ){
-        score -= 4;
-    }
+        <h3>
+          ${info}
+        </h3>
 
-    return score;
+        <p>
+          ${description}
+        </p>
+
+        <div class="route-meta">
+
+          <span class="route-tag">
+            ${walkingText}
+          </span>
+
+          <span class="route-tag">
+            ${t("steps")} ${index + 1}
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+    panel.appendChild(card);
+
+  });
+
+  document.getElementById("mapCount")
+    .textContent =
+      `${route.length} ${t("steps")}`;
 
 }
 
 
-/* =========================================
-   CREAZIONE PERCORSO
-========================================= */
-
-function buildSmartRoute(){
-
-    const scored =
-        Object.entries(places)
-            .map(([id,place]) => ({
-                id,
-                score:scorePlace(place)
-            }))
-            .sort((a,b)=>b.score-a.score);
-
-    let number = 5;
-
-    if(answers.time === "half"){
-        number = 4;
-    }
-
-    if(answers.time === "two"){
-        number = 7;
-    }
-
-    return scored
-        .slice(0,number)
-        .map(item=>item.id);
-
-}
-
-
-/* =========================================
-   RENDER RISULTATO
-========================================= */
-
-function renderResult(route){
-
-    const routeList =
-        document.getElementById("routeList");
-
-    routeList.innerHTML = "";
-
-    const t =
-        translations[currentLanguage];
-
-    const tagNames =
-        t.tags;
-
-    route.forEach((placeId,index)=>{
-
-        const place =
-            places[placeId];
-
-        const tags = [];
-
-        if(place.type === "history"){
-            tags.push(tagNames.history);
-        }
-
-        if(place.type === "art"){
-            tags.push(tagNames.art);
-        }
-
-        if(place.type === "local"){
-            tags.push(tagNames.local);
-        }
-
-        if(answers.pace === "slow"){
-            tags.push(tagNames.slow);
-        }
-
-        if(answers.pace === "normal"){
-            tags.push(tagNames.normal);
-        }
-
-        if(answers.pace === "fast"){
-            tags.push(tagNames.fast);
-        }
-
-        if(answers.walking === "little"){
-            tags.push(tagNames.little);
-        }
-
-        if(answers.walking === "medium"){
-            tags.push(tagNames.mediumWalk);
-        }
-
-        if(answers.walking === "much"){
-            tags.push(tagNames.much);
-        }
-
-        if(answers.budget === "budget_free"){
-            tags.push(tagNames.budget_free);
-        }
-
-        if(answers.budget === "budget_low"){
-            tags.push(tagNames.budget_low);
-        }
-
-        if(answers.budget === "budget_medium"){
-            tags.push(tagNames.budget_medium);
-        }
-
-        if(answers.budget === "budget_high"){
-            tags.push(tagNames.budget_high);
-        }
-
-        const card =
-            document.createElement("div");
-
-        card.className = "route-card";
-
-        card.innerHTML = `
-
-            <div class="route-number">
-                ${String(index+1).padStart(2,"0")}
-            </div>
-
-            <div>
-
-                <h3>
-                    ${place.name[currentLanguage]}
-                </h3>
-
-                <p>
-                    ${place.description[currentLanguage]}
-                </p>
-
-                <div class="route-tags">
-
-                    ${tags.map(tag =>
-                        `<span class="route-tag">${tag}</span>`
-                    ).join("")}
-
-                </div>
-
-            </div>
-
-            <div class="route-action">
-
-                <a
-                    class="primary-button"
-                    href="https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}"
-                    target="_blank"
-                >
-                    ${t.routeButton}
-                </a>
-
-            </div>
-
-        `;
-
-        routeList.appendChild(card);
-
-    });
-
-}
-
-
-/* =========================================
-   MAPPA
-========================================= */
-
-let map = null;
-
+/* =====================================================
+   MAP
+===================================================== */
 
 function createMap(route){
 
-    const mapElement =
-        document.getElementById("map");
+  if(!document.getElementById("map")){
+    return;
+  }
 
-    if(!mapElement){
-        return;
+  if(map){
+
+    map.remove();
+
+    map = null;
+
+  }
+
+  mapMarkers = [];
+
+  map =
+    L.map("map",{
+      zoomControl:true,
+      scrollWheelZoom:true
+    });
+
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom:19,
+      attribution:"© OpenStreetMap"
     }
+  ).addTo(map);
 
-    if(typeof L === "undefined"){
 
-        mapElement.innerHTML = `
-            <div style="
-                padding:30px;
-                font-family:Inter,sans-serif;
-            ">
-                Mappa non disponibile.
-            </div>
-        `;
+  const coordinates = [];
 
-        return;
 
-    }
+  route.forEach((place,index) => {
 
-    if(map){
+    const marker =
+      L.marker([
+        place.lat,
+        place.lng
+      ]).addTo(map);
 
-        map.remove();
 
-        map = null;
+    const name =
+      translations[currentLanguage][place.key];
 
-    }
+    const descKey =
+      place.key + "Desc";
 
-    map =
-        L.map(mapElement, {
-            scrollWheelZoom:true
-        });
+    const description =
+      translations[currentLanguage][descKey] ||
+      translations.it[descKey];
 
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom:19,
-            attribution:"© OpenStreetMap"
-        }
+
+    marker.bindPopup(`
+
+      <div>
+
+        <div class="popup-title">
+          ${index + 1}. ${name}
+        </div>
+
+        <div class="popup-text">
+          ${description}
+        </div>
+
+      </div>
+
+    `);
+
+
+    marker.on("click",() => {
+
+      marker.openPopup();
+
+    });
+
+
+    mapMarkers.push(marker);
+
+    coordinates.push([
+      place.lat,
+      place.lng
+    ]);
+
+  });
+
+
+  /*
+    Disegniamo una linea tra le tappe.
+  */
+
+  if(coordinates.length > 1){
+
+    L.polyline(
+      coordinates,
+      {
+        color:"#8d3028",
+        weight:4,
+        opacity:.72,
+        dashArray:"7 8"
+      }
     ).addTo(map);
 
-
-    const coordinates =
-        route.map(placeId => [
-
-            places[placeId].lat,
-            places[placeId].lng
-
-        ]);
+  }
 
 
-    const markers = [];
+  const bounds =
+    L.latLngBounds(coordinates);
 
-
-    route.forEach((placeId,index)=>{
-
-        const place =
-            places[placeId];
-
-        const marker =
-            L.marker([
-                place.lat,
-                place.lng
-            ]).addTo(map);
-
-        marker.bindPopup(`
-            <strong>
-                ${index+1}. ${place.name[currentLanguage]}
-            </strong>
-            <br>
-            ${place.description[currentLanguage]}
-        `);
-
-        markers.push(marker);
-
-    });
-
-
-    if(coordinates.length){
-
-        const line =
-            L.polyline(
-                coordinates,
-                {
-                    weight:4
-                }
-            ).addTo(map);
-
-        map.fitBounds(
-            line.getBounds(),
-            {
-                padding:[40,40]
-            }
-        );
-
+  map.fitBounds(
+    bounds,
+    {
+      padding:[45,45]
     }
+  );
+
+
+  /*
+    Fix classico di Leaflet
+    quando la mappa era nascosta.
+  */
+
+  requestAnimationFrame(() => {
+
+    map.invalidateSize(true);
+
+    setTimeout(() => {
+
+      map.invalidateSize(true);
+
+    },250);
+
+  });
 
 }
 
 
-/* =========================================
-   CREA VIAGGIO
-========================================= */
+/* =====================================================
+   EDIT
+===================================================== */
 
-function createJourney(){
+function editJourney(){
 
-    const route =
-        buildSmartRoute();
+  document
+    .getElementById("results")
+    .classList.remove("visible");
 
-    const results =
-        document.getElementById("esplora");
+  currentQuestion = 0;
 
-    results.classList.add("show");
+  selectedAnswer =
+    answers.q1 || null;
 
-    renderResult(route);
+  renderQuestion();
 
-
-    /*
-       Aspettiamo che la sezione sia realmente
-       visibile prima di inizializzare Leaflet.
-       Questo evita il problema della mappa bianca.
-    */
-
-    requestAnimationFrame(()=>{
-
-        requestAnimationFrame(()=>{
-
-            createMap(route);
-
-            if(map){
-
-                map.invalidateSize(true);
-
-                const coordinates =
-                    route.map(placeId => [
-                        places[placeId].lat,
-                        places[placeId].lng
-                    ]);
-
-                if(coordinates.length > 1){
-
-                    map.fitBounds(
-                        coordinates,
-                        {
-                            padding:[40,40]
-                        }
-                    );
-
-                }
-
-            }
-
-            results.scrollIntoView({
-                behavior:"smooth",
-                block:"start"
-            });
-
-        });
-
+  document
+    .getElementById("builder")
+    .scrollIntoView({
+      behavior:"smooth"
     });
 
 }
 
 
-/* =========================================
-   AGGIORNA LA MAPPA QUANDO CAMBIA LINGUA
-========================================= */
+/* =====================================================
+   MAP SCROLL
+===================================================== */
 
-const originalSetLanguage = setLanguage;
+function scrollToMap(){
 
-setLanguage = function(language){
+  document
+    .getElementById("mapWrapper")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
 
-    originalSetLanguage(language);
+}
 
-    if(map){
 
-        map.eachLayer(layer => {
+/* =====================================================
+   LANGUAGE SELECT
+===================================================== */
 
-            if(
-                layer instanceof L.Marker &&
-                layer.getPopup()
-            ){
+document
+  .getElementById("languageSelect")
+  .addEventListener("change",(event) => {
 
-                const popup =
-                    layer.getPopup();
+    setLanguage(event.target.value);
 
-                const text =
-                    popup.getContent();
+  });
 
-                /*
-                    La mappa viene ricreata quando
-                    esiste già un percorso, così anche
-                    i popup cambiano lingua.
-                */
 
-            }
+/* =====================================================
+   NAVBAR SCROLL
+===================================================== */
 
-        });
+window.addEventListener("scroll",() => {
 
-    }
+  const navbar =
+    document.getElementById("navbar");
 
-};
+  if(window.scrollY > 50){
+
+    navbar.classList.add("scrolled");
+
+  }else{
+
+    navbar.classList.remove("scrolled");
+
+  }
+
+});
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document
+  .getElementById("languageSelect")
+  .value =
+    currentLanguage;
+
+applyTranslations();
 
 </script>
 
