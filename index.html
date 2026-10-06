@@ -1,689 +1,2638 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>VIVI — Roma, come un romano</title>
-  <meta name="description" content="VIVI Roma: scopri la città attraverso esperienze, itinerari e luoghi scelti per te.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --cream: #f5f1e8;
-      --paper: #fffdf8;
-      --black: #171614;
-      --muted: #706b63;
-      --red: #8f2f25;
-      --line: rgba(23, 22, 20, 0.12);
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "DM Sans", sans-serif;
-      background: var(--cream);
-      color: var(--black);
-    }
-
-    button {
-      font: inherit;
-    }
-
-    /* NAVBAR */
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 18px 6%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(245, 241, 232, 0.88);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .logo {
-      font-family: "Playfair Display", serif;
-      font-size: 27px;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--black);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .language {
-      border: 1px solid var(--line);
-      background: transparent;
-      border-radius: 30px;
-      padding: 8px 14px;
-      cursor: pointer;
-    }
-
-    /* HERO */
-
-    .hero {
-      min-height: 100vh;
-      padding: 150px 6% 70px;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      color: var(--red);
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(55px, 7vw, 105px);
-      line-height: 0.95;
-      max-width: 750px;
-      letter-spacing: -3px;
-    }
-
-    .hero p {
-      margin-top: 30px;
-      max-width: 550px;
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--muted);
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      margin-top: 35px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 15px 23px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.25s;
-    }
-
-    .btn-primary {
-      background: var(--black);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--line);
-    }
-
-    .hero-image {
-      height: 650px;
-      border-radius: 220px 220px 24px 24px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.15);
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-tag {
-      position: absolute;
-      bottom: 22px;
-      left: 22px;
-      right: 22px;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(12px);
-      padding: 18px;
-      border-radius: 18px;
-    }
-
-    .hero-tag strong {
-      display: block;
-      font-family: "Playfair Display", serif;
-      font-size: 23px;
-    }
-
-    .hero-tag span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* EXPERIENCE */
-
-    section {
-      padding: 100px 6%;
-    }
-
-    .section-title {
-      max-width: 700px;
-      margin-bottom: 45px;
-    }
-
-    .section-title h2 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(40px, 5vw, 65px);
-      line-height: 1;
-    }
-
-    .section-title p {
-      margin-top: 18px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .experience-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .experience {
-      min-height: 280px;
-      border-radius: 24px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .experience:hover {
-      transform: translateY(-5px);
-    }
-
-    .experience img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.72);
-    }
-
-    .experience-content {
-      position: absolute;
-      bottom: 0;
-      padding: 25px;
-      color: white;
-    }
-
-    .experience-content h3 {
-      font-family: "Playfair Display", serif;
-      font-size: 28px;
-    }
-
-    .experience-content p {
-      margin-top: 5px;
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    /* ITINERARY */
-
-    .itinerary {
-      background: var(--black);
-      color: white;
-    }
-
-    .itinerary .section-title p {
-      color: #aaa59c;
-    }
-
-    .route {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .place {
-      background: #252320;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      overflow: hidden;
-    }
-
-    .place img {
-      width: 100%;
-      height: 230px;
-      object-fit: cover;
-    }
-
-    .place-info {
-      padding: 22px;
-    }
-
-    .place-info small {
-      color: #b9b0a2;
-    }
-
-    .place-info h3 {
-      font-family: "Playfair Display", serif;
-      font-size: 27px;
-      margin: 8px 0;
-    }
-
-    .place-info p {
-      color: #aaa59c;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    /* GUIDE */
-
-    .guide {
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .guide-card {
-      background: var(--paper);
-      border-radius: 30px;
-      padding: 35px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-    }
-
-    .guide-message {
-      padding: 20px;
-      border-radius: 18px;
-      background: var(--cream);
-      margin-bottom: 14px;
-      line-height: 1.6;
-    }
-
-    .guide-message.ai {
-      background: var(--black);
-      color: white;
-    }
-
-    /* FOOTER */
-
-    footer {
-      padding: 40px 6%;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 900px) {
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        padding-top: 120px;
-      }
-
-      .hero-image {
-        height: 500px;
-      }
-
-      .experience-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .route {
-        grid-template-columns: 1fr;
-      }
-
-      .guide {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-
-      section {
-        padding: 75px 5%;
-      }
-
-      h1 {
-        font-size: 58px;
-      }
-
-      .hero {
-        padding-left: 5%;
-        padding-right: 5%;
-      }
-
-      .hero-image {
-        height: 440px;
-      }
-
-      .experience-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .experience {
-        min-height: 230px;
-      }
-
-      footer {
-        flex-direction: column;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIVI — Non visitare Roma. Vivila.</title>
+
+<meta name="description" content="VIVI è il tuo compagno per vivere Roma in modo personale.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg:#f5f1e8;
+--paper:#fffdf8;
+--ink:#171513;
+--muted:#716c63;
+--red:#8c3026;
+--red2:#b44a3c;
+--line:rgba(23,21,19,.12);
+--dark:#1b1917;
+--white:#fff;
+--radius:24px;
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:"DM Sans",sans-serif;
+background:var(--bg);
+color:var(--ink);
+overflow-x:hidden;
+}
+
+button{
+font-family:inherit;
+}
+
+img{
+display:block;
+width:100%;
+}
+
+a{
+color:inherit;
+text-decoration:none;
+}
+
+.container{
+width:min(1200px,90%);
+margin:auto;
+}
+
+.serif{
+font-family:"Playfair Display",serif;
+}
+
+.eyebrow{
+font-size:12px;
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+color:var(--red);
+margin-bottom:18px;
+}
+
+.btn{
+border:0;
+border-radius:999px;
+padding:15px 23px;
+font-weight:700;
+cursor:pointer;
+transition:.25s ease;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.btn-dark{
+background:var(--ink);
+color:white;
+}
+
+.btn-light{
+background:white;
+color:var(--ink);
+}
+
+.btn-outline{
+background:transparent;
+border:1px solid var(--line);
+}
+
+.btn-red{
+background:var(--red);
+color:white;
+}
+
+/* NAV */
+
+.nav{
+position:fixed;
+top:0;
+left:0;
+right:0;
+z-index:1000;
+height:76px;
+display:flex;
+align-items:center;
+background:rgba(245,241,232,.88);
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--line);
+}
+
+.nav-inner{
+width:min(1200px,90%);
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:25px;
+}
+
+.logo{
+font-family:"Playfair Display",serif;
+font-weight:700;
+font-size:28px;
+letter-spacing:3px;
+}
+
+.nav-links{
+display:flex;
+gap:28px;
+font-size:14px;
+font-weight:600;
+}
+
+.nav-actions{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.lang{
+border:1px solid var(--line);
+background:transparent;
+border-radius:999px;
+padding:8px 12px;
+cursor:pointer;
+font-weight:600;
+}
+
+.profile-btn{
+width:40px;
+height:40px;
+border-radius:50%;
+border:1px solid var(--line);
+background:var(--paper);
+cursor:pointer;
+font-size:17px;
+}
+
+/* HERO */
+
+.hero{
+padding:145px 0 80px;
+min-height:92vh;
+display:grid;
+grid-template-columns:1fr .92fr;
+gap:70px;
+align-items:center;
+}
+
+.hero-copy h1{
+font-family:"Playfair Display",serif;
+font-size:clamp(58px,7.5vw,104px);
+line-height:.91;
+letter-spacing:-4px;
+max-width:720px;
+}
+
+.hero-copy h1 em{
+color:var(--red);
+font-style:italic;
+font-weight:500;
+}
+
+.hero-copy>p{
+max-width:560px;
+font-size:18px;
+line-height:1.7;
+color:var(--muted);
+margin:28px 0;
+}
+
+.hero-buttons{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.hero-visual{
+height:650px;
+position:relative;
+}
+
+.hero-photo{
+height:100%;
+overflow:hidden;
+border-radius:240px 240px 25px 25px;
+box-shadow:0 30px 80px rgba(0,0,0,.16);
+}
+
+.hero-photo img{
+height:100%;
+object-fit:cover;
+}
+
+.floating-card{
+position:absolute;
+bottom:25px;
+left:-30px;
+background:rgba(255,253,248,.94);
+backdrop-filter:blur(15px);
+border-radius:20px;
+padding:18px 20px;
+width:235px;
+box-shadow:0 15px 45px rgba(0,0,0,.13);
+}
+
+.floating-card small{
+color:var(--muted);
+font-size:11px;
+}
+
+.floating-card strong{
+display:block;
+font-family:"Playfair Display",serif;
+font-size:22px;
+margin:5px 0;
+}
+
+/* MARQUEE */
+
+.marquee{
+border-top:1px solid var(--line);
+border-bottom:1px solid var(--line);
+padding:18px 0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee-track{
+display:inline-block;
+animation:scroll 25s linear infinite;
+font-family:"Playfair Display",serif;
+font-size:25px;
+}
+
+.marquee span{
+margin:0 25px;
+color:var(--red);
+}
+
+@keyframes scroll{
+from{transform:translateX(0)}
+to{transform:translateX(-30%)}
+}
+
+/* SECTIONS */
+
+section{
+padding:105px 0;
+}
+
+.section-head{
+display:flex;
+justify-content:space-between;
+align-items:end;
+gap:30px;
+margin-bottom:45px;
+}
+
+.section-head h2{
+font-family:"Playfair Display",serif;
+font-size:clamp(42px,5vw,65px);
+line-height:.98;
+max-width:700px;
+}
+
+.section-head p{
+max-width:500px;
+color:var(--muted);
+line-height:1.7;
+}
+
+/* MOODS */
+
+.moods{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+}
+
+.mood{
+height:330px;
+border-radius:var(--radius);
+overflow:hidden;
+position:relative;
+cursor:pointer;
+}
+
+.mood img{
+position:absolute;
+inset:0;
+height:100%;
+object-fit:cover;
+transition:.5s;
+filter:brightness(.72);
+}
+
+.mood:hover img{
+transform:scale(1.05);
+}
+
+.mood-info{
+position:absolute;
+bottom:0;
+padding:25px;
+color:white;
+}
+
+.mood-info h3{
+font-family:"Playfair Display",serif;
+font-size:29px;
+margin-bottom:6px;
+}
+
+.mood-info p{
+font-size:13px;
+line-height:1.5;
+opacity:.9;
+}
+
+/* EXPERIENCE BUILDER */
+
+.builder{
+background:var(--dark);
+color:white;
+}
+
+.builder .section-head p{
+color:#aaa49b;
+}
+
+.builder-box{
+background:#25221f;
+border:1px solid rgba(255,255,255,.08);
+border-radius:30px;
+padding:35px;
+}
+
+.step{
+display:none;
+}
+
+.step.active{
+display:block;
+animation:fade .35s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.step-number{
+font-size:12px;
+color:#aaa49b;
+margin-bottom:10px;
+}
+
+.step h3{
+font-family:"Playfair Display",serif;
+font-size:38px;
+margin-bottom:28px;
+}
+
+.options{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.option{
+background:#302d29;
+border:1px solid rgba(255,255,255,.09);
+border-radius:18px;
+padding:22px;
+color:white;
+cursor:pointer;
+text-align:left;
+transition:.2s;
+}
+
+.option:hover,
+.option.selected{
+border-color:#d0b07c;
+background:#39342f;
+transform:translateY(-2px);
+}
+
+.option strong{
+display:block;
+font-size:17px;
+margin-bottom:5px;
+}
+
+.option span{
+font-size:13px;
+color:#aaa49b;
+}
+
+.builder-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:30px;
+padding-top:25px;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* ITINERARY */
+
+.itinerary{
+background:var(--paper);
+}
+
+.route{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+}
+
+.place{
+border:1px solid var(--line);
+border-radius:24px;
+overflow:hidden;
+background:var(--paper);
+transition:.3s;
+}
+
+.place:hover{
+transform:translateY(-5px);
+box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.place-image{
+height:250px;
+position:relative;
+overflow:hidden;
+}
+
+.place-image img{
+height:100%;
+object-fit:cover;
+transition:.4s;
+}
+
+.place:hover img{
+transform:scale(1.04);
+}
+
+.save{
+position:absolute;
+top:14px;
+right:14px;
+width:42px;
+height:42px;
+border:0;
+border-radius:50%;
+background:rgba(255,255,255,.9);
+cursor:pointer;
+font-size:18px;
+}
+
+.save.saved{
+background:var(--red);
+color:white;
+}
+
+.place-body{
+padding:22px;
+}
+
+.place-meta{
+font-size:11px;
+font-weight:700;
+letter-spacing:1px;
+color:var(--red);
+text-transform:uppercase;
+}
+
+.place-body h3{
+font-family:"Playfair Display",serif;
+font-size:29px;
+margin:7px 0;
+}
+
+.place-body p{
+font-size:14px;
+line-height:1.6;
+color:var(--muted);
+}
+
+/* WALK */
+
+.walk{
+background:var(--red);
+color:white;
+}
+
+.walk-content{
+display:grid;
+grid-template-columns:.9fr 1.1fr;
+gap:70px;
+align-items:center;
+}
+
+.walk h2{
+font-family:"Playfair Display",serif;
+font-size:clamp(48px,6vw,75px);
+line-height:.95;
+}
+
+.walk p{
+margin:25px 0;
+line-height:1.7;
+max-width:500px;
+color:rgba(255,255,255,.78);
+}
+
+.walk-card{
+background:#f5f1e8;
+color:var(--ink);
+border-radius:30px;
+padding:30px;
+box-shadow:0 25px 60px rgba(0,0,0,.15);
+}
+
+.walk-top{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+font-size:13px;
+color:var(--muted);
+}
+
+.walk-card h3{
+font-family:"Playfair Display",serif;
+font-size:36px;
+}
+
+.walk-card p{
+color:var(--muted);
+margin:10px 0 25px;
+}
+
+.progress{
+height:7px;
+background:#ded8cc;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress span{
+display:block;
+height:100%;
+width:42%;
+background:var(--red);
+}
+
+/* EXPLORE */
+
+.explore{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:20px;
+}
+
+.explore-main{
+height:500px;
+border-radius:28px;
+overflow:hidden;
+position:relative;
+}
+
+.explore-main img{
+height:100%;
+object-fit:cover;
+filter:brightness(.68);
+}
+
+.explore-main-content{
+position:absolute;
+left:30px;
+bottom:30px;
+color:white;
+max-width:500px;
+}
+
+.explore-main-content h3{
+font-family:"Playfair Display",serif;
+font-size:48px;
+}
+
+.explore-side{
+display:grid;
+grid-template-rows:1fr 1fr;
+gap:20px;
+}
+
+.explore-small{
+border-radius:25px;
+overflow:hidden;
+position:relative;
+}
+
+.explore-small img{
+height:100%;
+object-fit:cover;
+filter:brightness(.7);
+}
+
+.explore-small div{
+position:absolute;
+left:22px;
+bottom:20px;
+color:white;
+font-family:"Playfair Display",serif;
+font-size:28px;
+}
+
+/* GUIDE */
+
+.guide{
+background:#e9e2d5;
+}
+
+.guide-grid{
+display:grid;
+grid-template-columns:.8fr 1.2fr;
+gap:60px;
+align-items:center;
+}
+
+.guide-copy h2{
+font-family:"Playfair Display",serif;
+font-size:65px;
+line-height:.95;
+}
+
+.guide-copy p{
+color:var(--muted);
+line-height:1.7;
+margin:20px 0 25px;
+max-width:480px;
+}
+
+.chat{
+background:var(--paper);
+border-radius:30px;
+padding:25px;
+box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.message{
+max-width:78%;
+padding:16px 18px;
+border-radius:18px;
+margin-bottom:12px;
+font-size:14px;
+line-height:1.5;
+}
+
+.message.user{
+margin-left:auto;
+background:#e9e2d5;
+}
+
+.message.ai{
+background:var(--ink);
+color:white;
+}
+
+/* MISSIONS */
+
+.missions{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+}
+
+.mission{
+background:var(--paper);
+border:1px solid var(--line);
+border-radius:24px;
+padding:25px;
+}
+
+.mission-icon{
+font-size:30px;
+margin-bottom:20px;
+}
+
+.mission h3{
+font-family:"Playfair Display",serif;
+font-size:25px;
+margin-bottom:8px;
+}
+
+.mission p{
+color:var(--muted);
+font-size:14px;
+line-height:1.6;
+}
+
+.mission-progress{
+margin-top:18px;
+height:6px;
+background:#e4dfd5;
+border-radius:10px;
+overflow:hidden;
+}
+
+.mission-progress span{
+height:100%;
+display:block;
+background:var(--red);
+}
+
+/* PROFILE */
+
+.profile-section{
+background:var(--dark);
+color:white;
+}
+
+.profile{
+display:grid;
+grid-template-columns:.7fr 1.3fr;
+gap:40px;
+}
+
+.profile-card{
+background:#25221f;
+border-radius:28px;
+padding:30px;
+}
+
+.avatar{
+width:75px;
+height:75px;
+border-radius:50%;
+display:grid;
+place-items:center;
+background:#d8c4a2;
+color:var(--ink);
+font-size:30px;
+margin-bottom:20px;
+}
+
+.profile-card h3{
+font-family:"Playfair Display",serif;
+font-size:30px;
+}
+
+.profile-card p{
+color:#aaa49b;
+font-size:14px;
+margin-top:6px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:25px;
+}
+
+.stat{
+background:#302d29;
+padding:18px;
+border-radius:18px;
+}
+
+.stat strong{
+display:block;
+font-size:25px;
+}
+
+.stat span{
+font-size:12px;
+color:#aaa49b;
+}
+
+.badges{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.badge{
+background:#25221f;
+border-radius:20px;
+padding:22px;
+text-align:center;
+border:1px solid rgba(255,255,255,.07);
+}
+
+.badge-icon{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.badge strong{
+display:block;
+font-size:13px;
+}
+
+.badge span{
+font-size:11px;
+color:#aaa49b;
+}
+
+/* FOOTER */
+
+footer{
+padding:45px 0;
+border-top:1px solid var(--line);
+}
+
+.footer-inner{
+display:flex;
+justify-content:space-between;
+gap:20px;
+color:var(--muted);
+font-size:13px;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:2000;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+backdrop-filter:blur(7px);
+}
+
+.modal.open{
+display:flex;
+}
+
+.modal-box{
+background:var(--paper);
+color:var(--ink);
+width:min(650px,100%);
+max-height:90vh;
+overflow:auto;
+border-radius:30px;
+padding:30px;
+position:relative;
+animation:modalIn .3s ease;
+}
+
+@keyframes modalIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.close{
+position:absolute;
+right:18px;
+top:18px;
+width:38px;
+height:38px;
+border:0;
+border-radius:50%;
+background:#eee9df;
+cursor:pointer;
+font-size:20px;
+}
+
+.modal-box h2{
+font-family:"Playfair Display",serif;
+font-size:42px;
+margin-bottom:8px;
+}
+
+.modal-box>p{
+color:var(--muted);
+line-height:1.6;
+margin-bottom:25px;
+}
+
+.generated{
+display:none;
+}
+
+.generated.active{
+display:block;
+}
+
+.generated-item{
+display:flex;
+gap:15px;
+align-items:center;
+padding:15px 0;
+border-bottom:1px solid var(--line);
+}
+
+.generated-number{
+width:35px;
+height:35px;
+border-radius:50%;
+background:var(--red);
+color:white;
+display:grid;
+place-items:center;
+font-weight:700;
+flex:none;
+}
+
+.generated-item h4{
+font-family:"Playfair Display",serif;
+font-size:22px;
+}
+
+.generated-item p{
+font-size:13px;
+color:var(--muted);
+margin-top:3px;
+}
+
+.modal-actions{
+display:flex;
+gap:10px;
+margin-top:25px;
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translate(-50%,20px);
+background:var(--ink);
+color:white;
+padding:14px 20px;
+border-radius:999px;
+z-index:3000;
+opacity:0;
+pointer-events:none;
+transition:.3s;
+font-size:13px;
+}
+
+.toast.show{
+opacity:1;
+transform:translate(-50%,0);
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:950px){
+
+.nav-links{
+display:none;
+}
+
+.hero{
+grid-template-columns:1fr;
+gap:45px;
+padding-top:120px;
+}
+
+.hero-visual{
+height:550px;
+}
+
+.moods{
+grid-template-columns:repeat(2,1fr);
+}
+
+.route{
+grid-template-columns:1fr;
+}
+
+.walk-content,
+.guide-grid,
+.profile{
+grid-template-columns:1fr;
+}
+
+.explore{
+grid-template-columns:1fr;
+}
+
+.explore-side{
+grid-template-columns:1fr 1fr;
+grid-template-rows:250px;
+}
+
+.missions{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.container{
+width:92%;
+}
+
+.nav{
+height:68px;
+}
+
+.logo{
+font-size:25px;
+}
+
+.profile-btn{
+display:none;
+}
+
+.hero{
+padding:110px 0 55px;
+min-height:auto;
+}
+
+.hero-copy h1{
+font-size:60px;
+letter-spacing:-2.5px;
+}
+
+.hero-copy>p{
+font-size:16px;
+}
+
+.hero-visual{
+height:470px;
+}
+
+.floating-card{
+left:15px;
+bottom:15px;
+}
+
+section{
+padding:75px 0;
+}
+
+.section-head{
+display:block;
+}
+
+.section-head h2{
+font-size:45px;
+}
+
+.section-head p{
+margin-top:18px;
+}
+
+.moods{
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.mood{
+height:240px;
+}
+
+.mood-info{
+padding:17px;
+}
+
+.mood-info h3{
+font-size:23px;
+}
+
+.mood-info p{
+font-size:11px;
+}
+
+.builder-box{
+padding:22px;
+}
+
+.options{
+grid-template-columns:1fr 1fr;
+}
+
+.option{
+padding:17px;
+}
+
+.option strong{
+font-size:14px;
+}
+
+.option span{
+font-size:11px;
+}
+
+.step h3{
+font-size:30px;
+}
+
+.builder-footer{
+gap:10px;
+}
+
+.walk h2{
+font-size:52px;
+}
+
+.guide-copy h2{
+font-size:52px;
+}
+
+.explore-main{
+height:380px;
+}
+
+.explore-side{
+grid-template-columns:1fr;
+grid-template-rows:200px 200px;
+}
+
+.badges{
+grid-template-columns:1fr 1fr;
+}
+
+.stats{
+grid-template-columns:1fr 1fr 1fr;
+}
+
+.footer-inner{
+flex-direction:column;
+}
+
+.mobile-nav{
+display:flex;
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:68px;
+background:rgba(255,253,248,.96);
+backdrop-filter:blur(15px);
+z-index:1500;
+border-top:1px solid var(--line);
+justify-content:space-around;
+align-items:center;
+}
+
+.mobile-nav button{
+background:none;
+border:0;
+font-size:10px;
+color:var(--muted);
+display:flex;
+flex-direction:column;
+gap:4px;
+align-items:center;
+cursor:pointer;
+}
+
+.mobile-nav span{
+font-size:20px;
+}
+
+body{
+padding-bottom:65px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <nav>
-    <div class="logo">VIVI</div>
+<!-- NAV -->
 
-    <ul class="nav-links">
-      <li><a href="#esperienze">Esperienze</a></li>
-      <li><a href="#itinerari">Itinerari</a></li>
-      <li><a href="#guida">VIVI Guide</a></li>
-    </ul>
+<header class="nav">
 
-    <button class="language">IT</button>
-  </nav>
+<div class="nav-inner">
 
-  <main>
+<a href="#" class="logo">VIVI</a>
 
-    <section class="hero">
+<nav class="nav-links">
+<a href="#esperienze">Esperienze</a>
+<a href="#itinerario">Itinerario</a>
+<a href="#esplora">Esplora</a>
+<a href="#guide">Guide</a>
+</nav>
 
-      <div>
-        <div class="eyebrow">Roma · Italia</div>
+<div class="nav-actions">
 
-        <h1>
-          Non visitare Roma.<br>
-          <em>Vivila.</em>
-        </h1>
+<button class="lang" onclick="changeLanguage()">IT</button>
 
-        <p>
-          Dimentica le guide tutte uguali.
-          Dimmi che tipo di giornata vuoi vivere
-          e VIVI costruisce un'esperienza pensata per te.
-        </p>
+<button class="profile-btn" onclick="goTo('profilo')">
+♙
+</button>
 
-        <div class="hero-actions">
-          <button class="btn btn-primary" onclick="startExperience()">
-            Crea la mia esperienza
-          </button>
+</div>
 
-          <button class="btn btn-secondary" onclick="document.getElementById('esperienze').scrollIntoView()">
-            Scopri Roma
-          </button>
-        </div>
-      </div>
+</div>
 
-      <div class="hero-image">
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=85"
-          alt="Roma"
-        >
-
-        <div class="hero-tag">
-          <strong>Roma, ma come vuoi viverla.</strong>
-          <span>Esperienze create intorno a te.</span>
-        </div>
-      </div>
-
-    </section>
+</header>
 
 
-    <section id="esperienze">
+<!-- HERO -->
 
-      <div class="section-title">
-        <div class="eyebrow">Scegli il tuo mood</div>
+<main>
 
-        <h2>
-          Che Roma vuoi vivere?
-        </h2>
+<section class="hero container">
 
-        <p>
-          Non tutti cercano la stessa Roma.
-          Scegli quello che ti va oggi e lascia che VIVI faccia il resto.
-        </p>
-      </div>
+<div class="hero-copy">
 
-      <div class="experience-grid">
+<div class="eyebrow">Roma · Italia</div>
 
-        <article class="experience" onclick="chooseExperience('romantica')">
-          <img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80">
-          <div class="experience-content">
-            <h3>Romantica</h3>
-            <p>Tramonti, passeggiate e angoli da ricordare.</p>
-          </div>
-        </article>
+<h1>
+Non visitare Roma.<br>
+<em>Vivila.</em>
+</h1>
 
-        <article class="experience" onclick="chooseExperience('storia')">
-          <img src="https://images.unsplash.com/photo-1555992828-ca4dbe41d294?auto=format&fit=crop&w=900&q=80">
-          <div class="experience-content">
-            <h3>Storia & cultura</h3>
-            <p>La Roma che ha cambiato il mondo.</p>
-          </div>
-        </article>
+<p>
+Roma non è una lista di monumenti da spuntare.
+È una giornata da vivere.
+Dimmi che esperienza cerchi e VIVI costruisce
+un percorso intorno a te.
+</p>
 
-        <article class="experience" onclick="chooseExperience('food')">
-          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80">
-          <div class="experience-content">
-            <h3>Mangia da romano</h3>
-            <p>Vivi Roma anche attraverso i suoi sapori.</p>
-          </div>
-        </article>
+<div class="hero-buttons">
 
-        <article class="experience" onclick="chooseExperience('hidden')">
-          <img src="https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=900&q=80">
-          <div class="experience-content">
-            <h3>Roma nascosta</h3>
-            <p>Luoghi che non trovi nelle guide.</p>
-          </div>
-        </article>
+<button class="btn btn-dark" onclick="openBuilder()">
+Crea la mia esperienza →
+</button>
 
-      </div>
+<button class="btn btn-outline" onclick="goTo('esplora')">
+Esplora Roma
+</button>
 
-    </section>
+</div>
+
+</div>
 
 
-    <section class="itinerary" id="itinerari">
+<div class="hero-visual">
 
-      <div class="section-title">
-        <div class="eyebrow">Un esempio</div>
+<div class="hero-photo">
 
-        <h2>
-          Una giornata costruita per te.
-        </h2>
+<img
+src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=85"
+alt="Roma"
+>
 
-        <p>
-          Non una lista di monumenti.
-          Un percorso con un ritmo, un'atmosfera e una storia.
-        </p>
-      </div>
+</div>
 
-      <div class="route">
+<div class="floating-card">
 
-        <article class="place">
-          <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80">
-          <div class="place-info">
-            <small>09:30 · INIZIO</small>
-            <h3>Colosseo</h3>
-            <p>
-              Parti dalla Roma antica e scopri cosa succedeva
-              davvero dentro queste mura.
-            </p>
-          </div>
-        </article>
+<small>LA TUA ROMA DI OGGI</small>
 
-        <article class="place">
-          <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80">
-          <div class="place-info">
-            <small>11:15 · PASSEGGIATA</small>
-            <h3>Foro Romano</h3>
-            <p>
-              Cammina nel cuore della città antica
-              seguendo una storia, non una semplice mappa.
-            </p>
-          </div>
-        </article>
+<strong>Tramonto + Roma nascosta</strong>
 
-        <article class="place">
-          <img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80">
-          <div class="place-info">
-            <small>18:30 · TRAMONTO</small>
-            <h3>Gianicolo</h3>
-            <p>
-              Chiudi la giornata dall'alto,
-              quando Roma cambia colore.
-            </p>
-          </div>
-        </article>
+<span>3h · a piedi · ritmo rilassato</span>
 
-      </div>
+</div>
 
-    </section>
+</div>
+
+</section>
 
 
-    <section id="guida">
+<!-- MARQUEE -->
 
-      <div class="guide">
+<div class="marquee">
 
-        <div class="section-title">
-          <div class="eyebrow">Sempre con te</div>
+<div class="marquee-track">
 
-          <h2>
-            Incontra VIVI Guide.
-          </h2>
+ROMA COME UN ROMANO
+<span>✦</span>
+SCOPRI
+<span>✦</span>
+CAMMINA
+<span>✦</span>
+ASSAGGIA
+<span>✦</span>
+MERAVIGLIATI
+<span>✦</span>
+ROMA COME UN ROMANO
+<span>✦</span>
 
-          <p>
-            Hai cambiato programma?
-            Hai solo due ore?
-            Sei vicino al Colosseo e non sai dove andare?
-            Chiedilo a VIVI.
-          </p>
+</div>
 
-          <button class="btn btn-primary" onclick="askGuide()">
-            Parla con VIVI
-          </button>
-        </div>
-
-        <div class="guide-card">
-
-          <div class="guide-message">
-            Ho solo 2 ore a Roma. Cosa riesco a vedere?
-          </div>
-
-          <div class="guide-message ai">
-            Ti preparo un percorso breve senza farti correre.
-            Partiamo dal Pantheon, attraversiamo Piazza Navona
-            e finiamo alla Fontana di Trevi.
-          </div>
-
-          <div class="guide-message">
-            E se voglio evitare i posti troppo turistici?
-          </div>
-
-          <div class="guide-message ai">
-            Allora cambiamo completamente strada.
-            Ti porto nella Roma che normalmente non finisce
-            nelle prime pagine delle guide.
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
+</div>
 
 
-  <footer>
-    <strong>VIVI · Roma</strong>
-    <span>Non visitare Roma. Vivila.</span>
-  </footer>
+<!-- ESPERIENZE -->
+
+<section id="esperienze">
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow">Scegli il tuo mood</div>
+
+<h2>Che Roma vuoi vivere?</h2>
+
+</div>
+
+<p>
+Non esiste una Roma uguale per tutti.
+Scegli quello che ti va oggi e lascia che
+VIVI costruisca il resto.
+</p>
+
+</div>
 
 
-  <script>
+<div class="moods">
 
-    function startExperience() {
-      document.getElementById("esperienze").scrollIntoView({
-        behavior: "smooth"
-      });
-    }
+<div class="mood" onclick="selectMood('Romantica')">
 
-    function chooseExperience(type) {
+<img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80">
 
-      const names = {
-        romantica: "Romantica ❤️",
-        storia: "Storia & cultura 🏛️",
-        food: "Mangia da romano 🍝",
-        hidden: "Roma nascosta ✨"
-      };
+<div class="mood-info">
 
-      alert(
-        "Hai scelto: " +
-        names[type] +
-        "\\n\\nNel prossimo passo costruiremo il tuo itinerario personalizzato."
-      );
-    }
+<h3>Romantica</h3>
 
-    function askGuide() {
+<p>Tramonti, passeggiate e angoli da ricordare.</p>
 
-      const question = prompt(
-        "Chiedi qualcosa a VIVI Guide:",
-        "Ho solo 2 ore a Roma, cosa posso fare?"
-      );
+</div>
 
-      if (question) {
-        alert(
-          "VIVI Guide\\n\\n" +
-          "Domanda: " +
-          question +
-          "\\n\\nNel prossimo passo collegheremo questa sezione a una vera guida intelligente."
-        );
-      }
-    }
+</div>
 
-  </script>
+
+<div class="mood" onclick="selectMood('Storia & cultura')">
+
+<img src="https://images.unsplash.com/photo-1555992828-ca4dbe41d294?auto=format&fit=crop&w=900&q=80">
+
+<div class="mood-info">
+
+<h3>Storia</h3>
+
+<p>La Roma che ha cambiato il mondo.</p>
+
+</div>
+
+</div>
+
+
+<div class="mood" onclick="selectMood('Mangia da romano')">
+
+<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80">
+
+<div class="mood-info">
+
+<h3>Food</h3>
+
+<p>Roma raccontata attraverso i suoi sapori.</p>
+
+</div>
+
+</div>
+
+
+<div class="mood" onclick="selectMood('Roma nascosta')">
+
+<img src="https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=900&q=80">
+
+<div class="mood-info">
+
+<h3>Nascosta</h3>
+
+<p>La città che normalmente non trovi nelle guide.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- BUILDER -->
+
+<section class="builder" id="crea">
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow">Il cuore di VIVI</div>
+
+<h2>Costruiamo la tua giornata.</h2>
+
+</div>
+
+<p>
+Poche domande.
+Poi VIVI prende le tue preferenze e crea
+un'esperienza su misura.
+</p>
+
+</div>
+
+
+<div class="builder-box">
+
+<!-- STEP 1 -->
+
+<div class="step active" id="step1">
+
+<div class="step-number">01 / 04</div>
+
+<h3>Che tipo di Roma vuoi vivere?</h3>
+
+<div class="options">
+
+<button class="option" onclick="choose(this,'mood','Romantica')">
+<strong>❤️ Romantica</strong>
+<span>Atmosfera e tramonti</span>
+</button>
+
+<button class="option" onclick="choose(this,'mood','Storia')">
+<strong>🏛️ Storia</strong>
+<span>Arte e cultura</span>
+</button>
+
+<button class="option" onclick="choose(this,'mood','Food')">
+<strong>🍝 Food</strong>
+<span>Roma da assaggiare</span>
+</button>
+
+<button class="option" onclick="choose(this,'mood','Nascosta')">
+<strong>✨ Nascosta</strong>
+<span>Luoghi meno conosciuti</span>
+</button>
+
+<button class="option" onclick="choose(this,'mood','Foto')">
+<strong>📸 Foto</strong>
+<span>Panorami e angoli belli</span>
+</button>
+
+<button class="option" onclick="choose(this,'mood','Notte')">
+<strong>🌙 Roma di notte</strong>
+<span>Quando la città cambia</span>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STEP 2 -->
+
+<div class="step" id="step2">
+
+<div class="step-number">02 / 04</div>
+
+<h3>Quanto tempo hai?</h3>
+
+<div class="options">
+
+<button class="option" onclick="choose(this,'time','1 ora')">
+<strong>1 ora</strong>
+<span>Una piccola esperienza</span>
+</button>
+
+<button class="option" onclick="choose(this,'time','2-3 ore')">
+<strong>2–3 ore</strong>
+<span>Il giusto compromesso</span>
+</button>
+
+<button class="option" onclick="choose(this,'time','Mezza giornata')">
+<strong>Mezza giornata</strong>
+<span>4–5 ore</span>
+</button>
+
+<button class="option" onclick="choose(this,'time','Giornata intera')">
+<strong>Giornata intera</strong>
+<span>Voglio viverla davvero</span>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STEP 3 -->
+
+<div class="step" id="step3">
+
+<div class="step-number">03 / 04</div>
+
+<h3>Con chi sei?</h3>
+
+<div class="options">
+
+<button class="option" onclick="choose(this,'people','Da solo')">
+<strong>🧍 Da solo</strong>
+<span>Il mio ritmo</span>
+</button>
+
+<button class="option" onclick="choose(this,'people','In coppia')">
+<strong>❤️ In coppia</strong>
+<span>Una giornata insieme</span>
+</button>
+
+<button class="option" onclick="choose(this,'people','Amici')">
+<strong>👥 Amici</strong>
+<span>Scopriamola insieme</span>
+</button>
+
+<button class="option" onclick="choose(this,'people','Famiglia')">
+<strong>👨‍👩‍👧 Famiglia</strong>
+<span>Senza stress</span>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STEP 4 -->
+
+<div class="step" id="step4">
+
+<div class="step-number">04 / 04</div>
+
+<h3>Come vuoi viverla?</h3>
+
+<div class="options">
+
+<button class="option" onclick="choose(this,'pace','Rilassato')">
+<strong>🐢 Rilassato</strong>
+<span>Poche tappe, niente corse</span>
+</button>
+
+<button class="option" onclick="choose(this,'pace','Equilibrato')">
+<strong>🚶 Equilibrato</strong>
+<span>Vedo molto senza correre</span>
+</button>
+
+<button class="option" onclick="choose(this,'pace','Intenso')">
+<strong>🔥 Intenso</strong>
+<span>Voglio sfruttare ogni minuto</span>
+</button>
+
+</div>
+
+</div>
+
+
+<div class="builder-footer">
+
+<span id="builderStatus">Iniziamo.</span>
+
+<button class="btn btn-light" id="nextBtn" onclick="nextStep()">
+Continua →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ITINERARIO -->
+
+<section class="itinerary" id="itinerario">
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow">Il tuo percorso</div>
+
+<h2>Roma, tappa dopo tappa.</h2>
+
+</div>
+
+<p>
+Non una lista da spuntare.
+Un percorso con un ritmo, un'atmosfera
+e qualcosa da scoprire lungo la strada.
+</p>
+
+</div>
+
+
+<div class="route">
+
+
+<article class="place">
+
+<div class="place-image">
+
+<img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=80">
+
+<button class="save" onclick="savePlace(this,'Colosseo')">♡</button>
+
+</div>
+
+<div class="place-body">
+
+<div class="place-meta">09:30 · Inizio</div>
+
+<h3>Colosseo</h3>
+
+<p>
+Parti dalla Roma antica.
+Ma prima di entrare, fermati un momento:
+guarda quanto è enorme rispetto alla città moderna.
+</p>
+
+</div>
+
+</article>
+
+
+<article class="place">
+
+<div class="place-image">
+
+<img src="https://images.unsplash.com/photo-1555992828-ca4dbe41d294?auto=format&fit=crop&w=1000&q=80">
+
+<button class="save" onclick="savePlace(this,'Pantheon')">♡</button>
+
+</div>
+
+<div class="place-body">
+
+<div class="place-meta">12:00 · Passeggiata</div>
+
+<h3>Pantheon</h3>
+
+<p>
+Uno degli edifici antichi meglio conservati.
+Alza lo sguardo: il dettaglio più incredibile
+è proprio sopra di te.
+</p>
+
+</div>
+
+</article>
+
+
+<article class="place">
+
+<div class="place-image">
+
+<img src="https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=1000&q=80">
+
+<button class="save" onclick="savePlace(this,'Gianicolo')">♡</button>
+
+</div>
+
+<div class="place-body">
+
+<div class="place-meta">18:30 · Tramonto</div>
+
+<h3>Gianicolo</h3>
+
+<p>
+Chiudi la giornata dall'alto.
+Quando il sole scende, Roma diventa completamente diversa.
+</p>
+
+</div>
+
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CAMMINA CON ME -->
+
+<section class="walk">
+
+<div class="container walk-content">
+
+<div>
+
+<div class="eyebrow" style="color:#e8cda5">
+Modalità VIVI
+</div>
+
+<h2>Cammina con me.</h2>
+
+<p>
+Non devi continuare a guardare lo schermo.
+VIVI ti accompagna durante il percorso:
+ti dice dove andare, cosa osservare
+e quando fermarti.
+</p>
+
+<button class="btn btn-light" onclick="startWalk()">
+Inizia la passeggiata →
+</button>
+
+</div>
+
+
+<div class="walk-card">
+
+<div class="walk-top">
+
+<span>● VIVI GUIDE</span>
+
+<span>2 / 5 TAPPE</span>
+
+</div>
+
+<h3>Guarda alla tua sinistra.</h3>
+
+<p>
+Tra i palazzi moderni si nasconde una delle
+tracce più antiche della città.
+Fermati qui per qualche secondo.
+</p>
+
+<div class="progress">
+<span></span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ESPLORA -->
+
+<section id="esplora">
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow">Esplora</div>
+
+<h2>La Roma che hai voglia di scoprire.</h2>
+
+</div>
+
+<p>
+Cerca per atmosfera, zona o tipo di esperienza.
+</p>
+
+</div>
+
+
+<div class="explore">
+
+<div class="explore-main">
+
+<img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=80">
+
+<div class="explore-main-content">
+
+<div class="eyebrow" style="color:#e8cda5">
+Roma nascosta
+</div>
+
+<h3>Fuori dal percorso.</h3>
+
+<p>
+Piccoli dettagli, quartieri e scorci che fanno
+sembrare Roma una città nuova.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="explore-side">
+
+<div class="explore-small">
+
+<img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=900&q=80">
+
+<div>Panorami</div>
+
+</div>
+
+<div class="explore-small">
+
+<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80">
+
+<div>Food</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- GUIDE -->
+
+<section class="guide" id="guide">
+
+<div class="container guide-grid">
+
+<div class="guide-copy">
+
+<div class="eyebrow">Il tuo compagno</div>
+
+<h2>Chiedilo a VIVI.</h2>
+
+<p>
+Hai cambiato programma?
+Hai solo due ore?
+Sta piovendo?
+Sei vicino al Colosseo?
+Scrivilo. VIVI ti aiuta a decidere cosa fare.
+</p>
+
+<button class="btn btn-dark" onclick="openGuide()">
+Parla con VIVI →
+</button>
+
+</div>
+
+
+<div class="chat">
+
+<div class="message user">
+Ho solo 2 ore e sono vicino al Colosseo.
+</div>
+
+<div class="message ai">
+Perfetto. Eviterei di farti attraversare mezza Roma.
+Ti propongo un percorso breve: Colosseo → Monti →
+Fori Imperiali. E ti lascio anche un piccolo punto
+panoramico per una pausa.
+</div>
+
+<div class="message user">
+Vorrei qualcosa di meno turistico.
+</div>
+
+<div class="message ai">
+Allora cambiamo piano.
+Ti porto verso una Roma più tranquilla,
+con strade che meritano di essere percorse lentamente.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MISSIONI -->
+
+<section>
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow">Scopri giocando</div>
+
+<h2>Non limitarti a guardare.</h2>
+
+</div>
+
+<p>
+Alcune cose a Roma diventano più belle
+quando devi andare a cercarle.
+</p>
+
+</div>
+
+
+<div class="missions">
+
+<div class="mission">
+
+<div class="mission-icon">🔍</div>
+
+<h3>Caccia ai dettagli</h3>
+
+<p>
+Trova tre dettagli nascosti nel centro storico
+e scopri perché sono lì.
+</p>
+
+<div class="mission-progress">
+<span style="width:66%"></span>
+</div>
+
+</div>
+
+
+<div class="mission">
+
+<div class="mission-icon">📸</div>
+
+<h3>La tua Roma</h3>
+
+<p>
+Trova il tuo punto panoramico preferito
+e aggiungilo al diario.
+</p>
+
+<div class="mission-progress">
+<span style="width:35%"></span>
+</div>
+
+</div>
+
+
+<div class="mission">
+
+<div class="mission-icon">🌙</div>
+
+<h3>Roma dopo il tramonto</h3>
+
+<p>
+Scopri tre luoghi che cambiano completamente
+quando arriva la sera.
+</p>
+
+<div class="mission-progress">
+<span style="width:20%"></span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILO -->
+
+<section class="profile-section" id="profilo">
+
+<div class="container">
+
+<div class="section-head">
+
+<div>
+
+<div class="eyebrow" style="color:#cbb080">
+Il tuo diario
+</div>
+
+<h2>La Roma che hai vissuto.</h2>
+
+</div>
+
+<p style="color:#aaa49b">
+Salva luoghi, completa missioni e costruisci
+la tua storia di Roma.
+</p>
+
+</div>
+
+
+<div class="profile">
+
+<div class="profile-card">
+
+<div class="avatar">M</div>
+
+<h3>Esploratore</h3>
+
+<p>Stai iniziando a conoscere Roma.</p>
+
+<div class="stats">
+
+<div class="stat">
+<strong id="xp">120</strong>
+<span>XP</span>
+</div>
+
+<div class="stat">
+<strong id="visited">3</strong>
+<span>VISITATI</span>
+</div>
+
+<div class="stat">
+<strong id="saved">0</strong>
+<span>SALVATI</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="badges">
+
+<div class="badge">
+
+<div class="badge-icon">🏛️</div>
+
+<strong>Primo passo</strong>
+
+<span>Visita il primo luogo</span>
+
+</div>
+
+<div class="badge">
+
+<div class="badge-icon">🌅</div>
+
+<strong>Cacciatore di tramonti</strong>
+
+<span>Trova un panorama</span>
+
+</div>
+
+<div class="badge">
+
+<div class="badge-icon">🚶</div>
+
+<strong>Camminatore</strong>
+
+<span>Completa un percorso</span>
+
+</div>
+
+<div class="badge">
+
+<div class="badge-icon">✨</div>
+
+<strong>Insider</strong>
+
+<span>Scopri Roma nascosta</span>
+
+</div>
+
+<div class="badge">
+
+<div class="badge-icon">📸</div>
+
+<strong>Occhio romano</strong>
+
+<span>Trova un dettaglio</span>
+
+</div>
+
+<div class="badge">
+
+<div class="badge-icon">❤️</div>
+
+<strong>Vivi Roma</strong>
+
+<span>Completa una giornata</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container footer-inner">
+
+<strong>VIVI · Roma</strong>
+
+<span>Non visitare Roma. Vivila.</span>
+
+<span>La tua città. Il tuo modo.</span>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<div class="mobile-nav">
+
+<button onclick="goTo('esperienze')">
+<span>✦</span>
+Esperienze
+</button>
+
+<button onclick="goTo('esplora')">
+<span>⌕</span>
+Esplora
+</button>
+
+<button onclick="openBuilder()">
+<span>＋</span>
+Crea
+</button>
+
+<button onclick="openGuide()">
+<span>◌</span>
+Guide
+</button>
+
+<button onclick="goTo('profilo')">
+<span>♙</span>
+Profilo
+</button>
+
+</div>
+
+
+<!-- BUILDER MODAL -->
+
+<div class="modal" id="builderModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('builderModal')">×</button>
+
+<h2>La tua esperienza</h2>
+
+<p>
+Abbiamo costruito un piccolo percorso partendo
+dalle tue preferenze.
+</p>
+
+<div class="generated" id="generated">
+
+<div class="generated-item">
+
+<div class="generated-number">1</div>
+
+<div>
+<h4>Colosseo</h4>
+<p>Inizia dalla Roma antica con calma.</p>
+</div>
+
+</div>
+
+<div class="generated-item">
+
+<div class="generated-number">2</div>
+
+<div>
+<h4>Monti</h4>
+<p>Perditi tra strade, botteghe e scorci.</p>
+</div>
+
+</div>
+
+<div class="generated-item">
+
+<div class="generated-number">3</div>
+
+<div>
+<h4>Pantheon</h4>
+<p>Una pausa nel cuore della città.</p>
+</div>
+
+</div>
+
+<div class="generated-item">
+
+<div class="generated-number">4</div>
+
+<div>
+<h4>Gianicolo</h4>
+<p>Chiudi la giornata guardando Roma dall'alto.</p>
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button class="btn btn-dark" onclick="goTo('itinerario');closeModal('builderModal')">
+Vedi itinerario
+</button>
+
+<button class="btn btn-outline" onclick="closeModal('builderModal')">
+Modifica
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- GUIDE MODAL -->
+
+<div class="modal" id="guideModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('guideModal')">×</button>
+
+<h2>VIVI Guide</h2>
+
+<p>
+Scrivi cosa vuoi fare a Roma.
+Per ora questa è una demo dell'esperienza:
+successivamente collegheremo una vera intelligenza artificiale.
+</p>
+
+<input
+id="guideInput"
+type="text"
+placeholder="Es. Ho 3 ore e voglio vedere il tramonto..."
+style="
+width:100%;
+padding:17px;
+border:1px solid var(--line);
+border-radius:15px;
+font:inherit;
+outline:none;
+margin-bottom:12px;
+">
+
+<button class="btn btn-dark" onclick="answerGuide()">
+Chiedi a VIVI
+</button>
+
+<div id="guideAnswer" style="
+margin-top:20px;
+padding:18px;
+border-radius:18px;
+background:#f0ebe2;
+display:none;
+line-height:1.6;
+font-size:14px;
+"></div>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   VIVI APP
+========================= */
+
+let currentStep = 1;
+
+let preferences = {
+mood:"",
+time:"",
+people:"",
+pace:""
+};
+
+let savedPlaces =
+JSON.parse(localStorage.getItem("viviSaved") || "[]");
+
+
+function goTo(id){
+
+document.getElementById(id)?.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* BUILDER */
+
+function openBuilder(){
+
+document.getElementById("builderModal").classList.add("open");
+
+document.getElementById("generated").classList.add("active");
+
+}
+
+function closeModal(id){
+
+document.getElementById(id).classList.remove("open");
+
+}
+
+
+function choose(element,type,value){
+
+element.parentElement
+.querySelectorAll(".option")
+.forEach(x=>x.classList.remove("selected"));
+
+element.classList.add("selected");
+
+preferences[type]=value;
+
+document.getElementById("builderStatus").textContent =
+value + " selezionato.";
+
+}
+
+
+function nextStep(){
+
+if(currentStep < 4){
+
+document
+.getElementById("step"+currentStep)
+.classList.remove("active");
+
+currentStep++;
+
+document
+.getElementById("step"+currentStep)
+.classList.add("active");
+
+document.getElementById("builderStatus").textContent =
+"Passaggio "+currentStep+" di 4";
+
+if(currentStep===4){
+
+document.getElementById("nextBtn").textContent =
+"Crea la mia esperienza →";
+
+}
+
+}else{
+
+generateExperience();
+
+}
+
+}
+
+
+function generateExperience(){
+
+document.getElementById("builderModal").classList.add("open");
+
+document.getElementById("generated").classList.add("active");
+
+showToast("La tua esperienza è pronta ✦");
+
+}
+
+
+/* MOOD */
+
+function selectMood(mood){
+
+preferences.mood=mood;
+
+openBuilder();
+
+showToast(mood+" selezionata ✦");
+
+}
+
+
+/* SAVED */
+
+function savePlace(button,name){
+
+button.classList.toggle("saved");
+
+if(button.classList.contains("saved")){
+
+if(!savedPlaces.includes(name)){
+savedPlaces.push(name);
+}
+
+button.textContent="♥";
+
+showToast(name+" salvato ❤️");
+
+}else{
+
+savedPlaces=savedPlaces.filter(x=>x!==name);
+
+button.textContent="♡";
+
+}
+
+localStorage.setItem(
+"viviSaved",
+JSON.stringify(savedPlaces)
+);
+
+document.getElementById("saved").textContent =
+savedPlaces.length;
+
+}
+
+
+/* WALK */
+
+function startWalk(){
+
+showToast("Modalità Cammina con me attivata 🚶");
+
+setTimeout(()=>{
+
+alert(
+"CAMMINA CON ME\n\n"+
+"Immagina di essere qui.\n\n"+
+"Guarda davanti a te. Tra poco incontrerai il prossimo punto del percorso."
+);
+
+},400);
+
+}
+
+
+/* GUIDE */
+
+function openGuide(){
+
+document.getElementById("guideModal").classList.add("open");
+
+}
+
+
+function answerGuide(){
+
+const input=
+document.getElementById("guideInput").value.trim();
+
+if(!input){
+
+showToast("Scrivi una domanda.");
+
+return;
+
+}
+
+const answer=
+"Partirei da una zona vicina a te e costruirei "+
+"un percorso senza farti perdere tempo. "+
+"Per questa demo ti suggerirei Colosseo → Monti → "+
+"Pantheon, lasciando l'ultima parte della giornata "+
+"per un punto panoramico. "+
+"Quando collegheremo la vera VIVI Guide, "+
+"questa risposta sarà personalizzata in base alla tua posizione, "+
+"al tempo disponibile e alle tue preferenze.";
+
+const box=document.getElementById("guideAnswer");
+
+box.textContent=answer;
+
+box.style.display="block";
+
+}
+
+
+/* LANGUAGE */
+
+let languages=["IT","EN","ES"];
+
+let languageIndex=0;
+
+function changeLanguage(){
+
+languageIndex++;
+
+if(languageIndex>=languages.length)
+languageIndex=0;
+
+const lang=languages[languageIndex];
+
+document.querySelector(".lang").textContent=lang;
+
+showToast(
+lang==="IT"
+?"Italiano"
+:lang==="EN"
+?"English"
+:"Español"
+);
+
+}
+
+
+/* TOAST */
+
+function showToast(message){
+
+const toast=document.getElementById("toast");
+
+toast.textContent=message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},2200);
+
+}
+
+
+/* CLOSE MODAL CLICK OUTSIDE */
+
+document.querySelectorAll(".modal").forEach(modal=>{
+
+modal.addEventListener("click",e=>{
+
+if(e.target===modal){
+
+modal.classList.remove("open");
+
+}
+
+});
+
+});
+
+
+/* KEYBOARD */
+
+document.addEventListener("keydown",e=>{
+
+if(e.key==="Escape"){
+
+document.querySelectorAll(".modal")
+.forEach(m=>m.classList.remove("open"));
+
+}
+
+});
+
+
+/* RESTORE SAVED */
+
+document.querySelectorAll(".save").forEach(button=>{
+
+const name=button.parentElement
+.parentElement
+.querySelector("h3")
+.textContent;
+
+if(savedPlaces.includes(name)){
+
+button.classList.add("saved");
+
+button.textContent="♥";
+
+}
+
+});
+
+document.getElementById("saved").textContent =
+savedPlaces.length;
+
+</script>
 
 </body>
 </html>
