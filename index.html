@@ -1,1 +1,689 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>VIVI — Roma, come un romano</title>
+  <meta name="description" content="VIVI Roma: scopri la città attraverso esperienze, itinerari e luoghi scelti per te.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #f5f1e8;
+      --paper: #fffdf8;
+      --black: #171614;
+      --muted: #706b63;
+      --red: #8f2f25;
+      --line: rgba(23, 22, 20, 0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 18px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(245, 241, 232, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--black);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .language {
+      border: 1px solid var(--line);
+      background: transparent;
+      border-radius: 30px;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 6% 70px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(55px, 7vw, 105px);
+      line-height: 0.95;
+      max-width: 750px;
+      letter-spacing: -3px;
+    }
+
+    .hero p {
+      margin-top: 30px;
+      max-width: 550px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 15px 23px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+    }
+
+    .hero-image {
+      height: 650px;
+      border-radius: 220px 220px 24px 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-tag {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      right: 22px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      padding: 18px;
+      border-radius: 18px;
+    }
+
+    .hero-tag strong {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-size: 23px;
+    }
+
+    .hero-tag span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* EXPERIENCE */
+
+    section {
+      padding: 100px 6%;
+    }
+
+    .section-title {
+      max-width: 700px;
+      margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(40px, 5vw, 65px);
+      line-height: 1;
+    }
+
+    .section-title p {
+      margin-top: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .experience {
+      min-height: 280px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .experience:hover {
+      transform: translateY(-5px);
+    }
+
+    .experience img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.72);
+    }
+
+    .experience-content {
+      position: absolute;
+      bottom: 0;
+      padding: 25px;
+      color: white;
+    }
+
+    .experience-content h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+    }
+
+    .experience-content p {
+      margin-top: 5px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* ITINERARY */
+
+    .itinerary {
+      background: var(--black);
+      color: white;
+    }
+
+    .itinerary .section-title p {
+      color: #aaa59c;
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .place {
+      background: #252320;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .place img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .place-info {
+      padding: 22px;
+    }
+
+    .place-info small {
+      color: #b9b0a2;
+    }
+
+    .place-info h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      margin: 8px 0;
+    }
+
+    .place-info p {
+      color: #aaa59c;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* GUIDE */
+
+    .guide {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .guide-card {
+      background: var(--paper);
+      border-radius: 30px;
+      padding: 35px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+
+    .guide-message {
+      padding: 20px;
+      border-radius: 18px;
+      background: var(--cream);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .guide-message.ai {
+      background: var(--black);
+      color: white;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 40px 6%;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 900px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 120px;
+      }
+
+      .hero-image {
+        height: 500px;
+      }
+
+      .experience-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .route {
+        grid-template-columns: 1fr;
+      }
+
+      .guide {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      section {
+        padding: 75px 5%;
+      }
+
+      h1 {
+        font-size: 58px;
+      }
+
+      .hero {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      .hero-image {
+        height: 440px;
+      }
+
+      .experience-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .experience {
+        min-height: 230px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">VIVI</div>
+
+    <ul class="nav-links">
+      <li><a href="#esperienze">Esperienze</a></li>
+      <li><a href="#itinerari">Itinerari</a></li>
+      <li><a href="#guida">VIVI Guide</a></li>
+    </ul>
+
+    <button class="language">IT</button>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+
+      <div>
+        <div class="eyebrow">Roma · Italia</div>
+
+        <h1>
+          Non visitare Roma.<br>
+          <em>Vivila.</em>
+        </h1>
+
+        <p>
+          Dimentica le guide tutte uguali.
+          Dimmi che tipo di giornata vuoi vivere
+          e VIVI costruisce un'esperienza pensata per te.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="startExperience()">
+            Crea la mia esperienza
+          </button>
+
+          <button class="btn btn-secondary" onclick="document.getElementById('esperienze').scrollIntoView()">
+            Scopri Roma
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img
+          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=85"
+          alt="Roma"
+        >
+
+        <div class="hero-tag">
+          <strong>Roma, ma come vuoi viverla.</strong>
+          <span>Esperienze create intorno a te.</span>
+        </div>
+      </div>
+
+    </section>
+
+
+    <section id="esperienze">
+
+      <div class="section-title">
+        <div class="eyebrow">Scegli il tuo mood</div>
+
+        <h2>
+          Che Roma vuoi vivere?
+        </h2>
+
+        <p>
+          Non tutti cercano la stessa Roma.
+          Scegli quello che ti va oggi e lascia che VIVI faccia il resto.
+        </p>
+      </div>
+
+      <div class="experience-grid">
+
+        <article class="experience" onclick="chooseExperience('romantica')">
+          <img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80">
+          <div class="experience-content">
+            <h3>Romantica</h3>
+            <p>Tramonti, passeggiate e angoli da ricordare.</p>
+          </div>
+        </article>
+
+        <article class="experience" onclick="chooseExperience('storia')">
+          <img src="https://images.unsplash.com/photo-1555992828-ca4dbe41d294?auto=format&fit=crop&w=900&q=80">
+          <div class="experience-content">
+            <h3>Storia & cultura</h3>
+            <p>La Roma che ha cambiato il mondo.</p>
+          </div>
+        </article>
+
+        <article class="experience" onclick="chooseExperience('food')">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80">
+          <div class="experience-content">
+            <h3>Mangia da romano</h3>
+            <p>Vivi Roma anche attraverso i suoi sapori.</p>
+          </div>
+        </article>
+
+        <article class="experience" onclick="chooseExperience('hidden')">
+          <img src="https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=900&q=80">
+          <div class="experience-content">
+            <h3>Roma nascosta</h3>
+            <p>Luoghi che non trovi nelle guide.</p>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <section class="itinerary" id="itinerari">
+
+      <div class="section-title">
+        <div class="eyebrow">Un esempio</div>
+
+        <h2>
+          Una giornata costruita per te.
+        </h2>
+
+        <p>
+          Non una lista di monumenti.
+          Un percorso con un ritmo, un'atmosfera e una storia.
+        </p>
+      </div>
+
+      <div class="route">
+
+        <article class="place">
+          <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80">
+          <div class="place-info">
+            <small>09:30 · INIZIO</small>
+            <h3>Colosseo</h3>
+            <p>
+              Parti dalla Roma antica e scopri cosa succedeva
+              davvero dentro queste mura.
+            </p>
+          </div>
+        </article>
+
+        <article class="place">
+          <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80">
+          <div class="place-info">
+            <small>11:15 · PASSEGGIATA</small>
+            <h3>Foro Romano</h3>
+            <p>
+              Cammina nel cuore della città antica
+              seguendo una storia, non una semplice mappa.
+            </p>
+          </div>
+        </article>
+
+        <article class="place">
+          <img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80">
+          <div class="place-info">
+            <small>18:30 · TRAMONTO</small>
+            <h3>Gianicolo</h3>
+            <p>
+              Chiudi la giornata dall'alto,
+              quando Roma cambia colore.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <section id="guida">
+
+      <div class="guide">
+
+        <div class="section-title">
+          <div class="eyebrow">Sempre con te</div>
+
+          <h2>
+            Incontra VIVI Guide.
+          </h2>
+
+          <p>
+            Hai cambiato programma?
+            Hai solo due ore?
+            Sei vicino al Colosseo e non sai dove andare?
+            Chiedilo a VIVI.
+          </p>
+
+          <button class="btn btn-primary" onclick="askGuide()">
+            Parla con VIVI
+          </button>
+        </div>
+
+        <div class="guide-card">
+
+          <div class="guide-message">
+            Ho solo 2 ore a Roma. Cosa riesco a vedere?
+          </div>
+
+          <div class="guide-message ai">
+            Ti preparo un percorso breve senza farti correre.
+            Partiamo dal Pantheon, attraversiamo Piazza Navona
+            e finiamo alla Fontana di Trevi.
+          </div>
+
+          <div class="guide-message">
+            E se voglio evitare i posti troppo turistici?
+          </div>
+
+          <div class="guide-message ai">
+            Allora cambiamo completamente strada.
+            Ti porto nella Roma che normalmente non finisce
+            nelle prime pagine delle guide.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    <strong>VIVI · Roma</strong>
+    <span>Non visitare Roma. Vivila.</span>
+  </footer>
+
+
+  <script>
+
+    function startExperience() {
+      document.getElementById("esperienze").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function chooseExperience(type) {
+
+      const names = {
+        romantica: "Romantica ❤️",
+        storia: "Storia & cultura 🏛️",
+        food: "Mangia da romano 🍝",
+        hidden: "Roma nascosta ✨"
+      };
+
+      alert(
+        "Hai scelto: " +
+        names[type] +
+        "\\n\\nNel prossimo passo costruiremo il tuo itinerario personalizzato."
+      );
+    }
+
+    function askGuide() {
+
+      const question = prompt(
+        "Chiedi qualcosa a VIVI Guide:",
+        "Ho solo 2 ore a Roma, cosa posso fare?"
+      );
+
+      if (question) {
+        alert(
+          "VIVI Guide\\n\\n" +
+          "Domanda: " +
+          question +
+          "\\n\\nNel prossimo passo collegheremo questa sezione a una vera guida intelligente."
+        );
+      }
+    }
+
+  </script>
+
+</body>
+</html>
