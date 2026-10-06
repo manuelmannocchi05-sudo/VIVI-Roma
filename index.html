@@ -115,6 +115,7 @@ nav{
 }
 
 @media(max-width:800px){
+
     .nav-links{
         display:none;
     }
@@ -122,6 +123,7 @@ nav{
     .logo{
         font-size:30px;
     }
+
 }
 
 /* =========================
@@ -222,10 +224,11 @@ nav{
     .hero-image{
         height:470px;
     }
+
 }
 
 /* =========================
-   SECTION COMMON
+   COMMON
 ========================= */
 
 .section{
@@ -311,15 +314,19 @@ nav{
 }
 
 @media(max-width:900px){
+
     .experience-grid{
         grid-template-columns:repeat(2,1fr);
     }
+
 }
 
 @media(max-width:550px){
+
     .experience-grid{
         grid-template-columns:1fr;
     }
+
 }
 
 /* =========================
@@ -422,6 +429,7 @@ nav{
     .options{
         grid-template-columns:1fr;
     }
+
 }
 
 /* =========================
@@ -447,8 +455,26 @@ nav{
 
 .result-summary{
     color:var(--muted);
-    max-width:600px;
+    max-width:650px;
     line-height:1.7;
+    margin-top:25px;
+}
+
+.result-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:22px;
+}
+
+.result-tag{
+    border:1px solid var(--line);
+    padding:8px 13px;
+    border-radius:30px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--red);
 }
 
 .restart{
@@ -581,6 +607,7 @@ nav{
     .stop h3{
         font-size:30px;
     }
+
 }
 
 /* =========================
@@ -612,9 +639,11 @@ footer{
 }
 
 @media(max-width:700px){
+
     .footer-inner{
         flex-direction:column;
     }
+
 }
 
 </style>
@@ -622,28 +651,45 @@ footer{
 
 <body>
 
+
 <!-- =========================
      NAV
 ========================= -->
 
 <nav>
+
     <div class="nav-inner">
 
-        <div class="logo">VIVI</div>
+        <div class="logo">
+            VIVI
+        </div>
 
         <div class="nav-links">
-            <a href="#esperienze">Esperienze</a>
-            <a href="#viaggio">Il tuo viaggio</a>
-            <a href="#esplora">Esplora</a>
+
+            <a href="#esperienze">
+                Esperienze
+            </a>
+
+            <a href="#viaggio">
+                Il tuo viaggio
+            </a>
+
+            <a href="#esplora">
+                Esplora
+            </a>
+
         </div>
 
         <button
             class="nav-button"
             onclick="startJourney()">
+
             Crea il tuo viaggio
+
         </button>
 
     </div>
+
 </nav>
 
 
@@ -677,7 +723,9 @@ footer{
                 <button
                     class="hero-button"
                     onclick="startJourney()">
+
                     Costruisci la tua Roma →
+
                 </button>
 
             </div>
@@ -729,9 +777,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('romantica')">
 
-                <span class="experience-number">01</span>
+                <span class="experience-number">
+                    01
+                </span>
 
-                <h3>Romantica</h3>
+                <h3>
+                    Romantica
+                </h3>
 
                 <p>
                     Tramonti, passeggiate e angoli da vivere in due.
@@ -744,9 +796,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('storia')">
 
-                <span class="experience-number">02</span>
+                <span class="experience-number">
+                    02
+                </span>
 
-                <h3>Storia & cultura</h3>
+                <h3>
+                    Storia & cultura
+                </h3>
 
                 <p>
                     La Roma antica e i luoghi che hanno fatto la storia.
@@ -759,9 +815,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('romano')">
 
-                <span class="experience-number">03</span>
+                <span class="experience-number">
+                    03
+                </span>
 
-                <h3>Come un romano</h3>
+                <h3>
+                    Come un romano
+                </h3>
 
                 <p>
                     Vicoli, quartieri e luoghi lontani dai percorsi più ovvi.
@@ -774,9 +834,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('foto')">
 
-                <span class="experience-number">04</span>
+                <span class="experience-number">
+                    04
+                </span>
 
-                <h3>Fotografica</h3>
+                <h3>
+                    Fotografica
+                </h3>
 
                 <p>
                     I punti migliori per portarti a casa Roma.
@@ -789,9 +853,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('religiosa')">
 
-                <span class="experience-number">05</span>
+                <span class="experience-number">
+                    05
+                </span>
 
-                <h3>Religiosa</h3>
+                <h3>
+                    Religiosa
+                </h3>
 
                 <p>
                     Basiliche, piazze e luoghi simbolo della cristianità.
@@ -804,9 +872,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('natura')">
 
-                <span class="experience-number">06</span>
+                <span class="experience-number">
+                    06
+                </span>
 
-                <h3>Natura</h3>
+                <h3>
+                    Natura
+                </h3>
 
                 <p>
                     Parchi, colline e panorami per rallentare.
@@ -819,9 +891,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('nascosta')">
 
-                <span class="experience-number">07</span>
+                <span class="experience-number">
+                    07
+                </span>
 
-                <h3>Roma nascosta</h3>
+                <h3>
+                    Roma nascosta
+                </h3>
 
                 <p>
                     Angoli meno conosciuti e atmosfere sorprendenti.
@@ -834,9 +910,13 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('notte')">
 
-                <span class="experience-number">08</span>
+                <span class="experience-number">
+                    08
+                </span>
 
-                <h3>Roma di notte</h3>
+                <h3>
+                    Roma di notte
+                </h3>
 
                 <p>
                     La città quando cambia completamente volto.
@@ -871,8 +951,9 @@ footer{
         </h2>
 
         <p class="section-intro">
-            Rispondi a poche domande. VIVI selezionerà
-            le tappe più adatte al tuo modo di viaggiare.
+            Rispondi a poche domande. VIVI analizzerà
+            le tue preferenze e costruirà un itinerario
+            pensato davvero per te.
         </p>
 
 
@@ -881,7 +962,9 @@ footer{
 
             <!-- Q1 -->
 
-            <div class="question active" data-question="1">
+            <div
+                class="question active"
+                data-question="1">
 
                 <div class="question-number">
                     01 / 08
@@ -893,19 +976,27 @@ footer{
 
                 <div class="options">
 
-                    <button class="option" data-value="coppia">
+                    <button
+                        class="option"
+                        data-value="coppia">
                         In coppia
                     </button>
 
-                    <button class="option" data-value="solo">
+                    <button
+                        class="option"
+                        data-value="solo">
                         Da solo
                     </button>
 
-                    <button class="option" data-value="amici">
+                    <button
+                        class="option"
+                        data-value="amici">
                         Con amici
                     </button>
 
-                    <button class="option" data-value="famiglia">
+                    <button
+                        class="option"
+                        data-value="famiglia">
                         In famiglia
                     </button>
 
@@ -916,7 +1007,9 @@ footer{
 
             <!-- Q2 -->
 
-            <div class="question" data-question="2">
+            <div
+                class="question"
+                data-question="2">
 
                 <div class="question-number">
                     02 / 08
@@ -967,7 +1060,9 @@ footer{
 
             <!-- Q3 -->
 
-            <div class="question" data-question="3">
+            <div
+                class="question"
+                data-question="3">
 
                 <div class="question-number">
                     03 / 08
@@ -1018,7 +1113,9 @@ footer{
 
             <!-- Q4 -->
 
-            <div class="question" data-question="4">
+            <div
+                class="question"
+                data-question="4">
 
                 <div class="question-number">
                     04 / 08
@@ -1061,7 +1158,9 @@ footer{
 
             <!-- Q5 -->
 
-            <div class="question" data-question="5">
+            <div
+                class="question"
+                data-question="5">
 
                 <div class="question-number">
                     05 / 08
@@ -1092,7 +1191,9 @@ footer{
 
             <!-- Q6 -->
 
-            <div class="question" data-question="6">
+            <div
+                class="question"
+                data-question="6">
 
                 <div class="question-number">
                     06 / 08
@@ -1123,7 +1224,9 @@ footer{
 
             <!-- Q7 -->
 
-            <div class="question" data-question="7">
+            <div
+                class="question"
+                data-question="7">
 
                 <div class="question-number">
                     07 / 08
@@ -1158,7 +1261,9 @@ footer{
 
             <!-- Q8 -->
 
-            <div class="question" data-question="8">
+            <div
+                class="question"
+                data-question="8">
 
                 <div class="question-number">
                     08 / 08
@@ -1193,7 +1298,9 @@ footer{
 
             <div class="builder-bottom">
 
-                <div class="progress" id="progress">
+                <div
+                    class="progress"
+                    id="progress">
                     1 di 8
                 </div>
 
@@ -1240,6 +1347,11 @@ footer{
                     class="result-summary"
                     id="resultSummary">
                 </p>
+
+                <div
+                    class="result-tags"
+                    id="resultTags">
+                </div>
 
             </div>
 
@@ -1313,7 +1425,7 @@ footer{
 <script>
 
 /* =====================================================
-   DATI DEI LUOGHI
+   LUOGHI
 ===================================================== */
 
 const places = {
@@ -1327,7 +1439,19 @@ const places = {
         description:"Uno degli edifici antichi meglio conservati di Roma. La sua enorme cupola e l'oculo centrale lo rendono uno dei luoghi più particolari del centro storico.",
         tip:"Guarda verso l'alto appena entri: l'oculo al centro della cupola è il dettaglio che rende il Pantheon unico.",
         walk:"5 min",
-        distance:"400 m"
+        distance:"400 m",
+
+        tags:[
+            "storia",
+            "monumenti",
+            "foto",
+            "romantica",
+            "passeggiare",
+            "giorno",
+            "morning",
+            "day",
+            "night"
+        ]
     },
 
     navona:{
@@ -1339,7 +1463,20 @@ const places = {
         description:"Una grande piazza costruita sull'antico Stadio di Domiziano, riconoscibile per le sue fontane, i palazzi storici e l'atmosfera sempre viva.",
         tip:"Attraversala lentamente senza fermarti subito al centro: osserva la forma della piazza e le tre fontane.",
         walk:"5 min",
-        distance:"400 m"
+        distance:"400 m",
+
+        tags:[
+            "romantica",
+            "foto",
+            "passeggiare",
+            "storia",
+            "romano",
+            "cibo",
+            "tramonto",
+            "day",
+            "sunset",
+            "night"
+        ]
     },
 
     trevi:{
@@ -1351,7 +1488,19 @@ const places = {
         description:"La Fontana di Trevi è uno dei luoghi più iconici della città. Il contrasto tra la dimensione monumentale della fontana e lo spazio relativamente piccolo della piazza crea un effetto sorprendente.",
         tip:"Arriva dalla parte alta della strada: la fontana appare gradualmente e l'effetto è molto più bello.",
         walk:"10 min",
-        distance:"800 m"
+        distance:"800 m",
+
+        tags:[
+            "romantica",
+            "foto",
+            "monumenti",
+            "romano",
+            "passeggiare",
+            "tramonto",
+            "day",
+            "sunset",
+            "night"
+        ]
     },
 
     spagna:{
@@ -1363,7 +1512,19 @@ const places = {
         description:"La Scalinata di Trinità dei Monti collega Piazza di Spagna alla parte alta del colle. È uno dei punti più riconoscibili e frequentati del centro.",
         tip:"Dalla parte alta puoi continuare verso il Pincio e Villa Borghese.",
         walk:"8 min",
-        distance:"650 m"
+        distance:"650 m",
+
+        tags:[
+            "romantica",
+            "foto",
+            "monumenti",
+            "passeggiare",
+            "tramonto",
+            "shopping",
+            "day",
+            "sunset",
+            "night"
+        ]
     },
 
     pincio:{
@@ -1375,7 +1536,17 @@ const places = {
         description:"Uno dei punti panoramici più belli per guardare il centro di Roma dall'alto, soprattutto quando la luce inizia a cambiare.",
         tip:"Se hai scelto il tramonto, questa è una delle tappe da vivere senza fretta.",
         walk:"15 min",
-        distance:"1,1 km"
+        distance:"1,1 km",
+
+        tags:[
+            "romantica",
+            "foto",
+            "natura",
+            "passeggiare",
+            "tramonto",
+            "sunset",
+            "day"
+        ]
     },
 
     colosseo:{
@@ -1387,7 +1558,19 @@ const places = {
         description:"L'Anfiteatro Flavio è uno dei monumenti più conosciuti al mondo e rappresenta uno dei punti fondamentali per capire la Roma imperiale.",
         tip:"Per una fotografia più ampia allontanati leggermente verso Via Nicola Salvi.",
         walk:"12 min",
-        distance:"1 km"
+        distance:"1 km",
+
+        tags:[
+            "storia",
+            "monumenti",
+            "foto",
+            "romano",
+            "passeggiare",
+            "morning",
+            "day",
+            "sunset",
+            "night"
+        ]
     },
 
     fori:{
@@ -1399,7 +1582,18 @@ const places = {
         description:"Il percorso lungo i Fori permette di vedere da vicino il cuore politico e monumentale dell'antica Roma.",
         tip:"Dedica qualche minuto a guardare la disposizione delle rovine invece di attraversarle velocemente.",
         walk:"10 min",
-        distance:"800 m"
+        distance:"800 m",
+
+        tags:[
+            "storia",
+            "monumenti",
+            "foto",
+            "romano",
+            "passeggiare",
+            "morning",
+            "day",
+            "sunset"
+        ]
     },
 
     campidoglio:{
@@ -1411,7 +1605,18 @@ const places = {
         description:"Una delle piazze più importanti del centro storico, progettata da Michelangelo e affacciata verso il Foro Romano.",
         tip:"Arriva dalla Cordonata per vedere gradualmente la geometria della piazza.",
         walk:"8 min",
-        distance:"600 m"
+        distance:"600 m",
+
+        tags:[
+            "storia",
+            "foto",
+            "monumenti",
+            "romano",
+            "passeggiare",
+            "morning",
+            "day",
+            "sunset"
+        ]
     },
 
     campo:{
@@ -1423,7 +1628,17 @@ const places = {
         description:"Una delle piazze più conosciute del centro, con una forte atmosfera quotidiana e numerosi locali nelle strade circostanti.",
         tip:"Esplora anche le vie laterali: spesso raccontano meglio la zona della piazza principale.",
         walk:"10 min",
-        distance:"800 m"
+        distance:"800 m",
+
+        tags:[
+            "romano",
+            "cibo",
+            "passeggiare",
+            "amici",
+            "notte",
+            "day",
+            "night"
+        ]
     },
 
     trastevere:{
@@ -1435,7 +1650,19 @@ const places = {
         description:"Uno dei quartieri più caratteristici di Roma, fatto di vicoli, piazze, ristoranti e angoli che cambiano completamente atmosfera durante la giornata.",
         tip:"Non limitarti alla strada principale: entra nei vicoli e lascia che il quartiere diventi parte del percorso.",
         walk:"15 min",
-        distance:"1,2 km"
+        distance:"1,2 km",
+
+        tags:[
+            "romano",
+            "nascosta",
+            "cibo",
+            "passeggiare",
+            "amici",
+            "romantica",
+            "day",
+            "sunset",
+            "night"
+        ]
     },
 
     isola:{
@@ -1447,7 +1674,18 @@ const places = {
         description:"Una piccola isola sul Tevere collegata alle due sponde del fiume e perfetta per una breve pausa durante una passeggiata nel centro.",
         tip:"Attraversa l'isola lentamente e osserva il rapporto tra il Tevere e gli edifici storici.",
         walk:"7 min",
-        distance:"550 m"
+        distance:"550 m",
+
+        tags:[
+            "nascosta",
+            "romantica",
+            "romano",
+            "passeggiare",
+            "foto",
+            "sunset",
+            "night",
+            "day"
+        ]
     },
 
     aventino:{
@@ -1459,7 +1697,18 @@ const places = {
         description:"Il colle Aventino offre una delle atmosfere più tranquille del centro e alcuni punti panoramici particolarmente suggestivi.",
         tip:"È una delle zone migliori se vuoi allontanarti per un momento dal caos del centro.",
         walk:"18 min",
-        distance:"1,4 km"
+        distance:"1,4 km",
+
+        tags:[
+            "nascosta",
+            "natura",
+            "romantica",
+            "passeggiare",
+            "foto",
+            "tramonto",
+            "sunset",
+            "day"
+        ]
     },
 
     aranci:{
@@ -1471,7 +1720,17 @@ const places = {
         description:"Un giardino sul colle Aventino con una vista ampia verso Roma e il Tevere.",
         tip:"Tienilo per il tardo pomeriggio se vuoi una luce più morbida.",
         walk:"5 min",
-        distance:"350 m"
+        distance:"350 m",
+
+        tags:[
+            "natura",
+            "romantica",
+            "foto",
+            "passeggiare",
+            "tramonto",
+            "sunset",
+            "day"
+        ]
     },
 
     sanpietro:{
@@ -1483,7 +1742,18 @@ const places = {
         description:"Uno dei luoghi religiosi e artistici più importanti del mondo, con una presenza architettonica imponente.",
         tip:"Anche solo osservare la piazza dalla Via della Conciliazione permette di percepire la dimensione monumentale del complesso.",
         walk:"15 min",
-        distance:"1,1 km"
+        distance:"1,1 km",
+
+        tags:[
+            "religiosa",
+            "chiese",
+            "monumenti",
+            "foto",
+            "storia",
+            "morning",
+            "day",
+            "sunset"
+        ]
     },
 
     castel:{
@@ -1495,7 +1765,19 @@ const places = {
         description:"Un edificio dalla storia lunghissima, nato come mausoleo e trasformato nei secoli in fortezza.",
         tip:"Il ponte davanti al castello è uno dei punti migliori per una fotografia frontale.",
         walk:"12 min",
-        distance:"900 m"
+        distance:"900 m",
+
+        tags:[
+            "storia",
+            "monumenti",
+            "foto",
+            "romantica",
+            "passeggiare",
+            "religiosa",
+            "sunset",
+            "night",
+            "day"
+        ]
     },
 
     villa:{
@@ -1507,7 +1789,18 @@ const places = {
         description:"Uno dei grandi parchi storici della città, perfetto per rallentare il ritmo dopo aver attraversato il centro.",
         tip:"Non cercare necessariamente una destinazione precisa: una parte del fascino è proprio passeggiare senza fretta.",
         walk:"15 min",
-        distance:"1,2 km"
+        distance:"1,2 km",
+
+        tags:[
+            "natura",
+            "passeggiare",
+            "romantica",
+            "foto",
+            "famiglia",
+            "morning",
+            "day",
+            "sunset"
+        ]
     },
 
     monti:{
@@ -1519,14 +1812,26 @@ const places = {
         description:"Uno dei quartieri centrali più piacevoli da esplorare a piedi, con strade più raccolte e un'atmosfera diversa dalle grandi piazze monumentali.",
         tip:"Perfetto da esplorare senza una direzione precisa per qualche minuto.",
         walk:"10 min",
-        distance:"750 m"
+        distance:"750 m",
+
+        tags:[
+            "romano",
+            "nascosta",
+            "passeggiare",
+            "cibo",
+            "amici",
+            "notte",
+            "day",
+            "night",
+            "sunset"
+        ]
     }
 
 };
 
 
 /* =====================================================
-   ITINERARI
+   ORDINE NATURALE DEGLI ITINERARI
 ===================================================== */
 
 const routes = {
@@ -1536,7 +1841,10 @@ const routes = {
         "navona",
         "trevi",
         "spagna",
-        "pincio"
+        "pincio",
+        "isola",
+        "aranci",
+        "castel"
     ],
 
     storia:[
@@ -1544,7 +1852,9 @@ const routes = {
         "fori",
         "campidoglio",
         "pantheon",
-        "navona"
+        "navona",
+        "castel",
+        "sanpietro"
     ],
 
     romano:[
@@ -1552,7 +1862,9 @@ const routes = {
         "colosseo",
         "isola",
         "trastevere",
-        "campo"
+        "campo",
+        "pantheon",
+        "navona"
     ],
 
     foto:[
@@ -1560,21 +1872,26 @@ const routes = {
         "campidoglio",
         "pantheon",
         "trevi",
-        "pincio"
+        "spagna",
+        "pincio",
+        "aranci",
+        "castel"
     ],
 
     religiosa:[
         "sanpietro",
         "castel",
         "pantheon",
-        "navona"
+        "navona",
+        "campidoglio"
     ],
 
     natura:[
         "villa",
         "pincio",
         "aventino",
-        "aranci"
+        "aranci",
+        "isola"
     ],
 
     nascosta:[
@@ -1582,7 +1899,8 @@ const routes = {
         "isola",
         "aventino",
         "aranci",
-        "trastevere"
+        "trastevere",
+        "campo"
     ],
 
     notte:[
@@ -1590,7 +1908,9 @@ const routes = {
         "spagna",
         "navona",
         "pantheon",
-        "trastevere"
+        "monti",
+        "trastevere",
+        "campo"
     ]
 
 };
@@ -1619,7 +1939,7 @@ let map = null;
 
 
 /* =====================================================
-   START
+   AVVIO
 ===================================================== */
 
 function startJourney(){
@@ -1649,7 +1969,7 @@ function selectExperience(type){
 
 
 /* =====================================================
-   OPZIONI
+   SELEZIONE RISPOSTE
 ===================================================== */
 
 document.querySelectorAll(".option").forEach(button => {
@@ -1693,7 +2013,7 @@ document.querySelectorAll(".option").forEach(button => {
 
 
 /* =====================================================
-   NEXT QUESTION
+   AVANTI
 ===================================================== */
 
 function nextQuestion(){
@@ -1740,26 +2060,630 @@ function nextQuestion(){
 
 
 /* =====================================================
-   CREA VIAGGIO
+   QUANTE TAPPE?
+   
+   Il numero di tappe ora dipende da:
+   - tempo
+   - ritmo
+   - quanto vuole camminare
 ===================================================== */
 
-function createJourney(){
+function calculateStopCount(){
 
-    let type =
+    let count = 4;
+
+    switch(answers.time){
+
+        case "breve":
+            count = 3;
+            break;
+
+        case "mezza":
+            count = 4;
+            break;
+
+        case "giorno":
+            count = 5;
+            break;
+
+        case "due":
+            count = 6;
+            break;
+
+        case "tre":
+            count = 7;
+            break;
+
+        case "quattro":
+            count = 8;
+            break;
+
+    }
+
+
+    /*
+     * Il ritmo modifica la quantità.
+     */
+
+    if(answers.pace === "slow"){
+        count -= 1;
+    }
+
+    if(answers.pace === "fast"){
+        count += 1;
+    }
+
+
+    /*
+     * Se la persona vuole camminare poco,
+     * evitiamo itinerari troppo lunghi.
+     */
+
+    if(answers.walking === "little"){
+        count -= 1;
+    }
+
+
+    /*
+     * Non meno di 3 e non più dei luoghi disponibili.
+     */
+
+    count =
+        Math.max(
+            3,
+            Math.min(
+                count,
+                Object.keys(places).length
+            )
+        );
+
+
+    return count;
+
+}
+
+
+/* =====================================================
+   PUNTEGGIO INTELLIGENTE
+===================================================== */
+
+function scorePlace(placeId){
+
+    const place =
+        places[placeId];
+
+    let score = 0;
+
+
+    /*
+     * 1.
+     * ESPERIENZA PRINCIPALE
+     *
+     * È la preferenza più importante.
+     */
+
+    if(
+        answers.experience &&
+        place.tags.includes(answers.experience)
+    ){
+
+        score += 10;
+
+    }
+
+
+    /*
+     * 2.
+     * INTERESSE
+     */
+
+    if(
+        answers.interests &&
+        place.tags.includes(answers.interests)
+    ){
+
+        score += 7;
+
+    }
+
+
+    /*
+     * 3.
+     * MOMENTO DELLA GIORNATA
+     */
+
+    if(
+        answers.moment &&
+        place.tags.includes(answers.moment)
+    ){
+
+        score += 5;
+
+    }
+
+
+    /*
+     * 4.
+     * COMPAGNIA
+     */
+
+    if(answers.people === "coppia"){
+
+        if(place.tags.includes("romantica")){
+            score += 5;
+        }
+
+        if(place.tags.includes("tramonto")){
+            score += 3;
+        }
+
+    }
+
+
+    if(answers.people === "amici"){
+
+        if(place.tags.includes("romano")){
+            score += 4;
+        }
+
+        if(place.tags.includes("cibo")){
+            score += 3;
+        }
+
+        if(place.tags.includes("notte")){
+            score += 3;
+        }
+
+    }
+
+
+    if(answers.people === "famiglia"){
+
+        if(place.tags.includes("natura")){
+            score += 4;
+        }
+
+        if(place.tags.includes("monumenti")){
+            score += 2;
+        }
+
+    }
+
+
+    if(answers.people === "solo"){
+
+        if(place.tags.includes("nascosta")){
+            score += 4;
+        }
+
+        if(place.tags.includes("passeggiare")){
+            score += 2;
+        }
+
+    }
+
+
+    /*
+     * 5.
+     * CAMMINARE
+     *
+     * Se ama camminare premiamo i luoghi
+     * più distanti e panoramici.
+     */
+
+    if(answers.walking === "much"){
+
+        if(place.tags.includes("passeggiare")){
+            score += 4;
+        }
+
+        if(
+            place.walk === "15 min" ||
+            place.walk === "18 min"
+        ){
+
+            score += 2;
+
+        }
+
+    }
+
+
+    /*
+     * Se vuole camminare poco,
+     * favoriamo tappe centrali e ravvicinate.
+     */
+
+    if(answers.walking === "little"){
+
+        if(
+            place.walk === "5 min" ||
+            place.walk === "7 min" ||
+            place.walk === "8 min"
+        ){
+
+            score += 4;
+
+        }
+
+        if(
+            place.walk === "15 min" ||
+            place.walk === "18 min"
+        ){
+
+            score -= 5;
+
+        }
+
+    }
+
+
+    /*
+     * 6.
+     * RITMO
+     */
+
+    if(answers.pace === "slow"){
+
+        if(
+            place.tags.includes("romantica") ||
+            place.tags.includes("natura") ||
+            place.tags.includes("passeggiare")
+        ){
+
+            score += 3;
+
+        }
+
+    }
+
+
+    if(answers.pace === "fast"){
+
+        if(place.tags.includes("monumenti")){
+            score += 3;
+        }
+
+        if(place.tags.includes("storia")){
+            score += 2;
+        }
+
+    }
+
+
+    /*
+     * 7.
+     * BUDGET
+     *
+     * Per ora VIVI lavora principalmente con
+     * luoghi pubblici e gratuiti.
+     *
+     * Quindi non penalizziamo nessuna tappa.
+     * Questa parte è pronta per quando
+     * aggiungeremo musei, ristoranti ecc.
+     */
+
+    if(answers.budget === "free"){
+
+        score += 1;
+
+    }
+
+
+    /*
+     * 8.
+     * MOMENTI SPECIALI
+     */
+
+    if(answers.moment === "sunset"){
+
+        if(
+            placeId === "pincio" ||
+            placeId === "aranci" ||
+            placeId === "aventino" ||
+            placeId === "castel"
+        ){
+
+            score += 8;
+
+        }
+
+    }
+
+
+    if(answers.moment === "night"){
+
+        if(
+            placeId === "trevi" ||
+            placeId === "navona" ||
+            placeId === "trastevere" ||
+            placeId === "monti" ||
+            placeId === "campo"
+        ){
+
+            score += 8;
+
+        }
+
+    }
+
+
+    if(answers.moment === "morning"){
+
+        if(
+            placeId === "colosseo" ||
+            placeId === "fori" ||
+            placeId === "sanpietro" ||
+            placeId === "villa"
+        ){
+
+            score += 5;
+
+        }
+
+    }
+
+
+    return score;
+
+}
+
+
+/* =====================================================
+   COSTRUZIONE ITINERARIO
+===================================================== */
+
+function buildSmartRoute(){
+
+    const experience =
         answers.experience ||
         selectedExperience ||
         "romantica";
 
-    let route =
-        routes[type] ||
+
+    const preferredOrder =
+        routes[experience] ||
         routes.romantica;
 
+
+    const stopCount =
+        calculateStopCount();
+
+
+    /*
+     * Calcoliamo il punteggio di ogni luogo.
+     */
+
+    const scoredPlaces =
+        Object.keys(places).map(id => {
+
+            return {
+                id:id,
+                score:scorePlace(id)
+            };
+
+        });
+
+
+    /*
+     * Ordiniamo dal più adatto al meno adatto.
+     */
+
+    scoredPlaces.sort((a,b) => {
+
+        if(b.score !== a.score){
+            return b.score - a.score;
+        }
+
+        /*
+         * In caso di pari punteggio,
+         * manteniamo l'ordine naturale
+         * dell'esperienza scelta.
+         */
+
+        return (
+            preferredOrder.indexOf(a.id) -
+            preferredOrder.indexOf(b.id)
+        );
+
+    });
+
+
+    /*
+     * Prendiamo abbastanza tappe.
+     */
+
+    let selected =
+        scoredPlaces
+            .slice(0,stopCount)
+            .map(item => item.id);
+
+
+    /*
+     * Ora le rimettiamo in un ordine
+     * geograficamente/logicamente sensato.
+     *
+     * Non vogliamo 5 luoghi scelti bene
+     * ma messi completamente a caso.
+     */
+
+    selected.sort((a,b) => {
+
+        return (
+            preferredOrder.indexOf(a) -
+            preferredOrder.indexOf(b)
+        );
+
+    });
+
+
+    return selected;
+
+}
+
+
+/* =====================================================
+   TESTO PERSONALIZZATO
+===================================================== */
+
+function createSmartSummary(){
+
+    let parts = [];
+
+
+    /*
+     * COMPAGNIA
+     */
+
+    if(answers.people === "coppia"){
+
+        parts.push(
+            "un percorso pensato per vivere Roma in due"
+        );
+
+    }
+
+    else if(answers.people === "solo"){
+
+        parts.push(
+            "un percorso adatto a esplorare Roma con i tuoi tempi"
+        );
+
+    }
+
+    else if(answers.people === "amici"){
+
+        parts.push(
+            "un percorso dinamico da vivere con gli amici"
+        );
+
+    }
+
+    else if(answers.people === "famiglia"){
+
+        parts.push(
+            "un percorso piacevole da vivere in famiglia"
+        );
+
+    }
+
+
+    /*
+     * ESPERIENZA
+     */
+
+    const experienceNames = {
+
+        romantica:"atmosfera romantica",
+
+        storia:"storia e cultura",
+
+        romano:"vita romana",
+
+        foto:"fotografia",
+
+        religiosa:"luoghi religiosi",
+
+        natura:"natura e panorami",
+
+        nascosta:"Roma meno conosciuta",
+
+        notte:"Roma serale"
+
+    };
+
+
+    if(answers.experience){
+
+        parts.push(
+            "con una forte attenzione a " +
+            experienceNames[answers.experience]
+        );
+
+    }
+
+
+    /*
+     * MOMENTO
+     */
+
+    const momentNames = {
+
+        morning:"ideale per la mattina",
+
+        day:"pensato per la giornata",
+
+        sunset:"con particolare attenzione alla luce del tramonto",
+
+        night:"pensato per vivere Roma quando cala la sera"
+
+    };
+
+
+    if(answers.moment){
+
+        parts.push(
+            momentNames[answers.moment]
+        );
+
+    }
+
+
+    /*
+     * RITMO
+     */
+
+    if(answers.pace === "slow"){
+
+        parts.push(
+            "con un ritmo rilassato"
+        );
+
+    }
+
+    if(answers.pace === "fast"){
+
+        parts.push(
+            "con un ritmo più intenso per vedere il più possibile"
+        );
+
+    }
+
+
+    if(parts.length === 0){
+
+        return "Abbiamo costruito un percorso personalizzato in base alle tue preferenze.";
+
+    }
+
+
+    return (
+        "Abbiamo creato " +
+        parts.join(", ") +
+        ". Ogni tappa è stata scelta considerando le tue risposte, il tempo che hai e il ritmo con cui vuoi vivere Roma."
+    );
+
+}
+
+
+/* =====================================================
+   CREAZIONE VIAGGIO
+===================================================== */
+
+function createJourney(){
+
+    const route =
+        buildSmartRoute();
+
+
     renderResult(route);
+
 
     const results =
         document.getElementById("esplora");
 
     results.classList.add("show");
+
 
     setTimeout(() => {
 
@@ -1783,26 +2707,121 @@ function renderResult(route){
 
     stops.innerHTML = "";
 
+
+    /*
+     * TESTO PERSONALIZZATO
+     */
+
+    document.getElementById(
+        "resultSummary"
+    ).textContent =
+        createSmartSummary();
+
+
+    /*
+     * TAG DEL VIAGGIO
+     */
+
+    const tags =
+        document.getElementById("resultTags");
+
+    tags.innerHTML = "";
+
+
+    const tagNames = {
+
+        coppia:"In coppia",
+        solo:"Da solo",
+        amici:"Con amici",
+        famiglia:"In famiglia",
+
+        romantica:"Romantica",
+        storia:"Storia & cultura",
+        romano:"Come un romano",
+        foto:"Fotografica",
+        religiosa:"Religiosa",
+        natura:"Natura",
+        nascosta:"Roma nascosta",
+        notte:"Roma di notte",
+
+        monumenti:"Monumenti",
+        tramonto:"Tramonto",
+        cibo:"Cibo",
+        passeggiare:"Passeggiate",
+        chiese:"Chiese",
+
+        breve:"2–3 ore",
+        mezza:"Mezza giornata",
+        giorno:"1 giorno",
+        due:"2 giorni",
+        tre:"3 giorni",
+        quattro:"4+ giorni",
+
+        slow:"Ritmo lento",
+        normal:"Ritmo normale",
+        fast:"Ritmo intenso",
+
+        little:"Poca camminata",
+        medium:"Camminata media",
+        much:"Ami camminare",
+
+        free:"Budget contenuto",
+        low:"Budget contenuto",
+        medium:"Budget medio",
+        high:"Budget flessibile",
+
+        morning:"Mattina",
+        day:"Durante il giorno",
+        sunset:"Tramonto",
+        night:"Sera / notte"
+
+    };
+
+
+    [
+        answers.people,
+        answers.experience,
+        answers.interests,
+        answers.time,
+        answers.pace,
+        answers.walking,
+        answers.moment
+    ]
+    .filter(Boolean)
+    .forEach(value => {
+
+        const tag =
+            document.createElement("div");
+
+        tag.className = "result-tag";
+
+        tag.textContent =
+            tagNames[value] || value;
+
+        tags.appendChild(tag);
+
+    });
+
+
+    /*
+     * SCHEDE TAPPE
+     */
+
     route.forEach((placeId,index) => {
 
         const place =
             places[placeId];
 
-        /*
-         * IMPORTANTE:
-         * Google Maps riceve direttamente le coordinate.
-         * Non viene più fatta una ricerca del nome.
-         * In questo modo la destinazione è il punto preciso
-         * della tappa.
-         */
 
         const mapsUrl =
             createMapsUrl(place);
+
 
         const stop =
             document.createElement("div");
 
         stop.className = "stop";
+
 
         stop.innerHTML = `
 
@@ -1849,16 +2868,10 @@ function renderResult(route){
 
         `;
 
+
         stops.appendChild(stop);
 
     });
-
-
-    const summary =
-        document.getElementById("resultSummary");
-
-    summary.textContent =
-        "Abbiamo costruito un percorso pensato in base alle tue risposte, scegliendo tappe che possono essere vissute come un'esperienza e non semplicemente visitate.";
 
 
     createMap(route);
@@ -1868,29 +2881,14 @@ function renderResult(route){
 
 /* =====================================================
    GOOGLE MAPS
-   DESTINAZIONE PRECISA TRAMITE COORDINATE
+   COORDINATE PRECISE
 ===================================================== */
 
 function createMapsUrl(place){
 
-    /*
-     * NON usiamo:
-     *
-     * Google Maps Search
-     * nome del monumento
-     * query di ricerca
-     *
-     * Usiamo direttamente LATITUDINE + LONGITUDINE.
-     *
-     * Esempio:
-     * 41.8986,12.4769
-     *
-     * Google Maps riceve quindi un punto preciso
-     * come destinazione.
-     */
-
     const destination =
         `${place.lat},${place.lng}`;
+
 
     return (
         "https://www.google.com/maps/dir/?api=1" +
@@ -1902,7 +2900,7 @@ function createMapsUrl(place){
 
 
 /* =====================================================
-   MAPPA LEAFLET
+   MAPPA
 ===================================================== */
 
 function createMap(route){
@@ -1915,8 +2913,10 @@ function createMap(route){
 
     }
 
+
     map =
         L.map("map");
+
 
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -1935,8 +2935,13 @@ function createMap(route){
         const place =
             places[placeId];
 
+
         const coords =
-            [place.lat,place.lng];
+            [
+                place.lat,
+                place.lng
+            ];
+
 
         coordinates.push(coords);
 
@@ -2032,7 +3037,9 @@ function restartJourney(){
 
     selectedExperience = null;
 
+
     answers = {
+
         people:null,
         experience:null,
         interests:null,
@@ -2041,6 +3048,7 @@ function restartJourney(){
         walking:null,
         budget:null,
         moment:null
+
     };
 
 
@@ -2054,7 +3062,9 @@ function restartJourney(){
 
 
     document
-        .querySelector('.question[data-question="1"]')
+        .querySelector(
+            '.question[data-question="1"]'
+        )
         .classList.add("active");
 
 
