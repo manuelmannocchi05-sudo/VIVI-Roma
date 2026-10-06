@@ -25,7 +25,6 @@
     --gold:#b28d55;
     --muted:#77736d;
     --line:rgba(25,24,22,.12);
-    --white:#fff;
 }
 
 *{
@@ -58,6 +57,7 @@ button{
     width:min(1180px,92%);
     margin:auto;
 }
+
 
 /* =========================
    NAV
@@ -114,17 +114,6 @@ nav{
     cursor:pointer;
 }
 
-@media(max-width:800px){
-
-    .nav-links{
-        display:none;
-    }
-
-    .logo{
-        font-size:30px;
-    }
-
-}
 
 /* =========================
    HERO
@@ -206,26 +195,6 @@ nav{
     object-fit:cover;
 }
 
-@media(max-width:800px){
-
-    .hero{
-        padding-top:130px;
-    }
-
-    .hero-grid{
-        grid-template-columns:1fr;
-        gap:40px;
-    }
-
-    .hero h1{
-        font-size:70px;
-    }
-
-    .hero-image{
-        height:470px;
-    }
-
-}
 
 /* =========================
    COMMON
@@ -257,6 +226,7 @@ nav{
     line-height:1.7;
     margin-top:25px;
 }
+
 
 /* =========================
    EXPERIENCES
@@ -313,21 +283,6 @@ nav{
     color:#ddd;
 }
 
-@media(max-width:900px){
-
-    .experience-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(max-width:550px){
-
-    .experience-grid{
-        grid-template-columns:1fr;
-    }
-
-}
 
 /* =========================
    BUILDER
@@ -370,7 +325,13 @@ nav{
     font-family:"Cormorant Garamond",serif;
     font-size:48px;
     font-weight:500;
-    margin-bottom:35px;
+    margin-bottom:10px;
+}
+
+.question-help{
+    color:#969188;
+    font-size:13px;
+    margin-bottom:30px;
 }
 
 .options{
@@ -394,6 +355,11 @@ nav{
 .option.selected{
     background:white;
     color:var(--dark);
+}
+
+.option.selected::after{
+    content:" ✓";
+    font-weight:700;
 }
 
 .builder-bottom{
@@ -420,17 +386,6 @@ nav{
     letter-spacing:1px;
 }
 
-@media(max-width:600px){
-
-    .question h3{
-        font-size:40px;
-    }
-
-    .options{
-        grid-template-columns:1fr;
-    }
-
-}
 
 /* =========================
    RESULTS
@@ -584,6 +539,67 @@ nav{
     max-width:700px;
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:var(--dark);
+    color:white;
+    padding:70px 0;
+}
+
+.footer-inner{
+    display:flex;
+    justify-content:space-between;
+    gap:30px;
+}
+
+.footer-logo{
+    font-family:"Cormorant Garamond",serif;
+    font-size:50px;
+}
+
+.footer-text{
+    color:#aaa59c;
+    max-width:350px;
+    line-height:1.7;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .experience-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero-image{
+        height:470px;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:70px;
+    }
+
+}
+
 @media(max-width:700px){
 
     .result-header{
@@ -608,40 +624,28 @@ nav{
         font-size:30px;
     }
 
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    background:var(--dark);
-    color:white;
-    padding:70px 0;
-    margin-top:0;
-}
-
-.footer-inner{
-    display:flex;
-    justify-content:space-between;
-    gap:30px;
-}
-
-.footer-logo{
-    font-family:"Cormorant Garamond",serif;
-    font-size:50px;
-}
-
-.footer-text{
-    color:#aaa59c;
-    max-width:350px;
-    line-height:1.7;
-}
-
-@media(max-width:700px){
-
     .footer-inner{
         flex-direction:column;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .question h3{
+        font-size:40px;
+    }
+
+    .options{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .experience-grid{
+        grid-template-columns:1fr;
     }
 
 }
@@ -777,13 +781,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('romantica')">
 
-                <span class="experience-number">
-                    01
-                </span>
+                <span class="experience-number">01</span>
 
-                <h3>
-                    Romantica
-                </h3>
+                <h3>Romantica</h3>
 
                 <p>
                     Tramonti, passeggiate e angoli da vivere in due.
@@ -796,13 +796,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('storia')">
 
-                <span class="experience-number">
-                    02
-                </span>
+                <span class="experience-number">02</span>
 
-                <h3>
-                    Storia & cultura
-                </h3>
+                <h3>Storia & cultura</h3>
 
                 <p>
                     La Roma antica e i luoghi che hanno fatto la storia.
@@ -815,13 +811,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('romano')">
 
-                <span class="experience-number">
-                    03
-                </span>
+                <span class="experience-number">03</span>
 
-                <h3>
-                    Come un romano
-                </h3>
+                <h3>Come un romano</h3>
 
                 <p>
                     Vicoli, quartieri e luoghi lontani dai percorsi più ovvi.
@@ -834,13 +826,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('foto')">
 
-                <span class="experience-number">
-                    04
-                </span>
+                <span class="experience-number">04</span>
 
-                <h3>
-                    Fotografica
-                </h3>
+                <h3>Fotografica</h3>
 
                 <p>
                     I punti migliori per portarti a casa Roma.
@@ -853,13 +841,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('religiosa')">
 
-                <span class="experience-number">
-                    05
-                </span>
+                <span class="experience-number">05</span>
 
-                <h3>
-                    Religiosa
-                </h3>
+                <h3>Religiosa</h3>
 
                 <p>
                     Basiliche, piazze e luoghi simbolo della cristianità.
@@ -872,13 +856,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('natura')">
 
-                <span class="experience-number">
-                    06
-                </span>
+                <span class="experience-number">06</span>
 
-                <h3>
-                    Natura
-                </h3>
+                <h3>Natura</h3>
 
                 <p>
                     Parchi, colline e panorami per rallentare.
@@ -891,13 +871,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('nascosta')">
 
-                <span class="experience-number">
-                    07
-                </span>
+                <span class="experience-number">07</span>
 
-                <h3>
-                    Roma nascosta
-                </h3>
+                <h3>Roma nascosta</h3>
 
                 <p>
                     Angoli meno conosciuti e atmosfere sorprendenti.
@@ -910,13 +886,9 @@ footer{
                 class="experience-card"
                 onclick="selectExperience('notte')">
 
-                <span class="experience-number">
-                    08
-                </span>
+                <span class="experience-number">08</span>
 
-                <h3>
-                    Roma di notte
-                </h3>
+                <h3>Roma di notte</h3>
 
                 <p>
                     La città quando cambia completamente volto.
@@ -960,7 +932,9 @@ footer{
         <div class="builder-box">
 
 
-            <!-- Q1 -->
+            <!-- =====================
+                 DOMANDA 1
+            ====================== -->
 
             <div
                 class="question active"
@@ -976,27 +950,19 @@ footer{
 
                 <div class="options">
 
-                    <button
-                        class="option"
-                        data-value="coppia">
+                    <button class="option" data-value="coppia">
                         In coppia
                     </button>
 
-                    <button
-                        class="option"
-                        data-value="solo">
+                    <button class="option" data-value="solo">
                         Da solo
                     </button>
 
-                    <button
-                        class="option"
-                        data-value="amici">
+                    <button class="option" data-value="amici">
                         Con amici
                     </button>
 
-                    <button
-                        class="option"
-                        data-value="famiglia">
+                    <button class="option" data-value="famiglia">
                         In famiglia
                     </button>
 
@@ -1005,11 +971,14 @@ footer{
             </div>
 
 
-            <!-- Q2 -->
+            <!-- =====================
+                 DOMANDA 2 MULTIPLA
+            ====================== -->
 
             <div
                 class="question"
-                data-question="2">
+                data-question="2"
+                data-multiple="true">
 
                 <div class="question-number">
                     02 / 08
@@ -1018,6 +987,10 @@ footer{
                 <h3>
                     Che Roma vuoi vivere?
                 </h3>
+
+                <div class="question-help">
+                    Puoi scegliere più di un'opzione.
+                </div>
 
                 <div class="options">
 
@@ -1058,11 +1031,14 @@ footer{
             </div>
 
 
-            <!-- Q3 -->
+            <!-- =====================
+                 DOMANDA 3 MULTIPLA
+            ====================== -->
 
             <div
                 class="question"
-                data-question="3">
+                data-question="3"
+                data-multiple="true">
 
                 <div class="question-number">
                     03 / 08
@@ -1071,6 +1047,10 @@ footer{
                 <h3>
                     Cosa ti interessa di più?
                 </h3>
+
+                <div class="question-help">
+                    Puoi scegliere più interessi.
+                </div>
 
                 <div class="options">
 
@@ -1111,7 +1091,9 @@ footer{
             </div>
 
 
-            <!-- Q4 -->
+            <!-- =====================
+                 DOMANDA 4
+            ====================== -->
 
             <div
                 class="question"
@@ -1156,7 +1138,9 @@ footer{
             </div>
 
 
-            <!-- Q5 -->
+            <!-- =====================
+                 DOMANDA 5
+            ====================== -->
 
             <div
                 class="question"
@@ -1189,7 +1173,9 @@ footer{
             </div>
 
 
-            <!-- Q6 -->
+            <!-- =====================
+                 DOMANDA 6
+            ====================== -->
 
             <div
                 class="question"
@@ -1222,7 +1208,9 @@ footer{
             </div>
 
 
-            <!-- Q7 -->
+            <!-- =====================
+                 DOMANDA 7
+            ====================== -->
 
             <div
                 class="question"
@@ -1259,7 +1247,9 @@ footer{
             </div>
 
 
-            <!-- Q8 -->
+            <!-- =====================
+                 DOMANDA 8
+            ====================== -->
 
             <div
                 class="question"
@@ -1308,7 +1298,9 @@ footer{
                     class="next-button"
                     id="nextButton"
                     onclick="nextQuestion()">
+
                     Continua →
+
                 </button>
 
             </div>
@@ -1321,7 +1313,7 @@ footer{
 
 
 <!-- =========================
-     RESULTS
+     RISULTATI
 ========================= -->
 
 <section
@@ -1358,7 +1350,9 @@ footer{
             <button
                 class="restart"
                 onclick="restartJourney()">
+
                 Ricomincia
+
             </button>
 
         </div>
@@ -1440,16 +1434,14 @@ const places = {
         tip:"Guarda verso l'alto appena entri: l'oculo al centro della cupola è il dettaglio che rende il Pantheon unico.",
         walk:"5 min",
         distance:"400 m",
-
         tags:[
             "storia",
             "monumenti",
             "foto",
             "romantica",
             "passeggiare",
-            "giorno",
-            "morning",
             "day",
+            "morning",
             "night"
         ]
     },
@@ -1464,7 +1456,6 @@ const places = {
         tip:"Attraversala lentamente senza fermarti subito al centro: osserva la forma della piazza e le tre fontane.",
         walk:"5 min",
         distance:"400 m",
-
         tags:[
             "romantica",
             "foto",
@@ -1489,7 +1480,6 @@ const places = {
         tip:"Arriva dalla parte alta della strada: la fontana appare gradualmente e l'effetto è molto più bello.",
         walk:"10 min",
         distance:"800 m",
-
         tags:[
             "romantica",
             "foto",
@@ -1513,14 +1503,12 @@ const places = {
         tip:"Dalla parte alta puoi continuare verso il Pincio e Villa Borghese.",
         walk:"8 min",
         distance:"650 m",
-
         tags:[
             "romantica",
             "foto",
             "monumenti",
             "passeggiare",
             "tramonto",
-            "shopping",
             "day",
             "sunset",
             "night"
@@ -1537,7 +1525,6 @@ const places = {
         tip:"Se hai scelto il tramonto, questa è una delle tappe da vivere senza fretta.",
         walk:"15 min",
         distance:"1,1 km",
-
         tags:[
             "romantica",
             "foto",
@@ -1559,7 +1546,6 @@ const places = {
         tip:"Per una fotografia più ampia allontanati leggermente verso Via Nicola Salvi.",
         walk:"12 min",
         distance:"1 km",
-
         tags:[
             "storia",
             "monumenti",
@@ -1583,7 +1569,6 @@ const places = {
         tip:"Dedica qualche minuto a guardare la disposizione delle rovine invece di attraversarle velocemente.",
         walk:"10 min",
         distance:"800 m",
-
         tags:[
             "storia",
             "monumenti",
@@ -1606,7 +1591,6 @@ const places = {
         tip:"Arriva dalla Cordonata per vedere gradualmente la geometria della piazza.",
         walk:"8 min",
         distance:"600 m",
-
         tags:[
             "storia",
             "foto",
@@ -1629,7 +1613,6 @@ const places = {
         tip:"Esplora anche le vie laterali: spesso raccontano meglio la zona della piazza principale.",
         walk:"10 min",
         distance:"800 m",
-
         tags:[
             "romano",
             "cibo",
@@ -1651,7 +1634,6 @@ const places = {
         tip:"Non limitarti alla strada principale: entra nei vicoli e lascia che il quartiere diventi parte del percorso.",
         walk:"15 min",
         distance:"1,2 km",
-
         tags:[
             "romano",
             "nascosta",
@@ -1675,7 +1657,6 @@ const places = {
         tip:"Attraversa l'isola lentamente e osserva il rapporto tra il Tevere e gli edifici storici.",
         walk:"7 min",
         distance:"550 m",
-
         tags:[
             "nascosta",
             "romantica",
@@ -1698,7 +1679,6 @@ const places = {
         tip:"È una delle zone migliori se vuoi allontanarti per un momento dal caos del centro.",
         walk:"18 min",
         distance:"1,4 km",
-
         tags:[
             "nascosta",
             "natura",
@@ -1721,7 +1701,6 @@ const places = {
         tip:"Tienilo per il tardo pomeriggio se vuoi una luce più morbida.",
         walk:"5 min",
         distance:"350 m",
-
         tags:[
             "natura",
             "romantica",
@@ -1743,7 +1722,6 @@ const places = {
         tip:"Anche solo osservare la piazza dalla Via della Conciliazione permette di percepire la dimensione monumentale del complesso.",
         walk:"15 min",
         distance:"1,1 km",
-
         tags:[
             "religiosa",
             "chiese",
@@ -1766,7 +1744,6 @@ const places = {
         tip:"Il ponte davanti al castello è uno dei punti migliori per una fotografia frontale.",
         walk:"12 min",
         distance:"900 m",
-
         tags:[
             "storia",
             "monumenti",
@@ -1790,7 +1767,6 @@ const places = {
         tip:"Non cercare necessariamente una destinazione precisa: una parte del fascino è proprio passeggiare senza fretta.",
         walk:"15 min",
         distance:"1,2 km",
-
         tags:[
             "natura",
             "passeggiare",
@@ -1813,7 +1789,6 @@ const places = {
         tip:"Perfetto da esplorare senza una direzione precisa per qualche minuto.",
         walk:"10 min",
         distance:"750 m",
-
         tags:[
             "romano",
             "nascosta",
@@ -1831,7 +1806,7 @@ const places = {
 
 
 /* =====================================================
-   ORDINE NATURALE DEGLI ITINERARI
+   PERCORSI BASE
 ===================================================== */
 
 const routes = {
@@ -1923,14 +1898,22 @@ const routes = {
 let currentQuestion = 1;
 
 let answers = {
+
     people:null,
-    experience:null,
-    interests:null,
+
+    /*
+     * ORA SONO ARRAY
+     */
+    experiences:[],
+
+    interests:[],
+
     time:null,
     pace:null,
     walking:null,
     budget:null,
     moment:null
+
 };
 
 let selectedExperience = null;
@@ -1954,14 +1937,16 @@ function startJourney(){
 
 
 /* =====================================================
-   ESPERIENZA DIRETTA
+   ESPERIENZA DALLA SEZIONE SUPERIORE
 ===================================================== */
 
 function selectExperience(type){
 
-    selectedExperience = type;
+    if(!answers.experiences.includes(type)){
 
-    answers.experience = type;
+        answers.experiences.push(type);
+
+    }
 
     startJourney();
 
@@ -1969,7 +1954,7 @@ function selectExperience(type){
 
 
 /* =====================================================
-   SELEZIONE RISPOSTE
+   SELEZIONE DELLE RISPOSTE
 ===================================================== */
 
 document.querySelectorAll(".option").forEach(button => {
@@ -1979,37 +1964,110 @@ document.querySelectorAll(".option").forEach(button => {
         const question =
             this.closest(".question");
 
+        const number =
+            Number(question.dataset.question);
+
+        const isMultiple =
+            question.dataset.multiple === "true";
+
+
+        /*
+         * DOMANDE MULTIPLE
+         */
+
+        if(isMultiple){
+
+            this.classList.toggle("selected");
+
+            const values =
+                Array.from(
+                    question.querySelectorAll(".option.selected")
+                ).map(option => option.dataset.value);
+
+
+            if(number === 2){
+
+                answers.experiences = values;
+
+            }
+
+            if(number === 3){
+
+                answers.interests = values;
+
+            }
+
+            return;
+
+        }
+
+
+        /*
+         * DOMANDE SINGOLE
+         */
+
         question
             .querySelectorAll(".option")
             .forEach(option => {
+
                 option.classList.remove("selected");
+
             });
 
+
         this.classList.add("selected");
+
 
         const value =
             this.dataset.value;
 
-        const number =
-            Number(question.dataset.question);
 
         const keys = [
+
             null,
             "people",
-            "experience",
-            "interests",
+            null,
+            null,
             "time",
             "pace",
             "walking",
             "budget",
             "moment"
+
         ];
+
 
         answers[keys[number]] = value;
 
     });
 
 });
+
+
+/* =====================================================
+   CONTROLLO DOMANDA
+===================================================== */
+
+function hasAnswer(question){
+
+    const isMultiple =
+        question.dataset.multiple === "true";
+
+
+    if(isMultiple){
+
+        return question.querySelector(
+            ".option.selected"
+        ) !== null;
+
+    }
+
+
+    return question.querySelector(
+        ".option.selected"
+    ) !== null;
+
+}
 
 
 /* =====================================================
@@ -2023,15 +2081,27 @@ function nextQuestion(){
             `.question[data-question="${currentQuestion}"]`
         );
 
-    const selected =
-        current.querySelector(".option.selected");
 
-    if(!selected){
+    if(!hasAnswer(current)){
 
-        alert("Scegli un'opzione per continuare.");
+        if(current.dataset.multiple === "true"){
+
+            alert(
+                "Scegli almeno un'opzione per continuare."
+            );
+
+        }else{
+
+            alert(
+                "Scegli un'opzione per continuare."
+            );
+
+        }
 
         return;
+
     }
+
 
     if(currentQuestion < 8){
 
@@ -2039,12 +2109,15 @@ function nextQuestion(){
 
         currentQuestion++;
 
+
         const next =
             document.querySelector(
                 `.question[data-question="${currentQuestion}"]`
             );
 
+
         next.classList.add("active");
+
 
         document.getElementById("progress")
             .textContent =
@@ -2060,17 +2133,13 @@ function nextQuestion(){
 
 
 /* =====================================================
-   QUANTE TAPPE?
-   
-   Il numero di tappe ora dipende da:
-   - tempo
-   - ritmo
-   - quanto vuole camminare
+   NUMERO TAPPE
 ===================================================== */
 
 function calculateStopCount(){
 
     let count = 4;
+
 
     switch(answers.time){
 
@@ -2101,50 +2170,34 @@ function calculateStopCount(){
     }
 
 
-    /*
-     * Il ritmo modifica la quantità.
-     */
-
     if(answers.pace === "slow"){
         count -= 1;
     }
+
 
     if(answers.pace === "fast"){
         count += 1;
     }
 
 
-    /*
-     * Se la persona vuole camminare poco,
-     * evitiamo itinerari troppo lunghi.
-     */
-
     if(answers.walking === "little"){
         count -= 1;
     }
 
 
-    /*
-     * Non meno di 3 e non più dei luoghi disponibili.
-     */
-
-    count =
-        Math.max(
-            3,
-            Math.min(
-                count,
-                Object.keys(places).length
-            )
-        );
-
-
-    return count;
+    return Math.max(
+        3,
+        Math.min(
+            count,
+            Object.keys(places).length
+        )
+    );
 
 }
 
 
 /* =====================================================
-   PUNTEGGIO INTELLIGENTE
+   PUNTEGGIO LUOGHI
 ===================================================== */
 
 function scorePlace(placeId){
@@ -2156,40 +2209,46 @@ function scorePlace(placeId){
 
 
     /*
-     * 1.
-     * ESPERIENZA PRINCIPALE
+     * =====================================
+     * ESPERIENZE MULTIPLE
+     * =====================================
      *
-     * È la preferenza più importante.
+     * Ogni esperienza selezionata
+     * aggiunge punti.
      */
 
-    if(
-        answers.experience &&
-        place.tags.includes(answers.experience)
-    ){
+    answers.experiences.forEach(experience => {
 
-        score += 10;
+        if(place.tags.includes(experience)){
 
-    }
+            score += 10;
+
+        }
+
+    });
 
 
     /*
-     * 2.
-     * INTERESSE
+     * =====================================
+     * INTERESSI MULTIPLI
+     * =====================================
      */
 
-    if(
-        answers.interests &&
-        place.tags.includes(answers.interests)
-    ){
+    answers.interests.forEach(interest => {
 
-        score += 7;
+        if(place.tags.includes(interest)){
 
-    }
+            score += 7;
+
+        }
+
+    });
 
 
     /*
-     * 3.
-     * MOMENTO DELLA GIORNATA
+     * =====================================
+     * MOMENTO
+     * =====================================
      */
 
     if(
@@ -2203,8 +2262,9 @@ function scorePlace(placeId){
 
 
     /*
-     * 4.
-     * COMPAGNIA
+     * =====================================
+     * COPPIA
+     * =====================================
      */
 
     if(answers.people === "coppia"){
@@ -2219,6 +2279,12 @@ function scorePlace(placeId){
 
     }
 
+
+    /*
+     * =====================================
+     * AMICI
+     * =====================================
+     */
 
     if(answers.people === "amici"){
 
@@ -2237,6 +2303,12 @@ function scorePlace(placeId){
     }
 
 
+    /*
+     * =====================================
+     * FAMIGLIA
+     * =====================================
+     */
+
     if(answers.people === "famiglia"){
 
         if(place.tags.includes("natura")){
@@ -2249,6 +2321,12 @@ function scorePlace(placeId){
 
     }
 
+
+    /*
+     * =====================================
+     * DA SOLO
+     * =====================================
+     */
 
     if(answers.people === "solo"){
 
@@ -2264,11 +2342,9 @@ function scorePlace(placeId){
 
 
     /*
-     * 5.
+     * =====================================
      * CAMMINARE
-     *
-     * Se ama camminare premiamo i luoghi
-     * più distanti e panoramici.
+     * =====================================
      */
 
     if(answers.walking === "much"){
@@ -2288,11 +2364,6 @@ function scorePlace(placeId){
 
     }
 
-
-    /*
-     * Se vuole camminare poco,
-     * favoriamo tappe centrali e ravvicinate.
-     */
 
     if(answers.walking === "little"){
 
@@ -2319,8 +2390,9 @@ function scorePlace(placeId){
 
 
     /*
-     * 6.
+     * =====================================
      * RITMO
+     * =====================================
      */
 
     if(answers.pace === "slow"){
@@ -2352,27 +2424,9 @@ function scorePlace(placeId){
 
 
     /*
-     * 7.
-     * BUDGET
-     *
-     * Per ora VIVI lavora principalmente con
-     * luoghi pubblici e gratuiti.
-     *
-     * Quindi non penalizziamo nessuna tappa.
-     * Questa parte è pronta per quando
-     * aggiungeremo musei, ristoranti ecc.
-     */
-
-    if(answers.budget === "free"){
-
-        score += 1;
-
-    }
-
-
-    /*
-     * 8.
-     * MOMENTI SPECIALI
+     * =====================================
+     * TRAMONTO
+     * =====================================
      */
 
     if(answers.moment === "sunset"){
@@ -2391,6 +2445,12 @@ function scorePlace(placeId){
     }
 
 
+    /*
+     * =====================================
+     * NOTTE
+     * =====================================
+     */
+
     if(answers.moment === "night"){
 
         if(
@@ -2407,6 +2467,12 @@ function scorePlace(placeId){
 
     }
 
+
+    /*
+     * =====================================
+     * MATTINA
+     * =====================================
+     */
 
     if(answers.moment === "morning"){
 
@@ -2435,15 +2501,44 @@ function scorePlace(placeId){
 
 function buildSmartRoute(){
 
-    const experience =
-        answers.experience ||
-        selectedExperience ||
-        "romantica";
+    /*
+     * Se l'utente ha scelto più esperienze,
+     * creiamo un ordine combinato.
+     */
+
+    let preferredOrder = [];
 
 
-    const preferredOrder =
-        routes[experience] ||
-        routes.romantica;
+    answers.experiences.forEach(experience => {
+
+        if(routes[experience]){
+
+            routes[experience].forEach(placeId => {
+
+                if(!preferredOrder.includes(placeId)){
+
+                    preferredOrder.push(placeId);
+
+                }
+
+            });
+
+        }
+
+    });
+
+
+    /*
+     * Se per qualche motivo non c'è un'esperienza,
+     * usiamo una base generale.
+     */
+
+    if(preferredOrder.length === 0){
+
+        preferredOrder =
+            routes.romantica.slice();
+
+    }
 
 
     const stopCount =
@@ -2466,20 +2561,17 @@ function buildSmartRoute(){
 
 
     /*
-     * Ordiniamo dal più adatto al meno adatto.
+     * Ordiniamo in base alla compatibilità.
      */
 
     scoredPlaces.sort((a,b) => {
 
         if(b.score !== a.score){
+
             return b.score - a.score;
+
         }
 
-        /*
-         * In caso di pari punteggio,
-         * manteniamo l'ordine naturale
-         * dell'esperienza scelta.
-         */
 
         return (
             preferredOrder.indexOf(a.id) -
@@ -2490,7 +2582,7 @@ function buildSmartRoute(){
 
 
     /*
-     * Prendiamo abbastanza tappe.
+     * Selezioniamo le migliori tappe.
      */
 
     let selected =
@@ -2500,11 +2592,7 @@ function buildSmartRoute(){
 
 
     /*
-     * Ora le rimettiamo in un ordine
-     * geograficamente/logicamente sensato.
-     *
-     * Non vogliamo 5 luoghi scelti bene
-     * ma messi completamente a caso.
+     * Manteniamo un ordine sensato.
      */
 
     selected.sort((a,b) => {
@@ -2569,12 +2657,12 @@ function createSmartSummary(){
 
 
     /*
-     * ESPERIENZA
+     * ESPERIENZE MULTIPLE
      */
 
     const experienceNames = {
 
-        romantica:"atmosfera romantica",
+        romantica:"romanticismo",
 
         storia:"storia e cultura",
 
@@ -2593,12 +2681,83 @@ function createSmartSummary(){
     };
 
 
-    if(answers.experience){
+    if(answers.experiences.length){
 
-        parts.push(
-            "con una forte attenzione a " +
-            experienceNames[answers.experience]
-        );
+        const names =
+            answers.experiences
+                .map(value => experienceNames[value])
+                .filter(Boolean);
+
+
+        if(names.length === 1){
+
+            parts.push(
+                "con una forte attenzione a " + names[0]
+            );
+
+        }else{
+
+            parts.push(
+                "unendo " +
+                names.slice(0,-1).join(", ") +
+                " e " +
+                names[names.length - 1]
+            );
+
+        }
+
+    }
+
+
+    /*
+     * INTERESSI MULTIPLI
+     */
+
+    const interestNames = {
+
+        monumenti:"monumenti",
+
+        foto:"fotografia",
+
+        tramonto:"tramonto",
+
+        cibo:"cibo",
+
+        passeggiare:"passeggiate",
+
+        chiese:"chiese",
+
+        natura:"natura",
+
+        notte:"vita notturna"
+
+    };
+
+
+    if(answers.interests.length){
+
+        const names =
+            answers.interests
+                .map(value => interestNames[value])
+                .filter(Boolean);
+
+
+        if(names.length === 1){
+
+            parts.push(
+                "dando spazio a " + names[0]
+            );
+
+        }else{
+
+            parts.push(
+                "tenendo conto anche di " +
+                names.slice(0,-1).join(", ") +
+                " e " +
+                names[names.length - 1]
+            );
+
+        }
 
     }
 
@@ -2660,7 +2819,7 @@ function createSmartSummary(){
     return (
         "Abbiamo creato " +
         parts.join(", ") +
-        ". Ogni tappa è stata scelta considerando le tue risposte, il tempo che hai e il ritmo con cui vuoi vivere Roma."
+        ". Ogni tappa è stata scelta considerando le tue risposte, il tempo che hai e il modo in cui vuoi vivere Roma."
     );
 
 }
@@ -2681,6 +2840,7 @@ function createJourney(){
 
     const results =
         document.getElementById("esplora");
+
 
     results.classList.add("show");
 
@@ -2709,7 +2869,7 @@ function renderResult(route){
 
 
     /*
-     * TESTO PERSONALIZZATO
+     * TESTO
      */
 
     document.getElementById(
@@ -2719,7 +2879,7 @@ function renderResult(route){
 
 
     /*
-     * TAG DEL VIAGGIO
+     * TAG
      */
 
     const tags =
@@ -2767,7 +2927,6 @@ function renderResult(route){
 
         free:"Budget contenuto",
         low:"Budget contenuto",
-        medium:"Budget medio",
         high:"Budget flessibile",
 
         morning:"Mattina",
@@ -2778,13 +2937,54 @@ function renderResult(route){
     };
 
 
+    /*
+     * Mostriamo le esperienze multiple
+     */
+
+    answers.experiences.forEach(value => {
+
+        const tag =
+            document.createElement("div");
+
+        tag.className = "result-tag";
+
+        tag.textContent =
+            tagNames[value] || value;
+
+        tags.appendChild(tag);
+
+    });
+
+
+    /*
+     * Mostriamo gli interessi multipli
+     */
+
+    answers.interests.forEach(value => {
+
+        const tag =
+            document.createElement("div");
+
+        tag.className = "result-tag";
+
+        tag.textContent =
+            tagNames[value] || value;
+
+        tags.appendChild(tag);
+
+    });
+
+
+    /*
+     * Altri dati
+     */
+
     [
         answers.people,
-        answers.experience,
-        answers.interests,
         answers.time,
         answers.pace,
         answers.walking,
+        answers.budget,
         answers.moment
     ]
     .filter(Boolean)
@@ -2819,6 +3019,7 @@ function renderResult(route){
 
         const stop =
             document.createElement("div");
+
 
         stop.className = "stop";
 
@@ -2861,7 +3062,9 @@ function renderResult(route){
                     target="_blank"
                     rel="noopener noreferrer"
                     href="${mapsUrl}">
+
                     Portami qui →
+
                 </a>
 
             </div>
@@ -2881,7 +3084,6 @@ function renderResult(route){
 
 /* =====================================================
    GOOGLE MAPS
-   COORDINATE PRECISE
 ===================================================== */
 
 function createMapsUrl(place){
@@ -2936,11 +3138,10 @@ function createMap(route){
             places[placeId];
 
 
-        const coords =
-            [
-                place.lat,
-                place.lng
-            ];
+        const coords = [
+            place.lat,
+            place.lng
+        ];
 
 
         coordinates.push(coords);
@@ -2989,7 +3190,9 @@ function createMap(route){
                         font-size:11px;
                         text-decoration:none;
                     ">
+
                     Portami qui →
+
                 </a>
 
             </div>
@@ -3041,8 +3244,8 @@ function restartJourney(){
     answers = {
 
         people:null,
-        experience:null,
-        interests:null,
+        experiences:[],
+        interests:[],
         time:null,
         pace:null,
         walking:null,
