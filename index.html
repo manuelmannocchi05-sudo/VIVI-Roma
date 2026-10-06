@@ -25,8 +25,7 @@ body{
   color:#211e1b;
 }
 
-button,
-select{
+button,select{
   font-family:inherit;
 }
 
@@ -39,7 +38,7 @@ a{
   color:inherit;
 }
 
-/* NAVBAR */
+/* NAV */
 
 nav{
   position:fixed;
@@ -146,13 +145,15 @@ nav{
   font-weight:700;
 }
 
+/* FOTO PRINCIPALE MODIFICATA */
+
 .hero-image{
   height:620px;
   border-radius:25px;
   overflow:hidden;
   background:
-    linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.2)),
-    url('https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=85')
+    linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.18)),
+    url('https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1400&q=90')
     center/cover;
 }
 
@@ -271,7 +272,7 @@ section{
   font-size:13px;
 }
 
-/* VIVI GUIDE */
+/* GUIDE */
 
 .guide{
   background:#211e1b;
@@ -552,6 +553,7 @@ footer p{
 /* MOBILE */
 
 @media(max-width:900px){
+
   .nav-links{
     display:none;
   }
@@ -578,9 +580,11 @@ footer p{
   .explore-grid{
     grid-template-columns:1fr 1fr;
   }
+
 }
 
 @media(max-width:600px){
+
   nav{
     padding:16px 5%;
   }
@@ -631,6 +635,7 @@ footer p{
   footer{
     display:block;
   }
+
 }
 </style>
 </head>
@@ -638,6 +643,7 @@ footer p{
 <body>
 
 <nav>
+
   <div class="logo">VIVI</div>
 
   <div class="nav-links">
@@ -649,10 +655,9 @@ footer p{
   <button class="nav-cta" type="button" onclick="startBuilder()">
     Crea il mio percorso
   </button>
+
 </nav>
 
-
-<!-- HERO -->
 
 <header class="hero">
 
@@ -672,13 +677,21 @@ footer p{
     </p>
 
     <div class="hero-buttons">
-      <button class="primary-btn" type="button" onclick="startBuilder()">
+
+      <button
+        class="primary-btn"
+        type="button"
+        onclick="startBuilder()">
         Crea la mia esperienza →
       </button>
 
-      <button class="secondary-btn" type="button" onclick="document.getElementById('esperienze').scrollIntoView()">
+      <button
+        class="secondary-btn"
+        type="button"
+        onclick="document.getElementById('esperienze').scrollIntoView()">
         Scopri VIVI
       </button>
+
     </div>
 
   </div>
@@ -688,94 +701,165 @@ footer p{
 </header>
 
 
-<!-- ESPERIENZE -->
-
 <section id="esperienze">
 
   <div class="section-top">
 
     <div>
+
       <small style="color:#8c2924;font-weight:700;letter-spacing:2px;">
         SCEGLI COME VIVERE ROMA
       </small>
 
-      <h2>Roma ha un modo<br>diverso per ognuno.</h2>
+      <h2>
+        Roma ha un modo<br>
+        diverso per ognuno.
+      </h2>
+
     </div>
 
     <p>
       Dimmi cosa cerchi e VIVI costruisce il percorso intorno a te.
-      Puoi anche scegliere più avanti il tuo ritmo, il budget e il punto
+      Puoi anche scegliere il tuo ritmo, il budget e il punto
       da cui vuoi partire.
     </p>
 
   </div>
 
+
   <div class="experience-grid">
 
-    <button class="experience-card" type="button" onclick="quickExperience('romantica')">
+    <button class="experience-card" type="button"
+      onclick="quickExperience('romantica')">
+
       <span class="experience-icon">♡</span>
+
       <h3>Romantica</h3>
-      <p>Passeggiate, tramonti e angoli perfetti da vivere in due.</p>
+
+      <p>
+        Passeggiate, tramonti e angoli perfetti da vivere in due.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('storia')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('storia')">
+
       <span class="experience-icon">🏛</span>
+
       <h3>Storia & cultura</h3>
-      <p>Roma antica, racconti, quartieri storici e luoghi da capire.</p>
+
+      <p>
+        Roma antica, racconti, quartieri storici e luoghi da capire.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('cibo')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('cibo')">
+
       <span class="experience-icon">🍝</span>
+
       <h3>Come un romano</h3>
-      <p>Vivi la città attraverso cibo, quartieri e abitudini locali.</p>
+
+      <p>
+        Vivi la città attraverso cibo, quartieri e abitudini locali.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('foto')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('foto')">
+
       <span class="experience-icon">📷</span>
+
       <h3>Fotografica</h3>
-      <p>Scorci, prospettive e punti panoramici da ricordare.</p>
+
+      <p>
+        Scorci, prospettive e punti panoramici da ricordare.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('religiosa')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('religiosa')">
+
       <span class="experience-icon">✦</span>
+
       <h3>Religiosa</h3>
-      <p>Basiliche, chiese, arte sacra e luoghi spirituali.</p>
+
+      <p>
+        Basiliche, chiese, arte sacra e luoghi spirituali.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('natura')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('natura')">
+
       <span class="experience-icon">🌿</span>
+
       <h3>Natura</h3>
-      <p>Parchi, ville, giardini e passeggiate lontane dal caos.</p>
+
+      <p>
+        Parchi, ville, giardini e passeggiate lontane dal caos.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('nascosta')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('nascosta')">
+
       <span class="experience-icon">◌</span>
+
       <h3>Roma nascosta</h3>
-      <p>Luoghi meno conosciuti, strade particolari e piccoli tesori.</p>
+
+      <p>
+        Luoghi meno conosciuti, strade particolari e piccoli tesori.
+      </p>
+
     </button>
 
-    <button class="experience-card" type="button" onclick="quickExperience('notte')">
+
+    <button class="experience-card" type="button"
+      onclick="quickExperience('notte')">
+
       <span class="experience-icon">☾</span>
+
       <h3>Roma di notte</h3>
-      <p>La città quando cambia atmosfera e diventa completamente diversa.</p>
+
+      <p>
+        La città quando cambia atmosfera e diventa completamente diversa.
+      </p>
+
     </button>
 
   </div>
+
 </section>
 
-
-<!-- CON CHI -->
 
 <section>
 
   <div class="section-top">
 
     <div>
+
       <small style="color:#8c2924;font-weight:700;letter-spacing:2px;">
         PERSONALIZZA
       </small>
 
-      <h2>Con chi vivi<br>Roma?</h2>
+      <h2>
+        Con chi vivi<br>
+        Roma?
+      </h2>
+
     </div>
 
     <p>
@@ -785,37 +869,68 @@ footer p{
 
   </div>
 
+
   <div class="who-grid">
 
-    <button class="who-card" type="button" onclick="quickWho('solo')">
+    <button class="who-card" type="button"
+      onclick="quickWho('solo')">
+
       <span class="emoji">🧍</span>
+
       <h3>Da solo</h3>
-      <p>Segui i tuoi ritmi e scopri Roma senza compromessi.</p>
+
+      <p>
+        Segui i tuoi ritmi e scopri Roma senza compromessi.
+      </p>
+
     </button>
 
-    <button class="who-card" type="button" onclick="quickWho('coppia')">
+
+    <button class="who-card" type="button"
+      onclick="quickWho('coppia')">
+
       <span class="emoji">❤️</span>
+
       <h3>In coppia</h3>
-      <p>Un'esperienza pensata per essere vissuta insieme.</p>
+
+      <p>
+        Un'esperienza pensata per essere vissuta insieme.
+      </p>
+
     </button>
 
-    <button class="who-card" type="button" onclick="quickWho('amici')">
+
+    <button class="who-card" type="button"
+      onclick="quickWho('amici')">
+
       <span class="emoji">👥</span>
+
       <h3>Con amici</h3>
-      <p>Più movimento, cose da fare e momenti da condividere.</p>
+
+      <p>
+        Più movimento, cose da fare e momenti da condividere.
+      </p>
+
     </button>
 
-    <button class="who-card" type="button" onclick="quickWho('famiglia')">
+
+    <button class="who-card" type="button"
+      onclick="quickWho('famiglia')">
+
       <span class="emoji">👨‍👩‍👧</span>
+
       <h3>In famiglia</h3>
-      <p>Un percorso semplice, interessante e adatto a tutti.</p>
+
+      <p>
+        Un percorso semplice, interessante e adatto a tutti.
+      </p>
+
     </button>
 
   </div>
+
 </section>
 
-
-<!-- GUIDE -->
 
 <section id="guida">
 
@@ -823,9 +938,14 @@ footer p{
 
     <div>
 
-      <span class="guide-label">Il tuo compagno a Roma</span>
+      <span class="guide-label">
+        Il tuo compagno a Roma
+      </span>
 
-      <h2>VIVI<br>Guide.</h2>
+      <h2>
+        VIVI<br>
+        Guide.
+      </h2>
 
       <p>
         Non sai cosa fare adesso?
@@ -843,6 +963,7 @@ footer p{
       </button>
 
     </div>
+
 
     <div class="chat-box">
 
@@ -872,18 +993,21 @@ footer p{
 </section>
 
 
-<!-- ESPLORA -->
-
 <section id="esplora">
 
   <div class="section-top">
 
     <div>
+
       <small style="color:#8c2924;font-weight:700;letter-spacing:2px;">
         ESPLORA
       </small>
 
-      <h2>Tutta Roma.<br>Non solo il centro.</h2>
+      <h2>
+        Tutta Roma.<br>
+        Non solo il centro.
+      </h2>
+
     </div>
 
     <p>
@@ -894,72 +1018,138 @@ footer p{
 
   </div>
 
+
   <div class="explore-grid">
 
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>Roma iconica</small>
+
         <h3>Colosseo</h3>
-        <p>La Roma che tutti conoscono, raccontata in modo diverso.</p>
+
+        <p>
+          La Roma che tutti conoscono, raccontata in modo diverso.
+        </p>
+
       </div>
+
     </div>
 
+
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>Panorami</small>
+
         <h3>Gianicolo</h3>
-        <p>Uno dei modi migliori per fermarsi e guardare Roma dall'alto.</p>
+
+        <p>
+          Uno dei modi migliori per fermarsi e guardare Roma dall'alto.
+        </p>
+
       </div>
+
     </div>
 
+
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>Roma nascosta</small>
+
         <h3>Quartieri da scoprire</h3>
-        <p>Fuori dalle rotte principali, dove Roma diventa più autentica.</p>
+
+        <p>
+          Fuori dalle rotte principali, dove Roma diventa più autentica.
+        </p>
+
       </div>
+
     </div>
 
+
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1543429776-2782fc8e1acd?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>Verde</small>
+
         <h3>Ville e parchi</h3>
-        <p>Quando vuoi rallentare, camminare e respirare un'altra Roma.</p>
+
+        <p>
+          Quando vuoi rallentare, camminare e respirare un'altra Roma.
+        </p>
+
       </div>
+
     </div>
 
+
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>Arte</small>
+
         <h3>Roma dell'arte</h3>
-        <p>Chiese, musei, palazzi e dettagli che spesso passano inosservati.</p>
+
+        <p>
+          Chiese, musei, palazzi e dettagli che spesso passano inosservati.
+        </p>
+
       </div>
+
     </div>
 
+
     <div class="place-card">
-      <div class="place-image"
+
+      <div
+        class="place-image"
         style="background-image:url('https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=1000&q=85')">
       </div>
+
       <div class="place-content">
+
         <small>La sera</small>
+
         <h3>Roma di notte</h3>
-        <p>Quando le strade cambiano faccia e la città inizia una seconda vita.</p>
+
+        <p>
+          Quando le strade cambiano faccia e la città inizia una seconda vita.
+        </p>
+
       </div>
+
     </div>
 
   </div>
@@ -967,17 +1157,22 @@ footer p{
 </section>
 
 
-<!-- BUILDER -->
-
 <section class="builder-section">
 
   <div class="builder-box" id="builder">
 
     <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
+
+      <div
+        class="progress-bar"
+        id="progressBar">
+      </div>
+
     </div>
 
+
     <div id="builderContent"></div>
+
 
     <div class="builder-footer">
 
@@ -989,6 +1184,7 @@ footer p{
         ← Indietro
       </button>
 
+
       <button
         class="next-btn"
         id="nextBtn"
@@ -999,7 +1195,11 @@ footer p{
 
     </div>
 
-    <div class="result" id="result"></div>
+
+    <div
+      class="result"
+      id="result">
+    </div>
 
   </div>
 
@@ -1009,11 +1209,17 @@ footer p{
 <footer>
 
   <div>
-    <div class="logo">VIVI</div>
+
+    <div class="logo">
+      VIVI
+    </div>
+
     <p style="margin-top:12px;">
       Non visitare Roma. Vivila.
     </p>
+
   </div>
+
 
   <p>
     Un nuovo modo di scoprire Roma,
@@ -1024,10 +1230,6 @@ footer p{
 
 
 <script>
-
-/* =========================================
-   DATI DEL BUILDER
-========================================= */
 
 const steps = [
 
@@ -1110,10 +1312,6 @@ const steps = [
 ];
 
 
-/* =========================================
-   STATO
-========================================= */
-
 let currentStep = 0;
 
 let selections = {
@@ -1126,10 +1324,6 @@ let selections = {
 };
 
 
-/* =========================================
-   AVVIO BUILDER
-========================================= */
-
 function startBuilder(){
 
   document.getElementById("builder").scrollIntoView({
@@ -1140,24 +1334,23 @@ function startBuilder(){
   setTimeout(()=>{
     renderStep();
   },300);
+
 }
 
-
-/* =========================================
-   RENDER STEP
-========================================= */
 
 function renderStep(){
 
   const step = steps[currentStep];
 
-  const content = document.getElementById("builderContent");
+  const content =
+    document.getElementById("builderContent");
 
   const progress =
     ((currentStep + 1) / steps.length) * 100;
 
   document.getElementById("progressBar").style.width =
     progress + "%";
+
 
   content.innerHTML = `
 
@@ -1174,6 +1367,7 @@ function renderStep(){
     </p>
 
     <div class="options" id="options"></div>
+
   `;
 
 
@@ -1197,6 +1391,7 @@ function renderStep(){
 
 
     button.innerHTML = `
+
       <div class="option-title">
         ${option[0]}
       </div>
@@ -1204,6 +1399,7 @@ function renderStep(){
       <div class="option-description">
         ${option[1]}
       </div>
+
     `;
 
 
@@ -1242,10 +1438,6 @@ function renderStep(){
 }
 
 
-/* =========================================
-   SELEZIONE CORRENTE
-========================================= */
-
 function getCurrentSelection(){
 
   const keys = [
@@ -1278,10 +1470,6 @@ function setCurrentSelection(index){
 }
 
 
-/* =========================================
-   NEXT
-========================================= */
-
 function nextStep(){
 
   if(getCurrentSelection() === null){
@@ -1289,6 +1477,7 @@ function nextStep(){
     alert("Scegli un'opzione per continuare.");
 
     return;
+
   }
 
 
@@ -1299,6 +1488,7 @@ function nextStep(){
     renderStep();
 
     return;
+
   }
 
 
@@ -1306,10 +1496,6 @@ function nextStep(){
 
 }
 
-
-/* =========================================
-   BACK
-========================================= */
 
 function previousStep(){
 
@@ -1323,10 +1509,6 @@ function previousStep(){
 
 }
 
-
-/* =========================================
-   ESPERIENZE RAPIDE
-========================================= */
 
 function quickExperience(type){
 
@@ -1349,10 +1531,6 @@ function quickExperience(type){
 }
 
 
-/* =========================================
-   CHI SEI
-========================================= */
-
 function quickWho(type){
 
   const map = {
@@ -1366,7 +1544,8 @@ function quickWho(type){
   selections.people = map[type];
 
 
-  document.querySelectorAll(".who-card")
+  document
+    .querySelectorAll(".who-card")
     .forEach(card=>{
       card.classList.remove("selected");
     });
@@ -1379,10 +1558,6 @@ function quickWho(type){
 
 }
 
-
-/* =========================================
-   GENERAZIONE PERCORSO
-========================================= */
 
 function generateTrip(){
 
@@ -1431,14 +1606,21 @@ function generateTrip(){
 
     <div class="result-card">
 
-      <div class="result-number">1</div>
+      <div class="result-number">
+        1
+      </div>
 
       <div>
-        <h4>Partenza</h4>
+
+        <h4>
+          Partenza
+        </h4>
+
         <p>
           Scegli il punto di Roma da cui vuoi iniziare.
           Nella versione completa VIVI userà la tua posizione GPS.
         </p>
+
       </div>
 
     </div>
@@ -1446,14 +1628,21 @@ function generateTrip(){
 
     <div class="result-card">
 
-      <div class="result-number">2</div>
+      <div class="result-number">
+        2
+      </div>
 
       <div>
-        <h4>Prima esperienza</h4>
+
+        <h4>
+          Prima esperienza
+        </h4>
+
         <p>
           Una tappa selezionata in base a
           ${experience.toLowerCase()} e al tuo ritmo.
         </p>
+
       </div>
 
     </div>
@@ -1461,14 +1650,21 @@ function generateTrip(){
 
     <div class="result-card">
 
-      <div class="result-number">3</div>
+      <div class="result-number">
+        3
+      </div>
 
       <div>
-        <h4>Scopri qualcosa di diverso</h4>
+
+        <h4>
+          Scopri qualcosa di diverso
+        </h4>
+
         <p>
           VIVI inserirà anche un luogo meno scontato,
           evitando di trasformare il percorso nella solita lista turistica.
         </p>
+
       </div>
 
     </div>
@@ -1476,14 +1672,21 @@ function generateTrip(){
 
     <div class="result-card">
 
-      <div class="result-number">4</div>
+      <div class="result-number">
+        4
+      </div>
 
       <div>
-        <h4>Ultima tappa</h4>
+
+        <h4>
+          Ultima tappa
+        </h4>
+
         <p>
           Il percorso terminerà con un'esperienza coerente
           con ciò che hai scelto.
         </p>
+
       </div>
 
     </div>
@@ -1513,10 +1716,6 @@ function generateTrip(){
 }
 
 
-/* =========================================
-   RESET
-========================================= */
-
 function resetBuilder(){
 
   currentStep = 0;
@@ -1534,10 +1733,6 @@ function resetBuilder(){
 
 }
 
-
-/* =========================================
-   PRIMA APERTURA
-========================================= */
 
 renderStep();
 
