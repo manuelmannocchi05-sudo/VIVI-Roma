@@ -568,10 +568,12 @@ a{
   height:250px;
   position:relative;
   background:#49433e;
+  overflow:hidden;
 }
 
 .route-image img{
   height:100%;
+  width:100%;
   object-fit:cover;
 }
 
@@ -1539,32 +1541,6 @@ footer{
 
 /* ============================================================
    VIVI — DATABASE COMPLETO DELLE DESTINAZIONI
-   ============================================================
-
-   IMPORTANTE:
-
-   OGNI luogo ha:
-   - nome
-   - categoria
-   - descrizione
-   - coordinate
-   - titolo Wikipedia PROPRIO
-
-   La foto viene recuperata dalla pagina specifica
-   di quel luogo.
-
-   Quindi:
-   Colosseo -> foto del Colosseo
-   Pantheon -> foto del Pantheon
-   Testaccio -> foto di Testaccio
-   Garbatella -> foto di Garbatella
-   ecc.
-
-============================================================ */
-
-
-/* ============================================================
-   DATABASE
 ============================================================ */
 
 const places = {
@@ -2489,7 +2465,7 @@ const interestPlaces = {
     "caracalla",
     "domusAurea",
     "largoTorre",
-    "theaterMarcello",
+    "teatroMarcello",
     "foroTraiano",
     "colonnaTraiana",
     "arcoCostantino",
@@ -2502,7 +2478,7 @@ const interestPlaces = {
     "navona",
     "spanishSteps",
     "popolo",
-    "capitoline",
+    "capitolini",
     "borgheseGallery",
     "vatican",
     "saintPeter",
@@ -2751,21 +2727,14 @@ const imageCache = {};
 
 
 /*
-  Usiamo l'API di Wikipedia per cercare la miniatura
-  della PAGINA SPECIFICA del luogo.
+  Ogni destinazione possiede il proprio titolo Wikipedia.
 
-  Ogni place ha il proprio "wiki".
+  La richiesta viene fatta sulla pagina specifica
+  del luogo e viene recuperata la sua miniatura.
 
-  Esempio:
-
-  colosseum -> Colosseo
-  pantheon -> Pantheon (Roma)
-  testaccio -> Testaccio
-  garbatella -> Garbatella
-
-  Quindi non viene usata una singola foto per categoria.
+  NON viene usata una foto generica di Roma
+  come sostituzione per un altro luogo.
 */
-
 
 async function getPlaceImage(place){
 
@@ -2782,20 +2751,28 @@ async function getPlaceImage(place){
       "&format=json" +
       "&origin=*" +
       "&piprop=thumbnail" +
-      "&pithumbsize=1200" +
+      "&pithumbsize=1600" +
       "&redirects=1" +
       "&titles=" +
       encodeURIComponent(place.wiki);
 
-    const response = await fetch(url);
+    const response =
+      await fetch(url);
 
     if(!response.ok){
+      console.warn(
+        "Wikipedia non ha risposto per:",
+        place.name
+      );
+
       return null;
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
-    const pages = data?.query?.pages;
+    const pages =
+      data?.query?.pages;
 
     if(!pages){
       return null;
@@ -2804,20 +2781,41 @@ async function getPlaceImage(place){
     const page =
       Object.values(pages)[0];
 
+    if(!page || page.missing){
+      console.warn(
+        "Pagina Wikipedia non trovata:",
+        place.name,
+        place.wiki
+      );
+
+      return null;
+    }
+
     const image =
       page?.thumbnail?.source || null;
 
     if(image){
-      imageCache[place.name] = image;
+
+      imageCache[place.name] =
+        image;
+
+      return image;
+
     }
 
-    return image;
+    console.warn(
+      "Nessuna immagine trovata per:",
+      place.name
+    );
+
+    return null;
 
   }catch(error){
 
     console.warn(
-      "Immagine non caricata:",
-      place.name
+      "Errore caricamento foto:",
+      place.name,
+      error
     );
 
     return null;
@@ -2836,35 +2834,64 @@ async function loadRouteImages(){
   const cards =
     document.querySelectorAll(".route-card");
 
-  for(const card of cards){
+  await Promise.all(
 
-    const id =
-      card.dataset.place;
+    [...cards].map(async card=>{
 
-    const place =
-      places[id];
+      const id =
+        card.dataset.place;
 
-    if(!place) continue;
+      const place =
+        places[id];
 
-    const img =
-      await getPlaceImage(place);
+      if(!place) return;
 
-    const image =
-      card.querySelector(".route-image img");
+      const image =
+        card.querySelector(".route-image img");
 
-    if(img && image){
+      const container =
+        card.querySelector(".route-image");
 
-      image.src = img;
+      if(!image || !container){
+        return;
+      }
 
-      image.onload = ()=>{
-        image.parentElement.classList.remove(
+      const imgUrl =
+        await getPlaceImage(place);
+
+      if(imgUrl){
+
+        image.src =
+          imgUrl;
+
+        image.alt =
+          `Foto di ${place.name}`;
+
+        image.onload = ()=>{
+
+          container.classList.remove(
+            "photo-loading"
+          );
+
+        };
+
+      }else{
+
+        /*
+          Nessun fallback generico:
+          se non viene trovata la foto specifica,
+          non mostriamo la foto di un altro posto.
+        */
+
+        container.classList.remove(
           "photo-loading"
         );
-      };
 
-    }
+      }
 
-  }
+    })
+
+  );
 
 }
 
@@ -2968,7 +2995,7 @@ function generateRoute(){
       "popolo",
       "campo",
       "vittoriano",
-      "capitoline",
+      "capitolini",
       "campidoglio",
       "corso"
     ];
@@ -3166,9 +3193,11 @@ function renderResults(ids){
     const card =
       document.createElement("article");
 
-    card.className = "route-card";
+    card.className =
+      "route-card";
 
-    card.dataset.place = id;
+    card.dataset.place =
+      id;
 
 
     const mapsUrl =
@@ -3402,14 +3431,6 @@ updateQuiz();
 /* ============================================================
    CONTROLLO FOTO
 ============================================================ */
-
-/*
-  Questo controllo verifica che OGNI elemento
-  del database abbia il proprio campo "wiki".
-
-  Se in futuro aggiungiamo un posto senza wiki,
-  lo vediamo immediatamente nella console.
-*/
 
 Object.entries(places).forEach(([id,place])=>{
 
