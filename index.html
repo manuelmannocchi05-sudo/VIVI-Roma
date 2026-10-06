@@ -408,37 +408,123 @@ a{
   gap:14px;
 }
 
+/* OPZIONI PREMIUM */
+
 .option{
-  border:1px solid var(--line);
-  background:#fff;
-  border-radius:20px;
-  padding:22px;
-  min-height:105px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(33,31,28,.10);
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf9 0%,
+      #f8f2e9 100%
+    );
+  border-radius:22px;
+  padding:24px;
+  min-height:118px;
   text-align:left;
-  transition:.25s ease;
+  transition:
+    transform .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    background .28s ease;
+  box-shadow:
+    0 7px 20px rgba(32,27,22,.06);
+}
+
+.option:before{
+  content:"";
+  position:absolute;
+  width:105px;
+  height:105px;
+  right:-38px;
+  bottom:-48px;
+  border-radius:50%;
+  background:rgba(178,141,85,.09);
+  transition:.3s ease;
+}
+
+.option:after{
+  content:"↗";
+  position:absolute;
+  top:17px;
+  right:17px;
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(178,141,85,.25);
+  border-radius:50%;
+  color:var(--gold);
+  font-size:12px;
+  opacity:.65;
+  transition:.28s ease;
 }
 
 .option:hover{
-  border-color:var(--gold);
-  transform:translateY(-3px);
+  border-color:rgba(178,141,85,.65);
+  transform:translateY(-4px);
+  box-shadow:
+    0 14px 30px rgba(32,27,22,.10);
+}
+
+.option:hover:before{
+  transform:scale(1.25);
+}
+
+.option:hover:after{
+  opacity:1;
+  transform:rotate(45deg);
 }
 
 .option.selected{
   border-color:var(--red);
-  background:#faf0ed;
-  box-shadow:0 0 0 2px rgba(141,48,40,.08);
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf7 0%,
+      #f8eae6 100%
+    );
+  box-shadow:
+    0 14px 32px rgba(141,48,40,.12),
+    inset 0 0 0 1px rgba(178,141,85,.16);
+  transform:translateY(-2px);
+}
+
+.option.selected:after{
+  content:"✓";
+  background:var(--red);
+  border-color:var(--red);
+  color:white;
+  opacity:1;
+  transform:none;
+}
+
+.option.selected:before{
+  background:rgba(141,48,40,.08);
+  transform:scale(1.2);
 }
 
 .option strong{
+  position:relative;
+  z-index:1;
   display:block;
-  margin-bottom:6px;
-  font-size:15px;
+  margin-bottom:8px;
+  padding-right:34px;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:-.01em;
 }
 
 .option span{
+  position:relative;
+  z-index:1;
   display:block;
+  max-width:220px;
   color:var(--muted);
   font-size:13px;
+  line-height:1.5;
 }
 
 .photo-options{
@@ -575,10 +661,17 @@ a{
   height:100%;
   width:100%;
   object-fit:cover;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+
+.route-image.loaded img{
+  opacity:1;
 }
 
 .route-number{
   position:absolute;
+  z-index:3;
   top:15px;
   left:15px;
   background:rgba(20,18,16,.82);
@@ -925,7 +1018,10 @@ footer{
       <a href="#crea" class="nav-cta">Inizia</a>
     </nav>
 
-    <button class="mobile-menu" onclick="document.querySelector('.nav-links').style.display='flex'">
+    <button
+      class="mobile-menu"
+      onclick="document.querySelector('.nav-links').style.display='flex'"
+    >
       ☰
     </button>
 
@@ -989,6 +1085,7 @@ footer{
         <img
           src="https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1500&q=85"
           alt="Roma"
+          loading="lazy"
         >
 
       </div>
@@ -1081,7 +1178,7 @@ footer{
         <div class="options">
 
           <button class="option" data-key="company" data-value="couple">
-            <strong>In due</strong>
+            <strong>In coppia</strong>
             <span>Una Roma da condividere.</span>
           </button>
 
@@ -1288,69 +1385,98 @@ footer{
         <div class="photo-options">
 
           <div class="photo-option" data-interest="ancient">
+
             <img
               src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80"
               alt="Roma Antica"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Roma Antica</strong>
               <span>Colosseo, Foro, Palatino e archeologia</span>
             </div>
+
           </div>
 
+
           <div class="photo-option" data-interest="art">
+
             <img
               src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80"
               alt="Arte"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Arte & Bellezza</strong>
               <span>Piazze, chiese, musei e capolavori</span>
             </div>
+
           </div>
 
+
           <div class="photo-option" data-interest="authentic">
+
             <img
               src="https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=900&q=80"
               alt="Roma autentica"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Roma Autentica</strong>
               <span>Quartieri, vicoli e vita romana</span>
             </div>
+
           </div>
 
+
           <div class="photo-option" data-interest="panoramas">
+
             <img
               src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=80"
               alt="Panorami"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Panorami & Relax</strong>
               <span>Belvedere, ville e giardini</span>
             </div>
+
           </div>
 
+
           <div class="photo-option" data-interest="romantic">
+
             <img
               src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=900&q=80"
               alt="Roma romantica"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Roma in Due</strong>
               <span>Luoghi romantici e tramonti</span>
             </div>
+
           </div>
 
+
           <div class="photo-option" data-interest="hidden">
+
             <img
               src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?auto=format&fit=crop&w=900&q=80"
               alt="Roma nascosta"
+              loading="lazy"
             >
+
             <div class="photo-option-content">
               <strong>Roma Nascosta</strong>
               <span>Angoli insoliti e luoghi meno conosciuti</span>
             </div>
+
           </div>
 
         </div>
@@ -1395,10 +1521,16 @@ footer{
     <div class="results-heading">
 
       <div>
-        <div class="eyebrow">La tua Roma</div>
+
+        <div class="eyebrow">
+          La tua Roma
+        </div>
+
         <h2 id="resultTitle">
-          Abbiamo trovato<br>la tua strada.
+          Abbiamo trovato<br>
+          la tua strada.
         </h2>
+
       </div>
 
       <p id="resultDescription">
@@ -1514,14 +1646,17 @@ footer{
     <div class="footer-top">
 
       <div>
+
         <div class="footer-logo">
           VIV<span>I</span>
         </div>
+
         <p>
           Non visitare Roma. Vivila.
           Una guida personale per scoprire
           la città in modo diverso.
         </p>
+
       </div>
 
     </div>
@@ -2580,16 +2715,18 @@ const answers = {
   interests:[]
 };
 
-
 const questions = document.querySelectorAll(".question");
+
 
 function updateQuiz(){
 
   questions.forEach(q=>{
+
     q.classList.toggle(
       "active",
       Number(q.dataset.step) === currentStep
     );
+
   });
 
   document.getElementById("stepCount").textContent =
@@ -2613,16 +2750,24 @@ document.querySelectorAll(".option").forEach(option=>{
 
   option.addEventListener("click",()=>{
 
-    const key = option.dataset.key;
-    const value = option.dataset.value;
+    const key =
+      option.dataset.key;
+
+    const value =
+      option.dataset.value;
 
     document
-      .querySelectorAll(`.option[data-key="${key}"]`)
-      .forEach(el=>el.classList.remove("selected"));
+      .querySelectorAll(
+        `.option[data-key="${key}"]`
+      )
+      .forEach(el=>{
+        el.classList.remove("selected");
+      });
 
     option.classList.add("selected");
 
-    answers[key] = value;
+    answers[key] =
+      value;
 
   });
 
@@ -2633,7 +2778,8 @@ document.querySelectorAll(".photo-option").forEach(card=>{
 
   card.addEventListener("click",()=>{
 
-    const interest = card.dataset.interest;
+    const interest =
+      card.dataset.interest;
 
     if(card.classList.contains("selected")){
 
@@ -2641,19 +2787,26 @@ document.querySelectorAll(".photo-option").forEach(card=>{
 
       answers.interests =
         answers.interests.filter(
-          item => item !== interest
+          item=>item !== interest
         );
 
       return;
     }
 
     if(answers.interests.length >= 3){
+
+      alert(
+        "Puoi scegliere massimo 3 mondi."
+      );
+
       return;
     }
 
     card.classList.add("selected");
 
-    answers.interests.push(interest);
+    answers.interests.push(
+      interest
+    );
 
   });
 
@@ -2664,12 +2817,14 @@ function currentAnswerValid(){
 
   if(currentStep < 7){
 
-    const q = questions[currentStep-1];
+    const q =
+      questions[currentStep-1];
 
     const key =
       q.querySelector(".option")?.dataset.key;
 
-    return key && answers[key];
+    return key &&
+      answers[key];
 
   }
 
@@ -2720,27 +2875,28 @@ function previousQuestion(){
 
 
 /* ============================================================
-   FOTO SPECIFICA PER OGNI POSTO
+   SISTEMA FOTO ROBUSTO
 ============================================================ */
 
 const imageCache = {};
 
 
 /*
-  Ogni destinazione possiede il proprio titolo Wikipedia.
+  Primo tentativo:
+  Wikipedia italiana.
 
-  La richiesta viene fatta sulla pagina specifica
-  del luogo e viene recuperata la sua miniatura.
+  Secondo tentativo:
+  API REST di Wikipedia.
 
-  NON viene usata una foto generica di Roma
-  come sostituzione per un altro luogo.
+  Terzo tentativo:
+  ricerca immagini su Wikimedia Commons.
+
+  In questo modo se una sorgente non restituisce
+  l'immagine, VIVI prova automaticamente un'altra fonte.
 */
 
-async function getPlaceImage(place){
 
-  if(imageCache[place.name]){
-    return imageCache[place.name];
-  }
+async function getWikipediaImage(place){
 
   try{
 
@@ -2757,14 +2913,11 @@ async function getPlaceImage(place){
       encodeURIComponent(place.wiki);
 
     const response =
-      await fetch(url);
+      await fetch(url,{
+        cache:"no-store"
+      });
 
     if(!response.ok){
-      console.warn(
-        "Wikipedia non ha risposto per:",
-        place.name
-      );
-
       return null;
     }
 
@@ -2782,45 +2935,277 @@ async function getPlaceImage(place){
       Object.values(pages)[0];
 
     if(!page || page.missing){
-      console.warn(
-        "Pagina Wikipedia non trovata:",
-        place.name,
-        place.wiki
-      );
-
       return null;
     }
 
-    const image =
-      page?.thumbnail?.source || null;
+    return page?.thumbnail?.source || null;
 
-    if(image){
-
-      imageCache[place.name] =
-        image;
-
-      return image;
-
-    }
+  }catch(error){
 
     console.warn(
-      "Nessuna immagine trovata per:",
+      "Wikipedia API non disponibile:",
       place.name
     );
 
     return null;
 
+  }
+
+}
+
+
+async function getWikipediaRestImage(place){
+
+  try{
+
+    const url =
+      "https://it.wikipedia.org/api/rest_v1/page/summary/" +
+      encodeURIComponent(place.wiki);
+
+    const response =
+      await fetch(url,{
+        cache:"no-store"
+      });
+
+    if(!response.ok){
+      return null;
+    }
+
+    const data =
+      await response.json();
+
+    return (
+      data?.originalimage?.source ||
+      data?.thumbnail?.source ||
+      null
+    );
+
+  }catch(error){
+
+    return null;
+
+  }
+
+}
+
+
+async function getCommonsImage(place){
+
+  try{
+
+    const search =
+      `${place.name} Roma`;
+
+    const url =
+      "https://commons.wikimedia.org/w/api.php" +
+      "?action=query" +
+      "&generator=search" +
+      "&gsrnamespace=6" +
+      "&gsrlimit=10" +
+      "&prop=imageinfo" +
+      "&iiprop=url" +
+      "&iiurlwidth=1600" +
+      "&format=json" +
+      "&origin=*" +
+      "&gsrsearch=" +
+      encodeURIComponent(search);
+
+    const response =
+      await fetch(url,{
+        cache:"no-store"
+      });
+
+    if(!response.ok){
+      return null;
+    }
+
+    const data =
+      await response.json();
+
+    const pages =
+      data?.query?.pages;
+
+    if(!pages){
+      return null;
+    }
+
+    const results =
+      Object.values(pages);
+
+    /*
+      Cerchiamo prima un risultato che abbia
+      nel titolo il nome del luogo.
+    */
+
+    const normalizedName =
+      place.name
+        .toLowerCase()
+        .replace(/[^\wÀ-ÿ\s]/g,"")
+        .trim();
+
+    const best =
+      results.find(item=>{
+
+        const title =
+          (item.title || "")
+            .toLowerCase();
+
+        return title.includes(
+          normalizedName
+        );
+
+      }) || results[0];
+
+    return (
+      best?.imageinfo?.[0]?.thumburl ||
+      best?.imageinfo?.[0]?.url ||
+      null
+    );
+
   }catch(error){
 
     console.warn(
-      "Errore caricamento foto:",
-      place.name,
-      error
+      "Wikimedia Commons non disponibile:",
+      place.name
     );
 
     return null;
 
   }
+
+}
+
+
+async function getPlaceImage(place){
+
+  if(imageCache[place.name]){
+    return imageCache[place.name];
+  }
+
+
+  /*
+    1 — Wikipedia
+  */
+
+  let image =
+    await getWikipediaImage(place);
+
+  if(image){
+
+    imageCache[place.name] =
+      image;
+
+    return image;
+
+  }
+
+
+  /*
+    2 — Wikipedia REST
+  */
+
+  image =
+    await getWikipediaRestImage(place);
+
+  if(image){
+
+    imageCache[place.name] =
+      image;
+
+    return image;
+
+  }
+
+
+  /*
+    3 — Wikimedia Commons
+  */
+
+  image =
+    await getCommonsImage(place);
+
+  if(image){
+
+    imageCache[place.name] =
+      image;
+
+    return image;
+
+  }
+
+
+  console.warn(
+    "Nessuna immagine trovata per:",
+    place.name
+  );
+
+  return null;
+
+}
+
+
+/* ============================================================
+   VERIFICA REALE DEL LINK FOTO
+============================================================ */
+
+function verifyImage(url){
+
+  return new Promise(resolve=>{
+
+    if(!url){
+
+      resolve(false);
+
+      return;
+
+    }
+
+    const test =
+      new Image();
+
+    let finished =
+      false;
+
+    const done =
+      result=>{
+
+        if(finished){
+          return;
+        }
+
+        finished = true;
+
+        resolve(result);
+
+      };
+
+
+    test.onload =
+      ()=>{
+        done(true);
+      };
+
+
+    test.onerror =
+      ()=>{
+        done(false);
+      };
+
+
+    /*
+      Evita che una richiesta bloccata
+      rimanga appesa troppo a lungo.
+    */
+
+    setTimeout(()=>{
+      done(false);
+    },8000);
+
+
+    test.src =
+      url;
+
+  });
 
 }
 
@@ -2832,7 +3217,10 @@ async function getPlaceImage(place){
 async function loadRouteImages(){
 
   const cards =
-    document.querySelectorAll(".route-card");
+    document.querySelectorAll(
+      ".route-card"
+    );
+
 
   await Promise.all(
 
@@ -2844,30 +3232,162 @@ async function loadRouteImages(){
       const place =
         places[id];
 
-      if(!place) return;
+      if(!place){
+        return;
+      }
+
 
       const image =
-        card.querySelector(".route-image img");
+        card.querySelector(
+          ".route-image img"
+        );
 
       const container =
-        card.querySelector(".route-image");
+        card.querySelector(
+          ".route-image"
+        );
 
       if(!image || !container){
         return;
       }
 
+
+      /*
+        Prima troviamo una sorgente.
+      */
+
       const imgUrl =
         await getPlaceImage(place);
 
-      if(imgUrl){
 
-        image.src =
-          imgUrl;
+      if(!imgUrl){
 
-        image.alt =
-          `Foto di ${place.name}`;
+        container.classList.remove(
+          "photo-loading"
+        );
 
-        image.onload = ()=>{
+        return;
+
+      }
+
+
+      /*
+        Poi verifichiamo che l'immagine
+        sia realmente raggiungibile.
+      */
+
+      const valid =
+        await verifyImage(imgUrl);
+
+
+      if(!valid){
+
+        /*
+          Svuotiamo la cache così
+          possiamo provare Commons
+          una seconda volta.
+        */
+
+        delete imageCache[place.name];
+
+
+        const secondTry =
+          await getCommonsImage(place);
+
+
+        if(secondTry){
+
+          const secondValid =
+            await verifyImage(secondTry);
+
+          if(secondValid){
+
+            imageCache[place.name] =
+              secondTry;
+
+            image.src =
+              secondTry;
+
+            image.alt =
+              `Foto di ${place.name}`;
+
+            container.classList.remove(
+              "photo-loading"
+            );
+
+            container.classList.add(
+              "loaded"
+            );
+
+            return;
+
+          }
+
+        }
+
+
+        container.classList.remove(
+          "photo-loading"
+        );
+
+        return;
+
+      }
+
+
+      image.src =
+        imgUrl;
+
+      image.alt =
+        `Foto di ${place.name}`;
+
+
+      image.onload =
+        ()=>{
+          container.classList.remove(
+            "photo-loading"
+          );
+
+          container.classList.add(
+            "loaded"
+          );
+        };
+
+
+      image.onerror =
+        async ()=>{
+
+          delete imageCache[
+            place.name
+          ];
+
+
+          const backup =
+            await getCommonsImage(place);
+
+
+          if(backup){
+
+            const validBackup =
+              await verifyImage(
+                backup
+              );
+
+            if(validBackup){
+
+              imageCache[
+                place.name
+              ] = backup;
+
+              image.src =
+                backup;
+
+              return;
+
+            }
+
+          }
+
 
           container.classList.remove(
             "photo-loading"
@@ -2875,19 +3395,6 @@ async function loadRouteImages(){
 
         };
 
-      }else{
-
-        /*
-          Nessun fallback generico:
-          se non viene trovata la foto specifica,
-          non mostriamo la foto di un altro posto.
-        */
-
-        container.classList.remove(
-          "photo-loading"
-        );
-
-      }
 
     })
 
@@ -2904,20 +3411,26 @@ function generateRoute(){
 
   let pool = [];
 
-  answers.interests.forEach(interest=>{
 
-    const ids =
-      interestPlaces[interest] || [];
+  answers.interests.forEach(
+    interest=>{
 
-    ids.forEach(id=>{
+      const ids =
+        interestPlaces[interest] || [];
 
-      if(!pool.includes(id)){
-        pool.push(id);
-      }
 
-    });
+      ids.forEach(id=>{
 
-  });
+        if(!pool.includes(id)){
+
+          pool.push(id);
+
+        }
+
+      });
+
+    }
+  );
 
 
   /*
@@ -2928,6 +3441,7 @@ function generateRoute(){
   if(answers.seen === "none"){
 
     const classics = [
+
       "colosseum",
       "romanForum",
       "pantheon",
@@ -2936,15 +3450,21 @@ function generateRoute(){
       "spanishSteps",
       "vatican",
       "saintPeter"
+
     ];
+
 
     pool.sort((a,b)=>{
 
       const aClassic =
-        classics.includes(a) ? 0 : 1;
+        classics.includes(a)
+          ? 0
+          : 1;
 
       const bClassic =
-        classics.includes(b) ? 0 : 1;
+        classics.includes(b)
+          ? 0
+          : 1;
 
       return aClassic-bClassic;
 
@@ -2963,13 +3483,18 @@ function generateRoute(){
     const hidden =
       interestPlaces.hidden;
 
+
     pool.sort((a,b)=>{
 
       const aHidden =
-        hidden.includes(a) ? 0 : 1;
+        hidden.includes(a)
+          ? 0
+          : 1;
 
       const bHidden =
-        hidden.includes(b) ? 0 : 1;
+        hidden.includes(b)
+          ? 0
+          : 1;
 
       return aHidden-bHidden;
 
@@ -2986,6 +3511,7 @@ function generateRoute(){
   if(answers.time === "short"){
 
     const central = [
+
       "colosseum",
       "romanForum",
       "pantheon",
@@ -2998,15 +3524,21 @@ function generateRoute(){
       "capitolini",
       "campidoglio",
       "corso"
+
     ];
+
 
     pool.sort((a,b)=>{
 
       const aCentral =
-        central.includes(a) ? 0 : 1;
+        central.includes(a)
+          ? 0
+          : 1;
 
       const bCentral =
-        central.includes(b) ? 0 : 1;
+        central.includes(b)
+          ? 0
+          : 1;
 
       return aCentral-bCentral;
 
@@ -3036,6 +3568,7 @@ function generateRoute(){
   if(answers.pace === "slow"){
 
     const slowPlaces = [
+
       "villaBorghese",
       "gianicolo",
       "pincio",
@@ -3045,15 +3578,21 @@ function generateRoute(){
       "villaAda",
       "eurLake",
       "cascades"
+
     ];
+
 
     pool.sort((a,b)=>{
 
       const aSlow =
-        slowPlaces.includes(a) ? 0 : 1;
+        slowPlaces.includes(a)
+          ? 0
+          : 1;
 
       const bSlow =
-        slowPlaces.includes(b) ? 0 : 1;
+        slowPlaces.includes(b)
+          ? 0
+          : 1;
 
       return aSlow-bSlow;
 
@@ -3075,12 +3614,20 @@ function generateRoute(){
     pool.sort((a,b)=>{
 
       const aPrice =
-        places[a]?.price === "€€€" ? 2 :
-        places[a]?.price === "€€" ? 1 : 0;
+        places[a]?.price === "€€€"
+          ? 2
+          : places[a]?.price === "€€"
+            ? 1
+            : 0;
+
 
       const bPrice =
-        places[b]?.price === "€€€" ? 2 :
-        places[b]?.price === "€€" ? 1 : 0;
+        places[b]?.price === "€€€"
+          ? 2
+          : places[b]?.price === "€€"
+            ? 1
+            : 0;
+
 
       return aPrice-bPrice;
 
@@ -3090,9 +3637,7 @@ function generateRoute(){
 
 
   /*
-    Eliminiamo duplicati
-    e scegliamo il numero corretto
-    in base al tempo.
+    Eliminiamo duplicati.
   */
 
   pool =
@@ -3101,17 +3646,21 @@ function generateRoute(){
 
   let number = 6;
 
+
   if(answers.time === "short"){
     number = 4;
   }
+
 
   if(answers.time === "half"){
     number = 6;
   }
 
+
   if(answers.time === "full"){
     number = 8;
   }
+
 
   if(answers.time === "more"){
     number = 10;
@@ -3119,10 +3668,15 @@ function generateRoute(){
 
 
   const selected =
-    pool.slice(0,number);
+    pool.slice(
+      0,
+      number
+    );
 
 
-  renderResults(selected);
+  renderResults(
+    selected
+  );
 
 }
 
@@ -3134,10 +3688,16 @@ function generateRoute(){
 function renderResults(ids){
 
   const section =
-    document.getElementById("risultati");
+    document.getElementById(
+      "risultati"
+    );
+
 
   const grid =
-    document.getElementById("routeGrid");
+    document.getElementById(
+      "routeGrid"
+    );
+
 
   grid.innerHTML = "";
 
@@ -3159,111 +3719,146 @@ function renderResults(ids){
   };
 
 
-  document.getElementById("resultDescription").textContent =
-    descriptions[answers.company] ||
+  document.getElementById(
+    "resultDescription"
+  ).textContent =
+
+    descriptions[
+      answers.company
+    ] ||
+
     "Una selezione costruita sulle tue risposte.";
 
 
   const titles = {
 
-    couple:"Roma in due.",
+    couple:
+      "Roma in due.",
 
-    friends:"La vostra Roma.",
+    friends:
+      "La vostra Roma.",
 
-    family:"Roma per tutti.",
+    family:
+      "Roma per tutti.",
 
-    alone:"La tua Roma."
+    alone:
+      "La tua Roma."
 
   };
 
 
-  document.getElementById("resultTitle").innerHTML =
-    (titles[answers.company] || "La tua Roma.") +
+  document.getElementById(
+    "resultTitle"
+  ).innerHTML =
+
+    (
+      titles[
+        answers.company
+      ] ||
+
+      "La tua Roma."
+    ) +
+
     "<br>comincia qui.";
 
 
-  ids.forEach((id,index)=>{
+  ids.forEach(
+    (id,index)=>{
 
-    const place =
-      places[id];
-
-    if(!place) return;
-
-
-    const card =
-      document.createElement("article");
-
-    card.className =
-      "route-card";
-
-    card.dataset.place =
-      id;
+      const place =
+        places[id];
 
 
-    const mapsUrl =
-      `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
+      if(!place){
+        return;
+      }
 
 
-    card.innerHTML = `
+      const card =
+        document.createElement(
+          "article"
+        );
 
-      <div class="route-image photo-loading">
 
-        <img
-          src=""
-          alt="${place.name}"
-          loading="lazy"
-        >
+      card.className =
+        "route-card";
 
-        <div class="route-number">
-          ${String(index+1).padStart(2,"0")}
-        </div>
 
-      </div>
+      card.dataset.place =
+        id;
 
-      <div class="route-body">
 
-        <div class="route-type">
-          ${place.type}
-        </div>
+      const mapsUrl =
+        `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
 
-        <h3>
-          ${place.name}
-        </h3>
 
-        <p>
-          ${place.description}
-        </p>
+      card.innerHTML = `
 
-        <div class="route-meta">
+        <div class="route-image photo-loading">
 
-          <span>
-            ${place.price}
-          </span>
+          <img
+            src=""
+            alt="${place.name}"
+          >
 
-          <span>
-            Roma
-          </span>
+          <div class="route-number">
+            ${String(index+1).padStart(2,"0")}
+          </div>
 
         </div>
 
-        <button
-          class="route-action"
-          onclick="window.open('${mapsUrl}','_blank')"
-        >
-          Portami qui ↗
-        </button>
 
-      </div>
+        <div class="route-body">
 
-    `;
+          <div class="route-type">
+            ${place.type}
+          </div>
+
+          <h3>
+            ${place.name}
+          </h3>
+
+          <p>
+            ${place.description}
+          </p>
+
+          <div class="route-meta">
+
+            <span>
+              ${place.price}
+            </span>
+
+            <span>
+              Roma
+            </span>
+
+          </div>
 
 
-    grid.appendChild(card);
+          <button
+            class="route-action"
+            onclick="window.open('${mapsUrl}','_blank')"
+          >
+            Portami qui ↗
+          </button>
 
-  });
+        </div>
+
+      `;
 
 
-  section.classList.add("show");
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  section.classList.add(
+    "show"
+  );
+
 
   setTimeout(()=>{
 
@@ -3277,7 +3872,9 @@ function renderResults(ids){
 
   loadRouteImages();
 
-  showRouteOnMap(ids);
+  showRouteOnMap(
+    ids
+  );
 
 }
 
@@ -3307,71 +3904,92 @@ let markers = [];
 
 function showRouteOnMap(ids){
 
-  markers.forEach(marker=>{
-    map.removeLayer(marker);
-  });
+  markers.forEach(
+    marker=>{
+      map.removeLayer(
+        marker
+      );
+    }
+  );
+
 
   markers = [];
 
 
-  ids.forEach((id,index)=>{
+  ids.forEach(
+    (id,index)=>{
 
-    const place =
-      places[id];
-
-    if(!place) return;
-
-
-    const marker =
-      L.marker([
-        place.lat,
-        place.lng
-      ]).addTo(map);
+      const place =
+        places[id];
 
 
-    marker.bindPopup(`
-
-      <strong>
-        ${index+1}. ${place.name}
-      </strong>
-
-      <br>
-
-      <span>
-        ${place.type}
-      </span>
-
-      <br><br>
-
-      <a
-        href="https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking"
-        target="_blank"
-      >
-        Portami qui →
-      </a>
-
-    `);
+      if(!place){
+        return;
+      }
 
 
-    markers.push(marker);
+      const marker =
+        L.marker([
+          place.lat,
+          place.lng
+        ]).addTo(map);
 
-  });
+
+      marker.bindPopup(`
+
+        <strong>
+          ${index+1}. ${place.name}
+        </strong>
+
+        <br>
+
+        <span>
+          ${place.type}
+        </span>
+
+        <br><br>
+
+        <a
+          href="https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking"
+          target="_blank"
+          rel="noopener"
+        >
+          Portami qui →
+        </a>
+
+      `);
+
+
+      markers.push(
+        marker
+      );
+
+    }
+  );
 
 
   if(ids.length){
 
     const bounds =
       L.latLngBounds(
-        ids.map(id=>[
-          places[id].lat,
-          places[id].lng
-        ])
+
+        ids.map(
+          id=>[
+            places[id].lat,
+            places[id].lng
+          ]
+        )
+
       );
+
 
     map.fitBounds(
       bounds,
       {
-        padding:[40,40]
+        padding:[
+          40,
+          40
+        ]
       }
     );
 
@@ -3387,38 +4005,49 @@ function showRouteOnMap(ids){
 function renderCatalog(){
 
   const container =
-    document.getElementById("catalogGrid");
+    document.getElementById(
+      "catalogGrid"
+    );
 
 
   const entries =
-    Object.values(places);
+    Object.values(
+      places
+    );
 
 
-  entries.forEach(place=>{
+  entries.forEach(
+    place=>{
 
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "catalog-card";
-
-
-    card.innerHTML = `
-
-      <strong>
-        ${place.name}
-      </strong>
-
-      <span>
-        ${place.type}
-      </span>
-
-    `;
+      const card =
+        document.createElement(
+          "div"
+        );
 
 
-    container.appendChild(card);
+      card.className =
+        "catalog-card";
 
-  });
+
+      card.innerHTML = `
+
+        <strong>
+          ${place.name}
+        </strong>
+
+        <span>
+          ${place.type}
+        </span>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
 
@@ -3429,46 +4058,85 @@ updateQuiz();
 
 
 /* ============================================================
-   CONTROLLO FOTO
+   CONTROLLO DATABASE
 ============================================================ */
 
-Object.entries(places).forEach(([id,place])=>{
+Object.entries(
+  places
+).forEach(
+  ([id,place])=>{
 
-  if(!place.wiki){
+    if(!place.wiki){
 
-    console.error(
-      "DESTINAZIONE SENZA FOTO PROPRIA:",
-      id,
-      place.name
+      console.error(
+        "DESTINAZIONE SENZA PAGINA FOTO:",
+        id,
+        place.name
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================================================
+   CONTROLLO DESTINAZIONI INTERESSI
+============================================================ */
+
+Object.entries(
+  interestPlaces
+).forEach(
+  ([interest,ids])=>{
+
+    ids.forEach(
+      id=>{
+
+        if(!places[id]){
+
+          console.error(
+            "DESTINAZIONE NON PRESENTE:",
+            interest,
+            id
+          );
+
+        }
+
+      }
     );
 
   }
+);
 
-});
 
+/* ============================================================
+   CONTROLLO FOTO DELLE DESTINAZIONI IMPORTANTI
+============================================================ */
 
 /*
-  Controllo aggiuntivo:
-  tutte le destinazioni usate negli interessi
-  devono esistere nel database.
+  Piazza del Popolo viene verificata subito,
+  così non aspettiamo che venga selezionata
+  dall'utente nel quiz.
 */
 
-Object.entries(interestPlaces).forEach(
-  ([interest,ids])=>{
+getPlaceImage(
+  places.popolo
+).then(
+  image=>{
 
-    ids.forEach(id=>{
+    if(image){
 
-      if(!places[id]){
+      console.log(
+        "Foto Piazza del Popolo caricata correttamente."
+      );
 
-        console.error(
-          "DESTINAZIONE NON PRESENTE:",
-          interest,
-          id
-        );
+    }else{
 
-      }
+      console.warn(
+        "Foto Piazza del Popolo non trovata."
+      );
 
-    });
+    }
 
   }
 );
