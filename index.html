@@ -1,6 +1,1351 @@
-<!-- =========================
-     CATEGORIE / INTERESSI
-========================= -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIVI — Non visitare Roma. Vivila.</title>
+<meta name="description" content="VIVI ti crea un itinerario personalizzato per vivere Roma secondo i tuoi interessi, i tuoi tempi e il tuo stile.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+:root{
+  --ivory:#f4efe7;
+  --paper:#fffdf9;
+  --paper2:#eee7dc;
+  --dark:#201d1a;
+  --dark2:#2d2824;
+  --red:#8d3028;
+  --red-dark:#70231e;
+  --gold:#b28d55;
+  --gold-light:#d5b77f;
+  --text:#302c28;
+  --muted:#777069;
+  --line:rgba(32,29,26,.12);
+  --shadow:0 25px 70px rgba(32,29,26,.13);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--ivory);
+  color:var(--text);
+  font-family:"Inter",sans-serif;
+  overflow-x:hidden;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.container{
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  padding:18px 0;
+  background:rgba(25,22,20,.84);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner{
+  width:min(1240px,calc(100% - 40px));
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  color:#fff;
+  font-family:"Cormorant Garamond",serif;
+  font-size:30px;
+  font-weight:600;
+  letter-spacing:.12em;
+}
+
+.logo span{
+  color:var(--gold-light);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+
+.nav-links a{
+  color:rgba(255,255,255,.78);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  transition:.25s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+}
+
+.nav-language{
+  display:flex;
+  gap:6px;
+}
+
+.lang-btn{
+  border:1px solid rgba(255,255,255,.16);
+  background:transparent;
+  color:rgba(255,255,255,.65);
+  border-radius:3px;
+  padding:6px 8px;
+  font-size:9px;
+  letter-spacing:.08em;
+}
+
+.lang-btn.active{
+  background:var(--gold);
+  color:#fff;
+  border-color:var(--gold);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(20,17,15,.88) 0%,
+      rgba(20,17,15,.62) 45%,
+      rgba(20,17,15,.22) 100%
+    ),
+    url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=2200&q=90")
+    center/cover no-repeat;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(20,17,15,.7),
+      transparent 35%
+    );
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+  padding-top:80px;
+}
+
+.hero-kicker{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  color:var(--gold-light);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+
+.hero-kicker::before{
+  content:"";
+  width:38px;
+  height:1px;
+  background:var(--gold-light);
+}
+
+.hero h1{
+  max-width:820px;
+  color:#fff;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(64px,9vw,120px);
+  line-height:.82;
+  font-weight:500;
+  letter-spacing:-.035em;
+}
+
+.hero h1 em{
+  color:var(--gold-light);
+  font-style:normal;
+}
+
+.hero-subtitle{
+  max-width:590px;
+  margin-top:30px;
+  color:rgba(255,255,255,.76);
+  font-size:16px;
+  line-height:1.75;
+  font-weight:300;
+}
+
+.hero-actions{
+  margin-top:38px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.btn{
+  border:0;
+  border-radius:3px;
+  padding:15px 24px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  transition:.3s;
+}
+
+.btn-primary{
+  background:var(--red);
+  color:#fff;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  background:var(--red-dark);
+  transform:translateY(-2px);
+}
+
+.btn-outline{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;
+}
+
+.btn-outline:hover{
+  background:rgba(255,255,255,.14);
+}
+
+.hero-bottom{
+  position:absolute;
+  z-index:3;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1180px,calc(100% - 40px));
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+}
+
+.hero-scroll{
+  color:rgba(255,255,255,.5);
+  font-size:9px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-location{
+  color:rgba(255,255,255,.58);
+  font-size:10px;
+  letter-spacing:.08em;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+  padding:120px 0;
+  background:var(--paper);
+}
+
+.intro-grid{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:90px;
+  align-items:start;
+}
+
+.eyebrow{
+  color:var(--red);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.big-title{
+  margin-top:14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(45px,6vw,72px);
+  line-height:.92;
+  font-weight:500;
+  color:var(--dark);
+}
+
+.intro-copy{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.9;
+}
+
+.intro-copy p+p{
+  margin-top:18px;
+}
+
+.gold-line{
+  width:55px;
+  height:1px;
+  background:var(--gold);
+  margin:28px 0;
+}
+
+/* =========================================================
+   INTERESTS
+========================================================= */
+
+.interests{
+  position:relative;
+  padding:115px 0 120px;
+  background:
+    radial-gradient(circle at 10% 20%,rgba(178,141,85,.08),transparent 28%),
+    var(--ivory);
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:45px;
+}
+
+.section-title{
+  margin-top:10px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(48px,6vw,72px);
+  line-height:.9;
+  font-weight:500;
+  color:var(--dark);
+}
+
+.section-text{
+  margin-top:17px;
+  max-width:570px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.counter{
+  flex-shrink:0;
+  padding:10px 16px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.58);
+  border-radius:30px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.05em;
+}
+
+.counter strong{
+  color:var(--red);
+  font-size:14px;
+}
+
+.interests-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+
+/* CATEGORY CARD */
+
+.interest-card{
+  position:relative;
+  height:260px;
+  overflow:hidden;
+  padding:0;
+  border:1px solid rgba(32,29,26,.12);
+  border-radius:4px;
+  background:var(--dark);
+  text-align:left;
+  color:#fff;
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+.interest-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 45px rgba(32,29,26,.18);
+  border-color:rgba(178,141,85,.75);
+}
+
+.interest-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .7s ease;
+}
+
+.interest-card:hover .interest-image{
+  transform:scale(1.06);
+}
+
+.interest-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,17,15,.05) 10%,
+      rgba(20,17,15,.15) 38%,
+      rgba(20,17,15,.9) 100%
+    );
+}
+
+.interest-number{
+  position:absolute;
+  z-index:2;
+  top:18px;
+  left:19px;
+  color:var(--gold-light);
+  font-family:"Cormorant Garamond",serif;
+  font-size:17px;
+}
+
+.interest-mark{
+  position:absolute;
+  z-index:2;
+  top:15px;
+  right:16px;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:50%;
+  color:#fff;
+  font-family:"Cormorant Garamond",serif;
+  font-size:17px;
+  background:rgba(20,17,15,.18);
+  backdrop-filter:blur(5px);
+}
+
+.interest-content{
+  position:absolute;
+  z-index:2;
+  left:20px;
+  right:20px;
+  bottom:20px;
+}
+
+.interest-content::before{
+  content:"";
+  display:block;
+  width:30px;
+  height:1px;
+  margin-bottom:11px;
+  background:var(--gold-light);
+  transition:.3s;
+}
+
+.interest-card:hover .interest-content::before{
+  width:50px;
+}
+
+.interest-content h3{
+  font-family:"Cormorant Garamond",serif;
+  font-size:29px;
+  line-height:.95;
+  font-weight:600;
+  color:#fff;
+}
+
+.interest-content p{
+  margin-top:8px;
+  color:rgba(255,255,255,.67);
+  font-size:10px;
+  line-height:1.4;
+}
+
+.interest-card.selected{
+  border:2px solid var(--red);
+  box-shadow:
+    0 0 0 3px rgba(178,141,85,.4),
+    0 20px 50px rgba(32,29,26,.2);
+}
+
+.interest-card.selected .interest-mark{
+  background:var(--red);
+  border-color:var(--red);
+}
+
+.interest-card.selected .interest-mark::before{
+  content:"✓";
+}
+
+.interest-card.selected .interest-mark{
+  font-size:0;
+}
+
+.interest-card.selected .interest-mark::before{
+  font-size:12px;
+}
+
+.continue-area{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:32px;
+}
+
+/* =========================================================
+   BUILDER
+========================================================= */
+
+.builder{
+  position:relative;
+  padding:120px 0;
+  background:
+    radial-gradient(circle at 85% 10%,rgba(178,141,85,.11),transparent 25%),
+    var(--dark);
+  color:#fff;
+}
+
+.builder .eyebrow{
+  color:var(--gold-light);
+}
+
+.builder-title{
+  margin-top:10px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(48px,6vw,72px);
+  font-weight:500;
+  line-height:.9;
+}
+
+.builder-intro{
+  margin-top:17px;
+  max-width:600px;
+  color:rgba(255,255,255,.57);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.question-box{
+  margin-top:55px;
+  max-width:1000px;
+}
+
+.question-progress{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+  color:rgba(255,255,255,.43);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.progress-bar{
+  height:2px;
+  background:rgba(255,255,255,.1);
+  margin-bottom:42px;
+}
+
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--red),var(--gold));
+  transition:.4s;
+}
+
+.question-title{
+  max-width:800px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(38px,5vw,58px);
+  line-height:1;
+  font-weight:500;
+}
+
+.question-subtitle{
+  margin-top:12px;
+  color:rgba(255,255,255,.5);
+  font-size:12px;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:34px;
+}
+
+/* QUIZ CARD BIANCA */
+
+.option{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-height:90px;
+  padding:18px 22px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:4px;
+  background:
+    linear-gradient(
+      135deg,
+      #fffdf9,
+      #f6f0e7
+    );
+  color:var(--dark);
+  text-align:left;
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease;
+}
+
+.option:hover{
+  transform:translateY(-3px);
+  border-color:rgba(178,141,85,.8);
+  box-shadow:0 16px 34px rgba(0,0,0,.16);
+}
+
+.option-mark{
+  flex:0 0 38px;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(178,141,85,.45);
+  border-radius:50%;
+  color:var(--gold);
+  font-family:"Cormorant Garamond",serif;
+  font-size:16px;
+}
+
+.option-copy{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.option strong{
+  font-family:"Cormorant Garamond",serif;
+  font-size:24px;
+  line-height:1;
+  font-weight:600;
+}
+
+.option span:not(.option-mark){
+  color:#817a72;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.option.selected{
+  border-color:var(--red);
+  box-shadow:
+    0 0 0 2px rgba(141,48,40,.18),
+    0 15px 35px rgba(141,48,40,.13);
+}
+
+.option.selected .option-mark{
+  background:var(--red);
+  border-color:var(--red);
+  color:#fff;
+}
+
+.date-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:30px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.field label{
+  color:rgba(255,255,255,.48);
+  font-size:9px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.field input{
+  width:100%;
+  padding:17px 18px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:3px;
+  outline:none;
+  background:#fffdf9;
+  color:var(--dark);
+}
+
+.builder-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:34px;
+}
+
+.back-btn{
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.48);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.back-btn:hover{
+  color:#fff;
+}
+
+.next-btn{
+  border:0;
+  border-radius:3px;
+  padding:15px 25px;
+  background:var(--red);
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:.3s;
+}
+
+.next-btn:hover{
+  background:var(--red-dark);
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results{
+  padding:120px 0;
+  background:var(--paper);
+}
+
+.results-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:50px;
+}
+
+.results-title{
+  margin-top:10px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(48px,6vw,74px);
+  line-height:.9;
+  font-weight:500;
+}
+
+.results-summary{
+  max-width:350px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  text-align:right;
+}
+
+.results-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  align-items:start;
+}
+
+.route-list{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.route-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:110px 1fr;
+  min-height:155px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#fff;
+  box-shadow:0 10px 30px rgba(32,29,26,.05);
+}
+
+.route-image{
+  width:110px;
+  height:100%;
+  object-fit:cover;
+}
+
+.route-info{
+  padding:19px 20px;
+}
+
+.route-number{
+  color:var(--gold);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+
+.route-info h3{
+  margin-top:5px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:29px;
+  line-height:1;
+  font-weight:600;
+}
+
+.route-description{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+
+.route-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+.route-meta span{
+  padding:5px 8px;
+  background:var(--ivory);
+  color:#766f67;
+  font-size:8px;
+  letter-spacing:.04em;
+}
+
+.maps-btn{
+  display:inline-flex;
+  margin-top:13px;
+  border:0;
+  background:var(--red);
+  color:#fff;
+  padding:9px 12px;
+  border-radius:2px;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  transition:.25s;
+}
+
+.maps-btn:hover{
+  background:var(--red-dark);
+}
+
+.map-wrap{
+  position:sticky;
+  top:95px;
+  height:620px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+
+#map{
+  width:100%;
+  height:100%;
+}
+
+.leaflet-popup-content-wrapper{
+  border-radius:3px;
+}
+
+.leaflet-popup-content{
+  font-family:"Inter",sans-serif;
+  font-size:11px;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.final-cta{
+  position:relative;
+  padding:125px 0;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(30,26,23,.93),
+      rgba(30,26,23,.75)
+    ),
+    url("https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=2200&q=85")
+    center/cover;
+}
+
+.final-cta-content{
+  max-width:760px;
+}
+
+.final-cta h2{
+  margin-top:12px;
+  color:#fff;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(50px,7vw,82px);
+  line-height:.9;
+  font-weight:500;
+}
+
+.final-cta p{
+  max-width:600px;
+  margin-top:22px;
+  color:rgba(255,255,255,.6);
+  font-size:14px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  padding:35px 0;
+  background:#191715;
+  color:rgba(255,255,255,.45);
+}
+
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.footer-logo{
+  color:#fff;
+  font-family:"Cormorant Garamond",serif;
+  font-size:25px;
+  letter-spacing:.1em;
+}
+
+.footer-small{
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  z-index:2000;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+
+  padding:13px 18px;
+
+  background:#211e1b;
+  color:#fff;
+
+  border:1px solid rgba(178,141,85,.45);
+
+  font-size:10px;
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+  transition:.3s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:950px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .interests-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .results-layout{
+    grid-template-columns:1fr;
+  }
+
+  .map-wrap{
+    position:relative;
+    top:auto;
+    height:450px;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .container{
+    width:min(100% - 28px,1180px);
+  }
+
+  .nav-inner{
+    width:calc(100% - 28px);
+  }
+
+  .navbar{
+    padding:13px 0;
+  }
+
+  .logo{
+    font-size:25px;
+  }
+
+  .hero{
+    min-height:760px;
+  }
+
+  .hero-content{
+    width:calc(100% - 28px);
+  }
+
+  .hero h1{
+    font-size:64px;
+  }
+
+  .hero-subtitle{
+    font-size:14px;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .hero-bottom{
+    width:calc(100% - 28px);
+  }
+
+  .hero-location{
+    display:none;
+  }
+
+  .intro,
+  .interests,
+  .builder,
+  .results,
+  .final-cta{
+    padding:80px 0;
+  }
+
+  .intro-grid{
+    grid-template-columns:1fr;
+    gap:35px;
+  }
+
+  .section-head,
+  .results-header{
+    display:block;
+  }
+
+  .counter{
+    display:inline-block;
+    margin-top:22px;
+  }
+
+  .results-summary{
+    margin-top:20px;
+    text-align:left;
+  }
+
+  .interests-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .interest-card{
+    height:190px;
+  }
+
+  .interest-content{
+    left:14px;
+    right:12px;
+    bottom:15px;
+  }
+
+  .interest-content h3{
+    font-size:22px;
+  }
+
+  .interest-content p{
+    font-size:8px;
+  }
+
+  .interest-number{
+    left:14px;
+    top:13px;
+  }
+
+  .interest-mark{
+    top:11px;
+    right:11px;
+    width:29px;
+    height:29px;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .date-grid{
+    grid-template-columns:1fr;
+  }
+
+  .question-title{
+    font-size:42px;
+  }
+
+  .route-card{
+    grid-template-columns:85px 1fr;
+  }
+
+  .route-image{
+    width:85px;
+  }
+
+  .route-info h3{
+    font-size:24px;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+}
+
+@media(max-width:430px){
+
+  .hero h1{
+    font-size:56px;
+  }
+
+  .interest-card{
+    height:180px;
+  }
+
+  .interest-content h3{
+    font-size:20px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAV
+========================================================= -->
+
+<nav class="navbar">
+
+  <div class="nav-inner">
+
+    <a href="#top" class="logo">
+      VIVI<span>.</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#scopri">Scopri</a>
+      <a href="#personalizza">Personalizza</a>
+      <a href="#builder">Il tuo viaggio</a>
+    </div>
+
+    <div class="nav-language">
+      <button class="lang-btn active" data-lang="it">IT</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="de">DE</button>
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header class="hero" id="top">
+
+  <div class="hero-content">
+
+    <div class="hero-kicker">
+      Roma, secondo te
+    </div>
+
+    <h1>
+      Non visitare Roma.<br>
+      <em>Vivila.</em>
+    </h1>
+
+    <p class="hero-subtitle">
+      VIVI costruisce per te un'esperienza a Roma
+      partendo dai tuoi interessi, dal tempo che hai
+      e dal modo in cui vuoi sentirti dentro la città.
+    </p>
+
+    <div class="hero-actions">
+
+      <a href="#personalizza" class="btn btn-primary">
+        Inizia a vivere Roma
+      </a>
+
+      <a href="#scopri" class="btn btn-outline">
+        Scopri VIVI
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="hero-bottom">
+
+    <div class="hero-scroll">
+      Scorri per iniziare
+    </div>
+
+    <div class="hero-location">
+      Roma · Italia
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     INTRO
+========================================================= -->
+
+<section class="intro" id="scopri">
+
+  <div class="container">
+
+    <div class="intro-grid">
+
+      <div>
+
+        <div class="eyebrow">
+          Non una guida
+        </div>
+
+        <h2 class="big-title">
+          Roma non è<br>
+          uguale per tutti.
+        </h2>
+
+      </div>
+
+      <div class="intro-copy">
+
+        <div class="gold-line"></div>
+
+        <p>
+          C'è chi vuole vedere il Colosseo all'alba.
+          Chi preferisce perdersi nei vicoli di Trastevere.
+          Chi cerca un museo, una carbonara perfetta,
+          un panorama o semplicemente un posto lontano
+          dalla folla.
+        </p>
+
+        <p>
+          VIVI parte da te e costruisce un percorso
+          pensato per il tuo modo di vivere Roma.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     INTERESSI
+========================================================= -->
 
 <section class="interests" id="personalizza">
 
@@ -9,8 +1354,9 @@
     <div class="section-head">
 
       <div>
-        <div class="section-kicker">
-          PARTIAMO DA TE
+
+        <div class="eyebrow">
+          Partiamo da te
         </div>
 
         <h2 class="section-title">
@@ -18,28 +1364,1971 @@
         </h2>
 
         <p class="section-text">
-          Scegli da uno a tre mondi. Puoi anche combinarli tra loro.
+          Scegli da uno a tre mondi. Puoi combinarli
+          per creare un'esperienza davvero tua.
         </p>
+
       </div>
 
-      <div class="selection-counter">
-        <strong id="selectionCount">0</strong> / 3
-        <span>selezionate</span>
+      <div class="counter">
+        <strong id="selectionCount">0</strong>
+        <span> / 3 selezionate</span>
       </div>
 
     </div>
 
     <div class="interests-grid" id="interestsGrid"></div>
 
-    <div class="continue-wrap">
+    <div class="continue-area">
+
       <button
-        class="primary-btn"
+        class="btn btn-primary"
         id="startBuilder"
         disabled>
         Continua →
       </button>
+
     </div>
 
   </div>
 
 </section>
+
+
+<!-- =========================================================
+     BUILDER
+========================================================= -->
+
+<section class="builder" id="builder">
+
+  <div class="container">
+
+    <div class="eyebrow">
+      Il tuo viaggio
+    </div>
+
+    <h2 class="builder-title">
+      Costruiamo la tua Roma.
+    </h2>
+
+    <p class="builder-intro">
+      Bastano poche informazioni. Nessun itinerario standard:
+      VIVI userà le tue risposte per costruire il percorso
+      più adatto a te.
+    </p>
+
+    <div class="question-box">
+
+      <div class="question-progress">
+
+        <span id="questionCounter">
+          Domanda 1 di 6
+        </span>
+
+        <span>
+          VIVI
+        </span>
+
+      </div>
+
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          id="progressFill"
+          style="width:16.66%">
+        </div>
+      </div>
+
+      <div id="questionContainer"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     RISULTATI
+========================================================= -->
+
+<section
+  class="results"
+  id="risultati"
+  style="display:none;">
+
+  <div class="container">
+
+    <div class="results-header">
+
+      <div>
+
+        <div class="eyebrow">
+          Il tuo itinerario
+        </div>
+
+        <h2 class="results-title">
+          Roma, fatta per te.
+        </h2>
+
+      </div>
+
+      <p
+        class="results-summary"
+        id="resultsSummary">
+      </p>
+
+    </div>
+
+    <div class="results-layout">
+
+      <div
+        class="route-list"
+        id="routeList">
+      </div>
+
+      <div class="map-wrap">
+        <div id="map"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL CTA
+========================================================= -->
+
+<section class="final-cta">
+
+  <div class="container">
+
+    <div class="final-cta-content">
+
+      <div class="eyebrow">
+        VIVI Roma
+      </div>
+
+      <h2>
+        La città è la stessa.<br>
+        Il tuo viaggio no.
+      </h2>
+
+      <p>
+        Roma è piena di luoghi conosciuti.
+        Ma il modo in cui la vivi può essere completamente tuo.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-inner">
+
+      <div class="footer-logo">
+        VIVI.
+      </div>
+
+      <div class="footer-small">
+        Non visitare Roma. Vivila.
+      </div>
+
+      <div class="footer-small">
+        Roma · Italia
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+/* =========================================================
+   TRADUZIONI
+========================================================= */
+
+const translations = {
+
+  it:{
+    start:"Inizia a vivere Roma",
+    discover:"Scopri VIVI",
+    continue:"Continua →",
+    next:"Continua →",
+    finish:"Crea il mio itinerario",
+    back:"← Indietro",
+    selected:"selezionate",
+    max:"Puoi scegliere massimo 3 interessi.",
+    choose:"Scegli almeno un interesse.",
+    dates:"Inserisci giorno e ora.",
+    summary:"Il tuo viaggio è stato costruito in base alle tue preferenze.",
+    with:"Con chi vivi Roma?",
+    withSub:"Il modo in cui viaggi cambia il ritmo dell'esperienza.",
+    places:"Quali luoghi hai già visto?",
+    placesSub:"Così evitiamo di costruire un itinerario troppo scontato.",
+    startDate:"Quando vuoi iniziare?",
+    startSub:"Scegli il giorno e l'orario di partenza.",
+    endDate:"Quando vuoi terminare?",
+    endSub:"Indica il momento in cui vuoi concludere il tuo viaggio.",
+    budget:"Quanto vuoi spendere?",
+    budgetSub:"Non serve un budget preciso: ci basta una fascia.",
+    style:"Vuoi qualcosa di conosciuto o più autentico?",
+    styleSub:"Puoi scegliere il tipo di Roma che preferisci.",
+    alone:"Da solo",
+    couple:"In coppia",
+    friends:"Con amici",
+    family:"In famiglia",
+    first:"È la mia prima volta",
+    classic:"Ho visto i grandi classici",
+    many:"Conosco già abbastanza Roma",
+    little:"Vorrei spendere poco",
+    medium:"Una spesa equilibrata",
+    high:"Voglio concedermi qualcosa",
+    famous:"I grandi luoghi di Roma",
+    authentic:"Luoghi più autentici",
+    mix:"Un mix tra classico e autentico",
+    interestNames:{
+      ancient:"Roma Antica",
+      museums:"Arte e Musei",
+      hidden:"Roma Nascosta",
+      authentic:"Roma Autentica",
+      night:"Roma di Notte",
+      panoramic:"Roma Panoramica",
+      shopping:"Shopping e Passeggiate",
+      romantic:"Roma Romantica",
+      quiet:"Roma Tranquilla",
+      unusual:"Roma Insolita",
+      photos:"Fotografie",
+      family:"Roma in Famiglia",
+      foodculture:"Cibo e Cultura Romana"
+    },
+    interestDesc:{
+      ancient:"Imperatori, rovine e storia",
+      museums:"Capolavori e cultura",
+      hidden:"Angoli lontani dai soliti percorsi",
+      authentic:"Quartieri e vita quotidiana",
+      night:"Roma quando cala il sole",
+      panoramic:"Le viste più belle sulla città",
+      shopping:"Vie, botteghe e passeggiate",
+      romantic:"Roma da vivere in due",
+      quiet:"Luoghi lenti e silenziosi",
+      unusual:"Roma fuori dall'ordinario",
+      photos:"I luoghi più fotogenici",
+      family:"Esperienze per tutti",
+      foodculture:"Sapori, tradizioni e cultura romana"
+    },
+    routeTime:"Visita consigliata",
+    takeMe:"Portami lì"
+  },
+
+  en:{
+    start:"Start living Rome",
+    discover:"Discover VIVI",
+    continue:"Continue →",
+    next:"Continue →",
+    finish:"Create my itinerary",
+    back:"← Back",
+    selected:"selected",
+    max:"You can choose up to 3 interests.",
+    choose:"Choose at least one interest.",
+    dates:"Enter a day and time.",
+    summary:"Your trip was created around your preferences.",
+    with:"Who are you experiencing Rome with?",
+    withSub:"Your travel style changes the rhythm of the experience.",
+    places:"Which places have you already seen?",
+    placesSub:"This helps us avoid an overly predictable itinerary.",
+    startDate:"When do you want to start?",
+    startSub:"Choose the starting day and time.",
+    endDate:"When do you want to finish?",
+    endSub:"Choose when you want to finish your experience.",
+    budget:"How much do you want to spend?",
+    budgetSub:"A rough range is enough.",
+    style:"Famous or more authentic?",
+    styleSub:"Choose the kind of Rome you prefer.",
+    alone:"Alone",
+    couple:"As a couple",
+    friends:"With friends",
+    family:"With family",
+    first:"It's my first time",
+    classic:"I've seen the main classics",
+    many:"I already know Rome quite well",
+    little:"I'd like to spend little",
+    medium:"A balanced budget",
+    high:"I want to treat myself",
+    famous:"Rome's iconic places",
+    authentic:"More authentic places",
+    mix:"A mix of classic and authentic",
+    interestNames:{
+      ancient:"Ancient Rome",
+      museums:"Art & Museums",
+      hidden:"Hidden Rome",
+      authentic:"Authentic Rome",
+      night:"Rome by Night",
+      panoramic:"Panoramic Rome",
+      shopping:"Shopping & Walks",
+      romantic:"Romantic Rome",
+      quiet:"Quiet Rome",
+      unusual:"Unusual Rome",
+      photos:"Photography",
+      family:"Rome for Families",
+      foodculture:"Food & Roman Culture"
+    },
+    interestDesc:{
+      ancient:"Emperors, ruins and history",
+      museums:"Masterpieces and culture",
+      hidden:"Away from the usual routes",
+      authentic:"Neighborhoods and everyday life",
+      night:"Rome after sunset",
+      panoramic:"The city's best views",
+      shopping:"Streets, shops and walks",
+      romantic:"Rome for two",
+      quiet:"Slow and peaceful places",
+      unusual:"Rome beyond the ordinary",
+      photos:"The most photogenic places",
+      family:"Experiences for everyone",
+      foodculture:"Flavors, traditions and Roman culture"
+    },
+    routeTime:"Recommended visit",
+    takeMe:"Take me there"
+  },
+
+  es:{
+    start:"Empieza a vivir Roma",
+    discover:"Descubre VIVI",
+    continue:"Continuar →",
+    next:"Continuar →",
+    finish:"Crear mi itinerario",
+    back:"← Atrás",
+    selected:"seleccionadas",
+    max:"Puedes elegir hasta 3 intereses.",
+    choose:"Elige al menos un interés.",
+    dates:"Introduce día y hora.",
+    summary:"Tu viaje ha sido creado según tus preferencias.",
+    with:"¿Con quién vives Roma?",
+    withSub:"Tu forma de viajar cambia el ritmo de la experiencia.",
+    places:"¿Qué lugares ya has visto?",
+    placesSub:"Así evitamos crear un itinerario demasiado típico.",
+    startDate:"¿Cuándo quieres empezar?",
+    startSub:"Elige día y hora.",
+    endDate:"¿Cuándo quieres terminar?",
+    endSub:"Indica cuándo quieres terminar.",
+    budget:"¿Cuánto quieres gastar?",
+    budgetSub:"Una franja aproximada es suficiente.",
+    style:"¿Famosa o más auténtica?",
+    styleSub:"Elige el tipo de Roma que prefieres.",
+    alone:"Solo",
+    couple:"En pareja",
+    friends:"Con amigos",
+    family:"En familia",
+    first:"Es mi primera vez",
+    classic:"Ya he visto los clásicos",
+    many:"Ya conozco bastante Roma",
+    little:"Quiero gastar poco",
+    medium:"Un gasto equilibrado",
+    high:"Quiero darme un capricho",
+    famous:"Los grandes lugares de Roma",
+    authentic:"Lugares más auténticos",
+    mix:"Una mezcla de clásico y auténtico",
+    interestNames:{
+      ancient:"Roma Antigua",
+      museums:"Arte y Museos",
+      hidden:"Roma Oculta",
+      authentic:"Roma Auténtica",
+      night:"Roma de Noche",
+      panoramic:"Roma Panorámica",
+      shopping:"Compras y Paseos",
+      romantic:"Roma Romántica",
+      quiet:"Roma Tranquila",
+      unusual:"Roma Insólita",
+      photos:"Fotografía",
+      family:"Roma en Familia",
+      foodculture:"Comida y Cultura Romana"
+    },
+    interestDesc:{
+      ancient:"Emperadores, ruinas e historia",
+      museums:"Obras maestras y cultura",
+      hidden:"Lejos de las rutas habituales",
+      authentic:"Barrios y vida cotidiana",
+      night:"Roma al caer el sol",
+      panoramic:"Las mejores vistas",
+      shopping:"Calles, tiendas y paseos",
+      romantic:"Roma para dos",
+      quiet:"Lugares tranquilos",
+      unusual:"Roma fuera de lo común",
+      photos:"Los lugares más fotogénicos",
+      family:"Experiencias para todos",
+      foodculture:"Sabores, tradiciones y cultura romana"
+    },
+    routeTime:"Visita recomendada",
+    takeMe:"Llévame allí"
+  },
+
+  fr:{
+    start:"Commencer à vivre Rome",
+    discover:"Découvrir VIVI",
+    continue:"Continuer →",
+    next:"Continuer →",
+    finish:"Créer mon itinéraire",
+    back:"← Retour",
+    selected:"sélectionnées",
+    max:"Vous pouvez choisir jusqu'à 3 intérêts.",
+    choose:"Choisissez au moins un intérêt.",
+    dates:"Indiquez le jour et l'heure.",
+    summary:"Votre voyage a été créé selon vos préférences.",
+    with:"Avec qui vivez-vous Rome ?",
+    withSub:"Votre façon de voyager change le rythme de l'expérience.",
+    places:"Quels lieux avez-vous déjà vus ?",
+    placesSub:"Cela nous aide à éviter un itinéraire trop classique.",
+    startDate:"Quand voulez-vous commencer ?",
+    startSub:"Choisissez le jour et l'heure.",
+    endDate:"Quand voulez-vous terminer ?",
+    endSub:"Indiquez le moment où vous souhaitez terminer.",
+    budget:"Combien voulez-vous dépenser ?",
+    budgetSub:"Une fourchette suffit.",
+    style:"Connue ou plus authentique ?",
+    styleSub:"Choisissez le type de Rome que vous préférez.",
+    alone:"Seul",
+    couple:"En couple",
+    friends:"Avec des amis",
+    family:"En famille",
+    first:"C'est ma première fois",
+    classic:"J'ai vu les grands classiques",
+    many:"Je connais déjà assez bien Rome",
+    little:"Je veux dépenser peu",
+    medium:"Un budget équilibré",
+    high:"Je veux me faire plaisir",
+    famous:"Les grands lieux de Rome",
+    authentic:"Des lieux plus authentiques",
+    mix:"Un mélange classique et authentique",
+    interestNames:{
+      ancient:"Rome Antique",
+      museums:"Art & Musées",
+      hidden:"Rome Cachée",
+      authentic:"Rome Authentique",
+      night:"Rome de Nuit",
+      panoramic:"Rome Panoramique",
+      shopping:"Shopping & Promenades",
+      romantic:"Rome Romantique",
+      quiet:"Rome Tranquille",
+      unusual:"Rome Insolite",
+      photos:"Photographie",
+      family:"Rome en Famille",
+      foodculture:"Cuisine & Culture Romaine"
+    },
+    interestDesc:{
+      ancient:"Empereurs, ruines et histoire",
+      museums:"Chefs-d'œuvre et culture",
+      hidden:"Loin des parcours habituels",
+      authentic:"Quartiers et vie quotidienne",
+      night:"Rome après le coucher du soleil",
+      panoramic:"Les plus belles vues",
+      shopping:"Rues, boutiques et promenades",
+      romantic:"Rome à deux",
+      quiet:"Lieux calmes et paisibles",
+      unusual:"Rome autrement",
+      photos:"Les lieux les plus photogéniques",
+      family:"Expériences pour tous",
+      foodculture:"Saveurs, traditions et culture romaine"
+    },
+    routeTime:"Visite conseillée",
+    takeMe:"M'y emmener"
+  },
+
+  de:{
+    start:"Rom erleben",
+    discover:"VIVI entdecken",
+    continue:"Weiter →",
+    next:"Weiter →",
+    finish:"Meine Route erstellen",
+    back:"← Zurück",
+    selected:"ausgewählt",
+    max:"Du kannst bis zu 3 Interessen wählen.",
+    choose:"Wähle mindestens ein Interesse.",
+    dates:"Tag und Uhrzeit eingeben.",
+    summary:"Deine Reise wurde nach deinen Vorlieben erstellt.",
+    with:"Mit wem erlebst du Rom?",
+    withSub:"Deine Reiseart verändert den Rhythmus.",
+    places:"Welche Orte hast du bereits gesehen?",
+    placesSub:"So vermeiden wir eine zu typische Route.",
+    startDate:"Wann möchtest du beginnen?",
+    startSub:"Wähle Tag und Uhrzeit.",
+    endDate:"Wann möchtest du enden?",
+    endSub:"Gib das Ende deiner Reise an.",
+    budget:"Wie viel möchtest du ausgeben?",
+    budgetSub:"Eine ungefähre Kategorie reicht.",
+    style:"Bekannt oder authentischer?",
+    styleSub:"Wähle die Art von Rom, die du bevorzugst.",
+    alone:"Allein",
+    couple:"Als Paar",
+    friends:"Mit Freunden",
+    family:"Mit der Familie",
+    first:"Das ist mein erstes Mal",
+    classic:"Ich kenne die Klassiker",
+    many:"Ich kenne Rom schon ziemlich gut",
+    little:"Ich möchte wenig ausgeben",
+    medium:"Ein ausgewogenes Budget",
+    high:"Ich möchte mir etwas gönnen",
+    famous:"Roms berühmte Orte",
+    authentic:"Authentischere Orte",
+    mix:"Eine Mischung aus klassisch und authentisch",
+    interestNames:{
+      ancient:"Antikes Rom",
+      museums:"Kunst & Museen",
+      hidden:"Verstecktes Rom",
+      authentic:"Authentisches Rom",
+      night:"Rom bei Nacht",
+      panoramic:"Panorama-Rom",
+      shopping:"Shopping & Spaziergänge",
+      romantic:"Romantisches Rom",
+      quiet:"Ruhiges Rom",
+      unusual:"Ungewöhnliches Rom",
+      photos:"Fotografie",
+      family:"Rom für Familien",
+      foodculture:"Essen & Römische Kultur"
+    },
+    interestDesc:{
+      ancient:"Kaiser, Ruinen und Geschichte",
+      museums:"Meisterwerke und Kultur",
+      hidden:"Abseits der üblichen Wege",
+      authentic:"Viertel und Alltag",
+      night:"Rom nach Sonnenuntergang",
+      panoramic:"Die schönsten Aussichten",
+      shopping:"Straßen, Geschäfte und Spaziergänge",
+      romantic:"Rom zu zweit",
+      quiet:"Ruhige Orte",
+      unusual:"Rom abseits des Gewöhnlichen",
+      photos:"Die fotogensten Orte",
+      family:"Erlebnisse für alle",
+      foodculture:"Aromen, Traditionen und römische Kultur"
+    },
+    routeTime:"Empfohlener Besuch",
+    takeMe:"Dorthin"
+  }
+
+};
+
+
+/* =========================================================
+   CATEGORIE
+========================================================= */
+
+const interests = [
+
+  {
+    id:"ancient",
+    symbol:"Ⅰ",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=85",
+    tags:["ancient","photos","family"]
+  },
+
+  {
+    id:"museums",
+    symbol:"✦",
+    image:"https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=900&q=85",
+    tags:["museums","ancient","romantic","photos"]
+  },
+
+  {
+    id:"hidden",
+    symbol:"◇",
+    image:"https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=900&q=85",
+    tags:["hidden","unusual","quiet","photos"]
+  },
+
+  {
+    id:"authentic",
+    symbol:"◈",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=85",
+    tags:["authentic","foodculture","night","photos"]
+  },
+
+  {
+    id:"night",
+    symbol:"☾",
+    image:"https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=900&q=85",
+    tags:["night","romantic","foodculture"]
+  },
+
+  {
+    id:"panoramic",
+    symbol:"△",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=900&q=85",
+    tags:["panoramic","romantic","photos","quiet"]
+  },
+
+  {
+    id:"shopping",
+    symbol:"○",
+    image:"https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=900&q=85",
+    tags:["shopping","authentic","photos","night"]
+  },
+
+  {
+    id:"romantic",
+    symbol:"♡",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=85",
+    tags:["romantic","panoramic","night","photos"]
+  },
+
+  {
+    id:"quiet",
+    symbol:"~",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=900&q=85",
+    tags:["quiet","panoramic","hidden","romantic"]
+  },
+
+  {
+    id:"unusual",
+    symbol:"✧",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=900&q=85",
+    tags:["unusual","hidden","photos","authentic"]
+  },
+
+  {
+    id:"photos",
+    symbol:"◎",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=85",
+    tags:["photos","panoramic","romantic","ancient"]
+  },
+
+  {
+    id:"family",
+    symbol:"♧",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=85",
+    tags:["family","ancient","museums","foodculture"]
+  },
+
+  {
+    id:"foodculture",
+    symbol:"◉",
+    image:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=85",
+    tags:["foodculture","authentic","ancient","museums","family","hidden"]
+  }
+
+];
+
+
+/* =========================================================
+   LUOGHI
+========================================================= */
+
+const places = [
+
+  {
+    id:"colosseum",
+    name:"Colosseo",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"Il simbolo di Roma e uno dei luoghi più potenti per iniziare a leggere la città.",
+    lat:41.8902,
+    lng:12.4922,
+    tags:["ancient","photos","family","classic"],
+    minutes:90
+  },
+
+  {
+    id:"forum",
+    name:"Foro Romano",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"Tra templi, colonne e vie antiche, il cuore della Roma imperiale.",
+    lat:41.8925,
+    lng:12.4853,
+    tags:["ancient","photos","classic"],
+    minutes:100
+  },
+
+  {
+    id:"pantheon",
+    name:"Pantheon",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"Una delle architetture più sorprendenti della città, ancora immersa nel tessuto vivo del centro.",
+    lat:41.8986,
+    lng:12.4769,
+    tags:["ancient","museums","foodculture","photos","classic"],
+    minutes:45
+  },
+
+  {
+    id:"trevi",
+    name:"Fontana di Trevi",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"La grande scenografia barocca di Roma, da vivere anche semplicemente passeggiando.",
+    lat:41.9009,
+    lng:12.4833,
+    tags:["romantic","photos","classic","night"],
+    minutes:35
+  },
+
+  {
+    id:"navona",
+    name:"Piazza Navona",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Una piazza monumentale piena di vita, arte e atmosfera romana.",
+    lat:41.8992,
+    lng:12.4731,
+    tags:["museums","romantic","foodculture","photos","classic"],
+    minutes:60
+  },
+
+  {
+    id:"spanish",
+    name:"Piazza di Spagna",
+    image:"https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=85",
+    description:"Scalinata, eleganza e una delle passeggiate più celebri del centro.",
+    lat:41.9059,
+    lng:12.4823,
+    tags:["shopping","romantic","photos","classic"],
+    minutes:50
+  },
+
+  {
+    id:"trastevere",
+    name:"Trastevere",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Vicoli, piazze, botteghe e quella Roma quotidiana che si scopre camminando.",
+    lat:41.8897,
+    lng:12.4694,
+    tags:["authentic","foodculture","night","romantic","photos"],
+    minutes:120
+  },
+
+  {
+    id:"monti",
+    name:"Rione Monti",
+    image:"https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=800&q=85",
+    description:"Un quartiere da vivere lentamente tra piccole vie, locali, negozi e scorci.",
+    lat:41.8955,
+    lng:12.4907,
+    tags:["authentic","shopping","foodculture","hidden","night"],
+    minutes:100
+  },
+
+  {
+    id:"campo",
+    name:"Campo de' Fiori",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Mercato, vita di quartiere e uno degli angoli più caratteristici del centro storico.",
+    lat:41.8956,
+    lng:12.4722,
+    tags:["foodculture","authentic","photos","night"],
+    minutes:65
+  },
+
+  {
+    id:"testaccio",
+    name:"Testaccio",
+    image:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=85",
+    description:"Una Roma più vera, fatta di cucina, mercato, tradizioni e vita di quartiere.",
+    lat:41.8785,
+    lng:12.4768,
+    tags:["foodculture","authentic","hidden"],
+    minutes:120
+  },
+
+  {
+    id:"coppede",
+    name:"Quartiere Coppedè",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=800&q=85",
+    description:"Un angolo sorprendente e fuori dagli itinerari classici.",
+    lat:41.9144,
+    lng:12.5097,
+    tags:["unusual","hidden","photos","quiet"],
+    minutes:70
+  },
+
+  {
+    id:"appia",
+    name:"Via Appia Antica",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"Pietra antica, natura e silenzio in uno dei paesaggi più particolari di Roma.",
+    lat:41.8584,
+    lng:12.5164,
+    tags:["ancient","quiet","unusual","photos","hidden"],
+    minutes:130
+  },
+
+  {
+    id:"garbatella",
+    name:"Garbatella",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Cortili, architetture e una Roma popolare lontana dalle cartoline.",
+    lat:41.8648,
+    lng:12.4876,
+    tags:["authentic","hidden","photos","quiet"],
+    minutes:100
+  },
+
+  {
+    id:"orange",
+    name:"Giardino degli Aranci",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=800&q=85",
+    description:"Una delle viste più romantiche e rilassate sulla città.",
+    lat:41.883,
+    lng:12.4767,
+    tags:["panoramic","romantic","quiet","photos"],
+    minutes:55
+  },
+
+  {
+    id:"gianicolo",
+    name:"Gianicolo",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=800&q=85",
+    description:"Una grande terrazza sulla città, perfetta quando vuoi guardare Roma dall'alto.",
+    lat:41.8919,
+    lng:12.4605,
+    tags:["panoramic","romantic","photos","quiet"],
+    minutes:60
+  },
+
+  {
+    id:"pincio",
+    name:"Terrazza del Pincio",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=800&q=85",
+    description:"Uno dei punti panoramici più belli per vedere Roma distendersi davanti a te.",
+    lat:41.9120,
+    lng:12.4778,
+    tags:["panoramic","romantic","photos","quiet"],
+    minutes:50
+  },
+
+  {
+    id:"villa",
+    name:"Villa Borghese",
+    image:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=800&q=85",
+    description:"Verde, arte e passeggiate nel cuore della città.",
+    lat:41.9142,
+    lng:12.4922,
+    tags:["quiet","family","romantic","museums","photos"],
+    minutes:100
+  },
+
+  {
+    id:"borghese",
+    name:"Galleria Borghese",
+    image:"https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=800&q=85",
+    description:"Un concentrato di arte barocca e capolavori in un contesto unico.",
+    lat:41.9142,
+    lng:12.4922,
+    tags:["museums","romantic","photos"],
+    minutes:100
+  },
+
+  {
+    id:"vatican",
+    name:"Musei Vaticani",
+    image:"https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=800&q=85",
+    description:"Arte, storia e alcuni dei capolavori più importanti custoditi a Roma.",
+    lat:41.9065,
+    lng:12.4536,
+    tags:["museums","photos","classic"],
+    minutes:150
+  },
+
+  {
+    id:"castel",
+    name:"Castel Sant'Angelo",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Una fortezza trasformata nei secoli, affacciata sul Tevere.",
+    lat:41.9031,
+    lng:12.4663,
+    tags:["ancient","museums","romantic","photos"],
+    minutes:90
+  },
+
+  {
+    id:"ponte",
+    name:"Ponte Sisto",
+    image:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=800&q=85",
+    description:"Un passaggio elegante tra centro e Trastevere.",
+    lat:41.8938,
+    lng:12.4707,
+    tags:["romantic","photos","authentic","night"],
+    minutes:35
+  },
+
+  {
+    id:"bocca",
+    name:"Bocca della Verità",
+    image:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=85",
+    description:"Un piccolo simbolo leggendario legato alla Roma più antica.",
+    lat:41.8882,
+    lng:12.4813,
+    tags:["ancient","unusual","family","photos"],
+    minutes:40
+  },
+
+  {
+    id:"corso",
+    name:"Via del Corso",
+    image:"https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=800&q=85",
+    description:"La grande passeggiata commerciale che attraversa il centro storico.",
+    lat:41.9028,
+    lng:12.4800,
+    tags:["shopping","photos","night","classic"],
+    minutes:90
+  }
+
+];
+
+
+/* =========================================================
+   STATO
+========================================================= */
+
+let currentLang = localStorage.getItem("viviLang") || "it";
+
+const selectedInterests = new Set();
+
+let currentQuestion = 0;
+
+const answers = {
+  with:null,
+  seen:null,
+  startDate:null,
+  startTime:null,
+  endDate:null,
+  endTime:null,
+  budget:null,
+  style:null
+};
+
+let map = null;
+
+
+/* =========================================================
+   ELEMENTI
+========================================================= */
+
+const interestsGrid =
+  document.getElementById("interestsGrid");
+
+const selectionCount =
+  document.getElementById("selectionCount");
+
+const startBuilder =
+  document.getElementById("startBuilder");
+
+const questionContainer =
+  document.getElementById("questionContainer");
+
+const questionCounter =
+  document.getElementById("questionCounter");
+
+const progressFill =
+  document.getElementById("progressFill");
+
+const resultsSection =
+  document.getElementById("risultati");
+
+const routeList =
+  document.getElementById("routeList");
+
+const resultsSummary =
+  document.getElementById("resultsSummary");
+
+const toast =
+  document.getElementById("toast");
+
+
+/* =========================================================
+   FUNZIONI GENERALI
+========================================================= */
+
+function t(key){
+  return translations[currentLang][key] || key;
+}
+
+function showToast(message){
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2400);
+
+}
+
+
+/* =========================================================
+   LINGUA
+========================================================= */
+
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    currentLang = btn.dataset.lang;
+
+    localStorage.setItem("viviLang",currentLang);
+
+    document.querySelectorAll(".lang-btn")
+      .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    renderInterests();
+
+    if(currentQuestion >= 0){
+      renderQuestion();
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   RENDER INTERESSI
+========================================================= */
+
+function renderInterests(){
+
+  interestsGrid.innerHTML="";
+
+  interests.forEach((interest,index)=>{
+
+    const card =
+      document.createElement("button");
+
+    card.type="button";
+
+    card.className="interest-card";
+
+    if(selectedInterests.has(interest.id)){
+      card.classList.add("selected");
+    }
+
+    card.innerHTML=`
+
+      <img
+        class="interest-image"
+        src="${interest.image}"
+        alt=""
+      >
+
+      <div class="interest-overlay"></div>
+
+      <span class="interest-number">
+        ${String(index+1).padStart(2,"0")}
+      </span>
+
+      <span class="interest-mark">
+        ${interest.symbol}
+      </span>
+
+      <div class="interest-content">
+
+        <h3>
+          ${translations[currentLang].interestNames[interest.id]}
+        </h3>
+
+        <p>
+          ${translations[currentLang].interestDesc[interest.id]}
+        </p>
+
+      </div>
+    `;
+
+    card.addEventListener("click",()=>{
+
+      if(selectedInterests.has(interest.id)){
+
+        selectedInterests.delete(interest.id);
+
+      }else{
+
+        if(selectedInterests.size>=3){
+
+          showToast(t("max"));
+          return;
+
+        }
+
+        selectedInterests.add(interest.id);
+
+      }
+
+      updateSelection();
+
+      renderInterests();
+
+    });
+
+    interestsGrid.appendChild(card);
+
+  });
+
+}
+
+
+function updateSelection(){
+
+  selectionCount.textContent =
+    selectedInterests.size;
+
+  startBuilder.disabled =
+    selectedInterests.size===0;
+
+}
+
+
+/* =========================================================
+   DOMANDA
+========================================================= */
+
+const questions = [
+
+  {
+    id:"with",
+    titleKey:"with",
+    subKey:"withSub",
+    type:"options",
+
+    options:[
+      ["alone","alone","Solo"],
+      ["couple","couple","In coppia"],
+      ["friends","friends","Con amici"],
+      ["family","family","In famiglia"]
+    ]
+  },
+
+  {
+    id:"seen",
+    titleKey:"places",
+    subKey:"placesSub",
+    type:"options",
+
+    options:[
+      ["first","first","È la mia prima volta"],
+      ["classic","classic","Ho visto i grandi classici"],
+      ["many","many","Conosco già abbastanza Roma"]
+    ]
+  },
+
+  {
+    id:"start",
+    titleKey:"startDate",
+    subKey:"startSub",
+    type:"startDate"
+  },
+
+  {
+    id:"end",
+    titleKey:"endDate",
+    subKey:"endSub",
+    type:"endDate"
+  },
+
+  {
+    id:"budget",
+    titleKey:"budget",
+    subKey:"budgetSub",
+    type:"options",
+
+    options:[
+      ["little","little","Vorrei spendere poco"],
+      ["medium","medium","Una spesa equilibrata"],
+      ["high","high","Voglio concedermi qualcosa"]
+    ]
+  },
+
+  {
+    id:"style",
+    titleKey:"style",
+    subKey:"styleSub",
+    type:"options",
+
+    options:[
+      ["famous","famous","I grandi luoghi di Roma"],
+      ["authentic","authentic","Luoghi più autentici"],
+      ["mix","mix","Un mix tra classico e autentico"]
+    ]
+  }
+
+];
+
+
+/* =========================================================
+   RENDER DOMANDA
+========================================================= */
+
+function renderQuestion(){
+
+  const q = questions[currentQuestion];
+
+  const total = questions.length;
+
+  questionCounter.textContent =
+    `Domanda ${currentQuestion+1} di ${total}`;
+
+  progressFill.style.width =
+    `${((currentQuestion+1)/total)*100}%`;
+
+  let html=`
+
+    <h3 class="question-title">
+      ${t(q.titleKey)}
+    </h3>
+
+    <p class="question-subtitle">
+      ${t(q.subKey)}
+    </p>
+  `;
+
+
+  if(q.type==="options"){
+
+    html+=`<div class="options">`;
+
+    q.options.forEach((option,index)=>{
+
+      const value=option[0];
+
+      const selected =
+        answers[q.id]===value
+          ? "selected"
+          : "";
+
+      html+=`
+
+        <button
+          type="button"
+          class="option ${selected}"
+          data-value="${value}"
+        >
+
+          <span class="option-mark">
+            ${String(index+1).padStart(2,"0")}
+          </span>
+
+          <span class="option-copy">
+
+            <strong>
+              ${t(option[1])}
+            </strong>
+
+            <span>
+              ${t(option[2])}
+            </span>
+
+          </span>
+
+        </button>
+
+      `;
+
+    });
+
+    html+=`</div>`;
+
+  }
+
+
+  if(q.type==="startDate"){
+
+    html+=`
+
+      <div class="date-grid">
+
+        <div class="field">
+
+          <label>
+            Giorno
+          </label>
+
+          <input
+            id="startDate"
+            type="date"
+            value="${answers.startDate || ""}"
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Ora
+          </label>
+
+          <input
+            id="startTime"
+            type="time"
+            value="${answers.startTime || ""}"
+          >
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if(q.type==="endDate"){
+
+    html+=`
+
+      <div class="date-grid">
+
+        <div class="field">
+
+          <label>
+            Giorno
+          </label>
+
+          <input
+            id="endDate"
+            type="date"
+            value="${answers.endDate || ""}"
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Ora
+          </label>
+
+          <input
+            id="endTime"
+            type="time"
+            value="${answers.endTime || ""}"
+          >
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  html+=`
+
+    <div class="builder-actions">
+
+      <button
+        class="back-btn"
+        id="backBtn"
+        ${currentQuestion===0 ? "style='visibility:hidden'" : ""}
+      >
+        ${t("back")}
+      </button>
+
+      <button
+        class="next-btn"
+        id="nextBtn"
+      >
+        ${
+          currentQuestion===total-1
+            ? t("finish")
+            : t("next")
+        }
+      </button>
+
+    </div>
+
+  `;
+
+  questionContainer.innerHTML=html;
+
+
+  document.querySelectorAll(".option")
+    .forEach(option=>{
+
+      option.addEventListener("click",()=>{
+
+        answers[q.id]=option.dataset.value;
+
+        document
+          .querySelectorAll(".option")
+          .forEach(o=>o.classList.remove("selected"));
+
+        option.classList.add("selected");
+
+      });
+
+    });
+
+
+  document
+    .getElementById("nextBtn")
+    .addEventListener("click",handleNext);
+
+  document
+    .getElementById("backBtn")
+    .addEventListener("click",()=>{
+
+      if(currentQuestion>0){
+
+        currentQuestion--;
+
+        renderQuestion();
+
+      }
+
+    });
+
+}
+
+
+/* =========================================================
+   VALIDAZIONE
+========================================================= */
+
+function validateCurrentQuestion(){
+
+  const q=questions[currentQuestion];
+
+  if(q.type==="options"){
+
+    if(!answers[q.id]){
+
+      showToast(
+        currentLang==="it"
+          ? "Scegli una delle opzioni."
+          : "Please choose an option."
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  if(q.type==="startDate"){
+
+    const date =
+      document.getElementById("startDate").value;
+
+    const time =
+      document.getElementById("startTime").value;
+
+    if(!date || !time){
+
+      showToast(t("dates"));
+
+      return false;
+
+    }
+
+    answers.startDate=date;
+    answers.startTime=time;
+
+  }
+
+
+  if(q.type==="endDate"){
+
+    const date =
+      document.getElementById("endDate").value;
+
+    const time =
+      document.getElementById("endTime").value;
+
+    if(!date || !time){
+
+      showToast(t("dates"));
+
+      return false;
+
+    }
+
+    answers.endDate=date;
+    answers.endTime=time;
+
+    const start =
+      new Date(`${answers.startDate}T${answers.startTime}`);
+
+    const end =
+      new Date(`${answers.endDate}T${answers.endTime}`);
+
+    if(end<=start){
+
+      showToast(
+        currentLang==="it"
+          ? "La fine deve essere successiva all'inizio."
+          : "The end must be after the start."
+      );
+
+      return false;
+
+    }
+
+  }
+
+  return true;
+
+}
+
+
+/* =========================================================
+   AVANTI
+========================================================= */
+
+function handleNext(){
+
+  if(!validateCurrentQuestion()){
+    return;
+  }
+
+  if(currentQuestion<questions.length-1){
+
+    currentQuestion++;
+
+    renderQuestion();
+
+    document
+      .getElementById("builder")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  }else{
+
+    generateResults();
+
+  }
+
+}
+
+
+/* =========================================================
+   GENERAZIONE ITINERARIO
+========================================================= */
+
+function generateResults(){
+
+  const selected =
+    [...selectedInterests];
+
+  let scored =
+    places.map(place=>{
+
+      let score=0;
+
+      selected.forEach(interest=>{
+
+        if(place.tags.includes(interest)){
+          score+=5;
+        }
+
+      });
+
+      if(
+        answers.style==="authentic" &&
+        place.tags.includes("authentic")
+      ){
+        score+=5;
+      }
+
+      if(
+        answers.style==="famous" &&
+        place.tags.includes("classic")
+      ){
+        score+=5;
+      }
+
+      if(
+        answers.style==="mix" &&
+        (
+          place.tags.includes("classic") ||
+          place.tags.includes("authentic")
+        )
+      ){
+        score+=3;
+      }
+
+      if(
+        answers.seen==="many" &&
+        place.tags.includes("classic")
+      ){
+        score-=2;
+      }
+
+      if(
+        answers.seen==="first" &&
+        place.tags.includes("classic")
+      ){
+        score+=4;
+      }
+
+      if(
+        answers.with==="family" &&
+        place.tags.includes("family")
+      ){
+        score+=5;
+      }
+
+      if(
+        answers.with==="couple" &&
+        place.tags.includes("romantic")
+      ){
+        score+=5;
+      }
+
+      return {
+        ...place,
+        score
+      };
+
+    });
+
+
+  scored.sort((a,b)=>{
+
+    if(b.score!==a.score){
+      return b.score-a.score;
+    }
+
+    return a.minutes-b.minutes;
+
+  });
+
+
+  const start =
+    new Date(
+      `${answers.startDate}T${answers.startTime}`
+    );
+
+  const end =
+    new Date(
+      `${answers.endDate}T${answers.endTime}`
+    );
+
+  const totalMinutes =
+    Math.max(
+      60,
+      (end-start)/60000
+    );
+
+
+  let numberOfStops;
+
+  if(totalMinutes<150){
+    numberOfStops=2;
+  }else if(totalMinutes<300){
+    numberOfStops=3;
+  }else if(totalMinutes<480){
+    numberOfStops=4;
+  }else if(totalMinutes<720){
+    numberOfStops=5;
+  }else{
+    numberOfStops=7;
+  }
+
+  numberOfStops =
+    Math.min(
+      numberOfStops,
+      scored.length
+    );
+
+
+  const route =
+    scored.slice(0,numberOfStops);
+
+
+  renderResults(
+    route,
+    totalMinutes
+  );
+
+}
+
+
+/* =========================================================
+   RISULTATI
+========================================================= */
+
+function renderResults(route,totalMinutes){
+
+  resultsSection.style.display="block";
+
+  const startDate =
+    formatDate(answers.startDate);
+
+  const endDate =
+    formatDate(answers.endDate);
+
+
+  resultsSummary.innerHTML=`
+
+    <strong>
+      ${startDate} · ${answers.startTime}
+    </strong>
+    <br>
+    fino a
+    <strong>
+      ${endDate} · ${answers.endTime}
+    </strong>
+    <br><br>
+    ${t("summary")}
+
+  `;
+
+
+  routeList.innerHTML="";
+
+
+  route.forEach((place,index)=>{
+
+    const googleMaps =
+      `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
+
+    const card =
+      document.createElement("article");
+
+    card.className="route-card";
+
+    card.innerHTML=`
+
+      <img
+        class="route-image"
+        src="${place.image}"
+        alt="${place.name}"
+      >
+
+      <div class="route-info">
+
+        <div class="route-number">
+          TAPPA ${String(index+1).padStart(2,"0")}
+        </div>
+
+        <h3>
+          ${place.name}
+        </h3>
+
+        <p class="route-description">
+          ${place.description}
+        </p>
+
+        <div class="route-meta">
+
+          <span>
+            ${t("routeTime")}: ~${place.minutes} min
+          </span>
+
+        </div>
+
+        <a
+          class="maps-btn"
+          href="${googleMaps}"
+          target="_blank"
+          rel="noopener"
+        >
+          ${t("takeMe")} →
+        </a>
+
+      </div>
+
+    `;
+
+    routeList.appendChild(card);
+
+  });
+
+
+  resultsSection.scrollIntoView({
+    behavior:"smooth"
+  });
+
+
+  setTimeout(()=>{
+
+    createMap(route);
+
+  },300);
+
+}
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function formatDate(date){
+
+  if(!date){
+    return "";
+  }
+
+  const d =
+    new Date(`${date}T12:00:00`);
+
+  return d.toLocaleDateString(
+    currentLang==="it"
+      ? "it-IT"
+      : currentLang==="en"
+        ? "en-GB"
+        : currentLang==="es"
+          ? "es-ES"
+          : currentLang==="fr"
+            ? "fr-FR"
+            : "de-DE",
+    {
+      day:"2-digit",
+      month:"long",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   MAPPA
+========================================================= */
+
+function createMap(route){
+
+  if(map){
+
+    map.remove();
+
+  }
+
+  map =
+    L.map("map");
+
+  map.setView(
+    [41.895,12.477],
+    13
+  );
+
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        '&copy; OpenStreetMap contributors',
+      maxZoom:19
+    }
+  ).addTo(map);
+
+
+  const bounds=[];
+
+
+  route.forEach((place,index)=>{
+
+    const marker =
+      L.marker(
+        [place.lat,place.lng]
+      ).addTo(map);
+
+
+    marker.bindPopup(`
+
+      <strong>
+        ${index+1}. ${place.name}
+      </strong>
+
+      <br>
+
+      <span style="
+        color:#777;
+        font-size:10px;
+      ">
+        ${place.description}
+      </span>
+
+    `);
+
+
+    bounds.push(
+      [place.lat,place.lng]
+    );
+
+  });
+
+
+  if(bounds.length>1){
+
+    map.fitBounds(
+      bounds,
+      {
+        padding:[45,45]
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+startBuilder.addEventListener("click",()=>{
+
+  if(selectedInterests.size===0){
+
+    showToast(t("choose"));
+
+    return;
+
+  }
+
+  document
+    .getElementById("builder")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  currentQuestion=0;
+
+  renderQuestion();
+
+});
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.querySelectorAll(".lang-btn")
+  .forEach(btn=>{
+
+    btn.classList.toggle(
+      "active",
+      btn.dataset.lang===currentLang
+    );
+
+  });
+
+renderInterests();
+
+updateSelection();
+
+</script>
+
+</body>
+</html>
