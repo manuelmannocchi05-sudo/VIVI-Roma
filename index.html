@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#f5f0e8">
-<meta name="description" content="VIVI — Non visitare Roma. Vivila.">
-
 <title>VIVI — Non visitare Roma. Vivila.</title>
+
+<meta name="description" content="VIVI — Non visitare Roma. Vivila.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,10 +14,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================
-   BASE
-========================= */
 
 *{
     box-sizing:border-box;
@@ -67,8 +62,10 @@ nav{
     left:0;
     width:100%;
     z-index:1000;
+
     background:rgba(245,240,232,.94);
     backdrop-filter:blur(16px);
+
     border-bottom:1px solid rgba(23,22,20,.08);
 }
 
@@ -109,7 +106,7 @@ nav{
 .primary-btn{
     border:none;
     background:#171614;
-    color:#fff;
+    color:white;
     cursor:pointer;
     border-radius:40px;
     font-weight:600;
@@ -181,6 +178,7 @@ nav{
     height:650px;
     border-radius:190px 190px 25px 25px;
     overflow:hidden;
+
     box-shadow:0 25px 70px rgba(0,0,0,.12);
 }
 
@@ -191,7 +189,7 @@ nav{
 
 
 /* =========================
-   SECTIONS
+   SEZIONI
 ========================= */
 
 section{
@@ -218,10 +216,12 @@ section{
 
 /* =========================
    ESPERIENZE
+   NON PIÙ NERE
 ========================= */
 
 .experiences{
     background:#ebe4da;
+    color:#171614;
 }
 
 .experience-grid{
@@ -232,15 +232,19 @@ section{
 
 .experience-card{
     min-height:235px;
+
     padding:28px;
 
     border-radius:24px;
+
     border:1px solid #d8cfc2;
 
     background:#f8f4ed;
+
     color:#171614;
 
     cursor:pointer;
+
     text-align:left;
 
     display:flex;
@@ -259,9 +263,11 @@ section{
 
 .experience-card::before{
     content:"";
+
     position:absolute;
     top:0;
     left:0;
+
     width:100%;
     height:3px;
 
@@ -291,6 +297,7 @@ section{
 
 .experience-card:hover{
     background:#eee6da;
+
     border-color:#c8a96a;
 
     transform:translateY(-7px);
@@ -378,6 +385,7 @@ section{
     font-family:"Cormorant Garamond",serif;
 
     font-size:46px;
+
     font-weight:500;
 
     margin-bottom:30px;
@@ -476,10 +484,10 @@ section{
 .result.show{
     display:block;
 
-    animation:resultAppear .5s ease;
+    animation:appear .5s ease;
 }
 
-@keyframes resultAppear{
+@keyframes appear{
 
     from{
         opacity:0;
@@ -544,7 +552,7 @@ section{
 
     display:grid;
 
-    grid-template-columns:70px 1fr;
+    grid-template-columns:80px 1fr;
 
     gap:15px;
 
@@ -564,7 +572,7 @@ section{
 .itinerary-item h4{
     font-family:"Cormorant Garamond",serif;
 
-    font-size:27px;
+    font-size:28px;
 
     font-weight:500;
 
@@ -593,12 +601,6 @@ section{
     align-items:center;
 
     gap:15px;
-}
-
-.result-footer-text{
-    color:#665f57;
-
-    font-size:13px;
 }
 
 
@@ -1045,7 +1047,6 @@ alt="Panorama di Roma">
 </section>
 
 
-
 <!-- =========================
      ESPERIENZE
 ========================= -->
@@ -1092,7 +1093,7 @@ Romantica
 </h3>
 
 <p>
-Tramonti, passeggiate e angoli da vivere in due.
+Angoli tranquilli, tramonti e momenti da ricordare.
 </p>
 
 </button>
@@ -1112,7 +1113,7 @@ Storia & cultura
 </h3>
 
 <p>
-La Roma antica, l'arte e le storie che hanno cambiato la città.
+Roma antica, arte e storie nascoste.
 </p>
 
 </button>
@@ -1132,7 +1133,7 @@ Come un romano
 </h3>
 
 <p>
-Quartieri, strade e piccoli luoghi lontani dai percorsi classici.
+Quartieri, strade e luoghi lontani dai percorsi classici.
 </p>
 
 </button>
@@ -1152,7 +1153,7 @@ Fotografica
 </h3>
 
 <p>
-Prospettive, scorci e punti perfetti per le tue foto.
+I punti migliori per vedere e fotografare Roma.
 </p>
 
 </button>
@@ -1172,7 +1173,7 @@ Religiosa
 </h3>
 
 <p>
-Basiliche, chiese e luoghi che raccontano secoli di storia.
+Chiese, basiliche e luoghi spirituali.
 </p>
 
 </button>
@@ -1212,7 +1213,7 @@ Roma nascosta
 </h3>
 
 <p>
-Una Roma più intima, curiosa e lontana dalla folla.
+Scopri una Roma che molti turisti non vedono.
 </p>
 
 </button>
@@ -1232,7 +1233,7 @@ Roma di notte
 </h3>
 
 <p>
-Quando il sole scende e la città cambia completamente volto.
+La città quando cambia completamente atmosfera.
 </p>
 
 </button>
@@ -1243,7 +1244,6 @@ Quando il sole scende e la città cambia completamente volto.
 </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -1330,11 +1330,11 @@ class="result"
 id="result">
 
 <div class="result-eyebrow">
-Il tuo percorso
+Il tuo itinerario
 </div>
 
 <h3 id="resultTitle">
-La tua Roma.
+La tua Roma
 </h3>
 
 <p
@@ -1351,9 +1351,9 @@ id="itinerary">
 
 <div class="result-footer">
 
-<div class="result-footer-text">
-Questo è il tuo punto di partenza. VIVI può adattare il percorso mentre cammini.
-</div>
+<span>
+Il percorso è stato creato in base alle tue scelte.
+</span>
 
 <button
 class="secondary-btn"
@@ -1374,7 +1374,6 @@ Ricomincia
 </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -1477,7 +1476,6 @@ In famiglia
 </section>
 
 
-
 <!-- =========================
      GUIDE
 ========================= -->
@@ -1547,7 +1545,6 @@ Allora cambiamo percorso. Seguimi.
 </section>
 
 
-
 <!-- =========================
      ESPLORA
 ========================= -->
@@ -1586,7 +1583,7 @@ Luoghi iconici, panorami, quartieri e angoli da scoprire.
 
 <img
 src="https://images.pexels.com/photos/17649402/pexels-photo-17649402.jpeg?cs=srgb&dl=pexels-gonzalo-mendiola-95842233-17649402.jpg&fm=jpg"
-alt="Colosseo a Roma">
+alt="Colosseo">
 
 </div>
 
@@ -1667,7 +1664,7 @@ Roma nascosta
 
 <img
 src="https://images.pexels.com/photos/13954189/pexels-photo-13954189.jpeg?cs=srgb&dl=pexels-andrei-l-335499537-13954189.jpg&fm=jpg"
-alt="Verde a Roma">
+alt="Villa Borghese">
 
 </div>
 
@@ -1694,7 +1691,7 @@ Villa Borghese
 
 <img
 src="https://images.pexels.com/photos/18405963/pexels-photo-18405963.jpeg?cs=srgb&dl=pexels-c1superstar-18405963.jpg&fm=jpg"
-alt="Arte e storia a Roma">
+alt="Pantheon">
 
 </div>
 
@@ -1750,7 +1747,6 @@ Roma di sera
 </main>
 
 
-
 <!-- =========================
      FOOTER
 ========================= -->
@@ -1773,7 +1769,6 @@ Una nuova maniera di scoprire la città.
 
 </div>
 
-
 <div class="footer-bottom">
 © 2026 VIVI — Roma
 </div>
@@ -1781,7 +1776,6 @@ Una nuova maniera di scoprire la città.
 </div>
 
 </footer>
-
 
 
 <script>
@@ -1793,110 +1787,100 @@ Una nuova maniera di scoprire la città.
 const steps = [
 
 {
-title:"Con chi vivi Roma?",
-key:"people",
+    title:"Con chi vivi Roma?",
+    key:"people",
 
-options:[
-["solo","Da solo"],
-["coppia","In coppia"],
-["amici","Con amici"],
-["famiglia","In famiglia"]
-]
-
+    options:[
+        ["solo","Da solo"],
+        ["coppia","In coppia"],
+        ["amici","Con amici"],
+        ["famiglia","In famiglia"]
+    ]
 },
 
 {
-title:"Che tipo di Roma cerchi?",
-key:"experience",
+    title:"Che tipo di Roma cerchi?",
+    key:"experience",
 
-options:[
-["romantica","Romantica"],
-["storia","Storia & cultura"],
-["religiosa","Religiosa"],
-["arte","Arte"],
-["foto","Fotografica"],
-["natura","Natura"],
-["nascosta","Roma nascosta"],
-["romano","Come un romano"],
-["notte","Roma di notte"]
-]
-
+    options:[
+        ["romantica","Romantica"],
+        ["storia","Storia & cultura"],
+        ["religiosa","Religiosa"],
+        ["arte","Arte"],
+        ["foto","Fotografica"],
+        ["natura","Natura"],
+        ["nascosta","Roma nascosta"],
+        ["romano","Come un romano"],
+        ["notte","Roma di notte"]
+    ]
 },
 
 {
-title:"Cosa vuoi fare?",
-key:"activity",
+    title:"Cosa vuoi fare?",
+    key:"activity",
 
-options:[
-["passeggiare","Passeggiare"],
-["fotografare","Fotografare"],
-["tramonto","Vedere il tramonto"],
-["storia","Conoscere la storia"],
-["chiese","Visitare chiese"],
-["relax","Rilassarmi"],
-["cibo","Scoprire il cibo"],
-["notte","Vivere la notte"],
-["diverso","Fare qualcosa di diverso"]
-]
-
+    options:[
+        ["passeggiare","Passeggiare"],
+        ["fotografare","Fotografare"],
+        ["tramonto","Vedere il tramonto"],
+        ["storia","Conoscere la storia"],
+        ["chiese","Visitare chiese"],
+        ["relax","Rilassarmi"],
+        ["cibo","Scoprire il cibo"],
+        ["notte","Vivere la notte"],
+        ["diverso","Fare qualcosa di diverso"]
+    ]
 },
 
 {
-title:"Quanto tempo hai?",
-key:"time",
+    title:"Quanto tempo hai?",
+    key:"time",
 
-options:[
-["1ora","1 ora"],
-["2ore","2 ore"],
-["3ore","3 ore"],
-["mezza","Mezza giornata"],
-["giornata","Giornata intera"]
-]
-
+    options:[
+        ["1ora","1 ora"],
+        ["2ore","2 ore"],
+        ["3ore","3 ore"],
+        ["mezza","Mezza giornata"],
+        ["giornata","Giornata intera"]
+    ]
 },
 
 {
-title:"Come vuoi viverla?",
-key:"pace",
+    title:"Come vuoi viverla?",
+    key:"pace",
 
-options:[
-["tranquillo","Tranquillo"],
-["normale","Normale"],
-["tutto","Vedere tutto"]
-]
-
+    options:[
+        ["tranquillo","Tranquillo"],
+        ["normale","Normale"],
+        ["tutto","Vedere tutto"]
+    ]
 },
 
 {
-title:"Qual è il tuo budget?",
-key:"budget",
+    title:"Qual è il tuo budget?",
+    key:"budget",
 
-options:[
-["gratis","Gratis / quasi gratis"],
-["basso","Basso"],
-["medio","Medio"],
-["importante","Non importante"]
-]
-
+    options:[
+        ["gratis","Gratis / quasi gratis"],
+        ["basso","Basso"],
+        ["medio","Medio"],
+        ["importante","Non importante"]
+    ]
 }
 
 ];
 
 
-/* =========================
-   STATO
-========================= */
-
 let currentStep = 0;
 
 let selections = {
 
-people:null,
-experience:null,
-activity:null,
-time:null,
-pace:null,
-budget:null
+    people:null,
+    experience:null,
+    activity:null,
+    time:null,
+    pace:null,
+    budget:null
 
 };
 
@@ -1907,104 +1891,84 @@ budget:null
 
 function startBuilder(){
 
-document
-.getElementById("builder")
-.scrollIntoView({
-behavior:"smooth"
-});
+    document
+        .getElementById("builder")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
 
-setTimeout(function(){
-
-renderStep();
-
-},300);
-
+    renderStep();
 }
 
 
 /* =========================
-   RENDER DOMANDA
+   MOSTRA DOMANDA
 ========================= */
 
 function renderStep(){
 
-const step = steps[currentStep];
+    const step = steps[currentStep];
 
-document.getElementById("stepCounter").textContent =
-"PASSO " +
-(currentStep + 1) +
-" DI " +
-steps.length;
+    document.getElementById("stepCounter").textContent =
+        "PASSO " +
+        (currentStep + 1) +
+        " DI " +
+        steps.length;
 
+    document.getElementById("stepTitle").textContent =
+        step.title;
 
-document.getElementById("stepTitle").textContent =
-step.title;
+    const container =
+        document.getElementById("options");
 
+    container.innerHTML = "";
 
-const optionsContainer =
-document.getElementById("options");
+    step.options.forEach(function(option){
 
-optionsContainer.innerHTML = "";
+        const button =
+            document.createElement("button");
 
+        button.type = "button";
 
-step.options.forEach(function(option){
+        button.className = "option";
 
-const button =
-document.createElement("button");
+        button.textContent = option[1];
 
-button.type="button";
+        if(selections[step.key] === option[0]){
 
-button.className="option";
+            button.classList.add("selected");
 
-button.textContent=option[1];
+        }
 
+        button.addEventListener("click",function(){
 
-if(selections[step.key] === option[0]){
+            selections[step.key] = option[0];
 
-button.classList.add("selected");
+            document
+                .querySelectorAll(".option")
+                .forEach(function(item){
 
-}
+                    item.classList.remove("selected");
 
+                });
 
-button.addEventListener("click",function(){
+            button.classList.add("selected");
 
-selections[step.key]=option[0];
+        });
 
+        container.appendChild(button);
 
-document
-.querySelectorAll(".option")
-.forEach(function(btn){
-
-btn.classList.remove("selected");
-
-});
-
-
-button.classList.add("selected");
-
-});
+    });
 
 
-optionsContainer.appendChild(button);
-
-});
-
-
-document.getElementById("backBtn").style.visibility =
-currentStep === 0
-? "hidden"
-: "visible";
+    document.getElementById("backBtn").style.visibility =
+        currentStep === 0 ? "hidden" : "visible";
 
 
-document.getElementById("nextBtn").textContent =
-currentStep === steps.length - 1
-? "Crea il mio viaggio →"
-: "Continua →";
-
-
-document
-.getElementById("result")
-.classList.remove("show");
+    document.getElementById("nextBtn").textContent =
+        currentStep === steps.length - 1
+        ? "Crea il mio viaggio →"
+        : "Continua →";
 
 }
 
@@ -2015,28 +1979,27 @@ document
 
 function nextStep(){
 
-const step = steps[currentStep];
+    const step = steps[currentStep];
 
-if(!selections[step.key]){
+    if(!selections[step.key]){
 
-alert("Scegli un'opzione per continuare.");
+        alert("Scegli un'opzione per continuare.");
 
-return;
+        return;
 
-}
+    }
 
+    if(currentStep < steps.length - 1){
 
-if(currentStep < steps.length - 1){
+        currentStep++;
 
-currentStep++;
+        renderStep();
 
-renderStep();
+    }else{
 
-}else{
+        generateTrip();
 
-generateTrip();
-
-}
+    }
 
 }
 
@@ -2047,389 +2010,582 @@ generateTrip();
 
 function previousStep(){
 
-if(currentStep > 0){
+    if(currentStep > 0){
 
-currentStep--;
+        currentStep--;
 
-renderStep();
+        renderStep();
 
-}
+    }
 
 }
 
 
 /* =========================
-   CREAZIONE VIAGGIO
+   CREA VIAGGIO
 ========================= */
 
 function generateTrip(){
 
-const experience =
-selections.experience;
+    let title = "La tua Roma";
 
-const people =
-selections.people;
+    let intro = "";
 
-const activity =
-selections.activity;
+    let places = [];
 
-const time =
-selections.time;
 
-const pace =
-selections.pace;
+    /* ROMANTICA */
 
-const budget =
-selections.budget;
+    if(selections.experience === "romantica"){
 
+        title = "Roma da vivere in due";
 
-let title =
-"Il tuo viaggio a Roma";
+        intro =
+            "Un percorso romantico e tranquillo, pensato per vivere Roma senza correre.";
 
+        places = [
 
-let intro =
-"Abbiamo costruito un percorso pensando al tuo modo di vivere la città.";
+            [
+                "09:30",
+                "Piazza Navona",
+                "Inizia con una passeggiata tra fontane, palazzi e angoli del centro storico."
+            ],
 
+            [
+                "10:15",
+                "Pantheon",
+                "Scopri uno dei luoghi più affascinanti della Roma antica."
+            ],
 
-let places = [];
+            [
+                "11:00",
+                "Fontana di Trevi",
+                "Fermati qualche minuto e goditi l'atmosfera di uno dei luoghi più iconici della città."
+            ],
 
+            [
+                "11:30",
+                "Piazza di Spagna",
+                "Concludi con una passeggiata verso Trinità dei Monti."
+            ]
 
-/* =========================
-   ESPERIENZA
-========================= */
+        ];
 
-if(experience === "romantica"){
+    }
 
-title="Roma da vivere in due";
 
-intro="Un percorso più lento e suggestivo, pensato per goderti Roma senza correre.";
+    /* STORIA */
 
-places=[
-["09:30","Piazza Navona","Inizia con una passeggiata tra le piazze e le fontane del centro storico."],
-["10:15","Pantheon","Scopri uno dei luoghi più affascinanti della Roma antica."],
-["11:00","Fontana di Trevi","Fermati qualche minuto e goditi l'atmosfera della città."],
-["11:30","Piazza di Spagna","Concludi il percorso con una passeggiata verso Trinità dei Monti."]
-];
+    else if(selections.experience === "storia"){
 
-}
+        title = "Roma, dentro la storia";
 
+        intro =
+            "Un percorso attraverso alcuni dei luoghi che raccontano la storia di Roma.";
 
-else if(experience === "storia"){
+        places = [
 
-title="Roma, dentro la storia";
+            [
+                "09:00",
+                "Colosseo",
+                "Parti dal simbolo della Roma antica."
+            ],
 
-intro="Un viaggio attraverso i luoghi che raccontano la Roma antica.";
+            [
+                "10:15",
+                "Fori Imperiali",
+                "Cammina nel cuore della città antica."
+            ],
 
-places=[
-["09:00","Colosseo","Parti dal simbolo più famoso della Roma antica."],
-["10:15","Fori Imperiali","Cammina nel cuore della città che ha costruito la storia di Roma."],
-["11:15","Campidoglio","Scopri una delle piazze più importanti della città."],
-["12:00","Pantheon","Concludi con uno degli edifici antichi meglio conservati."]
-];
+            [
+                "11:15",
+                "Campidoglio",
+                "Scopri una delle piazze più importanti della città."
+            ],
 
-}
+            [
+                "12:00",
+                "Pantheon",
+                "Concludi con uno degli edifici antichi più affascinanti di Roma."
+            ]
 
+        ];
 
-else if(experience === "foto"){
+    }
 
-title="Roma attraverso i tuoi occhi";
 
-intro="Un percorso costruito per trovare prospettive e scorci memorabili.";
+    /* ROMANO */
 
-places=[
-["09:00","Colosseo","Inizia dal simbolo di Roma e cerca la tua prospettiva preferita."],
-["10:00","Piazza Venezia","Una delle prospettive più scenografiche del centro."],
-["11:00","Pincio","Sali verso uno dei panorami più belli sulla città."],
-["12:00","Trinità dei Monti","Concludi con una vista iconica su Piazza di Spagna."]
-];
+    else if(selections.experience === "romano"){
 
-}
+        title = "Roma come un romano";
 
+        intro =
+            "Meno checklist e più tempo per osservare, camminare e scoprire.";
 
-else if(experience === "natura"){
+        places = [
 
-title="Una Roma più verde";
+            [
+                "09:30",
+                "Campo de' Fiori",
+                "Inizia la giornata tra le strade del centro."
+            ],
 
-intro="Un percorso più tranquillo, lontano dal ritmo del centro.";
+            [
+                "10:30",
+                "Trastevere",
+                "Passeggia tra vicoli, piazze e angoli caratteristici."
+            ],
 
-places=[
-["09:30","Villa Borghese","Inizia con una passeggiata nel verde."],
-["10:30","Terrazza del Pincio","Fermati per ammirare Roma dall'alto."],
-["11:15","Villa Doria Pamphilj","Continua in uno dei grandi spazi verdi della città."],
-["12:30","Passeggiata nel parco","Chiudi il percorso senza fretta."]
-];
+            [
+                "12:00",
+                "Testaccio",
+                "Scopri uno dei quartieri più autentici della città."
+            ],
 
-}
+            [
+                "13:00",
+                "Passeggiata libera",
+                "Lascia spazio all'esplorazione senza una meta precisa."
+            ]
 
+        ];
 
-else if(experience === "nascosta"){
+    }
 
-title="La Roma che non tutti vedono";
 
-intro="Meno monumenti da spuntare, più angoli da scoprire.";
+    /* FOTO */
 
-places=[
-["10:00","Trastevere","Inizia perdendoti tra vicoli e piccole piazze."],
-["11:00","Isola Tiberina","Scopri uno degli angoli più particolari del centro."],
-["11:45","Quartiere Monti","Vivi un'atmosfera più locale tra strade e botteghe."],
-["12:45","Piccole piazze","Lascia spazio all'esplorazione senza una meta precisa."]
-];
+    else if(selections.experience === "foto"){
 
-}
+        title = "Roma attraverso i tuoi occhi";
 
+        intro =
+            "Un percorso pensato per trovare prospettive e scorci da fotografare.";
 
-else if(experience === "notte"){
+        places = [
 
-title="Roma quando cala il sole";
+            [
+                "09:00",
+                "Colosseo",
+                "Inizia dal simbolo di Roma e cerca la prospettiva che preferisci."
+            ],
 
-intro="Un percorso pensato per vedere la città cambiare atmosfera.";
+            [
+                "10:00",
+                "Piazza Venezia",
+                "Continua verso uno dei punti più scenografici del centro."
+            ],
 
-places=[
-["18:00","Piazza Navona","Inizia quando le luci iniziano ad accendersi."],
-["19:00","Pantheon","Goditi il centro storico con meno rumore."],
-["20:00","Fontana di Trevi","Uno dei luoghi più suggestivi dopo il tramonto."],
-["21:00","Piazza di Spagna","Concludi la serata passeggiando nel cuore della città."]
-];
+            [
+                "11:00",
+                "Terrazza del Pincio",
+                "Fermati per una delle viste più belle sulla città."
+            ],
 
-}
+            [
+                "12:00",
+                "Piazza di Spagna",
+                "Concludi con uno degli scorci più riconoscibili di Roma."
+            ]
 
+        ];
 
-else if(experience === "religiosa"){
+    }
 
-title="La Roma spirituale";
 
-intro="Un percorso tra luoghi religiosi e grandi testimonianze artistiche.";
+    /* NATURA */
 
-places=[
-["09:00","Basilica di San Pietro","Inizia dal cuore della Città del Vaticano."],
-["10:30","Castel Sant'Angelo","Prosegui verso uno dei luoghi più riconoscibili di Roma."],
-["11:30","Pantheon","Scopri la trasformazione di un edificio nato nell'antichità."],
-["12:15","Basilica di Santa Maria sopra Minerva","Concludi con un luogo meno conosciuto."]
-];
+    else if(selections.experience === "natura"){
 
-}
+        title = "Una Roma più verde";
 
+        intro =
+            "Un percorso più tranquillo, con spazio per respirare e rallentare.";
 
-else if(experience === "romano"){
+        places = [
 
-title="Roma come un romano";
+            [
+                "09:30",
+                "Villa Borghese",
+                "Inizia con una passeggiata immersa nel verde."
+            ],
 
-intro="Meno checklist e più tempo per osservare la città.";
+            [
+                "10:30",
+                "Terrazza del Pincio",
+                "Fermati ad ammirare Roma dall'alto."
+            ],
 
-places=[
-["09:30","Campo de' Fiori","Inizia la giornata tra le strade del centro."],
-["10:30","Trastevere","Passeggia senza fretta tra i vicoli."],
-["12:00","Testaccio","Scopri uno dei quartieri più autentici di Roma."],
-["13:00","Passeggiata libera","Lascia spazio alla città e scegli tu dove fermarti."]
-];
+            [
+                "11:15",
+                "Villa Doria Pamphilj",
+                "Continua in uno dei grandi spazi verdi della città."
+            ],
 
-}
+            [
+                "12:30",
+                "Passeggiata nel parco",
+                "Chiudi il percorso senza fretta."
+            ]
 
+        ];
 
-else{
+    }
 
-title="La tua Roma su misura";
 
-intro="Un percorso equilibrato costruito sulle tue preferenze.";
+    /* NASCOSTA */
 
-places=[
-["09:30","Colosseo","Inizia da uno dei simboli della città."],
-["10:45","Centro storico","Continua verso le piazze e le strade del cuore di Roma."],
-["12:00","Pantheon","Una pausa tra storia e architettura."],
-["13:00","Piazza Navona","Concludi lasciandoti guidare dall'atmosfera della città."]
-];
+    else if(selections.experience === "nascosta"){
 
-}
+        title = "La Roma che non tutti vedono";
 
+        intro =
+            "Meno monumenti da spuntare, più angoli da scoprire.";
 
-/* =========================
-   TEMPO
-========================= */
+        places = [
 
-if(time === "1ora"){
+            [
+                "10:00",
+                "Trastevere",
+                "Inizia perdendoti tra vicoli e piccole piazze."
+            ],
 
-places = places.slice(0,1);
+            [
+                "11:00",
+                "Isola Tiberina",
+                "Scopri uno degli angoli più particolari del centro."
+            ],
 
-}
+            [
+                "11:45",
+                "Quartiere Monti",
+                "Vivi un'atmosfera più locale tra strade e botteghe."
+            ],
 
-else if(time === "2ore"){
+            [
+                "12:45",
+                "Esplorazione libera",
+                "Lascia spazio alla curiosità e scegli tu dove fermarti."
+            ]
 
-places = places.slice(0,2);
+        ];
 
-}
+    }
 
-else if(time === "3ore"){
 
-places = places.slice(0,3);
+    /* NOTTE */
 
-}
+    else if(selections.experience === "notte"){
 
+        title = "Roma quando cala il sole";
 
-/* =========================
-   ATTIVITÀ
-========================= */
+        intro =
+            "Un percorso pensato per vedere la città cambiare atmosfera.";
 
-if(activity === "tramonto"){
+        places = [
 
-places.push([
-"Tramonto",
-"Un punto panoramico",
-"Concludi il percorso cercando una vista aperta sulla città mentre il sole scende."
-]);
+            [
+                "18:00",
+                "Piazza Navona",
+                "Inizia quando le luci della città iniziano ad accendersi."
+            ],
 
-}
+            [
+                "19:00",
+                "Pantheon",
+                "Goditi il centro storico con un'atmosfera completamente diversa."
+            ],
 
-if(activity === "fotografare"){
+            [
+                "20:00",
+                "Fontana di Trevi",
+                "Fermati davanti alla fontana illuminata."
+            ],
 
-places[0][2] +=
-" Porta con te il telefono pronto: questo è uno dei momenti migliori per scattare.";
+            [
+                "21:00",
+                "Piazza di Spagna",
+                "Concludi la serata passeggiando nel cuore di Roma."
+            ]
 
-}
+        ];
 
-if(activity === "passeggiare"){
+    }
 
-intro +=
-" Abbiamo privilegiato le passeggiate rispetto agli spostamenti veloci.";
 
-}
+    /* RELIGIOSA */
 
-if(activity === "storia"){
+    else if(selections.experience === "religiosa"){
 
-intro +=
-" Il percorso dà più spazio alla storia e al racconto dei luoghi.";
+        title = "La Roma spirituale";
 
-}
+        intro =
+            "Un percorso tra luoghi religiosi, arte e secoli di storia.";
 
+        places = [
 
-/* =========================
-   RITMO
-========================= */
+            [
+                "09:00",
+                "Basilica di San Pietro",
+                "Inizia dal cuore della Città del Vaticano."
+            ],
 
-if(pace === "tranquillo"){
+            [
+                "10:30",
+                "Castel Sant'Angelo",
+                "Prosegui verso uno dei luoghi più riconoscibili di Roma."
+            ],
 
-intro +=
-" Il ritmo è volutamente tranquillo: prenditi il tuo tempo.";
+            [
+                "11:30",
+                "Pantheon",
+                "Scopri la trasformazione di un edificio nato nell'antichità."
+            ],
 
-}
+            [
+                "12:15",
+                "Santa Maria sopra Minerva",
+                "Concludi con una chiesa meno conosciuta ma ricca di storia."
+            ]
 
-else if(pace === "tutto"){
+        ];
 
-intro +=
-" Il percorso è più intenso, così puoi vedere il più possibile.";
+    }
 
-}
 
+    /* DEFAULT */
 
-/* =========================
-   PERSONE
-========================= */
+    else{
 
-if(people === "coppia"){
+        title = "La tua Roma su misura";
 
-intro +=
-" È pensato per essere piacevole da vivere in coppia.";
+        intro =
+            "Un percorso equilibrato costruito sulle tue preferenze.";
 
-}
+        places = [
 
-else if(people === "amici"){
+            [
+                "09:30",
+                "Colosseo",
+                "Inizia da uno dei simboli della città."
+            ],
 
-intro +=
-" Abbiamo mantenuto un ritmo adatto a essere vissuto con amici.";
+            [
+                "10:45",
+                "Centro storico",
+                "Continua verso le piazze e le strade del cuore di Roma."
+            ],
 
-}
+            [
+                "12:00",
+                "Pantheon",
+                "Una tappa tra storia e architettura."
+            ],
 
-else if(people === "famiglia"){
+            [
+                "13:00",
+                "Piazza Navona",
+                "Concludi lasciandoti guidare dall'atmosfera della città."
+            ]
 
-intro +=
-" Il percorso privilegia tappe semplici da vivere insieme.";
+        ];
 
-}
+    }
 
 
-/* =========================
-   BUDGET
-========================= */
+    /* =========================
+       TEMPO
+    ========================= */
 
-if(budget === "gratis"){
+    if(selections.time === "1ora"){
 
-intro +=
-" Abbiamo dato priorità a esperienze gratuite o quasi gratuite.";
+        places = places.slice(0,1);
 
-}
+    }
 
-else if(budget === "basso"){
+    else if(selections.time === "2ore"){
 
-intro +=
-" Abbiamo mantenuto il percorso con una spesa contenuta.";
+        places = places.slice(0,2);
 
-}
+    }
 
+    else if(selections.time === "3ore"){
 
-/* =========================
-   INSERIMENTO RISULTATO
-========================= */
+        places = places.slice(0,3);
 
-document.getElementById("resultTitle").textContent =
-title;
+    }
 
-document.getElementById("resultIntro").textContent =
-intro;
 
+    /* =========================
+       ATTIVITÀ
+    ========================= */
 
-const itinerary =
-document.getElementById("itinerary");
+    if(selections.activity === "tramonto"){
 
-itinerary.innerHTML="";
+        places.push([
+            "Tramonto",
+            "Un punto panoramico",
+            "Concludi il percorso davanti a una vista aperta sulla città."
+        ]);
 
+    }
 
-places.forEach(function(place){
 
-const item =
-document.createElement("div");
+    if(selections.activity === "fotografare"){
 
-item.className="itinerary-item";
+        intro +=
+            " Abbiamo dato più importanza agli scorci e alle prospettive fotografiche.";
 
+    }
 
-item.innerHTML = `
 
-<div class="itinerary-time">
-${place[0]}
-</div>
+    if(selections.activity === "passeggiare"){
 
-<div>
+        intro +=
+            " Il percorso privilegia le passeggiate.";
 
-<h4>
-${place[1]}
-</h4>
+    }
 
-<p>
-${place[2]}
-</p>
 
-</div>
+    if(selections.activity === "storia"){
 
-`;
+        intro +=
+            " Il percorso dà più spazio alla storia dei luoghi.";
 
+    }
 
-itinerary.appendChild(item);
 
-});
+    /* =========================
+       RITMO
+    ========================= */
 
+    if(selections.pace === "tranquillo"){
 
-const result =
-document.getElementById("result");
+        intro +=
+            " Il ritmo è volutamente tranquillo: prenditi il tuo tempo.";
 
-result.classList.add("show");
+    }
 
+    else if(selections.pace === "tutto"){
 
-setTimeout(function(){
+        intro +=
+            " Il ritmo è più intenso per permetterti di vedere il più possibile.";
 
-result.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
+    }
 
-},100);
+
+    /* =========================
+       PERSONE
+    ========================= */
+
+    if(selections.people === "coppia"){
+
+        intro +=
+            " Pensato per essere vissuto in coppia.";
+
+    }
+
+    else if(selections.people === "amici"){
+
+        intro +=
+            " Il percorso è adatto a essere vissuto con amici.";
+
+    }
+
+    else if(selections.people === "famiglia"){
+
+        intro +=
+            " Abbiamo privilegiato tappe semplici da vivere insieme.";
+
+    }
+
+
+    /* =========================
+       BUDGET
+    ========================= */
+
+    if(selections.budget === "gratis"){
+
+        intro +=
+            " Abbiamo dato priorità a esperienze gratuite o quasi gratuite.";
+
+    }
+
+    else if(selections.budget === "basso"){
+
+        intro +=
+            " Abbiamo mantenuto il percorso con una spesa contenuta.";
+
+    }
+
+
+    /* =========================
+       MOSTRA RISULTATO
+    ========================= */
+
+    document.getElementById("resultTitle").textContent =
+        title;
+
+    document.getElementById("resultIntro").textContent =
+        intro;
+
+
+    const itinerary =
+        document.getElementById("itinerary");
+
+    itinerary.innerHTML = "";
+
+
+    places.forEach(function(place){
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "itinerary-item";
+
+
+        item.innerHTML = `
+
+            <div class="itinerary-time">
+                ${place[0]}
+            </div>
+
+            <div>
+
+                <h4>
+                    ${place[1]}
+                </h4>
+
+                <p>
+                    ${place[2]}
+                </p>
+
+            </div>
+
+        `;
+
+
+        itinerary.appendChild(item);
+
+    });
+
+
+    const result =
+        document.getElementById("result");
+
+    result.classList.add("show");
+
+
+    setTimeout(function(){
+
+        result.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
 
 }
 
@@ -2440,24 +2596,24 @@ block:"start"
 
 function resetBuilder(){
 
-currentStep=0;
+    currentStep = 0;
 
-selections={
-people:null,
-experience:null,
-activity:null,
-time:null,
-pace:null,
-budget:null
-};
+    selections = {
 
-renderStep();
+        people:null,
+        experience:null,
+        activity:null,
+        time:null,
+        pace:null,
+        budget:null
 
-document
-.getElementById("builder")
-.scrollIntoView({
-behavior:"smooth"
-});
+    };
+
+    document
+        .getElementById("result")
+        .classList.remove("show");
+
+    renderStep();
 
 }
 
@@ -2468,9 +2624,9 @@ behavior:"smooth"
 
 function quickExperience(type){
 
-selections.experience=type;
+    selections.experience = type;
 
-startBuilder();
+    startBuilder();
 
 }
 
@@ -2481,32 +2637,32 @@ startBuilder();
 
 function quickWho(type,card){
 
-selections.people=type;
+    selections.people = type;
 
 
-document
-.querySelectorAll(".who-card")
-.forEach(function(item){
+    document
+        .querySelectorAll(".who-card")
+        .forEach(function(item){
 
-item.classList.remove("selected");
+            item.classList.remove("selected");
 
-});
-
-
-if(card){
-
-card.classList.add("selected");
-
-}
+        });
 
 
-startBuilder();
+    if(card){
+
+        card.classList.add("selected");
+
+    }
+
+
+    startBuilder();
 
 }
 
 
 /* =========================
-   AVVIO INIZIALE
+   AVVIO
 ========================= */
 
 renderStep();
