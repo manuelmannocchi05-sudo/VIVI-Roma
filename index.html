@@ -588,10 +588,6 @@ a{
 }
 
 .results-heading{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 360px;
-  gap:60px;
-  align-items:end;
   margin-bottom:45px;
 }
 
@@ -601,17 +597,30 @@ a{
 
 .results-heading h2{
   font-family:"Cormorant Garamond",serif;
-  font-size:70px;
+  font-size:clamp(55px,7vw,82px);
   line-height:.9;
   font-weight:500;
+  margin-bottom:18px;
 }
 
 .results-heading p{
   color:rgba(255,255,255,.6);
-  max-width:400px;
-  font-size:14px;
+  max-width:650px;
+  font-size:15px;
   line-height:1.7;
-  padding-bottom:5px;
+}
+
+.result-count{
+  display:inline-flex;
+  margin-top:22px;
+  padding:8px 14px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:30px;
+  color:var(--gold-light);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
 .route-grid{
@@ -961,10 +970,10 @@ a{
   background:
     linear-gradient(
       to top,
-      rgba(25,20,17,.70),
-      rgba(25,20,17,.10)
+      rgba(25,20,17,.72),
+      rgba(25,20,17,.08)
     ),
-    url("https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=2200&q=90")
+    url("https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=2200&q=90")
     center/cover;
   box-shadow:var(--shadow);
 }
@@ -989,54 +998,15 @@ a{
 }
 
 /* =========================
-   CATALOGO
-========================= */
-
-.catalog{
-  background:var(--ivory);
-}
-
-.catalog-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.catalog-card{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:22px;
-  transition:.25s ease;
-}
-
-.catalog-card:hover{
-  transform:translateY(-3px);
-  box-shadow:var(--shadow);
-}
-
-.catalog-card strong{
-  display:block;
-  font-family:"Cormorant Garamond",serif;
-  font-size:27px;
-  font-weight:600;
-}
-
-.catalog-card span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* =========================
-   CTA FINALE
+   CHIUSURA PULITA
 ========================= */
 
 .cta{
-  padding:140px 24px;
+  padding:120px 24px;
   background:
     linear-gradient(
-      rgba(35,28,24,.68),
-      rgba(35,28,24,.68)
+      rgba(35,28,24,.72),
+      rgba(35,28,24,.72)
     ),
     url("https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=2200&q=90")
     center/cover;
@@ -1105,10 +1075,6 @@ footer{
   grid-template-columns:repeat(2,1fr);
 }
 
-.catalog-grid{
-  grid-template-columns:repeat(2,1fr);
-}
-
 .intro-grid{
   grid-template-columns:1fr;
 }
@@ -1127,11 +1093,6 @@ footer{
 
 .walking-photo img{
   min-height:420px;
-}
-
-.results-heading{
-  grid-template-columns:1fr;
-  gap:20px;
 }
 
 }
@@ -1206,25 +1167,12 @@ footer{
   height:230px;
 }
 
-.results-heading{
-  display:block;
-}
-
 .results-heading h2{
   font-size:55px;
-  margin-bottom:25px;
-}
-
-.results-heading p{
-  max-width:100%;
 }
 
 .route-grid{
   grid-template-columns:1fr;
-}
-
-.catalog-grid{
-  grid-template-columns:1fr 1fr;
 }
 
 .map-panorama{
@@ -1266,10 +1214,6 @@ footer{
   grid-template-columns:1fr;
 }
 
-.catalog-grid{
-  grid-template-columns:1fr;
-}
-
 .hero h1{
   font-size:61px;
 }
@@ -1280,6 +1224,10 @@ footer{
 
 .quiz-buttons .btn{
   padding:13px 17px;
+}
+
+.walking-direction{
+  line-height:1.4;
 }
 
 }
@@ -1312,9 +1260,7 @@ footer{
 
 <body>
 
-<!-- =========================
-     NAVBAR
-========================= -->
+<!-- NAVBAR -->
 
 <nav class="navbar">
 
@@ -1346,9 +1292,7 @@ aria-label="Apri menu">
 </nav>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -1389,9 +1333,7 @@ Scopri VIVI
 </section>
 
 
-<!-- =========================
-     INTRO
-========================= -->
+<!-- INTRO -->
 
 <section class="section intro" id="esperienza">
 
@@ -1402,9 +1344,10 @@ Scopri VIVI
 <div class="intro-image">
 
 <img
-src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
-alt="Panorama di Roma"
+src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1400&q=90"
+alt="Roma"
 loading="lazy"
+onerror="this.style.display='none'"
 >
 
 </div>
@@ -1450,9 +1393,7 @@ Roma non si visita. Si vive.
 </section>
 
 
-<!-- =========================
-     BUILDER
-========================= -->
+<!-- BUILDER -->
 
 <section class="section builder" id="crea">
 
@@ -1490,7 +1431,7 @@ Poche domande. Poi VIVI costruisce il tuo itinerario personale.
 </div>
 
 
-<!-- STEP 1 -->
+<!-- 1 -->
 
 <div class="question active" data-step="1">
 
@@ -1527,7 +1468,7 @@ Roma cambia completamente quando cambia la compagnia.
 </div>
 
 
-<!-- STEP 2 -->
+<!-- 2 -->
 
 <div class="question" data-step="2">
 
@@ -1564,7 +1505,7 @@ Quanto conosci già la città?
 </div>
 
 
-<!-- STEP 3 -->
+<!-- 3 -->
 
 <div class="question" data-step="3">
 
@@ -1601,7 +1542,7 @@ Così VIVI può calibrare il percorso.
 </div>
 
 
-<!-- STEP 4 -->
+<!-- 4 -->
 
 <div class="question" data-step="4">
 
@@ -1638,7 +1579,7 @@ Roma può essere frenetica o lentissima.
 </div>
 
 
-<!-- STEP 5 -->
+<!-- 5 -->
 
 <div class="question" data-step="5">
 
@@ -1675,7 +1616,7 @@ VIVI può costruire il percorso anche in base alle tue gambe.
 </div>
 
 
-<!-- STEP 6 -->
+<!-- 6 -->
 
 <div class="question" data-step="6">
 
@@ -1712,7 +1653,7 @@ Nessun giudizio. Solo un itinerario adatto a te.
 </div>
 
 
-<!-- STEP 7 -->
+<!-- 7 -->
 
 <div class="question" data-step="7">
 
@@ -1738,7 +1679,6 @@ loading="lazy">
 
 </div>
 
-
 <div class="photo-option" data-interest="art">
 
 <img
@@ -1752,7 +1692,6 @@ loading="lazy">
 </div>
 
 </div>
-
 
 <div class="photo-option" data-interest="green">
 
@@ -1768,7 +1707,6 @@ loading="lazy">
 
 </div>
 
-
 <div class="photo-option" data-interest="night">
 
 <img
@@ -1782,7 +1720,6 @@ loading="lazy">
 </div>
 
 </div>
-
 
 <div class="photo-option" data-interest="hidden">
 
@@ -1798,7 +1735,6 @@ loading="lazy">
 
 </div>
 
-
 <div class="photo-option" data-interest="romantic">
 
 <img
@@ -1813,12 +1749,11 @@ loading="lazy">
 
 </div>
 
-
 <div class="photo-option" data-interest="food">
 
 <img
 src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1200&q=90"
-alt="Pasta italiana e tradizione romana"
+alt="Cibo e tradizione romana"
 loading="lazy">
 
 <div class="photo-option-content">
@@ -1857,17 +1792,13 @@ Continua
 </section>
 
 
-<!-- =========================
-     RISULTATI
-========================= -->
+<!-- RISULTATI -->
 
 <section class="section results" id="risultati">
 
 <div class="container">
 
 <div class="results-heading">
-
-<div>
 
 <div class="eyebrow">
 Il tuo viaggio
@@ -1878,11 +1809,13 @@ La tua Roma.<br>
 comincia qui.
 </h2>
 
-</div>
-
 <p id="resultDescription">
 Una selezione costruita sulle tue risposte.
 </p>
+
+<div class="result-count" id="resultCount">
+Il tuo percorso
+</div>
 
 </div>
 
@@ -1905,9 +1838,8 @@ Vivilo.
 </h3>
 
 <p>
-Ogni tappa ti dice esattamente cosa osservare,
-dove fermarti, cosa conoscere, cosa assaggiare
-e quale dettaglio non perdere.
+Ogni tappa ti dice cosa osservare,
+dove fermarti, cosa conoscere e quale dettaglio non perdere.
 </p>
 
 <div class="walking-stepbar">
@@ -1915,7 +1847,6 @@ e quale dettaglio non perdere.
 </div>
 
 </div>
-
 
 <div class="walking-main">
 
@@ -1939,7 +1870,6 @@ Roma
 </div>
 
 </div>
-
 
 <div class="walking-info">
 
@@ -2010,9 +1940,7 @@ Prossima tappa →
 </section>
 
 
-<!-- =========================
-     MAPPA
-========================= -->
+<!-- MAPPA -->
 
 <section class="section map-section" id="mappa">
 
@@ -2029,7 +1957,7 @@ Guarda dove ti porta VIVI.
 </h2>
 
 <p>
-Ogni luogo della tua selezione è geolocalizzato.
+Ogni luogo del tuo itinerario viene mostrato sulla mappa.
 </p>
 
 </div>
@@ -2047,44 +1975,8 @@ Ogni luogo della tua selezione è geolocalizzato.
 </section>
 
 
-<!-- =========================
-     CATALOGO
-========================= -->
-
-<section class="section catalog">
-
-<div class="container">
-
-<div class="section-heading">
-
-<div class="eyebrow">
-Roma è molto più grande
-</div>
-
-<h2>
-Scopri tutto quello che VIVI può raccontarti.
-</h2>
-
-<p>
-Monumenti, quartieri, panorami, mercati,
-street food, cucina romana e angoli meno conosciuti.
-</p>
-
-</div>
-
-<div
-class="catalog-grid"
-id="catalogGrid">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     CTA
-========================= -->
+<!-- CHIUSURA -->
+<!-- Niente catalogo con decine di opzioni -->
 
 <section class="cta">
 
@@ -2114,9 +2006,7 @@ Crea il tuo viaggio
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -2166,7 +2056,7 @@ lng:12.4853,
 description:"Il cuore politico e religioso dell'antica Roma.",
 tags:["ancient","classic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 palatine:{
@@ -2178,7 +2068,7 @@ lng:12.4878,
 description:"Una delle colline più importanti dell'antica Roma.",
 tags:["ancient","classic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
 },
 
 pantheon:{
@@ -2190,7 +2080,7 @@ lng:12.4769,
 description:"Un capolavoro dell'architettura romana ancora perfettamente conservato.",
 tags:["ancient","classic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 circusMaximus:{
@@ -2214,7 +2104,7 @@ lng:12.4922,
 description:"Le monumentali terme dell'antica Roma.",
 tags:["ancient","art"],
 price:"€€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 domusAurea:{
@@ -2226,7 +2116,7 @@ lng:12.4911,
 description:"La sontuosa residenza costruita da Nerone.",
 tags:["ancient","hidden"],
 price:"€€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
 },
 
 largoTorre:{
@@ -2238,7 +2128,7 @@ lng:12.4762,
 description:"Un'area archeologica nel cuore del centro storico.",
 tags:["ancient","classic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 teatroMarcello:{
@@ -2250,7 +2140,7 @@ lng:12.4796,
 description:"Un antico teatro romano ancora inserito nel tessuto della città.",
 tags:["ancient","hidden"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
 },
 
 foroTraiano:{
@@ -2274,7 +2164,7 @@ lng:12.4845,
 description:"La celebre colonna con il fregio che racconta le guerre daciche.",
 tags:["ancient","art"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 arcoCostantino:{
@@ -2310,7 +2200,7 @@ lng:12.2906,
 description:"L'antica città portuale di Roma.",
 tags:["ancient","hidden"],
 price:"€€",
-fallback:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 trevi:{
@@ -2322,7 +2212,7 @@ lng:12.4833,
 description:"La fontana più celebre di Roma.",
 tags:["art","classic","romantic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 navona:{
@@ -2346,7 +2236,7 @@ lng:12.4823,
 description:"La celebre scalinata e uno degli angoli più eleganti di Roma.",
 tags:["art","classic","romantic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 popolo:{
@@ -2370,7 +2260,7 @@ lng:12.4797,
 description:"Il grande monumento bianco che domina Piazza Venezia.",
 tags:["art","classic"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 capitolini:{
@@ -2514,7 +2404,7 @@ lng:12.4695,
 description:"Vicoli, piazze, trattorie e una delle atmosfere più autentiche di Roma.",
 tags:["hidden","romantic","food"],
 price:"€€",
-foodDescription:"Cammina tra Via della Lungara, Via della Lungaretta e le strade intorno a Piazza di Santa Maria in Trastevere. È una zona perfetta per provare pasta romana, supplì e cucina tradizionale in un'atmosfera vivace."
+foodDescription:"Cammina tra Via della Lungara, Via della Lungaretta e le strade intorno a Piazza di Santa Maria in Trastevere. È una zona perfetta per provare pasta romana, supplì e cucina tradizionale."
 },
 
 campo:{
@@ -2526,7 +2416,7 @@ lng:12.4722,
 description:"Mercato, botteghe e strade del centro storico.",
 tags:["food","classic","authentic"],
 price:"€",
-foodDescription:"Visita la piazza al mattino quando il mercato è più vivo. Guarda i banchi di frutta, verdura, spezie e prodotti locali, poi entra nelle vie laterali per cercare forni e botteghe."
+foodDescription:"Visita la piazza al mattino quando il mercato è più vivo. Guarda i banchi e poi esplora le vie laterali."
 },
 
 ghetto:{
@@ -2538,7 +2428,7 @@ lng:12.4786,
 description:"Uno dei quartieri più affascinanti del centro storico.",
 tags:["food","authentic","art"],
 price:"€€",
-foodDescription:"Qui puoi scoprire la cucina giudaico-romanesca. Cerca i carciofi alla giudia e alla romana, poi attraversa Via del Portico d'Ottavia e raggiungi l'area dell'antico Portico."
+foodDescription:"Qui puoi scoprire la cucina giudaico-romanesca e il celebre carciofo alla giudia."
 },
 
 testaccio:{
@@ -2550,7 +2440,7 @@ lng:12.4764,
 description:"Il quartiere legato alla cucina romana più popolare.",
 tags:["food","authentic","hidden"],
 price:"€€",
-foodDescription:"Testaccio è una delle zone migliori per capire la cucina popolare romana. Qui VIVI ti porta tra mercato, trattorie e strade del quartiere legate alla storia del vecchio mattatoio."
+foodDescription:"Testaccio è una delle zone migliori per capire la cucina popolare romana."
 },
 
 mercatoTestaccio:{
@@ -2562,7 +2452,7 @@ lng:12.4777,
 description:"Uno dei luoghi migliori per entrare nella vita quotidiana romana.",
 tags:["food","authentic"],
 price:"€",
-foodDescription:"Entra nel mercato e osserva i banchi prima di scegliere. Cerca pizza al taglio, supplì, panini, pasta e prodotti freschi. È uno dei posti migliori per vedere una Roma quotidiana e non costruita per i turisti."
+foodDescription:"Pizza al taglio, supplì, panini, pasta e prodotti freschi: il mercato è una Roma quotidiana."
 },
 
 sanLorenzo:{
@@ -2574,7 +2464,7 @@ lng:12.5166,
 description:"Un quartiere giovane e popolare, pieno di locali e vita romana.",
 tags:["hidden","food"],
 price:"€€",
-foodDescription:"Tra le strade di San Lorenzo trovi forni, pizzerie, street food e locali frequentati soprattutto da studenti e giovani romani."
+foodDescription:"Tra le strade di San Lorenzo trovi forni, pizzerie, street food e locali."
 },
 
 pigneto:{
@@ -2586,7 +2476,7 @@ lng:12.5222,
 description:"Un quartiere romano dall'atmosfera alternativa e contemporanea.",
 tags:["hidden","food"],
 price:"€€",
-foodDescription:"Il Pigneto è perfetto per chi vuole una Roma contemporanea: pizza, cocktail bar, street food e locali lungo Via del Pigneto e le strade vicine."
+foodDescription:"Pizza, street food e locali rendono il Pigneto perfetto per una Roma contemporanea."
 },
 
 garbatella:{
@@ -2598,7 +2488,7 @@ lng:12.4829,
 description:"Cortili, lotti storici e una Roma di quartiere autentica.",
 tags:["hidden","green","food"],
 price:"€€",
-foodDescription:"Una Roma di quartiere fatta di cortili, piazzette, trattorie e cucina popolare. Il bello è camminare senza fretta tra i lotti storici."
+foodDescription:"Una Roma di quartiere fatta di cortili, piazzette, trattorie e cucina popolare."
 },
 
 suppli:{
@@ -2610,7 +2500,7 @@ lng:12.4923,
 description:"Il classico street food romano.",
 tags:["food","classic"],
 price:"€",
-foodDescription:"Prova il supplì appena fritto: croccante all'esterno, morbido all'interno e con la mozzarella filante nel cuore."
+foodDescription:"Croccante fuori, morbido dentro e con la mozzarella filante nel cuore."
 },
 
 ostiense:{
@@ -2634,7 +2524,7 @@ lng:12.4765,
 description:"Uno dei simboli dell'archeologia industriale romana.",
 tags:["hidden","art"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 portaPortese:{
@@ -2706,7 +2596,7 @@ lng:12.4778,
 description:"Una delle fontane più raffinate e meno appariscenti del centro.",
 tags:["hidden","art"],
 price:"€",
-fallback:"https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
+fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=1200&q=90"
 },
 
 quattroFontane:{
@@ -2755,104 +2645,41 @@ fallback:"https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=form
 const interestPlaces={
 
 ancient:[
-"colosseum",
-"romanForum",
-"palatine",
-"pantheon",
-"circusMaximus",
-"caracalla",
-"domusAurea",
-"largoTorre",
-"teatroMarcello",
-"foroTraiano",
-"colonnaTraiana",
-"arcoCostantino",
-"appia",
-"ostiaAntica"
+"colosseum","romanForum","palatine","pantheon","circusMaximus",
+"caracalla","domusAurea","largoTorre","teatroMarcello",
+"foroTraiano","colonnaTraiana","arcoCostantino","appia","ostiaAntica"
 ],
 
 art:[
-"pantheon",
-"trevi",
-"navona",
-"spanishSteps",
-"popolo",
-"vittoriano",
-"capitolini",
-"campidoglio",
-"corso",
-"farnesina",
-"piazzaMattei",
-"turtleFountain",
-"quattroFontane",
-"vatican",
-"saintPeter"
+"pantheon","trevi","navona","spanishSteps","popolo","vittoriano",
+"capitolini","campidoglio","corso","farnesina","piazzaMattei",
+"turtleFountain","quattroFontane","vatican","saintPeter"
 ],
 
 green:[
-"villaBorghese",
-"gianicolo",
-"pincio",
-"orangeGarden",
-"villaPamphili",
-"villaAda",
-"eurLake",
-"cascades",
-"appia",
-"villaTorlonia",
-"botanicalGarden"
+"villaBorghese","gianicolo","pincio","orangeGarden","villaPamphili",
+"villaAda","eurLake","cascades","appia","villaTorlonia","botanicalGarden"
 ],
 
 night:[
-"trastevere",
-"navona",
-"trevi",
-"spanishSteps",
-"gianicolo",
-"pincio",
-"campo",
-"ostiense",
-"pigneto"
+"trastevere","navona","trevi","spanishSteps","gianicolo",
+"pincio","campo","ostiense","pigneto"
 ],
 
 hidden:[
-"trastevere",
-"ostiense",
-"gasometro",
-"portaPortese",
-"villaTorlonia",
-"farnesina",
-"botanicalGarden",
-"piazzaMattei",
-"turtleFountain",
-"quattroFontane",
-"appia",
-"pigneto",
-"garbatella",
-"sanLorenzo"
+"trastevere","ostiense","gasometro","portaPortese","villaTorlonia",
+"farnesina","botanicalGarden","piazzaMattei","turtleFountain",
+"quattroFontane","appia","pigneto","garbatella","sanLorenzo"
 ],
 
 romantic:[
-"trevi",
-"navona",
-"spanishSteps",
-"gianicolo",
-"pincio",
-"orangeGarden",
-"trastevere",
-"piazzaMattei"
+"trevi","navona","spanishSteps","gianicolo",
+"pincio","orangeGarden","trastevere","piazzaMattei"
 ],
 
 food:[
-"mercatoTestaccio",
-"testaccio",
-"ghetto",
-"trastevere",
-"campo",
-"sanLorenzo",
-"pigneto",
-"garbatella",
-"suppli"
+"mercatoTestaccio","testaccio","ghetto","trastevere",
+"campo","sanLorenzo","pigneto","garbatella","suppli"
 ]
 
 };
@@ -2875,6 +2702,7 @@ interests:[]
 };
 
 const questions=document.querySelectorAll(".question");
+
 
 function updateQuiz(){
 
@@ -2904,20 +2732,22 @@ currentStep===7
 }
 
 
-/* OPZIONI */
+/* OPZIONI NORMALI */
 
 document.querySelectorAll(".option").forEach(card=>{
 
-card.addEventListener("click",()=>{
+card.addEventListener("click",function(){
 
-const key=card.dataset.key;
-const value=card.dataset.value;
+const key=this.dataset.key;
+const value=this.dataset.value;
 
 document
 .querySelectorAll(`.option[data-key="${key}"]`)
-.forEach(item=>item.classList.remove("selected"));
+.forEach(item=>{
+item.classList.remove("selected");
+});
 
-card.classList.add("selected");
+this.classList.add("selected");
 
 answers[key]=value;
 
@@ -2926,17 +2756,17 @@ answers[key]=value;
 });
 
 
-/* FOTO / INTERESSI */
+/* INTERESSI */
 
 document.querySelectorAll(".photo-option").forEach(card=>{
 
-card.addEventListener("click",()=>{
+card.addEventListener("click",function(){
 
-const interest=card.dataset.interest;
+const interest=this.dataset.interest;
 
-if(card.classList.contains("selected")){
+if(this.classList.contains("selected")){
 
-card.classList.remove("selected");
+this.classList.remove("selected");
 
 answers.interests=
 answers.interests.filter(item=>item!==interest);
@@ -2953,7 +2783,7 @@ return;
 
 }
 
-card.classList.add("selected");
+this.classList.add("selected");
 
 answers.interests.push(interest);
 
@@ -2964,17 +2794,40 @@ answers.interests.push(interest);
 
 function canContinue(){
 
-if(currentStep===1)return !!answers.company;
-if(currentStep===2)return !!answers.seen;
-if(currentStep===3)return !!answers.time;
-if(currentStep===4)return !!answers.pace;
-if(currentStep===5)return !!answers.walking;
-if(currentStep===6)return !!answers.budget;
+switch(currentStep){
 
+case 1:
+return !!answers.company;
+
+case 2:
+return !!answers.seen;
+
+case 3:
+return !!answers.time;
+
+case 4:
+return !!answers.pace;
+
+case 5:
+return !!answers.walking;
+
+case 6:
+return !!answers.budget;
+
+case 7:
 return answers.interests.length>0;
+
+default:
+return false;
 
 }
 
+}
+
+
+/* ============================================================
+   AVANZAMENTO
+============================================================ */
 
 function nextQuestion(){
 
@@ -2996,11 +2849,11 @@ currentStep++;
 
 updateQuiz();
 
-}else{
-
-generateRoute();
+return;
 
 }
+
+generateRoute();
 
 }
 
@@ -3018,13 +2871,22 @@ updateQuiz();
 }
 
 
+document
+.getElementById("nextBtn")
+.addEventListener("click",nextQuestion);
+
+document
+.getElementById("prevBtn")
+.addEventListener("click",prevQuestion);
+
+
 /* ============================================================
    MENU MOBILE
 ============================================================ */
 
 document
 .getElementById("mobileMenu")
-.addEventListener("click",()=>{
+.addEventListener("click",function(){
 
 document
 .querySelector(".nav-links")
@@ -3037,7 +2899,7 @@ document
 .querySelectorAll(".nav-links a")
 .forEach(link=>{
 
-link.addEventListener("click",()=>{
+link.addEventListener("click",function(){
 
 document
 .querySelector(".nav-links")
@@ -3049,7 +2911,7 @@ document
 
 
 /* ============================================================
-   FOTO
+   IMMAGINI
 ============================================================ */
 
 async function getPlaceImage(place){
@@ -3068,13 +2930,14 @@ const response=await fetch(
 "&origin=*"
 );
 
-if(!response.ok){
-throw new Error("Wikipedia non disponibile");
-}
+if(response.ok){
 
 const data=await response.json();
 
-const pages=data.query.pages;
+const pages=data?.query?.pages;
+
+if(pages){
+
 const page=Object.values(pages)[0];
 
 if(
@@ -3087,10 +2950,14 @@ return page.original.source;
 
 }
 
+}
+
+}
+
 }catch(error){
 
 console.warn(
-"Foto Wikipedia non disponibile:",
+"Immagine Wikipedia non disponibile:",
 place.name
 );
 
@@ -3102,7 +2969,7 @@ return place.fallback || null;
 
 
 /* ============================================================
-   FOTO RISULTATI
+   CARICA FOTO ITINERARIO
 ============================================================ */
 
 async function loadRouteImages(){
@@ -3117,26 +2984,30 @@ const place=places[id];
 
 if(!place)continue;
 
-const image=
-await getPlaceImage(place);
-
 const img=
 card.querySelector("img");
 
 const imageBox=
 card.querySelector(".route-image");
 
-if(!image)continue;
+const image=
+await getPlaceImage(place);
 
-img.src=image;
+if(!image){
 
-img.onload=()=>{
+imageBox.classList.add("loaded");
+
+continue;
+
+}
+
+img.onload=function(){
 
 imageBox.classList.add("loaded");
 
 };
 
-img.onerror=()=>{
+img.onerror=function(){
 
 if(
 place.fallback &&
@@ -3153,213 +3024,213 @@ imageBox.classList.add("loaded");
 
 };
 
+img.src=image;
+
 }
 
 }
 
 
 /* ============================================================
-   DETTAGLI CAMMINA CON VIVI
+   DETTAGLI CAMMINA
 ============================================================ */
 
 const walkingDetails={
 
 "Colosseo":{
-direction:"Posizionati davanti all'ingresso principale del Colosseo.",
-description:"Prima di entrare, fai qualche passo indietro fino a vedere l'intero anfiteatro. Guarda i tre ordini di archi sovrapposti e nota come la struttura si restringe salendo. Poi spostati sul lato verso l'Arco di Costantino: da lì puoi vedere insieme Colosseo, arco e Via di San Gregorio.",
-chicca:"Il Colosseo fu inaugurato nell'80 d.C. e poteva accogliere decine di migliaia di spettatori. Il sistema di corridoi e scale era progettato per distribuire rapidamente la folla.",
-next:"Esci verso l'Arco di Costantino e fermati davanti ai rilievi dell'arco."
-},
-
-"Arco di Costantino":{
-direction:"Avvicinati al lato dell'arco rivolto verso il Colosseo.",
-description:"Guarda i grandi rilievi e le statue inserite nell'arco. Poi voltati verso il Colosseo: questa è una delle prospettive più famose dell'area archeologica. Attraversa quindi l'arco e continua verso Via di San Gregorio.",
-chicca:"L'Arco di Costantino fu dedicato nel 315 d.C. e riutilizza elementi decorativi provenienti da monumenti di epoche precedenti.",
-next:"Continua verso il Foro Romano."
+direction:"Posizionati davanti al Colosseo.",
+description:"Fai qualche passo indietro e osserva l'intero anfiteatro. Guarda i tre ordini di archi e poi spostati verso l'Arco di Costantino per vedere insieme i due monumenti.",
+chicca:"Il Colosseo fu inaugurato nell'80 d.C. e poteva accogliere decine di migliaia di spettatori.",
+next:"Continua verso l'Arco di Costantino."
 },
 
 "Foro Romano":{
-direction:"Affacciati dal belvedere e cerca i monumenti uno per uno.",
-description:"Non cercare di guardare tutto insieme. Individua prima le tre colonne del Tempio di Castore e Polluce, poi la grande basilica di Massenzio e infine la Via Sacra. Immagina questa zona piena di senatori, commercianti e cittadini.",
-chicca:"Il Foro era il centro politico, religioso e commerciale della Roma antica. Qui si concentravano alcuni degli edifici più importanti della città.",
-next:"Sali verso il Palatino per vedere l'area archeologica dall'alto."
+direction:"Affacciati dall'area panoramica.",
+description:"Individua la Via Sacra, le colonne dei templi e le grandi strutture delle basiliche. Immagina questa zona piena di senatori, commercianti e cittadini.",
+chicca:"Il Foro era il centro politico, religioso e commerciale dell'antica Roma.",
+next:"Sali verso il Palatino."
 },
 
 "Pantheon":{
-direction:"Entra e fermati esattamente al centro dell'edificio.",
-description:"Una volta dentro, non guardare subito le pareti: alza lentamente lo sguardo verso la cupola e cerca l'oculo perfettamente circolare al centro. Poi percorri il perimetro interno e osserva le cappelle e i grandi elementi marmorei.",
-chicca:"La cupola del Pantheon è una delle più grandi cupole in calcestruzzo non armato mai costruite. L'oculo centrale è aperto verso il cielo.",
-next:"Esci in Piazza della Rotonda e fai un giro completo della fontana centrale."
+direction:"Entra e fermati al centro.",
+description:"Alza lentamente lo sguardo verso la cupola e cerca l'oculo aperto al centro. Poi osserva le cappelle e i marmi lungo il perimetro.",
+chicca:"La cupola è una delle più grandi cupole in calcestruzzo non armato mai costruite.",
+next:"Esci in Piazza della Rotonda."
 },
 
 "Fontana di Trevi":{
-direction:"Scendi nella piazza e posizionati frontalmente alla fontana.",
-description:"Guarda al centro la figura di Oceano sulla conchiglia trainata dai cavalli. Poi osserva le due statue laterali e la grande facciata del Palazzo Poli. Prima di andare via, spostati leggermente verso destra: da quella posizione puoi vedere meglio il movimento delle rocce e dell'acqua.",
-chicca:"La fontana è collegata all'antico acquedotto dell'Acqua Virgo, che ancora oggi alimenta la fontana.",
-next:"Esci dalla piazza passando per Via delle Muratte e dirigiti verso Piazza di Spagna."
+direction:"Posizionati frontalmente alla fontana.",
+description:"Osserva Oceano, i cavalli e le rocce. Poi spostati leggermente di lato per vedere meglio il movimento dell'acqua.",
+chicca:"La fontana è alimentata dall'antico acquedotto dell'Acqua Virgo.",
+next:"Continua verso Piazza di Spagna."
 },
 
 "Piazza Navona":{
-direction:"Parti dal centro della piazza e percorri il lato lungo.",
-description:"Segui la forma allungata della piazza e individua le tre fontane: al centro c'è la Fontana dei Quattro Fiumi, alle estremità le fontane del Moro e del Nettuno. Poi guarda la facciata concava di Sant'Agnese in Agone.",
-chicca:"La piazza occupa la stessa area dell'antico Stadio di Domiziano, costruito per gare atletiche.",
-next:"Esci verso Corso Rinascimento e continua verso il Pantheon."
+direction:"Parti dal centro della piazza.",
+description:"Percorri lentamente il lato lungo e individua le tre fontane. Al centro osserva la Fontana dei Quattro Fiumi e la facciata di Sant'Agnese in Agone.",
+chicca:"La piazza occupa l'area dell'antico Stadio di Domiziano.",
+next:"Continua verso il Pantheon."
 },
 
 "Piazza del Popolo":{
-direction:"Entra nella piazza passando da Porta del Popolo.",
-description:"Posizionati al centro e guarda verso le due chiese gemelle di Santa Maria in Montesanto e Santa Maria dei Miracoli. Poi osserva l'obelisco egizio al centro. Infine sali la rampa verso il Pincio per vedere la piazza dall'alto.",
-chicca:"L'obelisco al centro proviene dall'Egitto ed è uno dei numerosi monumenti antichi riutilizzati nella Roma papale.",
-next:"Sali sulla Terrazza del Pincio e cerca la cupola di San Pietro all'orizzonte."
+direction:"Posizionati al centro della piazza.",
+description:"Guarda le due chiese gemelle e l'obelisco centrale. Poi sali verso il Pincio per vedere la piazza dall'alto.",
+chicca:"L'obelisco proviene dall'Egitto ed è uno dei tanti monumenti antichi riutilizzati a Roma.",
+next:"Sali sulla Terrazza del Pincio."
 },
 
 "Trastevere":{
-direction:"Lascia Piazza di Santa Maria e imbocca Via della Lungaretta.",
-description:"Qui non seguire subito la strada più grande. Cammina lentamente nelle vie laterali e cerca portoni antichi, piante sui balconi, piccole edicole votive e facciate con intonaci consumati. Poi torna verso Piazza di Santa Maria in Trastevere e fermati davanti alla basilica.",
-chicca:"Il nome Trastevere deriva dal latino 'trans Tiberim', cioè 'al di là del Tevere'. Il quartiere conserva ancora una forte identità locale.",
-next:"Fai una pausa gastronomica: cerca una trattoria o una friggitoria del quartiere e prova un supplì o una pasta romana."
+direction:"Parti da Piazza Santa Maria in Trastevere.",
+description:"Lascia la piazza e percorri lentamente le strade laterali. Cerca portoni antichi, piante sui balconi, piccole edicole e facciate consumate.",
+chicca:"Trastevere deriva dal latino 'trans Tiberim', cioè al di là del Tevere.",
+next:"Fermati per un supplì o una pasta romana."
 },
 
 "Giardino degli Aranci":{
-direction:"Attraversa il viale centrale fino alla terrazza panoramica.",
-description:"Arriva alla terrazza e posizionati davanti alla ringhiera. Cerca il profilo della cupola di San Pietro al centro della vista. Poi torna verso l'ingresso e percorri il giardino tra gli aranci, osservando il contrasto tra il verde dell'Aventino e i tetti del centro storico.",
-chicca:"Il giardino è conosciuto soprattutto per la sua terrazza panoramica e per la vista verso San Pietro.",
-next:"Continua fino alla vicina Piazza dei Cavalieri di Malta."
+direction:"Raggiungi la terrazza panoramica.",
+description:"Posizionati davanti alla ringhiera e cerca la cupola di San Pietro nella vista. Poi percorri lentamente il giardino.",
+chicca:"È uno dei punti panoramici più belli dell'Aventino.",
+next:"Continua verso Piazza dei Cavalieri di Malta."
 },
 
 "Gianicolo":{
-direction:"Raggiungi la balaustra del belvedere.",
-description:"Affacciati e prova a riconoscere almeno cinque elementi della città: la cupola di San Pietro, il Vittoriano, il Pantheon, il Tevere e i tetti del centro storico. Poi continua lungo il belvedere fino al monumento a Garibaldi.",
-chicca:"Il Gianicolo è celebre anche per il tradizionale colpo di cannone sparato ogni giorno a mezzogiorno.",
-next:"Continua verso il monumento a Garibaldi e poi scendi lentamente verso Trastevere."
+direction:"Raggiungi la balaustra.",
+description:"Prova a riconoscere almeno cinque elementi della città: San Pietro, il Vittoriano, il Pantheon, il Tevere e i tetti del centro.",
+chicca:"Il Gianicolo è famoso anche per il tradizionale colpo di cannone di mezzogiorno.",
+next:"Continua verso Trastevere."
 },
 
 "Testaccio e la cucina romana":{
-direction:"Inizia da Piazza Testaccio e attraversa il quartiere verso il mercato.",
-description:"Guarda i palazzi bassi e i cortili del quartiere. Testaccio è interessante proprio perché non sembra un museo: qui la storia del lavoro, del mercato e della cucina popolare è ancora leggibile nelle strade. Cerca poi le trattorie dove compaiono carbonara, amatriciana, gricia, coda alla vaccinara e trippa.",
-chicca:"La cucina di Testaccio è storicamente legata anche al vecchio mattatoio e alla tradizione del quinto quarto.",
-next:"Continua verso il Mercato di Testaccio per una pausa gastronomica."
+direction:"Parti da Piazza Testaccio.",
+description:"Cammina tra le strade del quartiere e osserva il rapporto tra mercato, abitazioni e cucina popolare. Cerca trattorie con carbonara, amatriciana, gricia e altri piatti romani.",
+chicca:"La cucina di Testaccio è storicamente legata anche al vecchio mattatoio.",
+next:"Continua verso il Mercato di Testaccio."
 },
 
 "Mercato di Testaccio":{
-direction:"Entra nel mercato e fai prima un giro completo senza fermarti.",
-description:"Guarda i banchi di frutta, verdura, carne, formaggi e prodotti pronti. Poi scegli una pausa: pizza al taglio, supplì, panino o un piatto romano. L'obiettivo è osservare come mangiano e comprano i romani nella vita quotidiana.",
-chicca:"Il mercato è uno dei luoghi migliori per vedere una parte della Roma contemporanea lontana dai grandi monumenti.",
-next:"Dopo aver mangiato, esci verso Via Galvani e continua a piedi nel quartiere."
+direction:"Entra e fai prima un giro completo.",
+description:"Guarda i banchi e osserva la vita quotidiana del mercato. Poi scegli una pausa tra pizza, supplì, panini o piatti romani.",
+chicca:"È uno dei luoghi migliori per vedere una Roma quotidiana e non costruita per i turisti.",
+next:"Esci verso Via Galvani."
 },
 
 "Ghetto ebraico":{
 direction:"Entra da Via del Portico d'Ottavia.",
-description:"Percorri lentamente il Portico d'Ottavia e guarda il rapporto tra le strutture romane antiche e gli edifici del quartiere. Poi cerca le insegne dei ristoranti che propongono cucina giudaico-romanesca.",
-chicca:"La cucina giudaico-romanesca è una delle tradizioni gastronomiche più caratteristiche di Roma. Il carciofo alla giudia è uno dei suoi piatti simbolo.",
-next:"Continua verso Piazza Mattei e guarda la Fontana delle Tartarughe."
+description:"Percorri il Portico d'Ottavia e osserva il rapporto tra le strutture romane antiche e gli edifici del quartiere.",
+chicca:"Il carciofo alla giudia è uno dei simboli della cucina giudaico-romanesca.",
+next:"Continua verso Piazza Mattei."
 },
 
 "Campo de' Fiori":{
-direction:"Attraversa la piazza passando tra i banchi.",
-description:"Se arrivi al mattino, osserva prima il mercato senza fermarti: spezie, frutta, verdura e prodotti alimentari. Poi spostati ai bordi della piazza e guarda le facciate degli edifici. Da qui puoi continuare verso Via dei Cappellari, una delle strade più caratteristiche della zona.",
-chicca:"Campo de' Fiori è uno dei luoghi del centro dove il mercato ha mantenuto una presenza quotidiana molto forte.",
-next:"Imbocca Via dei Cappellari e continua verso Piazza Navona."
+direction:"Attraversa la piazza.",
+description:"Se arrivi al mattino osserva il mercato. Poi spostati nelle vie laterali e cerca forni e botteghe.",
+chicca:"Il mercato mantiene una presenza quotidiana molto forte nel centro storico.",
+next:"Continua verso Piazza Navona."
 },
 
 "San Lorenzo":{
 direction:"Parti da Piazza dell'Immacolata.",
-description:"Da qui percorri Via dei Sabelli e le strade vicine. Osserva il contrasto tra i palazzi storici, i murales, i locali e la presenza universitaria. Per mangiare cerca una pizzeria, un forno o un piccolo locale frequentato dagli abitanti del quartiere.",
-chicca:"San Lorenzo nacque come quartiere popolare vicino allo scalo ferroviario ed è oggi uno dei quartieri più giovani e vivaci di Roma.",
-next:"Continua verso il Pigneto per scoprire un'altra faccia della Roma contemporanea."
+description:"Percorri le strade del quartiere e osserva il contrasto tra palazzi storici, murales, locali e presenza universitaria.",
+chicca:"San Lorenzo nacque come quartiere popolare vicino allo scalo ferroviario.",
+next:"Continua verso il Pigneto."
 },
 
 "Pigneto":{
-direction:"Cammina lungo Via del Pigneto sotto l'arco degli acquedotti.",
-description:"Segui il tratto pedonale e guarda i piccoli locali, i murales e le attività di quartiere. Non fermarti solo nella strada principale: entra per qualche minuto nelle vie laterali per vedere la differenza tra la parte più turistica e quella residenziale.",
-chicca:"Il Pigneto è stato raccontato anche dal cinema neorealista italiano ed è diventato uno dei simboli della Roma alternativa.",
-next:"Fermati per uno street food o una pizza e poi continua verso le vie laterali."
+direction:"Cammina lungo Via del Pigneto.",
+description:"Guarda i locali, i murales e le attività di quartiere. Poi entra per qualche minuto nelle strade laterali.",
+chicca:"Il Pigneto è stato raccontato anche dal cinema neorealista italiano.",
+next:"Fermati per uno street food o una pizza."
 },
 
 "Garbatella":{
-direction:"Entra nei lotti storici partendo da Piazza Benedetto Brin.",
-description:"Non limitarti alla strada principale. Entra nei cortili e cerca i piccoli giardini comuni, le scale esterne, i ballatoi e le forme diverse degli edifici. È proprio qui che si capisce perché Garbatella sia così diversa dal resto di Roma.",
-chicca:"Il quartiere fu progettato all'inizio del Novecento con l'idea di creare piccoli nuclei abitativi organizzati intorno a cortili e spazi comuni.",
-next:"Continua verso Piazza Giovanni da Triora e scopri le strade interne."
+direction:"Parti da Piazza Benedetto Brin.",
+description:"Entra nei lotti storici e cerca cortili, piccoli giardini, scale e ballatoi. È qui che si capisce la particolarità del quartiere.",
+chicca:"Garbatella fu progettata come insieme di piccoli nuclei abitativi organizzati attorno a cortili.",
+next:"Continua nelle strade interne."
 },
 
 "Supplì romano":{
-direction:"Fermati prima di mangiarlo e guardalo tagliato a metà.",
-description:"Il supplì va mangiato caldo. Quando lo apri, guarda la mozzarella filante al centro: è il dettaglio che distingue il classico supplì romano. Provalo come pausa veloce prima di riprendere il percorso.",
-chicca:"Il nome è legato al francese 'surprise', riferito alla sorpresa della mozzarella nascosta all'interno.",
-next:"Riprendi il percorso verso la prossima tappa."
+direction:"Fermati prima di mangiarlo.",
+description:"Aprilo a metà e guarda la mozzarella filante al centro. Mangialo caldo prima di riprendere il percorso.",
+chicca:"Il nome è tradizionalmente collegato al francese 'surprise'.",
+next:"Riprendi verso la prossima tappa."
 },
 
 "Campidoglio":{
-direction:"Sali la Cordonata e fermati al centro della piazza.",
-description:"Una volta arrivato in cima, fermati esattamente sull'asse centrale della piazza. Guarda la pavimentazione geometrica e i tre edifici che la delimitano. Poi voltati verso la scalinata: la prospettiva permette di capire il progetto scenografico di Michelangelo.",
-chicca:"Michelangelo ridisegnò la piazza nel XVI secolo creando un complesso architettonico pensato per essere visto come un'unica scena.",
-next:"Scendi verso Piazza Venezia e continua verso i Fori Imperiali."
+direction:"Sali la Cordonata.",
+description:"Fermati al centro della piazza e osserva la geometria della pavimentazione e gli edifici progettati da Michelangelo.",
+chicca:"Michelangelo ridisegnò la piazza nel XVI secolo.",
+next:"Scendi verso Piazza Venezia."
 },
 
 "Villa Borghese":{
-direction:"Entra dal lato del Pincio e segui i viali alberati.",
-description:"Cammina senza fretta tra i viali e cerca i piccoli laghi, le statue e gli scorci tra gli alberi. Se hai tempo, raggiungi la zona della Galleria Borghese o torna verso il Pincio per il panorama.",
-chicca:"Villa Borghese è uno dei grandi polmoni verdi del centro di Roma e conserva numerose opere architettoniche e artistiche.",
-next:"Continua verso il Pincio per una vista panoramica."
+direction:"Entra dal lato del Pincio.",
+description:"Segui i viali alberati e cerca laghi, statue e scorci tra gli alberi.",
+chicca:"Villa Borghese è uno dei grandi polmoni verdi del centro di Roma.",
+next:"Continua verso il Pincio."
 },
 
 "Terrazza del Pincio":{
-direction:"Posizionati davanti alla balaustra centrale.",
-description:"Guarda la città dal belvedere e prova a seguire con gli occhi l'asse di Via del Corso. In lontananza cerca la cupola di San Pietro. È uno dei punti migliori per capire la struttura del centro storico.",
-chicca:"Il Pincio è uno dei luoghi panoramici più accessibili del centro e si trova appena sopra Piazza del Popolo.",
+direction:"Posizionati davanti alla balaustra.",
+description:"Guarda verso il centro e prova a seguire con gli occhi l'asse di Via del Corso. In lontananza cerca la cupola di San Pietro.",
+chicca:"Il Pincio è uno dei punti panoramici più accessibili del centro.",
 next:"Scendi verso Piazza del Popolo."
 },
 
 "Altare della Patria":{
-direction:"Raggiungi il centro di Piazza Venezia.",
-description:"Guarda il monumento frontalmente e osserva la grande scalinata, le colonne e le statue. Poi spostati verso il lato del Campidoglio per vedere come il monumento domina Piazza Venezia.",
-chicca:"Il monumento è dedicato a Vittorio Emanuele II, primo re d'Italia.",
-next:"Continua verso il Campidoglio e poi verso i Fori."
+direction:"Raggiungi Piazza Venezia.",
+description:"Guarda il monumento frontalmente e osserva la grande scalinata, le colonne e le statue.",
+chicca:"Il monumento è dedicato a Vittorio Emanuele II.",
+next:"Continua verso il Campidoglio."
 },
 
 "Villa Farnesina":{
-direction:"Avvicinati alla facciata e osserva l'edificio prima di entrare.",
-description:"La villa è interessante soprattutto per gli affreschi rinascimentali. Se entri, dedica particolare attenzione alla Loggia di Amore e Psiche e alle decorazioni realizzate da artisti della cerchia di Raffaello.",
-chicca:"La villa fu costruita per il banchiere Agostino Chigi e divenne uno dei luoghi più raffinati della Roma rinascimentale.",
-next:"Esci verso Via della Lungara e continua verso Trastevere."
+direction:"Avvicinati alla facciata.",
+description:"Osserva l'edificio rinascimentale e, se entri, dedica particolare attenzione agli affreschi.",
+chicca:"La villa fu costruita per il banchiere Agostino Chigi.",
+next:"Continua verso Trastevere."
 },
 
 "Fontana delle Tartarughe":{
-direction:"Avvicinati alla vasca centrale.",
-description:"È una fontana piccola, quindi osserva i dettagli da vicino: le figure dei giovani, i delfini e soprattutto le piccole tartarughe vicino alla vasca superiore. Dopo averla vista, fai un giro completo della piazza.",
-chicca:"La fontana è uno dei gioielli barocchi meno appariscenti del centro storico.",
-next:"Continua verso il Ghetto e poi verso il Portico d'Ottavia."
+direction:"Avvicinati alla vasca.",
+description:"Osserva da vicino le figure, i delfini e le piccole tartarughe della fontana.",
+chicca:"È uno dei gioielli barocchi meno appariscenti del centro.",
+next:"Continua verso il Ghetto."
 },
 
 "Città del Vaticano":{
-direction:"Raggiungi Piazza San Pietro passando per Via della Conciliazione.",
-description:"Prima di entrare nella piazza guarda come la prospettiva di Via della Conciliazione conduce direttamente verso la Basilica. Poi entra tra i colonnati e osserva quanto sono grandi rispetto alle persone.",
+direction:"Raggiungi Piazza San Pietro.",
+description:"Percorri Via della Conciliazione e osserva come la prospettiva conduce direttamente verso la Basilica.",
 chicca:"La Città del Vaticano è lo Stato indipendente più piccolo del mondo.",
-next:"Continua verso il centro di Piazza San Pietro."
+next:"Continua verso il centro della piazza."
 },
 
 "Basilica di San Pietro":{
 direction:"Posizionati al centro di Piazza San Pietro.",
-description:"Guarda la facciata della basilica e poi sposta lo sguardo verso la cupola. Se entri, cerca la Pietà di Michelangelo e il grande baldacchino del Bernini sopra l'altare maggiore.",
-chicca:"La Basilica di San Pietro riunisce opere di alcuni dei più grandi artisti del Rinascimento e del Barocco.",
-next:"Dopo la basilica, percorri lentamente Via della Conciliazione."
+description:"Guarda la facciata e poi la cupola. Se entri, cerca la Pietà di Michelangelo e il baldacchino del Bernini.",
+chicca:"La basilica riunisce opere di alcuni dei più grandi artisti del Rinascimento e del Barocco.",
+next:"Percorri lentamente Via della Conciliazione."
 }
 
 };
 
 
 /* ============================================================
-   GENERATORE
+   GENERATORE ITINERARIO
 ============================================================ */
 
 function generateRoute(){
 
 let pool=[];
 
+
+/* RACCOGLIE GLI INTERESSI */
+
 answers.interests.forEach(interest=>{
 
-(interestPlaces[interest]||[]).forEach(id=>{
+const list=interestPlaces[interest]||[];
+
+list.forEach(id=>{
 
 if(
 places[id] &&
@@ -3373,6 +3244,17 @@ pool.push(id);
 });
 
 });
+
+
+/* SICUREZZA */
+
+if(!pool.length){
+
+alert("Non sono riuscito a creare il percorso. Scegli almeno un mondo.");
+
+return;
+
+}
 
 
 /* PRIMA VOLTA */
@@ -3390,10 +3272,14 @@ const classics=[
 "saintPeter"
 ];
 
-pool.sort((a,b)=>
-(classics.includes(a)?0:1)-
-(classics.includes(b)?0:1)
-);
+pool.sort((a,b)=>{
+
+const aClassic=classics.includes(a)?0:1;
+const bClassic=classics.includes(b)?0:1;
+
+return aClassic-bClassic;
+
+});
 
 }
 
@@ -3405,13 +3291,16 @@ answers.seen==="most" ||
 answers.seen==="local"
 ){
 
-const hidden=
-interestPlaces.hidden;
+const hidden=interestPlaces.hidden;
 
-pool.sort((a,b)=>
-(hidden.includes(a)?0:1)-
-(hidden.includes(b)?0:1)
-);
+pool.sort((a,b)=>{
+
+const aHidden=hidden.includes(a)?0:1;
+const bHidden=hidden.includes(b)?0:1;
+
+return aHidden-bHidden;
+
+});
 
 }
 
@@ -3433,10 +3322,14 @@ const central=[
 "campo"
 ];
 
-pool.sort((a,b)=>
+pool.sort((a,b)=>{
+
+return (
 (central.includes(a)?0:1)-
 (central.includes(b)?0:1)
 );
+
+});
 
 }
 
@@ -3462,10 +3355,14 @@ const walkPlaces=[
 "ostiense"
 ];
 
-pool.sort((a,b)=>
+pool.sort((a,b)=>{
+
+return (
 (walkPlaces.includes(a)?0:1)-
 (walkPlaces.includes(b)?0:1)
 );
+
+});
 
 }
 
@@ -3488,10 +3385,14 @@ const central=[
 "campidoglio"
 ];
 
-pool.sort((a,b)=>
+pool.sort((a,b)=>{
+
+return (
 (central.includes(a)?0:1)-
 (central.includes(b)?0:1)
 );
+
+});
 
 }
 
@@ -3512,19 +3413,21 @@ const slowPlaces=[
 "cascades"
 ];
 
-pool.sort((a,b)=>
+pool.sort((a,b)=>{
+
+return (
 (slowPlaces.includes(a)?0:1)-
 (slowPlaces.includes(b)?0:1)
 );
+
+});
 
 }
 
 
 /* CIBO */
 
-if(
-answers.interests.includes("food")
-){
+if(answers.interests.includes("food")){
 
 const foodFirst=[
 "mercatoTestaccio",
@@ -3538,10 +3441,14 @@ const foodFirst=[
 "pigneto"
 ];
 
-pool.sort((a,b)=>
+pool.sort((a,b)=>{
+
+return (
 (foodFirst.includes(a)?0:1)-
 (foodFirst.includes(b)?0:1)
 );
+
+});
 
 }
 
@@ -3555,24 +3462,23 @@ answers.budget==="low"
 
 pool.sort((a,b)=>{
 
-const priceValue=p=>{
+const value=price=>{
 
-if(p==="€€€")return 2;
-if(p==="€€")return 1;
+if(price==="€€€")return 2;
+if(price==="€€")return 1;
 
 return 0;
 
 };
 
-return priceValue(places[a]?.price)-
-priceValue(places[b]?.price);
+return value(places[a]?.price)-value(places[b]?.price);
 
 });
 
 }
 
 
-/* SENZA DUPLICATI */
+/* DUPLICATI */
 
 pool=[...new Set(pool)];
 
@@ -3587,20 +3493,27 @@ if(answers.time==="full")number=8;
 if(answers.time==="more")number=10;
 
 
-/* SE IL POOL È PICCOLO */
+/* SELEZIONE */
 
-if(pool.length===0){
-
-alert(
-"Non sono riuscito a creare un itinerario. Prova a scegliere un altro mondo."
+const selected=
+pool.slice(
+0,
+Math.min(number,pool.length)
 );
+
+
+/* CONTROLLO FINALE */
+
+if(!selected.length){
+
+alert("Non sono riuscito a creare il percorso.");
 
 return;
 
 }
 
-const selected=
-pool.slice(0,Math.min(number,pool.length));
+
+/* RENDER */
 
 renderResults(selected);
 
@@ -3622,17 +3535,36 @@ document.getElementById("routeGrid");
 grid.innerHTML="";
 
 
-/* NASCONDI VECCHIO WALKING */
+/* RESET WALKING */
 
-const walkingBox=
-document.getElementById("walkingBox");
+document
+.getElementById("walkingBox")
+.classList.remove("show");
 
-walkingBox.classList.remove("show");
+document
+.getElementById("walkingProgress")
+.style.width="0%";
 
-document.getElementById("walkingProgress").style.width="0%";
+
+/* TITOLO */
+
+const titles={
+
+couple:"Roma in due.",
+friends:"La vostra Roma.",
+family:"Roma per tutti.",
+alone:"La tua Roma."
+
+};
+
+document
+.getElementById("resultTitle")
+.innerHTML=
+(titles[answers.company]||"La tua Roma.")+
+"<br>comincia qui.";
 
 
-/* DESCRIZIONI */
+/* DESCRIZIONE */
 
 const descriptions={
 
@@ -3650,34 +3582,28 @@ alone:
 
 };
 
-document.getElementById("resultDescription").textContent=
+let description=
 descriptions[answers.company]||
 "Una selezione costruita sulle tue risposte.";
 
-if(
-answers.interests.includes("food")
-){
+if(answers.interests.includes("food")){
 
-document.getElementById("resultDescription").textContent=
+description=
 "Roma da vivere anche a tavola: mercati, quartieri, street food e tradizioni della cucina romana.";
 
 }
 
+document
+.getElementById("resultDescription")
+.textContent=description;
 
-/* TITOLI */
 
-const titles={
+/* NUMERO */
 
-couple:"Roma in due.",
-friends:"La vostra Roma.",
-family:"Roma per tutti.",
-alone:"La tua Roma."
-
-};
-
-document.getElementById("resultTitle").innerHTML=
-(titles[answers.company]||"La tua Roma.")+
-"<br>comincia qui.";
+document
+.getElementById("resultCount")
+.textContent=
+`${ids.length} ${ids.length===1?"tappa":"tappe"} selezionate per te`;
 
 
 /* CARDS */
@@ -3692,6 +3618,7 @@ const card=
 document.createElement("article");
 
 card.className="route-card";
+
 card.dataset.place=id;
 
 const mapsUrl=
@@ -3738,8 +3665,7 @@ ${description}
 
 </div>
 
-<button
-class="route-action">
+<button class="route-action">
 Portami qui ↗
 </button>
 
@@ -3747,10 +3673,9 @@ Portami qui ↗
 
 `;
 
-const action=
-card.querySelector(".route-action");
-
-action.addEventListener("click",()=>{
+card
+.querySelector(".route-action")
+.addEventListener("click",function(){
 
 window.open(
 mapsUrl,
@@ -3770,7 +3695,7 @@ grid.appendChild(card);
 section.classList.add("show");
 
 
-/* CARICA FOTO */
+/* FOTO */
 
 loadRouteImages();
 
@@ -3780,12 +3705,12 @@ loadRouteImages();
 showRouteOnMap(ids);
 
 
-/* CAMMINA */
+/* WALKING */
 
 createWalkingRoute(ids);
 
 
-/* SCROLL */
+/* SCROLL AL RISULTATO */
 
 setTimeout(()=>{
 
@@ -3810,6 +3735,7 @@ let walkingIndex=0;
 function createWalkingRoute(ids){
 
 walkingRoute=[...ids];
+
 walkingIndex=0;
 
 const box=
@@ -3818,15 +3744,6 @@ document.getElementById("walkingBox");
 box.classList.add("show");
 
 renderWalkingStep();
-
-setTimeout(()=>{
-
-box.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
-
-},700);
 
 }
 
@@ -3843,9 +3760,6 @@ places[id];
 
 if(!place)return;
 
-
-/* DETTAGLI */
-
 const details=
 walkingDetails[place.name]||{
 
@@ -3853,59 +3767,84 @@ direction:
 `Fermati e osserva ${place.name}.`,
 
 description:
-`Sei arrivato a ${place.name}. Prima di ripartire, dedica qualche minuto a osservare l'architettura, le persone e i dettagli intorno a te. Cerca un elemento che normalmente passeresti senza notarlo.`,
+`Sei arrivato a ${place.name}. Dedica qualche minuto a osservare l'architettura, le persone e i dettagli intorno a te.`,
 
 chicca:
 "Roma è piena di dettagli che si vedono solo quando si smette di correre.",
 
 next:
 walkingIndex<walkingRoute.length-1
-?"Prossima tappa: "+places[walkingRoute[walkingIndex+1]].name
-:"Hai completato il tuo percorso con VIVI."
+?
+"Prossima tappa: "+
+places[walkingRoute[walkingIndex+1]].name
+:
+"Hai completato il tuo percorso con VIVI."
 
 };
 
 
 /* TESTI */
 
-document.getElementById("walkingStepNumber").textContent=
+document
+.getElementById("walkingStepNumber")
+.textContent=
 `Tappa ${walkingIndex+1} di ${walkingRoute.length}`;
 
-document.getElementById("walkingDirection").textContent=
+document
+.getElementById("walkingDirection")
+.textContent=
 details.direction;
 
-document.getElementById("walkingTitle").textContent=
+document
+.getElementById("walkingTitle")
+.textContent=
 place.name;
 
-document.getElementById("walkingPhotoTitle").textContent=
+document
+.getElementById("walkingPhotoTitle")
+.textContent=
 place.name;
 
-document.getElementById("walkingType").textContent=
+document
+.getElementById("walkingType")
+.textContent=
 place.type;
 
-document.getElementById("walkingDescription").textContent=
+document
+.getElementById("walkingDescription")
+.textContent=
 details.description;
 
-document.getElementById("walkingChicca").textContent=
+document
+.getElementById("walkingChicca")
+.textContent=
 details.chicca;
 
 
-/* PROSSIMA TAPPA */
+/* PROSSIMA */
 
 if(walkingIndex<walkingRoute.length-1){
 
-document.getElementById("walkingNext").textContent=
+document
+.getElementById("walkingNext")
+.textContent=
 "→ "+details.next;
 
-document.getElementById("walkingNextBtn").textContent=
+document
+.getElementById("walkingNextBtn")
+.textContent=
 "Prossima tappa →";
 
 }else{
 
-document.getElementById("walkingNext").textContent=
+document
+.getElementById("walkingNext")
+.textContent=
 "✓ Hai completato il percorso.";
 
-document.getElementById("walkingNextBtn").textContent=
+document
+.getElementById("walkingNextBtn")
+.textContent=
 "Percorso completato ✓";
 
 }
@@ -3916,7 +3855,9 @@ document.getElementById("walkingNextBtn").textContent=
 const progress=
 ((walkingIndex+1)/walkingRoute.length)*100;
 
-document.getElementById("walkingProgress").style.width=
+document
+.getElementById("walkingProgress")
+.style.width=
 progress+"%";
 
 
@@ -3935,15 +3876,14 @@ walkingImage.src=image;
 walkingImage.alt=
 `Foto di ${place.name}`;
 
-walkingImage.onerror=()=>{
+walkingImage.onerror=function(){
 
 if(
 place.fallback &&
 walkingImage.src!==place.fallback
 ){
 
-walkingImage.src=
-place.fallback;
+walkingImage.src=place.fallback;
 
 }
 
@@ -3952,12 +3892,14 @@ place.fallback;
 }
 
 
-/* MAPS */
+/* GOOGLE MAPS */
 
 const mapsUrl=
 `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
 
-document.getElementById("walkingMapBtn").onclick=()=>{
+document
+.getElementById("walkingMapBtn")
+.onclick=function(){
 
 window.open(
 mapsUrl,
@@ -3970,11 +3912,11 @@ mapsUrl,
 }
 
 
-/* NEXT */
+/* NEXT TAPPA */
 
 document
 .getElementById("walkingNextBtn")
-.addEventListener("click",()=>{
+.addEventListener("click",function(){
 
 if(
 walkingIndex<
@@ -3994,13 +3936,11 @@ behavior:"smooth",
 block:"center"
 });
 
-},120);
+},150);
 
 }else{
 
-document
-.getElementById("walkingNextBtn")
-.textContent=
+this.textContent=
 "✓ Percorso completato";
 
 }
@@ -4009,11 +3949,27 @@ document
 
 
 /* ============================================================
-   MAPPA
+   MAPPA LEAFLET
 ============================================================ */
 
-const map=
-L.map("map").setView(
+let map=null;
+
+let markers=[];
+
+
+function initializeMap(){
+
+if(typeof L==="undefined"){
+
+console.error("Leaflet non disponibile.");
+
+return;
+
+}
+
+map=
+L.map("map")
+.setView(
 [41.9028,12.4964],
 12
 );
@@ -4026,10 +3982,15 @@ attribution:
 }
 ).addTo(map);
 
-let markers=[];
+}
 
 
 function showRouteOnMap(ids){
+
+if(!map)return;
+
+
+/* ELIMINA MARKER PRECEDENTI */
 
 markers.forEach(marker=>{
 
@@ -4038,6 +3999,9 @@ map.removeLayer(marker);
 });
 
 markers=[];
+
+
+/* CREA MARKER */
 
 ids.forEach((id,index)=>{
 
@@ -4079,14 +4043,30 @@ markers.push(marker);
 });
 
 
-const validIds=
+/* INQUADRA TUTTE LE TAPPE */
+
+const valid=
 ids.filter(id=>places[id]);
 
-if(validIds.length){
+if(valid.length===1){
+
+map.setView(
+[
+places[valid[0]].lat,
+places[valid[0]].lng
+],
+15
+);
+
+return;
+
+}
+
+if(valid.length>1){
 
 const bounds=
 L.latLngBounds(
-validIds.map(id=>[
+valid.map(id=>[
 places[id].lat,
 places[id].lng
 ])
@@ -4095,49 +4075,11 @@ places[id].lng
 map.fitBounds(
 bounds,
 {
-padding:[40,40]
+padding:[45,45]
 }
 );
 
 }
-
-}
-
-
-/* ============================================================
-   CATALOGO
-============================================================ */
-
-function renderCatalog(){
-
-const container=
-document.getElementById("catalogGrid");
-
-container.innerHTML="";
-
-Object.values(places).forEach(place=>{
-
-const card=
-document.createElement("div");
-
-card.className=
-"catalog-card";
-
-card.innerHTML=`
-
-<strong>
-${place.name}
-</strong>
-
-<span>
-${place.type}
-</span>
-
-`;
-
-container.appendChild(card);
-
-});
 
 }
 
@@ -4146,62 +4088,26 @@ container.appendChild(card);
    AVVIO
 ============================================================ */
 
-renderCatalog();
-
 updateQuiz();
 
-
-/* ============================================================
-   CONTROLLO DATABASE
-============================================================ */
-
-Object.entries(places).forEach(
-([id,place])=>{
-
-if(!place.wiki){
-
-console.error(
-"DESTINAZIONE SENZA PAGINA FOTO:",
-id,
-place.name
-);
-
-}
-
-});
-
-
-Object.entries(interestPlaces).forEach(
-([interest,ids])=>{
-
-ids.forEach(id=>{
-
-if(!places[id]){
-
-console.error(
-"DESTINAZIONE NON PRESENTE:",
-interest,
-id
-);
-
-}
-
-});
-
-});
+initializeMap();
 
 
 /* ============================================================
-   AGGIORNA MAPPA DOPO CARICAMENTO
+   FIX MAPPA
 ============================================================ */
 
-window.addEventListener("load",()=>{
+window.addEventListener("load",function(){
 
 setTimeout(()=>{
 
+if(map){
+
 map.invalidateSize();
 
-},300);
+}
+
+},500);
 
 });
 
