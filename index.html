@@ -49,9 +49,12 @@ body{
   background:var(--ivory);
   color:var(--dark);
   line-height:1.6;
+  overflow-x:hidden;
 }
 
-button,input,select{
+button,
+input,
+select{
   font:inherit;
 }
 
@@ -69,7 +72,9 @@ a{
   text-decoration:none;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar{
   position:fixed;
@@ -77,7 +82,7 @@ a{
   left:0;
   width:100%;
   z-index:1000;
-  background:rgba(245,240,232,.92);
+  background:rgba(245,240,232,.94);
   backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(33,31,28,.08);
 }
@@ -131,9 +136,12 @@ a{
   border:0;
   background:none;
   font-size:25px;
+  color:var(--dark);
 }
 
-/* HERO */
+/* =========================
+   HERO
+========================= */
 
 .hero{
   min-height:100vh;
@@ -145,9 +153,9 @@ a{
   background:
     linear-gradient(
       90deg,
-      rgba(22,19,17,.84),
+      rgba(22,19,17,.86),
       rgba(22,19,17,.48),
-      rgba(22,19,17,.2)
+      rgba(22,19,17,.18)
     ),
     url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=2200&q=90")
     center/cover;
@@ -237,7 +245,9 @@ a{
   transform:translateY(-2px);
 }
 
-/* SECTIONS */
+/* =========================
+   SECTIONS
+========================= */
 
 .section{
   padding:100px 24px;
@@ -275,7 +285,9 @@ a{
   font-size:17px;
 }
 
-/* INTRO */
+/* =========================
+   INTRO
+========================= */
 
 .intro{
   background:var(--paper);
@@ -293,6 +305,7 @@ a{
   border-radius:32px;
   overflow:hidden;
   box-shadow:var(--shadow);
+  background:#ddd;
 }
 
 .intro-image img{
@@ -321,7 +334,9 @@ a{
   color:var(--red);
 }
 
-/* BUILDER */
+/* =========================
+   BUILDER
+========================= */
 
 .builder{
   background:var(--ivory);
@@ -498,12 +513,17 @@ a{
   border:3px solid transparent;
   background:#ddd;
   cursor:pointer;
+  transition:.25s ease;
 }
 
 .photo-option img{
   height:100%;
   object-fit:cover;
   transition:.45s ease;
+}
+
+.photo-option:hover{
+  transform:translateY(-3px);
 }
 
 .photo-option:hover img{
@@ -553,7 +573,9 @@ a{
   cursor:not-allowed;
 }
 
-/* RESULTS */
+/* =========================
+   RISULTATI
+========================= */
 
 .results{
   background:var(--dark);
@@ -566,11 +588,15 @@ a{
 }
 
 .results-heading{
-  display:flex;
-  justify-content:space-between;
-  gap:30px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:60px;
   align-items:end;
   margin-bottom:45px;
+}
+
+.results-heading .eyebrow{
+  margin-bottom:18px;
 }
 
 .results-heading h2{
@@ -583,6 +609,9 @@ a{
 .results-heading p{
   color:rgba(255,255,255,.6);
   max-width:400px;
+  font-size:14px;
+  line-height:1.7;
+  padding-bottom:5px;
 }
 
 .route-grid{
@@ -685,9 +714,16 @@ a{
   background:var(--red);
   color:white;
   font-weight:700;
+  transition:.2s ease;
 }
 
-/* CAMMINA */
+.route-action:hover{
+  background:var(--red-dark);
+}
+
+/* =========================
+   CAMMINA CON VIVI
+========================= */
 
 .walking-box{
   display:none;
@@ -721,6 +757,7 @@ a{
   line-height:1;
   font-weight:500;
   margin-bottom:12px;
+  max-width:850px;
 }
 
 .walking-intro p{
@@ -759,6 +796,7 @@ a{
 .walking-photo img{
   height:100%;
   object-fit:cover;
+  min-height:570px;
 }
 
 .walking-photo:after{
@@ -896,17 +934,16 @@ a{
   color:white;
 }
 
-/* MAP */
+.walking-next-btn:hover{
+  background:var(--red-dark);
+}
+
+/* =========================
+   MAPPA
+========================= */
 
 .map-section{
   background:var(--paper);
-}
-
-.map-wrap{
-  border-radius:30px;
-  overflow:hidden;
-  height:580px;
-  box-shadow:var(--shadow);
 }
 
 .map-panorama{
@@ -924,11 +961,11 @@ a{
   background:
     linear-gradient(
       to top,
-      rgba(25,20,17,.72),
-      rgba(25,20,17,.08)
+      rgba(25,20,17,.70),
+      rgba(25,20,17,.10)
     ),
-    url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=2200&q=90")
-    center 55%/cover;
+    url("https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=2200&q=90")
+    center/cover;
   box-shadow:var(--shadow);
 }
 
@@ -938,12 +975,22 @@ a{
   font-weight:500;
 }
 
+.map-wrap{
+  border-radius:30px;
+  overflow:hidden;
+  height:580px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(33,31,28,.08);
+}
+
 #map{
   width:100%;
   height:100%;
 }
 
-/* CATALOGO */
+/* =========================
+   CATALOGO
+========================= */
 
 .catalog{
   background:var(--ivory);
@@ -980,19 +1027,25 @@ a{
   font-size:12px;
 }
 
-/* CTA */
+/* =========================
+   CTA FINALE
+========================= */
 
 .cta{
-  padding:120px 24px;
+  padding:140px 24px;
   background:
     linear-gradient(
-      rgba(35,28,24,.75),
-      rgba(35,28,24,.75)
+      rgba(35,28,24,.68),
+      rgba(35,28,24,.68)
     ),
-    url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=2200&q=90")
+    url("https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=2200&q=90")
     center/cover;
   color:white;
   text-align:center;
+}
+
+.cta .eyebrow{
+  justify-content:center;
 }
 
 .cta h2{
@@ -1006,10 +1059,12 @@ a{
 .cta p{
   max-width:650px;
   margin:0 auto 30px;
-  color:rgba(255,255,255,.75);
+  color:rgba(255,255,255,.78);
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer{
   background:#171512;
@@ -1036,7 +1091,9 @@ footer{
   font-size:12px;
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:1050px){
 
@@ -1066,6 +1123,15 @@ footer{
 
 .walking-photo{
   min-height:420px;
+}
+
+.walking-photo img{
+  min-height:420px;
+}
+
+.results-heading{
+  grid-template-columns:1fr;
+  gap:20px;
 }
 
 }
@@ -1149,6 +1215,10 @@ footer{
   margin-bottom:25px;
 }
 
+.results-heading p{
+  max-width:100%;
+}
+
 .route-grid{
   grid-template-columns:1fr;
 }
@@ -1169,6 +1239,10 @@ footer{
 
 .walking-intro{
   padding:28px 24px;
+}
+
+.walking-intro h3{
+  font-size:40px;
 }
 
 .walking-info{
@@ -1200,6 +1274,37 @@ footer{
   font-size:61px;
 }
 
+.quiz-buttons{
+  gap:12px;
+}
+
+.quiz-buttons .btn{
+  padding:13px 17px;
+}
+
+}
+
+/* =========================
+   LEAFLET
+========================= */
+
+.leaflet-popup-content-wrapper{
+  border-radius:14px;
+}
+
+.leaflet-popup-content{
+  font-family:Inter,sans-serif;
+  font-size:12px;
+}
+
+.leaflet-popup-content strong{
+  font-family:"Cormorant Garamond",serif;
+  font-size:20px;
+}
+
+.leaflet-popup-content a{
+  color:var(--red);
+  font-weight:700;
 }
 
 </style>
@@ -1207,7 +1312,9 @@ footer{
 
 <body>
 
-<!-- NAVBAR -->
+<!-- =========================
+     NAVBAR
+========================= -->
 
 <nav class="navbar">
 
@@ -1227,8 +1334,10 @@ VIV<span>I</span>
 
 </div>
 
-<button class="mobile-menu"
-onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">
+<button
+class="mobile-menu"
+id="mobileMenu"
+aria-label="Apri menu">
 ☰
 </button>
 
@@ -1237,7 +1346,9 @@ onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">
 </nav>
 
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
@@ -1278,7 +1389,9 @@ Scopri VIVI
 </section>
 
 
-<!-- INTRO -->
+<!-- =========================
+     INTRO
+========================= -->
 
 <section class="section intro" id="esperienza">
 
@@ -1290,7 +1403,8 @@ Scopri VIVI
 
 <img
 src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=90"
-alt="Roma"
+alt="Panorama di Roma"
+loading="lazy"
 >
 
 </div>
@@ -1336,7 +1450,9 @@ Roma non si visita. Si vive.
 </section>
 
 
-<!-- BUILDER -->
+<!-- =========================
+     BUILDER
+========================= -->
 
 <section class="section builder" id="crea">
 
@@ -1608,7 +1724,6 @@ Scegli fino a 3 mondi che vuoi vivere.
 
 <div class="photo-options">
 
-
 <div class="photo-option" data-interest="ancient">
 
 <img
@@ -1720,13 +1835,16 @@ loading="lazy">
 
 <div class="quiz-buttons">
 
-<button class="btn btn-light" id="prevBtn"
-onclick="prevQuestion()" disabled>
+<button
+class="btn btn-light"
+id="prevBtn"
+disabled>
 Indietro
 </button>
 
-<button class="btn btn-primary" id="nextBtn"
-onclick="nextQuestion()">
+<button
+class="btn btn-primary"
+id="nextBtn">
 Continua
 </button>
 
@@ -1739,7 +1857,9 @@ Continua
 </section>
 
 
-<!-- RISULTATI -->
+<!-- =========================
+     RISULTATI
+========================= -->
 
 <section class="section results" id="risultati">
 
@@ -1801,11 +1921,16 @@ e quale dettaglio non perdere.
 
 <div class="walking-photo">
 
-<img id="walkingImage" src="" alt="">
+<img
+id="walkingImage"
+src=""
+alt="">
 
 <div class="walking-photo-text">
 
-<small id="walkingType">Roma</small>
+<small id="walkingType">
+Roma
+</small>
 
 <h4 id="walkingPhotoTitle">
 Roma
@@ -1818,11 +1943,15 @@ Roma
 
 <div class="walking-info">
 
-<div class="walking-step-number" id="walkingStepNumber">
+<div
+class="walking-step-number"
+id="walkingStepNumber">
 Tappa 1
 </div>
 
-<div class="walking-direction" id="walkingDirection">
+<div
+class="walking-direction"
+id="walkingDirection">
 Segui VIVI
 </div>
 
@@ -1830,7 +1959,9 @@ Segui VIVI
 Roma
 </h4>
 
-<p class="walking-description" id="walkingDescription">
+<p
+class="walking-description"
+id="walkingDescription">
 Scopri il luogo.
 </p>
 
@@ -1846,17 +1977,23 @@ Ogni angolo di Roma può raccontare una storia.
 
 </div>
 
-<div class="walking-next" id="walkingNext">
+<div
+class="walking-next"
+id="walkingNext">
 Prossima tappa
 </div>
 
 <div class="walking-actions">
 
-<button class="walking-map-btn" id="walkingMapBtn">
+<button
+class="walking-map-btn"
+id="walkingMapBtn">
 Portami qui ↗
 </button>
 
-<button class="walking-next-btn" id="walkingNextBtn">
+<button
+class="walking-next-btn"
+id="walkingNextBtn">
 Prossima tappa →
 </button>
 
@@ -1873,7 +2010,9 @@ Prossima tappa →
 </section>
 
 
-<!-- MAPPA -->
+<!-- =========================
+     MAPPA
+========================= -->
 
 <section class="section map-section" id="mappa">
 
@@ -1908,7 +2047,9 @@ Ogni luogo della tua selezione è geolocalizzato.
 </section>
 
 
-<!-- CATALOGO -->
+<!-- =========================
+     CATALOGO
+========================= -->
 
 <section class="section catalog">
 
@@ -1931,14 +2072,19 @@ street food, cucina romana e angoli meno conosciuti.
 
 </div>
 
-<div class="catalog-grid" id="catalogGrid"></div>
+<div
+class="catalog-grid"
+id="catalogGrid">
+</div>
 
 </div>
 
 </section>
 
 
-<!-- CTA -->
+<!-- =========================
+     CTA
+========================= -->
 
 <section class="cta">
 
@@ -1957,7 +2103,9 @@ Non esiste un modo giusto di visitare Roma.
 Esiste il tuo.
 </p>
 
-<a href="#crea" class="btn btn-primary">
+<a
+href="#crea"
+class="btn btn-primary">
 Crea il tuo viaggio
 </a>
 
@@ -1965,6 +2113,10 @@ Crea il tuo viaggio
 
 </section>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -2733,10 +2885,12 @@ document.getElementById("stepCount").textContent=
 `${currentStep} / 7`;
 
 questions.forEach(question=>{
+
 question.classList.toggle(
 "active",
 Number(question.dataset.step)===currentStep
 );
+
 });
 
 document.getElementById("prevBtn").disabled=
@@ -2748,6 +2902,9 @@ currentStep===7
 :"Continua";
 
 }
+
+
+/* OPZIONI */
 
 document.querySelectorAll(".option").forEach(card=>{
 
@@ -2768,6 +2925,8 @@ answers[key]=value;
 
 });
 
+
+/* FOTO / INTERESSI */
 
 document.querySelectorAll(".photo-option").forEach(card=>{
 
@@ -2860,14 +3019,42 @@ updateQuiz();
 
 
 /* ============================================================
+   MENU MOBILE
+============================================================ */
+
+document
+.getElementById("mobileMenu")
+.addEventListener("click",()=>{
+
+document
+.querySelector(".nav-links")
+.classList.toggle("mobile-open");
+
+});
+
+
+document
+.querySelectorAll(".nav-links a")
+.forEach(link=>{
+
+link.addEventListener("click",()=>{
+
+document
+.querySelector(".nav-links")
+.classList.remove("mobile-open");
+
+});
+
+});
+
+
+/* ============================================================
    FOTO
 ============================================================ */
 
 async function getPlaceImage(place){
 
 if(!place)return null;
-
-if(place.fallback){
 
 try{
 
@@ -2881,13 +3068,20 @@ const response=await fetch(
 "&origin=*"
 );
 
+if(!response.ok){
+throw new Error("Wikipedia non disponibile");
+}
+
 const data=await response.json();
 
 const pages=data.query.pages;
-
 const page=Object.values(pages)[0];
 
-if(page && page.original && page.original.source){
+if(
+page &&
+page.original &&
+page.original.source
+){
 
 return page.original.source;
 
@@ -2895,15 +3089,14 @@ return page.original.source;
 
 }catch(error){
 
-console.warn("Foto Wikipedia non disponibile:",place.name);
+console.warn(
+"Foto Wikipedia non disponibile:",
+place.name
+);
 
 }
 
-return place.fallback;
-
-}
-
-return null;
+return place.fallback || null;
 
 }
 
@@ -2914,27 +3107,51 @@ return null;
 
 async function loadRouteImages(){
 
-const cards=document.querySelectorAll(".route-card");
+const cards=
+document.querySelectorAll(".route-card");
 
 for(const card of cards){
 
 const id=card.dataset.place;
 const place=places[id];
 
-const image=await getPlaceImage(place);
+if(!place)continue;
 
-if(image){
+const image=
+await getPlaceImage(place);
 
-const img=card.querySelector("img");
+const img=
+card.querySelector("img");
+
+const imageBox=
+card.querySelector(".route-image");
+
+if(!image)continue;
 
 img.src=image;
 
 img.onload=()=>{
-card.querySelector(".route-image")
-.classList.add("loaded");
+
+imageBox.classList.add("loaded");
+
 };
 
+img.onerror=()=>{
+
+if(
+place.fallback &&
+img.src!==place.fallback
+){
+
+img.src=place.fallback;
+
+}else{
+
+imageBox.classList.add("loaded");
+
 }
+
+};
 
 }
 
@@ -3080,13 +3297,6 @@ chicca:"Michelangelo ridisegnò la piazza nel XVI secolo creando un complesso ar
 next:"Scendi verso Piazza Venezia e continua verso i Fori Imperiali."
 },
 
-"Fori Imperiali":{
-direction:"Fermati davanti alle rovine e individua le diverse epoche.",
-description:"Non considerare i Fori come un unico monumento. Cerca il Foro di Augusto, il Foro di Nerva, il Foro di Traiano e la Colonna Traiana. La successione degli spazi mostra come ogni imperatore abbia cercato di lasciare il proprio segno nella città.",
-chicca:"I Fori Imperiali furono costruiti in momenti diversi e formavano una grande area monumentale collegata al centro politico di Roma.",
-next:"Continua lungo Via dei Fori Imperiali fino al Colosseo."
-},
-
 "Villa Borghese":{
 direction:"Entra dal lato del Pincio e segui i viali alberati.",
 description:"Cammina senza fretta tra i viali e cerca i piccoli laghi, le statue e gli scorci tra gli alberi. Se hai tempo, raggiungi la zona della Galleria Borghese o torna verso il Pincio per il panorama.",
@@ -3151,14 +3361,21 @@ answers.interests.forEach(interest=>{
 
 (interestPlaces[interest]||[]).forEach(id=>{
 
-if(!pool.includes(id)){
+if(
+places[id] &&
+!pool.includes(id)
+){
+
 pool.push(id);
+
 }
 
 });
 
 });
 
+
+/* PRIMA VOLTA */
 
 if(answers.seen==="none"){
 
@@ -3181,9 +3398,15 @@ pool.sort((a,b)=>
 }
 
 
-if(answers.seen==="most" || answers.seen==="local"){
+/* ROMA DIVERSA */
 
-const hidden=interestPlaces.hidden;
+if(
+answers.seen==="most" ||
+answers.seen==="local"
+){
+
+const hidden=
+interestPlaces.hidden;
 
 pool.sort((a,b)=>
 (hidden.includes(a)?0:1)-
@@ -3193,7 +3416,7 @@ pool.sort((a,b)=>
 }
 
 
-/* PREFERENZA CAMMINATA */
+/* POCO CAMMINO */
 
 if(answers.walking==="little"){
 
@@ -3217,7 +3440,13 @@ pool.sort((a,b)=>
 
 }
 
-if(answers.walking==="verymuch"){
+
+/* TANTO CAMMINO */
+
+if(
+answers.walking==="much" ||
+answers.walking==="verymuch"
+){
 
 const walkPlaces=[
 "appia",
@@ -3229,7 +3458,8 @@ const walkPlaces=[
 "pigneto",
 "sanLorenzo",
 "villaPamphili",
-"villaAda"
+"villaAda",
+"ostiense"
 ];
 
 pool.sort((a,b)=>
@@ -3240,7 +3470,7 @@ pool.sort((a,b)=>
 }
 
 
-/* TEMPO */
+/* POCO TEMPO */
 
 if(answers.time==="short"){
 
@@ -3292,7 +3522,9 @@ pool.sort((a,b)=>
 
 /* CIBO */
 
-if(answers.interests.includes("food")){
+if(
+answers.interests.includes("food")
+){
 
 const foodFirst=[
 "mercatoTestaccio",
@@ -3340,7 +3572,12 @@ priceValue(places[b]?.price);
 }
 
 
+/* SENZA DUPLICATI */
+
 pool=[...new Set(pool)];
+
+
+/* NUMERO TAPPE */
 
 let number=6;
 
@@ -3349,7 +3586,21 @@ if(answers.time==="half")number=6;
 if(answers.time==="full")number=8;
 if(answers.time==="more")number=10;
 
-const selected=pool.slice(0,number);
+
+/* SE IL POOL È PICCOLO */
+
+if(pool.length===0){
+
+alert(
+"Non sono riuscito a creare un itinerario. Prova a scegliere un altro mondo."
+);
+
+return;
+
+}
+
+const selected=
+pool.slice(0,Math.min(number,pool.length));
 
 renderResults(selected);
 
@@ -3362,10 +3613,26 @@ renderResults(selected);
 
 function renderResults(ids){
 
-const section=document.getElementById("risultati");
-const grid=document.getElementById("routeGrid");
+const section=
+document.getElementById("risultati");
+
+const grid=
+document.getElementById("routeGrid");
 
 grid.innerHTML="";
+
+
+/* NASCONDI VECCHIO WALKING */
+
+const walkingBox=
+document.getElementById("walkingBox");
+
+walkingBox.classList.remove("show");
+
+document.getElementById("walkingProgress").style.width="0%";
+
+
+/* DESCRIZIONI */
 
 const descriptions={
 
@@ -3387,13 +3654,17 @@ document.getElementById("resultDescription").textContent=
 descriptions[answers.company]||
 "Una selezione costruita sulle tue risposte.";
 
-if(answers.interests.includes("food")){
+if(
+answers.interests.includes("food")
+){
 
 document.getElementById("resultDescription").textContent=
 "Roma da vivere anche a tavola: mercati, quartieri, street food e tradizioni della cucina romana.";
 
 }
 
+
+/* TITOLI */
 
 const titles={
 
@@ -3409,13 +3680,16 @@ document.getElementById("resultTitle").innerHTML=
 "<br>comincia qui.";
 
 
+/* CARDS */
+
 ids.forEach((id,index)=>{
 
 const place=places[id];
 
 if(!place)return;
 
-const card=document.createElement("article");
+const card=
+document.createElement("article");
 
 card.className="route-card";
 card.dataset.place=id;
@@ -3423,11 +3697,19 @@ card.dataset.place=id;
 const mapsUrl=
 `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
 
+const description=
+answers.interests.includes("food") &&
+place.foodDescription
+?place.foodDescription
+:place.description;
+
 card.innerHTML=`
 
 <div class="route-image">
 
-<img src="" alt="${place.name}">
+<img
+src=""
+alt="${place.name}">
 
 <div class="route-number">
 ${String(index+1).padStart(2,"0")}
@@ -3446,9 +3728,7 @@ ${place.name}
 </h3>
 
 <p>
-${answers.interests.includes("food") && place.foodDescription
-?place.foodDescription
-:place.description}
+${description}
 </p>
 
 <div class="route-meta">
@@ -3459,8 +3739,7 @@ ${answers.interests.includes("food") && place.foodDescription
 </div>
 
 <button
-class="route-action"
-onclick="window.open('${mapsUrl}','_blank')">
+class="route-action">
 Portami qui ↗
 </button>
 
@@ -3468,12 +3747,45 @@ Portami qui ↗
 
 `;
 
+const action=
+card.querySelector(".route-action");
+
+action.addEventListener("click",()=>{
+
+window.open(
+mapsUrl,
+"_blank",
+"noopener,noreferrer"
+);
+
+});
+
 grid.appendChild(card);
 
 });
 
 
+/* MOSTRA */
+
 section.classList.add("show");
+
+
+/* CARICA FOTO */
+
+loadRouteImages();
+
+
+/* MAPPA */
+
+showRouteOnMap(ids);
+
+
+/* CAMMINA */
+
+createWalkingRoute(ids);
+
+
+/* SCROLL */
 
 setTimeout(()=>{
 
@@ -3483,12 +3795,6 @@ block:"start"
 });
 
 },100);
-
-loadRouteImages();
-
-showRouteOnMap(ids);
-
-createWalkingRoute(ids);
 
 }
 
@@ -3503,10 +3809,11 @@ let walkingIndex=0;
 
 function createWalkingRoute(ids){
 
-walkingRoute=ids;
+walkingRoute=[...ids];
 walkingIndex=0;
 
-const box=document.getElementById("walkingBox");
+const box=
+document.getElementById("walkingBox");
 
 box.classList.add("show");
 
@@ -3519,7 +3826,7 @@ behavior:"smooth",
 block:"start"
 });
 
-},650);
+},700);
 
 }
 
@@ -3528,16 +3835,23 @@ async function renderWalkingStep(){
 
 if(!walkingRoute.length)return;
 
-const id=walkingRoute[walkingIndex];
-const place=places[id];
+const id=
+walkingRoute[walkingIndex];
+
+const place=
+places[id];
 
 if(!place)return;
 
 
+/* DETTAGLI */
+
 const details=
 walkingDetails[place.name]||{
 
-direction:"Fermati e osserva il luogo.",
+direction:
+`Fermati e osserva ${place.name}.`,
+
 description:
 `Sei arrivato a ${place.name}. Prima di ripartire, dedica qualche minuto a osservare l'architettura, le persone e i dettagli intorno a te. Cerca un elemento che normalmente passeresti senza notarlo.`,
 
@@ -3551,6 +3865,8 @@ walkingIndex<walkingRoute.length-1
 
 };
 
+
+/* TESTI */
 
 document.getElementById("walkingStepNumber").textContent=
 `Tappa ${walkingIndex+1} di ${walkingRoute.length}`;
@@ -3574,6 +3890,8 @@ document.getElementById("walkingChicca").textContent=
 details.chicca;
 
 
+/* PROSSIMA TAPPA */
+
 if(walkingIndex<walkingRoute.length-1){
 
 document.getElementById("walkingNext").textContent=
@@ -3593,6 +3911,8 @@ document.getElementById("walkingNextBtn").textContent=
 }
 
 
+/* PROGRESSO */
+
 const progress=
 ((walkingIndex+1)/walkingRoute.length)*100;
 
@@ -3600,32 +3920,66 @@ document.getElementById("walkingProgress").style.width=
 progress+"%";
 
 
+/* FOTO */
+
 const image=
 await getPlaceImage(place);
 
+const walkingImage=
+document.getElementById("walkingImage");
+
 if(image){
 
-document.getElementById("walkingImage").src=image;
+walkingImage.src=image;
 
-document.getElementById("walkingImage").alt=
+walkingImage.alt=
 `Foto di ${place.name}`;
+
+walkingImage.onerror=()=>{
+
+if(
+place.fallback &&
+walkingImage.src!==place.fallback
+){
+
+walkingImage.src=
+place.fallback;
 
 }
 
-
-const mapsUrl=
-`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
-
-document.getElementById("walkingMapBtn").onclick=()=>{
-window.open(mapsUrl,"_blank");
 };
 
 }
 
 
-document.getElementById("walkingNextBtn").addEventListener("click",()=>{
+/* MAPS */
 
-if(walkingIndex<walkingRoute.length-1){
+const mapsUrl=
+`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking&dir_action=navigate`;
+
+document.getElementById("walkingMapBtn").onclick=()=>{
+
+window.open(
+mapsUrl,
+"_blank",
+"noopener,noreferrer"
+);
+
+};
+
+}
+
+
+/* NEXT */
+
+document
+.getElementById("walkingNextBtn")
+.addEventListener("click",()=>{
+
+if(
+walkingIndex<
+walkingRoute.length-1
+){
 
 walkingIndex++;
 
@@ -3633,16 +3987,20 @@ renderWalkingStep();
 
 setTimeout(()=>{
 
-document.getElementById("walkingBox").scrollIntoView({
+document
+.getElementById("walkingBox")
+.scrollIntoView({
 behavior:"smooth",
 block:"center"
 });
 
-},100);
+},120);
 
 }else{
 
-document.getElementById("walkingNextBtn").textContent=
+document
+.getElementById("walkingNextBtn")
+.textContent=
 "✓ Percorso completato";
 
 }
@@ -3654,7 +4012,8 @@ document.getElementById("walkingNextBtn").textContent=
    MAPPA
 ============================================================ */
 
-const map=L.map("map").setView(
+const map=
+L.map("map").setView(
 [41.9028,12.4964],
 12
 );
@@ -3662,7 +4021,8 @@ const map=L.map("map").setView(
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 {
-attribution:'&copy; OpenStreetMap contributors'
+attribution:
+'&copy; OpenStreetMap contributors'
 }
 ).addTo(map);
 
@@ -3672,7 +4032,9 @@ let markers=[];
 function showRouteOnMap(ids){
 
 markers.forEach(marker=>{
+
 map.removeLayer(marker);
+
 });
 
 markers=[];
@@ -3683,7 +4045,8 @@ const place=places[id];
 
 if(!place)return;
 
-const marker=L.marker([
+const marker=
+L.marker([
 place.lat,
 place.lng
 ]).addTo(map);
@@ -3716,11 +4079,13 @@ markers.push(marker);
 });
 
 
-if(ids.length){
+const validIds=
+ids.filter(id=>places[id]);
 
-const validIds=ids.filter(id=>places[id]);
+if(validIds.length){
 
-const bounds=L.latLngBounds(
+const bounds=
+L.latLngBounds(
 validIds.map(id=>[
 places[id].lat,
 places[id].lng
@@ -3745,13 +4110,18 @@ padding:[40,40]
 
 function renderCatalog(){
 
-const container=document.getElementById("catalogGrid");
+const container=
+document.getElementById("catalogGrid");
+
+container.innerHTML="";
 
 Object.values(places).forEach(place=>{
 
-const card=document.createElement("div");
+const card=
+document.createElement("div");
 
-card.className="catalog-card";
+card.className=
+"catalog-card";
 
 card.innerHTML=`
 
@@ -3772,7 +4142,12 @@ container.appendChild(card);
 }
 
 
+/* ============================================================
+   AVVIO
+============================================================ */
+
 renderCatalog();
+
 updateQuiz();
 
 
@@ -3780,7 +4155,8 @@ updateQuiz();
    CONTROLLO DATABASE
 ============================================================ */
 
-Object.entries(places).forEach(([id,place])=>{
+Object.entries(places).forEach(
+([id,place])=>{
 
 if(!place.wiki){
 
@@ -3795,7 +4171,8 @@ place.name
 });
 
 
-Object.entries(interestPlaces).forEach(([interest,ids])=>{
+Object.entries(interestPlaces).forEach(
+([interest,ids])=>{
 
 ids.forEach(id=>{
 
@@ -3810,6 +4187,21 @@ id
 }
 
 });
+
+});
+
+
+/* ============================================================
+   AGGIORNA MAPPA DOPO CARICAMENTO
+============================================================ */
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+map.invalidateSize();
+
+},300);
 
 });
 
