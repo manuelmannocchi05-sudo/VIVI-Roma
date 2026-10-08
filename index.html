@@ -822,67 +822,6 @@ a{
 }
 
 /* =========================
-   CATALOG
-========================= */
-
-.catalog{
-  max-width:1250px;
-  margin:auto;
-}
-
-.catalog-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-
-.catalog-card{
-  background:white;
-  border:1px solid var(--border);
-  padding:24px;
-  transition:.2s;
-}
-
-.catalog-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 30px rgba(0,0,0,.07);
-}
-
-.catalog-type{
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  color:var(--red);
-}
-
-.catalog-card h3{
-  font-family:"Cormorant Garamond",serif;
-  font-size:30px;
-  line-height:1;
-  margin:8px 0;
-}
-
-.catalog-card p{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.catalog-curiosity{
-  margin-top:13px;
-  color:#806d4b;
-  font-size:12px;
-  font-style:italic;
-}
-
-.catalog-price{
-  margin-top:13px;
-  color:var(--gold);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-/* =========================
    BOTTOM CTA
 ========================= */
 
@@ -1021,10 +960,6 @@ footer{
     height:450px;
   }
 
-  .catalog-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
 }
 
 @media(max-width:760px){
@@ -1146,10 +1081,6 @@ footer{
     padding:25px;
   }
 
-  .catalog-grid{
-    grid-template-columns:1fr;
-  }
-
   .footer-inner{
     flex-direction:column;
   }
@@ -1187,10 +1118,6 @@ footer{
 
     <a href="#mappa">
       Mappa
-    </a>
-
-    <a href="#luoghi">
-      Roma
     </a>
 
     <a href="#crea" class="nav-cta">
@@ -1374,75 +1301,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="company"
-          data-value="alone"
-          type="button"
-        >
-
-          <span class="option-title">
-            Da solo
-          </span>
-
-          <span class="option-desc">
-            Segui i tuoi tempi, senza compromessi.
-          </span>
-
+        <button class="option" data-key="company" data-value="alone" type="button">
+          <span class="option-title">Da solo</span>
+          <span class="option-desc">Segui i tuoi tempi, senza compromessi.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="company"
-          data-value="couple"
-          type="button"
-        >
-
-          <span class="option-title">
-            In coppia
-          </span>
-
-          <span class="option-desc">
-            Atmosfera, passeggiate e momenti da ricordare.
-          </span>
-
+        <button class="option" data-key="company" data-value="couple" type="button">
+          <span class="option-title">In coppia</span>
+          <span class="option-desc">Atmosfera, passeggiate e momenti da ricordare.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="company"
-          data-value="friends"
-          type="button"
-        >
-
-          <span class="option-title">
-            Con amici
-          </span>
-
-          <span class="option-desc">
-            Quartieri, cibo e Roma da vivere insieme.
-          </span>
-
+        <button class="option" data-key="company" data-value="friends" type="button">
+          <span class="option-title">Con amici</span>
+          <span class="option-desc">Quartieri, cibo e Roma da vivere insieme.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="company"
-          data-value="family"
-          type="button"
-        >
-
-          <span class="option-title">
-            In famiglia
-          </span>
-
-          <span class="option-desc">
-            Una Roma interessante per tutte le età.
-          </span>
-
+        <button class="option" data-key="company" data-value="family" type="button">
+          <span class="option-title">In famiglia</span>
+          <span class="option-desc">Una Roma interessante per tutte le età.</span>
         </button>
 
       </div>
@@ -1452,10 +1328,7 @@ footer{
 
     <!-- DOMANDA 2 -->
 
-    <div
-      class="question"
-      data-step="2"
-    >
+    <div class="question" data-step="2">
 
       <h3>
         Quanto conosci Roma?
@@ -1467,75 +1340,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="seen"
-          data-value="first"
-          type="button"
-        >
-
-          <span class="option-title">
-            È la prima volta
-          </span>
-
-          <span class="option-desc">
-            Voglio vedere anche i grandi simboli di Roma.
-          </span>
-
+        <button class="option" data-key="seen" data-value="first" type="button">
+          <span class="option-title">È la prima volta</span>
+          <span class="option-desc">Voglio vedere anche i grandi simboli di Roma.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="seen"
-          data-value="some"
-          type="button"
-        >
-
-          <span class="option-title">
-            Ho già visto qualcosa
-          </span>
-
-          <span class="option-desc">
-            Vorrei scoprire anche qualcosa di nuovo.
-          </span>
-
+        <button class="option" data-key="seen" data-value="some" type="button">
+          <span class="option-title">Ho già visto qualcosa</span>
+          <span class="option-desc">Vorrei scoprire anche qualcosa di nuovo.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="seen"
-          data-value="enough"
-          type="button"
-        >
-
-          <span class="option-title">
-            Conosco abbastanza Roma
-          </span>
-
-          <span class="option-desc">
-            Portami lontano dai soliti itinerari.
-          </span>
-
+        <button class="option" data-key="seen" data-value="enough" type="button">
+          <span class="option-title">Conosco abbastanza Roma</span>
+          <span class="option-desc">Portami lontano dai soliti itinerari.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="seen"
-          data-value="roman"
-          type="button"
-        >
-
-          <span class="option-title">
-            Voglio viverla da romano
-          </span>
-
-          <span class="option-desc">
-            Quartieri, dettagli e luoghi meno ovvi.
-          </span>
-
+        <button class="option" data-key="seen" data-value="roman" type="button">
+          <span class="option-title">Voglio viverla da romano</span>
+          <span class="option-desc">Quartieri, dettagli e luoghi meno ovvi.</span>
         </button>
 
       </div>
@@ -1545,10 +1367,7 @@ footer{
 
     <!-- DOMANDA 3 -->
 
-    <div
-      class="question"
-      data-step="3"
-    >
+    <div class="question" data-step="3">
 
       <h3>
         Quanto tempo hai?
@@ -1560,75 +1379,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="time"
-          data-value="hours"
-          type="button"
-        >
-
-          <span class="option-title">
-            Qualche ora
-          </span>
-
-          <span class="option-desc">
-            Poche tappe, scelte bene.
-          </span>
-
+        <button class="option" data-key="time" data-value="hours" type="button">
+          <span class="option-title">Qualche ora</span>
+          <span class="option-desc">Poche tappe, scelte bene.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="time"
-          data-value="half"
-          type="button"
-        >
-
-          <span class="option-title">
-            Mezza giornata
-          </span>
-
-          <span class="option-desc">
-            Un percorso completo, ma senza correre.
-          </span>
-
+        <button class="option" data-key="time" data-value="half" type="button">
+          <span class="option-title">Mezza giornata</span>
+          <span class="option-desc">Un percorso completo, ma senza correre.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="time"
-          data-value="full"
-          type="button"
-        >
-
-          <span class="option-title">
-            Una giornata
-          </span>
-
-          <span class="option-desc">
-            Voglio assaporare Roma per bene.
-          </span>
-
+        <button class="option" data-key="time" data-value="full" type="button">
+          <span class="option-title">Una giornata</span>
+          <span class="option-desc">Voglio assaporare Roma per bene.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="time"
-          data-value="days"
-          type="button"
-        >
-
-          <span class="option-title">
-            Più giorni
-          </span>
-
-          <span class="option-desc">
-            Fammi conoscere Roma in profondità.
-          </span>
-
+        <button class="option" data-key="time" data-value="days" type="button">
+          <span class="option-title">Più giorni</span>
+          <span class="option-desc">Fammi conoscere Roma in profondità.</span>
         </button>
 
       </div>
@@ -1638,10 +1406,7 @@ footer{
 
     <!-- DOMANDA 4 -->
 
-    <div
-      class="question"
-      data-step="4"
-    >
+    <div class="question" data-step="4">
 
       <h3>
         Che ritmo vuoi?
@@ -1653,75 +1418,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="pace"
-          data-value="intense"
-          type="button"
-        >
-
-          <span class="option-title">
-            Intenso
-          </span>
-
-          <span class="option-desc">
-            Più cose possibili. Voglio sfruttare il tempo.
-          </span>
-
+        <button class="option" data-key="pace" data-value="intense" type="button">
+          <span class="option-title">Intenso</span>
+          <span class="option-desc">Più cose possibili. Voglio sfruttare il tempo.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="pace"
-          data-value="balanced"
-          type="button"
-        >
-
-          <span class="option-title">
-            Equilibrato
-          </span>
-
-          <span class="option-desc">
-            Vedere tanto senza trasformarlo in una gara.
-          </span>
-
+        <button class="option" data-key="pace" data-value="balanced" type="button">
+          <span class="option-title">Equilibrato</span>
+          <span class="option-desc">Vedere tanto senza trasformarlo in una gara.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="pace"
-          data-value="slow"
-          type="button"
-        >
-
-          <span class="option-title">
-            Lento
-          </span>
-
-          <span class="option-desc">
-            Preferisco fermarmi e godermi i luoghi.
-          </span>
-
+        <button class="option" data-key="pace" data-value="slow" type="button">
+          <span class="option-title">Lento</span>
+          <span class="option-desc">Preferisco fermarmi e godermi i luoghi.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="pace"
-          data-value="free"
-          type="button"
-        >
-
-          <span class="option-title">
-            Senza programma
-          </span>
-
-          <span class="option-desc">
-            Voglio spazio per improvvisare.
-          </span>
-
+        <button class="option" data-key="pace" data-value="free" type="button">
+          <span class="option-title">Senza programma</span>
+          <span class="option-desc">Voglio spazio per improvvisare.</span>
         </button>
 
       </div>
@@ -1731,10 +1445,7 @@ footer{
 
     <!-- DOMANDA 5 -->
 
-    <div
-      class="question"
-      data-step="5"
-    >
+    <div class="question" data-step="5">
 
       <h3>
         Quanto vuoi camminare?
@@ -1746,75 +1457,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="walking"
-          data-value="little"
-          type="button"
-        >
-
-          <span class="option-title">
-            Poco
-          </span>
-
-          <span class="option-desc">
-            Preferisco spostarmi facilmente.
-          </span>
-
+        <button class="option" data-key="walking" data-value="little" type="button">
+          <span class="option-title">Poco</span>
+          <span class="option-desc">Preferisco spostarmi facilmente.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="walking"
-          data-value="normal"
-          type="button"
-        >
-
-          <span class="option-title">
-            Il giusto
-          </span>
-
-          <span class="option-desc">
-            Camminare sì, ma con equilibrio.
-          </span>
-
+        <button class="option" data-key="walking" data-value="normal" type="button">
+          <span class="option-title">Il giusto</span>
+          <span class="option-desc">Camminare sì, ma con equilibrio.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="walking"
-          data-value="much"
-          type="button"
-        >
-
-          <span class="option-title">
-            Tanto
-          </span>
-
-          <span class="option-desc">
-            Camminare fa parte del viaggio.
-          </span>
-
+        <button class="option" data-key="walking" data-value="much" type="button">
+          <span class="option-title">Tanto</span>
+          <span class="option-desc">Camminare fa parte del viaggio.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="walking"
-          data-value="more"
-          type="button"
-        >
-
-          <span class="option-title">
-            Più cammino, meglio è
-          </span>
-
-          <span class="option-desc">
-            Fammi attraversare Roma a piedi.
-          </span>
-
+        <button class="option" data-key="walking" data-value="more" type="button">
+          <span class="option-title">Più cammino, meglio è</span>
+          <span class="option-desc">Fammi attraversare Roma a piedi.</span>
         </button>
 
       </div>
@@ -1824,10 +1484,7 @@ footer{
 
     <!-- DOMANDA 6 -->
 
-    <div
-      class="question"
-      data-step="6"
-    >
+    <div class="question" data-step="6">
 
       <h3>
         Quanto vuoi spendere?
@@ -1839,75 +1496,24 @@ footer{
 
       <div class="options">
 
-        <button
-          class="option"
-          data-key="budget"
-          data-value="essential"
-          type="button"
-        >
-
-          <span class="option-title">
-            Essenziale
-          </span>
-
-          <span class="option-desc">
-            Preferisco luoghi gratuiti e spese minime.
-          </span>
-
+        <button class="option" data-key="budget" data-value="essential" type="button">
+          <span class="option-title">Essenziale</span>
+          <span class="option-desc">Preferisco luoghi gratuiti e spese minime.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="budget"
-          data-value="contained"
-          type="button"
-        >
-
-          <span class="option-title">
-            Contenuto
-          </span>
-
-          <span class="option-desc">
-            Qualche spesa, ma senza esagerare.
-          </span>
-
+        <button class="option" data-key="budget" data-value="contained" type="button">
+          <span class="option-title">Contenuto</span>
+          <span class="option-desc">Qualche spesa, ma senza esagerare.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="budget"
-          data-value="treat"
-          type="button"
-        >
-
-          <span class="option-title">
-            Qualche sfizio
-          </span>
-
-          <span class="option-desc">
-            Se ne vale la pena, ci sta.
-          </span>
-
+        <button class="option" data-key="budget" data-value="treat" type="button">
+          <span class="option-title">Qualche sfizio</span>
+          <span class="option-desc">Se ne vale la pena, ci sta.</span>
         </button>
 
-
-        <button
-          class="option"
-          data-key="budget"
-          data-value="unlimited"
-          type="button"
-        >
-
-          <span class="option-title">
-            Senza limiti
-          </span>
-
-          <span class="option-desc">
-            Voglio concentrarmi sull'esperienza.
-          </span>
-
+        <button class="option" data-key="budget" data-value="unlimited" type="button">
+          <span class="option-title">Senza limiti</span>
+          <span class="option-desc">Voglio concentrarmi sull'esperienza.</span>
         </button>
 
       </div>
@@ -1917,10 +1523,7 @@ footer{
 
     <!-- DOMANDA 7 -->
 
-    <div
-      class="question"
-      data-step="7"
-    >
+    <div class="question" data-step="7">
 
       <h3>
         Cosa vuoi vivere?
@@ -1932,11 +1535,7 @@ footer{
 
       <div class="photo-options">
 
-        <button
-          class="photo-option"
-          data-interest="ancient"
-          type="button"
-        >
+        <button class="photo-option" data-interest="ancient" type="button">
 
           <img
             data-place-image="colosseum"
@@ -1945,25 +1544,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Roma Antica
-            </strong>
-
-            <small>
-              Colosseo, Fori e storia
-            </small>
-
+            <strong>Roma Antica</strong>
+            <small>Colosseo, Fori e storia</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="art"
-          type="button"
-        >
+        <button class="photo-option" data-interest="art" type="button">
 
           <img
             data-place-image="pantheon"
@@ -1972,25 +1560,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Arte & Bellezza
-            </strong>
-
-            <small>
-              Piazze, fontane e palazzi
-            </small>
-
+            <strong>Arte & Bellezza</strong>
+            <small>Piazze, fontane e palazzi</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="green"
-          type="button"
-        >
+        <button class="photo-option" data-interest="green" type="button">
 
           <img
             data-place-image="villaBorghese"
@@ -1999,25 +1576,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Roma Verde
-            </strong>
-
-            <small>
-              Ville, parchi e panorami
-            </small>
-
+            <strong>Roma Verde</strong>
+            <small>Ville, parchi e panorami</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="night"
-          type="button"
-        >
+        <button class="photo-option" data-interest="night" type="button">
 
           <img
             data-place-image="trastevere"
@@ -2026,25 +1592,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Roma di Sera
-            </strong>
-
-            <small>
-              Luci, piazze e atmosfera
-            </small>
-
+            <strong>Roma di Sera</strong>
+            <small>Luci, piazze e atmosfera</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="hidden"
-          type="button"
-        >
+        <button class="photo-option" data-interest="hidden" type="button">
 
           <img
             data-place-image="garbatella"
@@ -2053,25 +1608,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Roma Nascosta
-            </strong>
-
-            <small>
-              Angoli fuori dai percorsi
-            </small>
-
+            <strong>Roma Nascosta</strong>
+            <small>Angoli fuori dai percorsi</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="romantic"
-          type="button"
-        >
+        <button class="photo-option" data-interest="romantic" type="button">
 
           <img
             data-place-image="orangeGarden"
@@ -2080,25 +1624,14 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Roma in Due
-            </strong>
-
-            <small>
-              Atmosfera e luoghi romantici
-            </small>
-
+            <strong>Roma in Due</strong>
+            <small>Atmosfera e luoghi romantici</small>
           </div>
 
         </button>
 
 
-        <button
-          class="photo-option"
-          data-interest="food"
-          type="button"
-        >
+        <button class="photo-option" data-interest="food" type="button">
 
           <img
             data-place-image="mercatoTestaccio"
@@ -2107,15 +1640,8 @@ footer{
           >
 
           <div class="photo-option-content">
-
-            <strong>
-              Cibo & Tradizione
-            </strong>
-
-            <small>
-              Mercati, quartieri e sapori romani
-            </small>
-
+            <strong>Cibo & Tradizione</strong>
+            <small>Mercati, quartieri e sapori romani</small>
           </div>
 
         </button>
@@ -2285,45 +1811,6 @@ footer{
       </div>
 
     </div>
-
-  </div>
-
-</section>
-
-
-<!-- ======================================================
-     CATALOGO
-====================================================== -->
-
-<section
-  class="section"
-  id="luoghi"
->
-
-  <div class="section-head">
-
-    <div class="eyebrow">
-      Il catalogo VIVI
-    </div>
-
-    <h2>
-      Roma non finisce qui.
-    </h2>
-
-    <p>
-      Una selezione di luoghi per ricordarti che la città
-      è molto più grande dei suoi monumenti più fotografati.
-    </p>
-
-  </div>
-
-
-  <div class="catalog">
-
-    <div
-      class="catalog-grid"
-      id="catalogGrid"
-    ></div>
 
   </div>
 
@@ -3111,18 +2598,6 @@ Object.entries(interestPlaces).forEach(([category,ids])=>{
    IMMAGINI SPECIFICHE
 ========================================================= */
 
-/*
-  Qui NON usiamo più una foto generica per tutti i luoghi.
-
-  Ogni ID ha:
-  1. un titolo preciso per Wikipedia;
-  2. una ricerca specifica su Wikimedia Commons;
-  3. un'immagine salvata in cache dopo il primo caricamento.
-
-  In questo modo una foto non viene assegnata casualmente
-  a un altro luogo.
-*/
-
 const imageSearchTerms = {
 
   colosseum:[
@@ -3426,11 +2901,6 @@ async function searchCommonsImage(searchTerm){
       return null;
     }
 
-
-    /*
-      Cerchiamo di evitare SVG, GIF, PDF e loghi.
-    */
-
     const candidates =
       pages.filter(page=>{
 
@@ -3456,16 +2926,9 @@ async function searchCommonsImage(searchTerm){
 
       });
 
-
     if(!candidates.length){
       return null;
     }
-
-
-    /*
-      Diamo un punteggio ai nomi file che contengono
-      le parole della ricerca.
-    */
 
     const words =
       searchTerm
@@ -3474,12 +2937,10 @@ async function searchCommonsImage(searchTerm){
         .split(/\s+/)
         .filter(word=>word.length > 3);
 
-
     let best =
       candidates[0];
 
     let bestScore = -1;
-
 
     candidates.forEach(page=>{
 
@@ -3496,14 +2957,12 @@ async function searchCommonsImage(searchTerm){
 
       });
 
-
       if(
         title.includes("rome") ||
         title.includes("roma")
       ){
         score += 2;
       }
-
 
       if(score > bestScore){
 
@@ -3513,7 +2972,6 @@ async function searchCommonsImage(searchTerm){
       }
 
     });
-
 
     const info =
       best.imageinfo?.[0];
@@ -3599,14 +3057,12 @@ async function getWikipediaImage(id){
     portaPortese:"Porta Portese"
   };
 
-
   const title =
     titleMap[id];
 
   if(!title){
     return null;
   }
-
 
   try{
 
@@ -3620,14 +3076,12 @@ async function getWikipediaImage(id){
       encodeURIComponent(title) +
       "&origin=*";
 
-
     const response =
       await fetch(url);
 
     if(!response.ok){
       return null;
     }
-
 
     const data =
       await response.json();
@@ -3662,15 +3116,8 @@ async function getPlaceImage(id){
     return imageCache[id];
   }
 
-
-  /*
-    Prima cerchiamo su Wikimedia Commons usando
-    il nome specifico del luogo.
-  */
-
   const searches =
     imageSearchTerms[id] || [];
-
 
   for(const search of searches){
 
@@ -3687,11 +3134,6 @@ async function getPlaceImage(id){
 
   }
 
-
-  /*
-    Seconda possibilità: Wikipedia.
-  */
-
   const wikipedia =
     await getWikipediaImage(id);
 
@@ -3703,23 +3145,13 @@ async function getPlaceImage(id){
 
   }
 
-
-  /*
-    Se una singola immagine non viene trovata,
-    restituiamo null.
-
-    È intenzionale:
-    meglio nessuna foto che la foto SBAGLIATA
-    di un altro luogo.
-  */
-
   return null;
 
 }
 
 
 /* =========================================================
-   CARICAMENTO IMMAGINI STATICHE DELLE CATEGORIE
+   CARICAMENTO IMMAGINI STATICHE
 ========================================================= */
 
 async function loadPlaceImages(){
@@ -3728,7 +3160,6 @@ async function loadPlaceImages(){
     document.querySelectorAll(
       "[data-place-image]"
     );
-
 
   for(const img of imageElements){
 
@@ -3739,21 +3170,14 @@ async function loadPlaceImages(){
       continue;
     }
 
-
     const src =
       await getPlaceImage(id);
-
 
     if(src){
 
       img.src = src;
 
     }else{
-
-      /*
-        Placeholder elegante se non viene trovata
-        un'immagine corretta.
-      */
 
       img.src =
         createPlaceholderImage(
@@ -3841,7 +3265,6 @@ function createPlaceholderImage(text){
 
     </svg>
   `;
-
 
   return (
     "data:image/svg+xml;charset=UTF-8," +
@@ -3968,30 +3391,24 @@ function updateQuiz(){
 
   });
 
-
   const percent =
     (currentStep / 7) * 100;
 
-
   progressFill.style.width =
     percent + "%";
-
 
   progressLabel.textContent =
     "Domanda " +
     currentStep +
     " di 7";
 
-
   prevBtn.disabled =
     currentStep === 1;
-
 
   nextBtn.textContent =
     currentStep === 7
       ? "Crea il mio viaggio →"
       : "Continua →";
-
 
   updateContinueButton();
 
@@ -4001,7 +3418,6 @@ function updateQuiz(){
 function updateContinueButton(){
 
   let valid = false;
-
 
   if(currentStep === 1){
     valid = !!answers.company;
@@ -4032,7 +3448,6 @@ function updateContinueButton(){
       answers.interests.length > 0;
   }
 
-
   nextBtn.disabled =
     !valid;
 
@@ -4057,7 +3472,6 @@ document
         const value =
           button.dataset.value;
 
-
         document
           .querySelectorAll(
             `.option[data-key="${key}"]`
@@ -4070,15 +3484,12 @@ document
 
           });
 
-
         button.classList.add(
           "selected"
         );
 
-
         answers[key] =
           value;
-
 
         updateContinueButton();
 
@@ -4102,7 +3513,6 @@ document
 
         const interest =
           button.dataset.interest;
-
 
         if(
           answers.interests
@@ -4133,7 +3543,6 @@ document
 
           }
 
-
           answers.interests.push(
             interest
           );
@@ -4143,7 +3552,6 @@ document
           );
 
         }
-
 
         updateContinueButton();
 
@@ -4165,13 +3573,11 @@ nextBtn.addEventListener(
       return;
     }
 
-
     if(currentStep < 7){
 
       currentStep++;
 
       updateQuiz();
-
 
       document
         .getElementById("crea")
@@ -4218,17 +3624,11 @@ function generateRoute(){
 
   let pool = [];
 
-
-  /*
-    Inseriamo i luoghi delle categorie scelte.
-  */
-
   answers.interests.forEach(
     category=>{
 
       const categoryPlaces =
         interestPlaces[category] || [];
-
 
       categoryPlaces.forEach(
         id=>{
@@ -4248,21 +3648,10 @@ function generateRoute(){
     }
   );
 
-
-  /*
-    Sicurezza assoluta contro ID inesistenti.
-  */
-
   pool =
     pool.filter(
       id=>Boolean(places[id])
     );
-
-
-  /*
-    Prima visita:
-    priorità ai simboli di Roma.
-  */
 
   if(answers.seen === "first"){
 
@@ -4279,7 +3668,6 @@ function generateRoute(){
 
     ];
 
-
     pool.sort(
       (a,b)=>{
 
@@ -4288,7 +3676,6 @@ function generateRoute(){
 
         const bIndex =
           classics.indexOf(b);
-
 
         return (
           (aIndex === -1 ? 99 : aIndex) -
@@ -4299,12 +3686,6 @@ function generateRoute(){
     );
 
   }
-
-
-  /*
-    Chi conosce già Roma:
-    priorità ai luoghi meno ovvi.
-  */
 
   if(
     answers.seen === "enough" ||
@@ -4326,7 +3707,6 @@ function generateRoute(){
 
     ];
 
-
     pool.sort(
       (a,b)=>{
 
@@ -4347,11 +3727,6 @@ function generateRoute(){
 
   }
 
-
-  /*
-    Ritmo lento.
-  */
-
   if(answers.pace === "slow"){
 
     const slowPlaces = [
@@ -4367,7 +3742,6 @@ function generateRoute(){
 
     ];
 
-
     pool.sort(
       (a,b)=>{
 
@@ -4380,11 +3754,6 @@ function generateRoute(){
     );
 
   }
-
-
-  /*
-    Budget essenziale.
-  */
 
   if(
     answers.budget === "essential" ||
@@ -4401,7 +3770,6 @@ function generateRoute(){
 
     ];
 
-
     pool.sort(
       (a,b)=>{
 
@@ -4412,14 +3780,12 @@ function generateRoute(){
                 .includes(word)
           );
 
-
         const bFree =
           freeWords.some(
             word=>
               (places[b].price || "")
                 .includes(word)
           );
-
 
         return (
           Number(bFree) -
@@ -4430,12 +3796,6 @@ function generateRoute(){
     );
 
   }
-
-
-  /*
-    Chi vuole camminare:
-    preferenza per luoghi centrali e collegabili a piedi.
-  */
 
   if(
     answers.walking === "much" ||
@@ -4461,7 +3821,6 @@ function generateRoute(){
 
     ];
 
-
     pool.sort(
       (a,b)=>{
 
@@ -4475,13 +3834,7 @@ function generateRoute(){
 
   }
 
-
-  /*
-    Numero di tappe.
-  */
-
   let count = 6;
-
 
   if(answers.time === "hours"){
     count = 4;
@@ -4499,11 +3852,6 @@ function generateRoute(){
     count = 10;
   }
 
-
-  /*
-    Ritmo lento = meno tappe.
-  */
-
   if(
     answers.pace === "slow" &&
     count > 4
@@ -4513,16 +3861,8 @@ function generateRoute(){
 
   }
 
-
   currentRoute =
     pool.slice(0,count);
-
-
-  /*
-    Se per qualsiasi combinazione il pool
-    dovesse essere vuoto, usiamo un itinerario
-    di sicurezza.
-  */
 
   if(!currentRoute.length){
 
@@ -4536,7 +3876,6 @@ function generateRoute(){
     ];
 
   }
-
 
   renderResults(
     currentRoute
@@ -4576,7 +3915,6 @@ function getResultsSubtitle(){
 
   }
 
-
   if(
     answers.seen === "enough" ||
     answers.seen === "roman"
@@ -4585,7 +3923,6 @@ function getResultsSubtitle(){
     return "Questa volta lasciamo da parte i percorsi più scontati e diamo spazio agli angoli meno ovvi della città.";
 
   }
-
 
   return "Un percorso costruito sulle tue risposte, mescolando luoghi iconici e angoli da scoprire.";
 
@@ -4608,22 +3945,18 @@ async function renderResults(selected){
       "resultsGrid"
     );
 
-
   resultsSection.style.display =
     "block";
-
 
   document
     .getElementById("resultsTitle")
     .textContent =
       getResultsTitle();
 
-
   document
     .getElementById("resultsSubtitle")
     .textContent =
       getResultsSubtitle();
-
 
   document
     .getElementById("routeCount")
@@ -4635,14 +3968,8 @@ async function renderResults(selected){
           : " tappe"
       );
 
-
   resultsGrid.innerHTML =
     "";
-
-
-  /*
-    Reset marker.
-  */
 
   if(map){
 
@@ -4656,28 +3983,23 @@ async function renderResults(selected){
 
   }
 
-
   selected.forEach(
     (id,index)=>{
 
       const place =
         places[id];
 
-
       if(!place){
         return;
       }
-
 
       const card =
         document.createElement(
           "article"
         );
 
-
       card.className =
         "route-card";
-
 
       card.innerHTML = `
 
@@ -4748,22 +4070,14 @@ async function renderResults(selected){
         </div>
       `;
 
-
       resultsGrid.appendChild(
         card
       );
-
-
-      /*
-        Carichiamo la foto ESATTA
-        di questa destinazione.
-      */
 
       const imageContainer =
         card.querySelector(
           ".route-image"
         );
-
 
       getPlaceImage(id)
         .then(src=>{
@@ -4773,14 +4087,11 @@ async function renderResults(selected){
               "img"
             );
 
-
           img.alt =
             place.name;
 
-
           img.loading =
             "lazy";
-
 
           if(src){
 
@@ -4796,10 +4107,8 @@ async function renderResults(selected){
 
           }
 
-
           imageContainer.innerHTML =
             "";
-
 
           imageContainer.appendChild(
             img
@@ -4810,11 +4119,9 @@ async function renderResults(selected){
     }
   );
 
-
   renderWalkingGuide(
     selected
   );
-
 
   setTimeout(
     ()=>{
@@ -4827,7 +4134,6 @@ async function renderResults(selected){
     },
     100
   );
-
 
   setTimeout(
     ()=>{
@@ -4858,10 +4164,8 @@ function renderWalkingGuide(
       "walkingList"
     );
 
-
   list.innerHTML =
     "";
-
 
   selected.forEach(
     (id,index)=>{
@@ -4869,11 +4173,9 @@ function renderWalkingGuide(
       const place =
         places[id];
 
-
       if(!place){
         return;
       }
-
 
       const next =
         selected[index + 1]
@@ -4882,16 +4184,13 @@ function renderWalkingGuide(
             ]
           : null;
 
-
       const step =
         document.createElement(
           "div"
         );
 
-
       step.className =
         "walking-step";
-
 
       step.innerHTML = `
 
@@ -4920,7 +4219,6 @@ function renderWalkingGuide(
         </div>
 
       `;
-
 
       list.appendChild(
         step
@@ -4951,7 +4249,6 @@ function initializeMap(){
 
   }
 
-
   map =
     L.map(
       "map",
@@ -4962,7 +4259,6 @@ function initializeMap(){
       [41.9028,12.4964],
       12
     );
-
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -4988,7 +4284,6 @@ function showRouteOnMap(
     return;
   }
 
-
   markers.forEach(
     marker=>{
       map.removeLayer(
@@ -4997,14 +4292,11 @@ function showRouteOnMap(
     }
   );
 
-
   markers =
     [];
 
-
   const bounds =
     [];
-
 
   selected.forEach(
     (id,index)=>{
@@ -5012,11 +4304,9 @@ function showRouteOnMap(
       const place =
         places[id];
 
-
       if(!place){
         return;
       }
-
 
       const marker =
         L.marker(
@@ -5025,7 +4315,6 @@ function showRouteOnMap(
             place.lng
           ]
         ).addTo(map);
-
 
       marker.bindPopup(`
 
@@ -5051,11 +4340,9 @@ function showRouteOnMap(
 
       `);
 
-
       markers.push(
         marker
       );
-
 
       bounds.push(
         [
@@ -5066,7 +4353,6 @@ function showRouteOnMap(
 
     }
   );
-
 
   if(bounds.length){
 
@@ -5079,72 +4365,6 @@ function showRouteOnMap(
     );
 
   }
-
-}
-
-
-/* =========================================================
-   CATALOGO COMPLETO
-========================================================= */
-
-function renderCatalog(){
-
-  const grid =
-    document.getElementById(
-      "catalogGrid"
-    );
-
-
-  grid.innerHTML =
-    "";
-
-
-  Object.entries(
-    places
-  ).forEach(
-    ([id,place])=>{
-
-      const card =
-        document.createElement(
-          "article"
-        );
-
-
-      card.className =
-        "catalog-card";
-
-
-      card.innerHTML = `
-
-        <div class="catalog-type">
-          ${place.type}
-        </div>
-
-        <h3>
-          ${place.name}
-        </h3>
-
-        <p>
-          ${place.description}
-        </p>
-
-        <div class="catalog-curiosity">
-          ${place.curiosity}
-        </div>
-
-        <div class="catalog-price">
-          ${place.price}
-        </div>
-
-      `;
-
-
-      grid.appendChild(
-        card
-      );
-
-    }
-  );
 
 }
 
@@ -5168,14 +4388,11 @@ document
             this.getAttribute("href")
           );
 
-
         if(!target){
           return;
         }
 
-
         event.preventDefault();
-
 
         target.scrollIntoView({
           behavior:"smooth",
@@ -5196,7 +4413,6 @@ const mapSection =
   document.getElementById(
     "mappa"
   );
-
 
 const mapObserver =
   new IntersectionObserver(
@@ -5220,7 +4436,6 @@ const mapObserver =
     }
   );
 
-
 mapObserver.observe(
   mapSection
 );
@@ -5230,15 +4445,7 @@ mapObserver.observe(
    AVVIO FINALE
 ========================================================= */
 
-renderCatalog();
-
 updateQuiz();
-
-/*
-  Le immagini delle categorie,
-  della mappa e della CTA vengono
-  caricate una per una.
-*/
 
 loadPlaceImages();
 
@@ -5255,18 +4462,11 @@ document
       const element =
         event.target;
 
-
       if(
         element.tagName !== "IMG"
       ){
         return;
       }
-
-
-      /*
-        Se è già il placeholder,
-        non facciamo altro.
-      */
 
       if(
         element.dataset.placeholderApplied
@@ -5274,10 +4474,8 @@ document
         return;
       }
 
-
       const placeId =
         element.dataset.placeImage;
-
 
       if(
         placeId &&
@@ -5287,7 +4485,6 @@ document
         element.dataset.placeholderApplied =
           "true";
 
-
         element.src =
           createPlaceholderImage(
             places[placeId].name
@@ -5296,12 +4493,6 @@ document
         return;
 
       }
-
-
-      /*
-        Per le immagini generiche
-        del sito manteniamo un fallback.
-      */
 
       if(
         element.classList.contains(
@@ -5314,7 +4505,6 @@ document
 
         element.dataset.placeholderApplied =
           "true";
-
 
         element.src =
           "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=2200&q=85";
