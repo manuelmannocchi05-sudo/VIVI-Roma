@@ -680,6 +680,12 @@ a{
   font-size:12px;
 }
 
+.catalog-price{
+  margin-top:17px;
+  color:#ded5cd;
+  font-size:12px;
+}
+
 .route-link{
   display:inline-block;
   margin-top:22px;
@@ -919,29 +925,6 @@ footer{
 }
 
 /* =========================
-   IMAGE PLACEHOLDER
-========================= */
-
-.image-loading{
-  width:100%;
-  height:100%;
-  min-height:100px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    linear-gradient(
-      135deg,
-      #302725,
-      #211b1a
-    );
-  color:#bdb3aa;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-/* =========================
    MOBILE
 ========================= */
 
@@ -1146,8 +1129,8 @@ footer{
 
   <img
     class="hero-bg"
-    src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=2200&q=90"
-    alt="Il Colosseo e Roma"
+    src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Colosseo_di_Roma_panoramic.jpg"
+    alt="Panorama del Colosseo a Roma"
   >
 
   <div class="hero-content">
@@ -1193,8 +1176,8 @@ footer{
     <div class="intro-image">
 
       <img
-        src="https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1400&q=90"
-        alt="Panorama di Roma"
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Giardino_degli_Aranci.JPG"
+        alt="Giardino degli Aranci a Roma"
         loading="lazy"
       >
 
@@ -1284,16 +1267,12 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 1 -->
-
     <div
       class="question active"
       data-step="1"
     >
 
-      <h3>
-        Con chi sei?
-      </h3>
+      <h3>Con chi sei?</h3>
 
       <p class="question-description">
         Roma cambia molto a seconda di chi hai accanto.
@@ -1326,13 +1305,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 2 -->
-
     <div class="question" data-step="2">
 
-      <h3>
-        Quanto conosci Roma?
-      </h3>
+      <h3>Quanto conosci Roma?</h3>
 
       <p class="question-description">
         Così possiamo decidere quanto uscire dai percorsi classici.
@@ -1365,13 +1340,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 3 -->
-
     <div class="question" data-step="3">
 
-      <h3>
-        Quanto tempo hai?
-      </h3>
+      <h3>Quanto tempo hai?</h3>
 
       <p class="question-description">
         Non serve avere una settimana per vivere Roma.
@@ -1404,13 +1375,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 4 -->
-
     <div class="question" data-step="4">
 
-      <h3>
-        Che ritmo vuoi?
-      </h3>
+      <h3>Che ritmo vuoi?</h3>
 
       <p class="question-description">
         Perché non tutti vogliono correre da una tappa all'altra.
@@ -1443,13 +1410,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 5 -->
-
     <div class="question" data-step="5">
 
-      <h3>
-        Quanto vuoi camminare?
-      </h3>
+      <h3>Quanto vuoi camminare?</h3>
 
       <p class="question-description">
         Roma si scopre soprattutto a piedi.
@@ -1482,13 +1445,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 6 -->
-
     <div class="question" data-step="6">
 
-      <h3>
-        Quanto vuoi spendere?
-      </h3>
+      <h3>Quanto vuoi spendere?</h3>
 
       <p class="question-description">
         Puoi vivere Roma anche senza spendere molto.
@@ -1521,13 +1480,9 @@ footer{
     </div>
 
 
-    <!-- DOMANDA 7 -->
-
     <div class="question" data-step="7">
 
-      <h3>
-        Cosa vuoi vivere?
-      </h3>
+      <h3>Cosa vuoi vivere?</h3>
 
       <p class="question-description">
         Scegli fino a 3 esperienze che vuoi assolutamente trovare nel tuo viaggio.
@@ -1536,114 +1491,59 @@ footer{
       <div class="photo-options">
 
         <button class="photo-option" data-interest="ancient" type="button">
-
-          <img
-            data-place-image="colosseum"
-            src=""
-            alt="Roma Antica"
-          >
-
+          <img data-place-image="colosseum" src="" alt="Colosseo e Roma Antica">
           <div class="photo-option-content">
             <strong>Roma Antica</strong>
             <small>Colosseo, Fori e storia</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="art" type="button">
-
-          <img
-            data-place-image="pantheon"
-            src=""
-            alt="Arte e bellezza a Roma"
-          >
-
+          <img data-place-image="pantheon" src="" alt="Pantheon a Roma">
           <div class="photo-option-content">
             <strong>Arte & Bellezza</strong>
             <small>Piazze, fontane e palazzi</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="green" type="button">
-
-          <img
-            data-place-image="villaBorghese"
-            src=""
-            alt="Roma verde"
-          >
-
+          <img data-place-image="villaBorghese" src="" alt="Villa Borghese">
           <div class="photo-option-content">
             <strong>Roma Verde</strong>
             <small>Ville, parchi e panorami</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="night" type="button">
-
-          <img
-            data-place-image="trastevere"
-            src=""
-            alt="Roma di sera"
-          >
-
+          <img data-place-image="trastevere" src="" alt="Trastevere a Roma">
           <div class="photo-option-content">
             <strong>Roma di Sera</strong>
             <small>Luci, piazze e atmosfera</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="hidden" type="button">
-
-          <img
-            data-place-image="garbatella"
-            src=""
-            alt="Roma nascosta"
-          >
-
+          <img data-place-image="garbatella" src="" alt="Garbatella a Roma">
           <div class="photo-option-content">
             <strong>Roma Nascosta</strong>
             <small>Angoli fuori dai percorsi</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="romantic" type="button">
-
-          <img
-            data-place-image="orangeGarden"
-            src=""
-            alt="Roma romantica"
-          >
-
+          <img data-place-image="orangeGarden" src="" alt="Giardino degli Aranci">
           <div class="photo-option-content">
             <strong>Roma in Due</strong>
             <small>Atmosfera e luoghi romantici</small>
           </div>
-
         </button>
 
-
         <button class="photo-option" data-interest="food" type="button">
-
-          <img
-            data-place-image="mercatoTestaccio"
-            src=""
-            alt="Cibo e tradizione romana"
-          >
-
+          <img data-place-image="mercatoTestaccio" src="" alt="Mercato di Testaccio">
           <div class="photo-option-content">
             <strong>Cibo & Tradizione</strong>
             <small>Mercati, quartieri e sapori romani</small>
           </div>
-
         </button>
 
       </div>
@@ -1682,10 +1582,7 @@ footer{
      RISULTATI
 ====================================================== -->
 
-<section
-  class="section section-dark"
-  id="results"
->
+<section class="section section-dark" id="results">
 
   <div class="results-shell">
 
@@ -1707,21 +1604,13 @@ footer{
 
       </div>
 
-      <div
-        class="route-count"
-        id="routeCount"
-      >
+      <div class="route-count" id="routeCount">
         0 tappe
       </div>
 
     </div>
 
-
-    <div
-      class="results-grid"
-      id="resultsGrid"
-    ></div>
-
+    <div class="results-grid" id="resultsGrid"></div>
 
     <div class="walking-box">
 
@@ -1734,10 +1623,7 @@ footer{
         senza perdere quello che c'è nel mezzo.
       </p>
 
-      <div
-        class="walking-list"
-        id="walkingList"
-      ></div>
+      <div class="walking-list" id="walkingList"></div>
 
     </div>
 
@@ -1750,10 +1636,7 @@ footer{
      MAPPA
 ====================================================== -->
 
-<section
-  class="section map-section"
-  id="mappa"
->
+<section class="section map-section" id="mappa">
 
   <div class="section-head">
 
@@ -1771,7 +1654,6 @@ footer{
     </p>
 
   </div>
-
 
   <div class="map-layout">
 
@@ -1798,13 +1680,12 @@ footer{
 
       </div>
 
-
       <div class="map-photo">
 
         <img
           data-place-image="pincio"
           src=""
-          alt="Roma vista dal Pincio"
+          alt="Terrazza del Pincio a Roma"
           loading="lazy"
         >
 
@@ -1878,7 +1759,6 @@ footer{
 
     </div>
 
-
     <p class="footer-text">
       Una guida personale pensata per scoprire Roma
       attraverso esperienze, quartieri, storia, bellezza,
@@ -1886,7 +1766,6 @@ footer{
     </p>
 
   </div>
-
 
   <div class="footer-bottom">
     © 2026 VIVI — Non visitare Roma. Vivila.
@@ -1900,7 +1779,7 @@ footer{
 <script>
 
 /* =========================================================
-   DATABASE COMPLETO DEI LUOGHI
+   DATABASE COMPLETO
 ========================================================= */
 
 const places = {
@@ -1944,7 +1823,7 @@ const places = {
     lat:41.8986,
     lng:12.4769,
     description:"Un edificio antico straordinariamente conservato, famoso per la sua grande cupola e per l'oculo centrale.",
-    curiosity:"L'oculo della cupola è un'apertura circolare verso il cielo e rappresenta l'unica fonte naturale di luce dell'interno.",
+    curiosity:"L'oculo della cupola è un'apertura circolare verso il cielo e rappresenta una delle caratteristiche più riconoscibili dell'interno.",
     tags:["Iconico","Centro"],
     price:"Visita"
   },
@@ -2142,7 +2021,7 @@ const places = {
     lat:41.8931,
     lng:12.4828,
     description:"Un importante complesso museale dedicato all'arte e alla storia di Roma sul Campidoglio.",
-    curiosity:"Sono considerati il più antico museo pubblico del mondo, con origine nel dono della collezione di Sisto IV nel 1471.",
+    curiosity:"La loro origine risale al dono di una grande collezione di opere fatto da Sisto IV alla città di Roma nel 1471.",
     tags:["Museo","Arte"],
     price:"Visita"
   },
@@ -2285,7 +2164,7 @@ const places = {
     lat:41.8305,
     lng:12.4654,
     description:"Un grande specchio d'acqua nel quartiere EUR, circondato da alberi e viali.",
-    curiosity:"Il laghetto fu progettato nell'ambito dello sviluppo urbanistico dell'EUR per l'Esposizione Universale di Roma.",
+    curiosity:"Il laghetto fu progettato nell'ambito dello sviluppo urbanistico dell'EUR.",
     tags:["Passeggiata","Moderna"],
     price:"Gratuito"
   },
@@ -2459,7 +2338,7 @@ const places = {
 
 
 /* =========================================================
-   COLLEGAMENTO CATEGORIE → LUOGHI
+   CATEGORIE
 ========================================================= */
 
 const interestPlaces = {
@@ -2570,32 +2449,23 @@ const interestPlaces = {
 
 
 /* =========================================================
-   CONTROLLO AUTOMATICO DEL DATABASE
+   CONTROLLO DATABASE
 ========================================================= */
 
-Object.entries(interestPlaces).forEach(([category,ids])=>{
+Object.entries(interestPlaces).forEach(
+  ([category,ids])=>{
 
-  interestPlaces[category] =
-    ids.filter(id=>{
+    interestPlaces[category] =
+      ids.filter(
+        id=>Boolean(places[id])
+      );
 
-      if(!places[id]){
-        console.warn(
-          "Destinazione non presente nel database:",
-          id
-        );
-
-        return false;
-      }
-
-      return true;
-
-    });
-
-});
+  }
+);
 
 
 /* =========================================================
-   IMMAGINI SPECIFICHE
+   TERMINI DI RICERCA SPECIFICI
 ========================================================= */
 
 const imageSearchTerms = {
@@ -2646,12 +2516,12 @@ const imageSearchTerms = {
   ],
 
   foroTraiano:[
-    "Trajan's Forum Rome",
+    "Trajan Forum Rome",
     "Foro di Traiano Roma"
   ],
 
   colonnaTraiana:[
-    "Trajan's Column Rome",
+    "Trajan Column Rome",
     "Colonna Traiana Roma"
   ],
 
@@ -2671,13 +2541,13 @@ const imageSearchTerms = {
   ],
 
   vatican:[
-    "Vatican City",
+    "Vatican City Rome",
     "Città del Vaticano"
   ],
 
   saintPeter:[
-    "St Peter's Basilica Rome",
-    "Basilica di San Pietro Roma"
+    "Saint Peter Basilica Rome",
+    "Basilica San Pietro Roma"
   ],
 
   trevi:[
@@ -2702,7 +2572,7 @@ const imageSearchTerms = {
 
   vittoriano:[
     "Victor Emmanuel II Monument Rome",
-    "Altare della Patria Rome"
+    "Altare della Patria Roma"
   ],
 
   capitolini:[
@@ -2711,8 +2581,8 @@ const imageSearchTerms = {
   ],
 
   campidoglio:[
-    "Capitoline Hill Rome",
-    "Campidoglio Roma"
+    "Campidoglio Rome",
+    "Piazza del Campidoglio Roma"
   ],
 
   corso:[
@@ -2756,8 +2626,8 @@ const imageSearchTerms = {
   ],
 
   orangeGarden:[
-    "Orange Garden Rome",
-    "Giardino degli Aranci Roma"
+    "Giardino degli Aranci Rome",
+    "Orange Garden Rome"
   ],
 
   villaPamphili:[
@@ -2772,11 +2642,11 @@ const imageSearchTerms = {
 
   eurLake:[
     "EUR Lake Rome",
-    "Laghetto dell'EUR Roma"
+    "Laghetto EUR Rome"
   ],
 
   cascades:[
-    "EUR Lake waterfalls Rome",
+    "EUR waterfalls Rome",
     "Cascate Laghetto EUR Roma"
   ],
 
@@ -2787,12 +2657,12 @@ const imageSearchTerms = {
 
   botanicalGarden:[
     "Botanical Garden Rome",
-    "Orto Botanico di Roma"
+    "Orto Botanico Roma"
   ],
 
   trastevere:[
     "Trastevere Rome",
-    "Trastevere Roma"
+    "Trastevere street Rome"
   ],
 
   campo:[
@@ -2811,8 +2681,8 @@ const imageSearchTerms = {
   ],
 
   mercatoTestaccio:[
-    "Testaccio Market Rome",
-    "Mercato di Testaccio Roma"
+    "Mercato di Testaccio Rome",
+    "Testaccio Market Rome"
   ],
 
   sanLorenzo:[
@@ -2831,8 +2701,8 @@ const imageSearchTerms = {
   ],
 
   suppli:[
-    "Suppli Rome",
-    "Supplì romano"
+    "Suppli romano Rome",
+    "Supplì Roma"
   ],
 
   ostiense:[
@@ -2841,8 +2711,8 @@ const imageSearchTerms = {
   ],
 
   gasometro:[
-    "Gasometer Rome",
-    "Gasometro Roma"
+    "Gasometro Rome",
+    "Gasometer Rome"
   ],
 
   portaPortese:[
@@ -2854,14 +2724,97 @@ const imageSearchTerms = {
 
 
 /* =========================================================
-   CACHE IMMAGINI
+   CACHE + CONTROLLO DUPLICATI
 ========================================================= */
 
 const imageCache = {};
+const usedImageUrls = new Set();
 
 
 /* =========================================================
-   RICERCA IMMAGINE WIKIMEDIA COMMONS
+   NORMALIZZAZIONE
+========================================================= */
+
+function normalizeText(text){
+
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g," ")
+    .trim();
+
+}
+
+
+/* =========================================================
+   SCORE IMMAGINE
+========================================================= */
+
+function scoreImageTitle(title,searchTerm){
+
+  const t =
+    normalizeText(title);
+
+  const s =
+    normalizeText(searchTerm);
+
+  const words =
+    s.split(/\s+/)
+      .filter(
+        word=>word.length >= 4
+      );
+
+  let score = 0;
+
+  words.forEach(
+    word=>{
+
+      if(t.includes(word)){
+        score += 5;
+      }
+
+    }
+  );
+
+  if(
+    t.includes("rome") ||
+    t.includes("roma")
+  ){
+    score += 4;
+  }
+
+  if(
+    t.includes("italy") ||
+    t.includes("italia")
+  ){
+    score += 2;
+  }
+
+  if(
+    t.includes("map") ||
+    t.includes("locator") ||
+    t.includes("diagram") ||
+    t.includes("plan")
+  ){
+    score -= 30;
+  }
+
+  if(
+    t.endsWith(".svg") ||
+    t.endsWith(".gif") ||
+    t.endsWith(".pdf")
+  ){
+    score -= 50;
+  }
+
+  return score;
+
+}
+
+
+/* =========================================================
+   RICERCA COMMONS
 ========================================================= */
 
 async function searchCommonsImage(searchTerm){
@@ -2875,10 +2828,10 @@ async function searchCommonsImage(searchTerm){
       "&gsrsearch=" +
       encodeURIComponent(searchTerm) +
       "&gsrnamespace=6" +
-      "&gsrlimit=12" +
+      "&gsrlimit=30" +
       "&prop=imageinfo" +
       "&iiprop=url" +
-      "&iiurlwidth=1400" +
+      "&iiurlwidth=1600" +
       "&format=json" +
       "&origin=*";
 
@@ -2902,92 +2855,93 @@ async function searchCommonsImage(searchTerm){
     }
 
     const candidates =
-      pages.filter(page=>{
+      pages
+        .filter(
+          page=>{
 
-        const title =
-          (page.title || "").toLowerCase();
+            const info =
+              page.imageinfo?.[0];
 
-        const info =
-          page.imageinfo?.[0];
+            if(
+              !info?.thumburl &&
+              !info?.url
+            ){
+              return false;
+            }
 
-        if(!info?.thumburl && !info?.url){
-          return false;
-        }
+            const title =
+              page.title || "";
 
-        if(
-          title.endsWith(".svg") ||
-          title.endsWith(".gif") ||
-          title.endsWith(".pdf")
-        ){
-          return false;
-        }
+            if(
+              /\.(svg|gif|pdf)$/i.test(title)
+            ){
+              return false;
+            }
 
-        return true;
+            return true;
 
-      });
+          }
+        )
+        .map(
+          page=>{
 
-    if(!candidates.length){
-      return null;
-    }
+            const info =
+              page.imageinfo?.[0];
 
-    const words =
-      searchTerm
-        .toLowerCase()
-        .replace(/[^a-zàèéìòù0-9 ]/g," ")
-        .split(/\s+/)
-        .filter(word=>word.length > 3);
+            const url =
+              info?.thumburl ||
+              info?.url ||
+              null;
 
-    let best =
-      candidates[0];
+            return {
+              title:
+                page.title || "",
+              url,
+              score:
+                scoreImageTitle(
+                  page.title || "",
+                  searchTerm
+                )
+            };
 
-    let bestScore = -1;
+          }
+        )
+        .filter(
+          item=>item.url
+        )
+        .sort(
+          (a,b)=>
+            b.score - a.score
+        );
 
-    candidates.forEach(page=>{
-
-      const title =
-        (page.title || "").toLowerCase();
-
-      let score = 0;
-
-      words.forEach(word=>{
-
-        if(title.includes(word)){
-          score++;
-        }
-
-      });
+    for(
+      const candidate
+      of candidates
+    ){
 
       if(
-        title.includes("rome") ||
-        title.includes("roma")
+        !usedImageUrls.has(
+          candidate.url
+        )
       ){
-        score += 2;
+
+        usedImageUrls.add(
+          candidate.url
+        );
+
+        return candidate.url;
+
       }
 
-      if(score > bestScore){
+    }
 
-        bestScore = score;
-        best = page;
-
-      }
-
-    });
-
-    const info =
-      best.imageinfo?.[0];
-
-    return (
-      info?.thumburl ||
-      info?.url ||
-      null
-    );
+    return null;
 
   }catch(error){
 
     console.warn(
-      "Errore ricerca immagine Commons:",
-      searchTerm,
-      error
+      "Ricerca Commons non riuscita:",
+      searchTerm
     );
 
     return null;
@@ -2998,67 +2952,73 @@ async function searchCommonsImage(searchTerm){
 
 
 /* =========================================================
-   RICERCA IMMAGINE WIKIPEDIA
+   TITOLI WIKIPEDIA SPECIFICI
+========================================================= */
+
+const wikipediaTitles = {
+
+  colosseum:"Colosseo",
+  romanForum:"Foro Romano",
+  palatine:"Palatino (Roma)",
+  pantheon:"Pantheon (Roma)",
+  circusMaximus:"Circo Massimo",
+  caracalla:"Terme di Caracalla",
+  domusAurea:"Domus Aurea",
+  largoTorre:"Area sacra di Largo Argentina",
+  teatroMarcello:"Teatro di Marcello",
+  foroTraiano:"Foro di Traiano",
+  colonnaTraiana:"Colonna Traiana",
+  arcoCostantino:"Arco di Costantino",
+  appia:"Via Appia",
+  ostiaAntica:"Ostia Antica",
+  vatican:"Città del Vaticano",
+  saintPeter:"Basilica di San Pietro in Vaticano",
+  trevi:"Fontana di Trevi",
+  navona:"Piazza Navona",
+  spanishSteps:"Piazza di Spagna",
+  popolo:"Piazza del Popolo",
+  vittoriano:"Monumento nazionale a Vittorio Emanuele II",
+  capitolini:"Musei Capitolini",
+  campidoglio:"Piazza del Campidoglio",
+  corso:"Via del Corso",
+  farnesina:"Villa Farnesina",
+  piazzaMattei:"Piazza Mattei",
+  turtleFountain:"Fontana delle Tartarughe",
+  quattroFontane:"Quattro Fontane",
+  villaBorghese:"Villa Borghese",
+  gianicolo:"Gianicolo",
+  pincio:"Pincio",
+  orangeGarden:"Giardino degli Aranci",
+  villaPamphili:"Villa Doria Pamphilj",
+  villaAda:"Villa Ada",
+  eurLake:"EUR",
+  cascades:"EUR",
+  villaTorlonia:"Villa Torlonia",
+  botanicalGarden:"Orto botanico di Roma",
+  trastevere:"Trastevere",
+  campo:"Campo de' Fiori",
+  ghetto:"Ghetto ebraico di Roma",
+  testaccio:"Testaccio",
+  mercatoTestaccio:"Mercato di Testaccio",
+  sanLorenzo:"San Lorenzo (Roma)",
+  pigneto:"Pigneto",
+  garbatella:"Garbatella",
+  suppli:"Supplì",
+  ostiense:"Ostiense",
+  gasometro:"Gazometro di Roma",
+  portaPortese:"Porta Portese"
+
+};
+
+
+/* =========================================================
+   WIKIPEDIA IMAGE
 ========================================================= */
 
 async function getWikipediaImage(id){
 
-  const titleMap = {
-
-    colosseum:"Colosseo",
-    romanForum:"Foro Romano",
-    palatine:"Palatino (Roma)",
-    pantheon:"Pantheon (Roma)",
-    circusMaximus:"Circo Massimo",
-    caracalla:"Terme di Caracalla",
-    domusAurea:"Domus Aurea",
-    largoTorre:"Area sacra di Largo Argentina",
-    teatroMarcello:"Teatro di Marcello",
-    foroTraiano:"Foro di Traiano",
-    colonnaTraiana:"Colonna Traiana",
-    arcoCostantino:"Arco di Costantino",
-    appia:"Via Appia",
-    ostiaAntica:"Ostia Antica",
-    vatican:"Città del Vaticano",
-    saintPeter:"Basilica di San Pietro in Vaticano",
-    trevi:"Fontana di Trevi",
-    navona:"Piazza Navona",
-    spanishSteps:"Piazza di Spagna",
-    popolo:"Piazza del Popolo",
-    vittoriano:"Monumento nazionale a Vittorio Emanuele II",
-    capitolini:"Musei Capitolini",
-    campidoglio:"Piazza del Campidoglio",
-    corso:"Via del Corso",
-    farnesina:"Villa Farnesina",
-    piazzaMattei:"Piazza Mattei",
-    turtleFountain:"Fontana delle Tartarughe",
-    quattroFontane:"Quattro Fontane",
-    villaBorghese:"Villa Borghese",
-    gianicolo:"Gianicolo",
-    pincio:"Pincio",
-    orangeGarden:"Giardino degli Aranci",
-    villaPamphili:"Villa Doria Pamphili",
-    villaAda:"Villa Ada (Roma)",
-    eurLake:"EUR",
-    cascades:"EUR",
-    villaTorlonia:"Villa Torlonia (Roma)",
-    botanicalGarden:"Orto botanico di Roma",
-    trastevere:"Trastevere",
-    campo:"Campo de' Fiori",
-    ghetto:"Ghetto ebraico di Roma",
-    testaccio:"Testaccio",
-    mercatoTestaccio:"Mercato di Testaccio",
-    sanLorenzo:"San Lorenzo (Roma)",
-    pigneto:"Pigneto",
-    garbatella:"Garbatella",
-    suppli:"Supplì",
-    ostiense:"Ostiense",
-    gasometro:"Gazometro di Roma",
-    portaPortese:"Porta Portese"
-  };
-
   const title =
-    titleMap[id];
+    wikipediaTitles[id];
 
   if(!title){
     return null;
@@ -3071,7 +3031,8 @@ async function getWikipediaImage(id){
       "?action=query" +
       "&prop=pageimages" +
       "&format=json" +
-      "&piprop=original" +
+      "&piprop=thumbnail" +
+      "&pithumbsize=1600" +
       "&titles=" +
       encodeURIComponent(title) +
       "&origin=*";
@@ -3092,10 +3053,22 @@ async function getWikipediaImage(id){
     const page =
       Object.values(pages)[0];
 
-    return (
-      page?.original?.source ||
-      null
-    );
+    const image =
+      page?.thumbnail?.source ||
+      null;
+
+    if(
+      image &&
+      !usedImageUrls.has(image)
+    ){
+
+      usedImageUrls.add(image);
+
+      return image;
+
+    }
+
+    return null;
 
   }catch(error){
 
@@ -3107,7 +3080,40 @@ async function getWikipediaImage(id){
 
 
 /* =========================================================
-   OTTIENI IMMAGINE DEL SINGOLO LUOGO
+   FALLBACK DIRETTI PER ALCUNI LUOGHI
+========================================================= */
+
+const emergencyImages = {
+
+  colosseum:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Colosseum_in_Rome_(1).jpg",
+
+  pantheon:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/PantheonRome.jpg",
+
+  trevi:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Fontaine_Trevi_-_Rome.jpg",
+
+  orangeGarden:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Giardino_degli_Aranci.JPG",
+
+  gianicolo:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Gianicolo_panorama.JPG",
+
+  garbatella:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Garbatella_1.JPG",
+
+  mercatoTestaccio:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Testaccio_-_il_nuovo_mercato_1280317.jpg",
+
+  trastevere:
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/Trastevere_street,_Rome,_Italy.jpg"
+
+};
+
+
+/* =========================================================
+   OTTIENI IMMAGINE
 ========================================================= */
 
 async function getPlaceImage(id){
@@ -3119,14 +3125,20 @@ async function getPlaceImage(id){
   const searches =
     imageSearchTerms[id] || [];
 
-  for(const search of searches){
+  for(
+    const search
+    of searches
+  ){
 
     const image =
-      await searchCommonsImage(search);
+      await searchCommonsImage(
+        search
+      );
 
     if(image){
 
-      imageCache[id] = image;
+      imageCache[id] =
+        image;
 
       return image;
 
@@ -3139,9 +3151,21 @@ async function getPlaceImage(id){
 
   if(wikipedia){
 
-    imageCache[id] = wikipedia;
+    imageCache[id] =
+      wikipedia;
 
     return wikipedia;
+
+  }
+
+  if(
+    emergencyImages[id]
+  ){
+
+    imageCache[id] =
+      emergencyImages[id];
+
+    return emergencyImages[id];
 
   }
 
@@ -3151,54 +3175,13 @@ async function getPlaceImage(id){
 
 
 /* =========================================================
-   CARICAMENTO IMMAGINI STATICHE
-========================================================= */
-
-async function loadPlaceImages(){
-
-  const imageElements =
-    document.querySelectorAll(
-      "[data-place-image]"
-    );
-
-  for(const img of imageElements){
-
-    const id =
-      img.dataset.placeImage;
-
-    if(!id || !places[id]){
-      continue;
-    }
-
-    const src =
-      await getPlaceImage(id);
-
-    if(src){
-
-      img.src = src;
-
-    }else{
-
-      img.src =
-        createPlaceholderImage(
-          places[id].name
-        );
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   PLACEHOLDER SVG
+   PLACEHOLDER
 ========================================================= */
 
 function createPlaceholderImage(text){
 
   const safe =
-    text
+    String(text || "Roma")
       .replace(/&/g,"&amp;")
       .replace(/</g,"&lt;")
       .replace(/>/g,"&gt;");
@@ -3266,7 +3249,7 @@ function createPlaceholderImage(text){
     </svg>
   `;
 
-  return (
+  return(
     "data:image/svg+xml;charset=UTF-8," +
     encodeURIComponent(svg)
   );
@@ -3275,7 +3258,73 @@ function createPlaceholderImage(text){
 
 
 /* =========================================================
-   STATO QUIZ
+   CARICAMENTO IMMAGINI
+========================================================= */
+
+async function loadPlaceImages(){
+
+  const elements =
+    Array.from(
+      document.querySelectorAll(
+        "[data-place-image]"
+      )
+    );
+
+  const uniqueIds =
+    [
+      ...new Set(
+        elements
+          .map(
+            element=>
+              element.dataset.placeImage
+          )
+          .filter(
+            id=>
+              id &&
+              places[id]
+          )
+      )
+    ];
+
+  /*
+    Carichiamo un luogo alla volta.
+    Questo permette al sistema di evitare
+    che due luoghi diversi ricevano
+    accidentalmente la stessa immagine.
+  */
+
+  for(
+    const id
+    of uniqueIds
+  ){
+
+    const src =
+      await getPlaceImage(id);
+
+    const matching =
+      document.querySelectorAll(
+        `[data-place-image="${id}"]`
+      );
+
+    matching.forEach(
+      element=>{
+
+        element.src =
+          src ||
+          createPlaceholderImage(
+            places[id].name
+          );
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   STATO
 ========================================================= */
 
 const answers = {
@@ -3291,11 +3340,8 @@ const answers = {
 };
 
 let currentStep = 1;
-
 let currentRoute = [];
-
 let map = null;
-
 let markers = [];
 
 
@@ -3304,22 +3350,30 @@ let markers = [];
 ========================================================= */
 
 const navbar =
-  document.getElementById("navbar");
+  document.getElementById(
+    "navbar"
+  );
 
 const navLinks =
-  document.getElementById("navLinks");
+  document.getElementById(
+    "navLinks"
+  );
 
 const menuBtn =
-  document.getElementById("menuBtn");
+  document.getElementById(
+    "menuBtn"
+  );
 
 
 window.addEventListener(
   "scroll",
   ()=>{
+
     navbar.classList.toggle(
       "scrolled",
       window.scrollY > 40
     );
+
   }
 );
 
@@ -3327,27 +3381,35 @@ window.addEventListener(
 menuBtn.addEventListener(
   "click",
   ()=>{
+
     navLinks.classList.toggle(
       "mobile-open"
     );
+
   }
 );
 
 
 document
-  .querySelectorAll(".nav-links a")
-  .forEach(link=>{
+  .querySelectorAll(
+    ".nav-links a"
+  )
+  .forEach(
+    link=>{
 
-    link.addEventListener(
-      "click",
-      ()=>{
-        navLinks.classList.remove(
-          "mobile-open"
-        );
-      }
-    );
+      link.addEventListener(
+        "click",
+        ()=>{
 
-  });
+          navLinks.classList.remove(
+            "mobile-open"
+          );
+
+        }
+      );
+
+    }
+  );
 
 
 /* =========================================================
@@ -3382,14 +3444,18 @@ const nextBtn =
 
 function updateQuiz(){
 
-  questions.forEach(question=>{
+  questions.forEach(
+    question=>{
 
-    question.classList.toggle(
-      "active",
-      Number(question.dataset.step) === currentStep
-    );
+      question.classList.toggle(
+        "active",
+        Number(
+          question.dataset.step
+        ) === currentStep
+      );
 
-  });
+    }
+  );
 
   const percent =
     (currentStep / 7) * 100;
@@ -3455,110 +3521,119 @@ function updateContinueButton(){
 
 
 /* =========================================================
-   SELEZIONE OPZIONI
+   OPZIONI
 ========================================================= */
 
 document
-  .querySelectorAll(".option")
-  .forEach(button=>{
+  .querySelectorAll(
+    ".option"
+  )
+  .forEach(
+    button=>{
 
-    button.addEventListener(
-      "click",
-      ()=>{
+      button.addEventListener(
+        "click",
+        ()=>{
 
-        const key =
-          button.dataset.key;
+          const key =
+            button.dataset.key;
 
-        const value =
-          button.dataset.value;
+          const value =
+            button.dataset.value;
 
-        document
-          .querySelectorAll(
-            `.option[data-key="${key}"]`
-          )
-          .forEach(item=>{
-
-            item.classList.remove(
-              "selected"
+          document
+            .querySelectorAll(
+              `.option[data-key="${key}"]`
+            )
+            .forEach(
+              item=>{
+                item.classList.remove(
+                  "selected"
+                );
+              }
             );
-
-          });
-
-        button.classList.add(
-          "selected"
-        );
-
-        answers[key] =
-          value;
-
-        updateContinueButton();
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   SELEZIONE INTERESSI
-========================================================= */
-
-document
-  .querySelectorAll(".photo-option")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        const interest =
-          button.dataset.interest;
-
-        if(
-          answers.interests
-            .includes(interest)
-        ){
-
-          answers.interests =
-            answers.interests
-              .filter(
-                item=>item !== interest
-              );
-
-          button.classList.remove(
-            "selected"
-          );
-
-        }else{
-
-          if(
-            answers.interests.length >= 3
-          ){
-
-            alert(
-              "Puoi scegliere al massimo 3 esperienze."
-            );
-
-            return;
-
-          }
-
-          answers.interests.push(
-            interest
-          );
 
           button.classList.add(
             "selected"
           );
 
+          answers[key] =
+            value;
+
+          updateContinueButton();
+
         }
+      );
 
-        updateContinueButton();
+    }
+  );
 
-      }
-    );
 
-  });
+/* =========================================================
+   INTERESSI
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".photo-option"
+  )
+  .forEach(
+    button=>{
+
+      button.addEventListener(
+        "click",
+        ()=>{
+
+          const interest =
+            button.dataset.interest;
+
+          if(
+            answers.interests.includes(
+              interest
+            )
+          ){
+
+            answers.interests =
+              answers.interests.filter(
+                item=>
+                  item !== interest
+              );
+
+            button.classList.remove(
+              "selected"
+            );
+
+          }else{
+
+            if(
+              answers.interests.length >= 3
+            ){
+
+              alert(
+                "Puoi scegliere al massimo 3 esperienze."
+              );
+
+              return;
+
+            }
+
+            answers.interests.push(
+              interest
+            );
+
+            button.classList.add(
+              "selected"
+            );
+
+          }
+
+          updateContinueButton();
+
+        }
+      );
+
+    }
+  );
 
 
 /* =========================================================
@@ -3648,10 +3723,6 @@ function generateRoute(){
     }
   );
 
-  pool =
-    pool.filter(
-      id=>Boolean(places[id])
-    );
 
   if(answers.seen === "first"){
 
@@ -3671,21 +3742,22 @@ function generateRoute(){
     pool.sort(
       (a,b)=>{
 
-        const aIndex =
+        const ai =
           classics.indexOf(a);
 
-        const bIndex =
+        const bi =
           classics.indexOf(b);
 
-        return (
-          (aIndex === -1 ? 99 : aIndex) -
-          (bIndex === -1 ? 99 : bIndex)
+        return(
+          (ai === -1 ? 99 : ai) -
+          (bi === -1 ? 99 : bi)
         );
 
       }
     );
 
   }
+
 
   if(
     answers.seen === "enough" ||
@@ -3708,26 +3780,17 @@ function generateRoute(){
     ];
 
     pool.sort(
-      (a,b)=>{
-
-        const aScore =
-          hidden.includes(a)
-            ? 1
-            : 0;
-
-        const bScore =
-          hidden.includes(b)
-            ? 1
-            : 0;
-
-        return bScore - aScore;
-
-      }
+      (a,b)=>
+        Number(hidden.includes(b)) -
+        Number(hidden.includes(a))
     );
 
   }
 
-  if(answers.pace === "slow"){
+
+  if(
+    answers.pace === "slow"
+  ){
 
     const slowPlaces = [
 
@@ -3743,17 +3806,13 @@ function generateRoute(){
     ];
 
     pool.sort(
-      (a,b)=>{
-
-        return (
-          Number(slowPlaces.includes(b)) -
-          Number(slowPlaces.includes(a))
-        );
-
-      }
+      (a,b)=>
+        Number(slowPlaces.includes(b)) -
+        Number(slowPlaces.includes(a))
     );
 
   }
+
 
   if(
     answers.budget === "essential" ||
@@ -3787,7 +3846,7 @@ function generateRoute(){
                 .includes(word)
           );
 
-        return (
+        return(
           Number(bFree) -
           Number(aFree)
         );
@@ -3796,6 +3855,7 @@ function generateRoute(){
     );
 
   }
+
 
   if(
     answers.walking === "much" ||
@@ -3822,17 +3882,13 @@ function generateRoute(){
     ];
 
     pool.sort(
-      (a,b)=>{
-
-        return (
-          Number(walkable.includes(b)) -
-          Number(walkable.includes(a))
-        );
-
-      }
+      (a,b)=>
+        Number(walkable.includes(b)) -
+        Number(walkable.includes(a))
     );
 
   }
+
 
   let count = 6;
 
@@ -3861,8 +3917,10 @@ function generateRoute(){
 
   }
 
+
   currentRoute =
     pool.slice(0,count);
+
 
   if(!currentRoute.length){
 
@@ -3877,6 +3935,7 @@ function generateRoute(){
 
   }
 
+
   renderResults(
     currentRoute
   );
@@ -3885,7 +3944,7 @@ function generateRoute(){
 
 
 /* =========================================================
-   TITOLI RISULTATI
+   TITOLI
 ========================================================= */
 
 function getResultsTitle(){
@@ -3930,7 +3989,7 @@ function getResultsSubtitle(){
 
 
 /* =========================================================
-   RENDER RISULTATI
+   RISULTATI
 ========================================================= */
 
 async function renderResults(selected){
@@ -3982,6 +4041,7 @@ async function renderResults(selected){
     markers = [];
 
   }
+
 
   selected.forEach(
     (id,index)=>{
@@ -4068,60 +4128,71 @@ async function renderResults(selected){
           </a>
 
         </div>
+
       `;
 
       resultsGrid.appendChild(
         card
       );
 
+
       const imageContainer =
         card.querySelector(
           ".route-image"
         );
 
+
       getPlaceImage(id)
-        .then(src=>{
+        .then(
+          src=>{
 
-          const img =
-            document.createElement(
-              "img"
-            );
+            const img =
+              document.createElement(
+                "img"
+              );
 
-          img.alt =
-            place.name;
+            img.alt =
+              place.name;
 
-          img.loading =
-            "lazy";
-
-          if(src){
-
-            img.src =
-              src;
-
-          }else{
+            img.loading =
+              "lazy";
 
             img.src =
+              src ||
               createPlaceholderImage(
                 place.name
               );
 
+            img.onerror =
+              ()=>{
+
+                img.onerror = null;
+
+                img.src =
+                  createPlaceholderImage(
+                    place.name
+                  );
+
+              };
+
+            imageContainer.innerHTML =
+              "";
+
+            imageContainer.appendChild(
+              img
+            );
+
           }
-
-          imageContainer.innerHTML =
-            "";
-
-          imageContainer.appendChild(
-            img
-          );
-
-        });
+        );
 
     }
   );
 
+
   renderWalkingGuide(
     selected
   );
+
 
   setTimeout(
     ()=>{
@@ -4134,6 +4205,7 @@ async function renderResults(selected){
     },
     100
   );
+
 
   setTimeout(
     ()=>{
@@ -4260,6 +4332,7 @@ function initializeMap(){
       12
     );
 
+
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
@@ -4273,7 +4346,7 @@ function initializeMap(){
 
 
 /* =========================================================
-   MARKER MAPPA
+   MARKER
 ========================================================= */
 
 function showRouteOnMap(
@@ -4298,6 +4371,7 @@ function showRouteOnMap(
   const bounds =
     [];
 
+
   selected.forEach(
     (id,index)=>{
 
@@ -4315,6 +4389,7 @@ function showRouteOnMap(
             place.lng
           ]
         ).addTo(map);
+
 
       marker.bindPopup(`
 
@@ -4340,9 +4415,11 @@ function showRouteOnMap(
 
       `);
 
+
       markers.push(
         marker
       );
+
 
       bounds.push(
         [
@@ -4353,6 +4430,7 @@ function showRouteOnMap(
 
     }
   );
+
 
   if(bounds.length){
 
@@ -4370,49 +4448,52 @@ function showRouteOnMap(
 
 
 /* =========================================================
-   SCROLL LINK
+   LINK
 ========================================================= */
 
 document
   .querySelectorAll(
     'a[href^="#"]'
   )
-  .forEach(link=>{
+  .forEach(
+    link=>{
 
-    link.addEventListener(
-      "click",
-      function(event){
+      link.addEventListener(
+        "click",
+        function(event){
 
-        const target =
-          document.querySelector(
-            this.getAttribute("href")
-          );
+          const target =
+            document.querySelector(
+              this.getAttribute("href")
+            );
 
-        if(!target){
-          return;
+          if(!target){
+            return;
+          }
+
+          event.preventDefault();
+
+          target.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+          });
+
         }
+      );
 
-        event.preventDefault();
-
-        target.scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
-      }
-    );
-
-  });
+    }
+  );
 
 
 /* =========================================================
-   MAPPA QUANDO DIVENTA VISIBILE
+   MAPPA VISIBILE
 ========================================================= */
 
 const mapSection =
   document.getElementById(
     "mappa"
   );
+
 
 const mapObserver =
   new IntersectionObserver(
@@ -4436,84 +4517,65 @@ const mapObserver =
     }
   );
 
+
 mapObserver.observe(
   mapSection
 );
 
 
 /* =========================================================
-   AVVIO FINALE
+   SICUREZZA IMMAGINI
+========================================================= */
+
+document.addEventListener(
+  "error",
+  event=>{
+
+    const element =
+      event.target;
+
+    if(
+      element.tagName !== "IMG"
+    ){
+      return;
+    }
+
+    if(
+      element.dataset.placeholderApplied
+    ){
+      return;
+    }
+
+    const placeId =
+      element.dataset.placeImage;
+
+    if(
+      placeId &&
+      places[placeId]
+    ){
+
+      element.dataset.placeholderApplied =
+        "true";
+
+      element.src =
+        createPlaceholderImage(
+          places[placeId].name
+        );
+
+    }
+
+  },
+  true
+);
+
+
+/* =========================================================
+   AVVIO
 ========================================================= */
 
 updateQuiz();
 
 loadPlaceImages();
-
-
-/* =========================================================
-   SICUREZZA IMMAGINI
-========================================================= */
-
-document
-  .addEventListener(
-    "error",
-    event=>{
-
-      const element =
-        event.target;
-
-      if(
-        element.tagName !== "IMG"
-      ){
-        return;
-      }
-
-      if(
-        element.dataset.placeholderApplied
-      ){
-        return;
-      }
-
-      const placeId =
-        element.dataset.placeImage;
-
-      if(
-        placeId &&
-        places[placeId]
-      ){
-
-        element.dataset.placeholderApplied =
-          "true";
-
-        element.src =
-          createPlaceholderImage(
-            places[placeId].name
-          );
-
-        return;
-
-      }
-
-      if(
-        element.classList.contains(
-          "hero-bg"
-        ) ||
-        element.classList.contains(
-          "bottom-cta-bg"
-        )
-      ){
-
-        element.dataset.placeholderApplied =
-          "true";
-
-        element.src =
-          "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=2200&q=85";
-
-      }
-
-    },
-    true
-  );
 
 </script>
 
