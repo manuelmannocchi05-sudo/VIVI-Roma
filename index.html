@@ -231,7 +231,7 @@ footer{background:var(--dark);color:#d9d0c5;padding:26px 0;font-size:.78rem}
 <script>
 (() => {
 'use strict';
-const $=id=>document.getElementById(id);
+let toastTimer;;
 const places=[
 {id:'colosseo',name:'Colosseo',lat:41.8902,lng:12.4922,category:'Antica Roma',tags:['ancient','classic','history'],cost:2,visit:60,desc:'Il grande anfiteatro racconta la spettacolarità della vita pubblica nell’antichità.',fact:'Nei secoli è stato arena, cava di materiali e infine monumento da proteggere.',image:'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=500&q=80'},
 {id:'fori',name:'Fori Imperiali',lat:41.8925,lng:12.4853,category:'Antica Roma',tags:['ancient','classic','history'],cost:2,visit:50,desc:'Resti monumentali dei centri politici che si sono succeduti nel cuore dell’antica Roma.',fact:'Ogni foro appartiene a un progetto diverso e racconta una fase della città.',image:'https://images.unsplash.com/photo-1555992828-ca4dbe41d294?auto=format&fit=crop&w=500&q=80'},
