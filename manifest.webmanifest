@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "VIVI Roma — Non visitare Roma. Vivila.",
+  "short_name": "VIVI Roma",
+  "description": "La tua guida personalizzata per vivere Roma.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f1e8",
+  "theme_color": "#f5f1e8",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
