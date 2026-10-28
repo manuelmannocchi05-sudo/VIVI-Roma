@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="it_IT">
 <meta property="og:title" content="VIVI Roma — Non visitare Roma. Vivila.">
-<meta property="og:description" content="Rispondi a sei domande e ottieni un itinerario a Roma su misura, con mappa e versione stampabile.">
+<meta property="og:description" content="Rispondi a sette domande e ottieni un itinerario a Roma su misura, con mappa e versione stampabile.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23252321'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-size='40' fill='%23B69A67'%3EV%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,6 +166,7 @@ fieldset.step{border:0;margin:0;padding:0;min-width:0}
 .walk{margin-top:24px}
 .walk label{display:block;font-weight:600;font-size:.92rem;margin-bottom:8px}
 .walk select{width:100%;min-height:48px;padding:10px 12px;background:var(--ivory);border:1px solid var(--line);border-radius:2px}
+.walk .days-label{display:block;margin:0 0 8px;font-weight:600;font-size:.92rem}
 .quiz-error{min-height:24px;margin:16px 0 0;color:var(--wine);font-size:.9rem;font-weight:500}
 .quiz-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding-top:20px;border-top:1px solid var(--line)}
 .quiz-back{min-height:48px;padding:0 4px;background:none;border:0;color:var(--grey-d);font-weight:500}
@@ -366,7 +367,7 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
       <p class="kicker">Itinerari personalizzati a Roma</p>
       <h1 id="heroTitle">VIVI Roma</h1>
       <p class="slogan">Non visitare Roma. Vivila.</p>
-      <p class="hero-lead">Rispondi a sei domande: scegliamo i luoghi giusti per te e li organizziamo in giornate che hanno senso sulla mappa, tra grandi classici, quartieri veri e soste da romani.</p>
+      <p class="hero-lead">Rispondi a sette domande: scegliamo i luoghi giusti per te e li organizziamo in giornate che hanno senso sulla mappa, tra grandi classici, quartieri veri e soste da romani.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="#crea">Crea il tuo itinerario</a>
         <a class="btn btn-ghost" href="#esplora">Lasciati ispirare</a>
@@ -398,7 +399,7 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
           <span class="cat-info"><small>Respira</small><strong>Verde e quiete</strong><em>Villa Borghese, il suo laghetto e i giardini.</em></span></a>
         <a class="cat-card reveal" href="#crea" data-interest="religious" data-label="Roma sacra" data-local="img/roma-sacra.jpg" data-wiki="Basilica_di_San_Pietro_in_Vaticano|Piazza_San_Pietro" data-alt="La basilica di San Pietro in Vaticano">
           <span class="cat-info"><small>Spiritualità</small><strong>Roma sacra</strong><em>San Pietro, il Vaticano e le grandi basiliche.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="local" data-label="Roma autentica" data-local="img/roma-autentica.jpg" data-wiki="Trastevere" data-alt="Vicoli di Trastevere">
+        <a class="cat-card reveal" href="#crea" data-interest="local" data-label="Roma autentica" data-local="img/roma-autentica.jpg" data-commons="2016_Santa_Maria_in_Trastevere_(Rome)_01.jpg|Santa_Maria_in_Trastevere_church_in_Rome_(12).jpg" data-wiki="Trastevere|Basilica_di_Santa_Maria_in_Trastevere|Piazza_di_Santa_Maria_in_Trastevere" data-alt="Trastevere e la basilica di Santa Maria in Trastevere">
           <span class="cat-info"><small>Vita di quartiere</small><strong>Roma autentica</strong><em>I vicoli di Trastevere e i rioni più vissuti.</em></span></a>
         <a class="cat-card reveal" href="#crea" data-interest="romantic" data-label="Roma romantica" data-local="img/roma-romantica.jpg" data-wiki="Gianicolo|Pincio|Giardino_degli_Aranci" data-alt="Un panorama sui tetti di Roma">
           <span class="cat-info"><small>In due</small><strong>Roma romantica</strong><em>Panorami, terrazze e scorci suggestivi.</em></span></a>
@@ -425,14 +426,14 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
       <div class="quiz-intro">
         <p class="eyebrow">Il tuo itinerario</p>
         <h2 id="quizTitle">Creiamo un viaggio che ti somiglia.</h2>
-        <p>Sei domande, un minuto. Niente itinerari tutti uguali: scegli ciò che ti emoziona davvero e ai tempi di visita pensiamo noi.</p>
+        <p>Sette domande, un minuto. Niente itinerari tutti uguali: scegli ciò che ti emoziona davvero e ai tempi di visita pensiamo noi.</p>
         <p class="quiz-note">Puoi tornare indietro in qualsiasi momento: le risposte restano salvate finché non chiudi la pagina.</p>
       </div>
       <div class="quiz-panel">
         <noscript><p class="nojs">Per creare l'itinerario serve JavaScript attivo nel browser.</p></noscript>
         <form id="quizForm" novalidate>
-          <div class="quiz-top"><span id="qCounter" aria-live="polite">Domanda 1 di 6</span><span id="qName"></span></div>
-          <div class="steps-bar" id="stepsBar" role="progressbar" aria-label="Avanzamento del quiz" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+          <div class="quiz-top"><span id="qCounter" aria-live="polite">Domanda 1 di 7</span><span id="qName"></span></div>
+          <div class="steps-bar" id="stepsBar" role="progressbar" aria-label="Avanzamento del quiz" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1"></div>
           <div id="quizSteps"></div>
           <p class="quiz-error" id="quizError" role="alert"></p>
           <div class="quiz-actions">
@@ -535,7 +536,8 @@ const ICON_PATHS={
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>',
   coffee:'<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2M7 3v2M11 3v2"/>',
   sliders:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
-  bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>'
+  bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+  coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>'
 };
 function icon(name){
   const s=el("span",{class:"ico","aria-hidden":"true"});
@@ -595,7 +597,10 @@ const PLACES=[
 
 const CENTER={lat:41.8986,lng:12.4769};          /* Pantheon: riferimento per i luoghi periferici */
 const EXCLUSIVE=[["testaccio","mercato"]];       /* stesso quartiere: non proporre entrambi */
-const DURATIONS={half:{days:1,half:true},one:{days:1},two:{days:2},three:{days:3},four:{days:4},five:{days:5},week:{days:7}};
+const DURATIONS={half:{days:1,half:true},one:{days:1}};   /* "multi": numero di giorni scelto (da 2 a 7) in a.days */
+/* Peso di spesa: 0 libero · 0,5 parzialmente a pagamento o da verificare · 1 a pagamento. Nessun prezzo viene mostrato. */
+const COST_UNITS={free:0,mixed:.5,verify:.5,paid:1};
+const units=p=>COST_UNITS[p.fee]||0;
 const PACE={slow:{max:3,budget:240},balanced:{max:4,budget:330},full:{max:5,budget:420}};
 const FOOD_TIPS=[
   "carbonara, cacio e pepe, amatriciana e gricia",
@@ -617,7 +622,7 @@ function timeRange(p){
 const midMins=p=>{const r=timeRange(p);return (r[0]+r[1])/2;};
 
 function config(a){
-  const d=DURATIONS[a.duration]||DURATIONS.one;
+  const d=a.duration==="multi"?{days:Math.max(2,Math.min(7,Math.round(Number(a.days))||2))}:(DURATIONS[a.duration]||DURATIONS.one);
   const base=PACE[a.pace]||PACE.balanced;
   let max=base.max,budget=base.budget;
   if(d.half){max=Math.min(max,a.pace==="slow"?2:3);budget=Math.round(budget*.55);}
@@ -635,6 +640,9 @@ function scorePlace(p,a){
   if(a.company==="family"&&p.cats.includes("family"))s+=3;
   if(a.company==="friends"&&p.cats.includes("lively"))s+=2;
   if(a.company==="solo"&&(p.cats.includes("hidden")||p.cats.includes("local")))s+=1;
+  if(a.budget==="low"){s-=units(p)*6;if(p.fee==="free")s+=3;}
+  else if(a.budget==="mid")s+=units(p);
+  else if(a.budget==="high")s+=units(p)*4;
   const far=km(CENTER,p);
   if(a.walking==="low"&&far>3.5)s-=3;
   else if(a.walking==="medium"&&far>5)s-=1;
@@ -643,20 +651,51 @@ function scorePlace(p,a){
 function blocked(p,chosen){
   return EXCLUSIVE.some(pair=>pair.includes(p.id)&&chosen.some(c=>pair.includes(c.p.id)&&c.p.id!==p.id));
 }
+/* Soglie di spesa per budget: contenuto = pochi luoghi a pagamento · equilibrato = mix (20–35%) · concedermi qualcosa = almeno il 40%, nessun tetto */
+function budgetQuota(a,n){
+  if(a.budget==="low")return {min:0,max:Math.max(1,n*0.2)};
+  if(a.budget==="mid")return {min:n*0.2,max:n*0.35};
+  if(a.budget==="high")return {min:n*0.4,max:Infinity};
+  return {min:0,max:Infinity};
+}
 function pickPlaces(a,cfg){
   const target=cfg.days*cfg.max,budgetTotal=cfg.days*cfg.budget;
   const ranked=PLACES.map(p=>({p,score:scorePlace(p,a),matches:matchesOf(p,a)}))
     .sort((x,y)=>y.score-x.score||x.p.id.localeCompare(y.p.id));
-  const chosen=[];let mins=0,farCount=0;
   const farLimit=Math.max(1,cfg.days);   /* al massimo un luogo periferico per giornata */
+  const isFar=p=>km(CENTER,p)>4;
+  const quota=budgetQuota(a,target);
+  const chosen=[];let mins=0,farCount=0,spend=0;
+  const add=(r,m)=>{chosen.push(r);mins+=m;spend+=units(r.p);if(isFar(r.p))farCount++;};
+  /* 1° passaggio: rispetta il tetto di spesa del budget scelto */
   for(const r of ranked){
     if(chosen.length>=target)break;
     if(blocked(r.p,chosen))continue;
-    const isFar=km(CENTER,r.p)>4;
-    if(isFar&&farCount>=farLimit)continue;
+    if(isFar(r.p)&&farCount>=farLimit)continue;
+    if(spend+units(r.p)>quota.max+1e-9)continue;
     const m=midMins(r.p);
     if(mins+m>budgetTotal&&chosen.length>=cfg.days*2)continue;
-    chosen.push(r);mins+=m;if(isFar)farCount++;
+    add(r,m);
+  }
+  /* 2° passaggio: se mancano tappe per avere almeno 2 per giornata, allenta il tetto */
+  for(const r of ranked){
+    if(chosen.length>=cfg.days*2)break;
+    if(chosen.includes(r)||blocked(r.p,chosen))continue;
+    if(isFar(r.p)&&farCount>=farLimit)continue;
+    add(r,midMins(r.p));
+  }
+  /* Budget equilibrato / concedermi qualcosa: garantisce una quota minima di tappe a pagamento, scelte tra le più adatte agli interessi */
+  if(a.budget==="mid"||a.budget==="high"){
+    let guard=0;
+    while(spend<quota.min-1e-9&&guard++<8){
+      const cand=ranked.find(r=>units(r.p)>0&&!chosen.includes(r)&&!blocked(r.p,chosen)&&!(isFar(r.p)&&farCount>=farLimit));
+      const victim=chosen.filter(c=>units(c.p)===0).sort((x,y)=>x.score-y.score)[0];
+      if(!cand||!victim)break;
+      chosen.splice(chosen.indexOf(victim),1,cand);
+      spend+=units(cand.p);
+      if(isFar(cand.p))farCount++;
+      if(isFar(victim.p))farCount--;
+    }
   }
   return chosen;
 }
@@ -723,8 +762,12 @@ function bestOrder(items){
   return rev[0].score>best[0].score?rev:best;
 }
 /* Affina i gruppi scambiando tappe tra giornate finché la somma dei percorsi (in linea d'aria) diminuisce. */
-function refineGroups(groups){
-  const cost=g=>g.length<2?0:Math.pow(pathLength(bestOrder(g)),1.5);
+function refineGroups(groups,budget){
+  const cost=g=>{
+    const spend=g.reduce((t,x)=>t+units(x.p),0);
+    const pen=budget==="mid"?4*Math.max(0,spend-Math.ceil(g.length*0.6)):0;   /* budget equilibrato: alterna gratuito e a pagamento nello stesso giorno */
+    return (g.length<2?0:Math.pow(pathLength(bestOrder(g)),1.5))+pen;
+  };
   let costs=groups.map(cost),improved=true,pass=0;
   while(improved&&pass++<6){
     improved=false;
@@ -750,8 +793,11 @@ function buildItinerary(a){
   if(filler.length){
     notes.push(filler.length===1?"Una tappa è inclusa come complemento geografico e non corrisponde direttamente ai tuoi interessi.":filler.length+" tappe sono incluse come complemento e non corrispondono direttamente ai tuoi interessi: servivano a completare le giornate.");
   }
+  if(a.budget==="low"&&chosen.some(c=>c.p.fee!=="free")){
+    notes.push("Budget contenuto: abbiamo privilegiato luoghi gratuiti. Le poche tappe con ingresso a pagamento o da verificare sono facoltative.");
+  }
   if(cfg.days>=5)notes.push("Per soggiorni lunghi l'itinerario copre fino a 7 giorni e usa luoghi anche fuori dal centro. Se resti più a lungo, ripeti il quiz cambiando interessi per ottenere nuove idee.");
-  let groups=refineGroups(clusterDays(chosen,cfg.days)).map(g=>bestOrder(g));
+  let groups=refineGroups(clusterDays(chosen,cfg.days),a.budget).map(g=>bestOrder(g));
   const avg=g=>g.reduce((s,x)=>s+x.score,0)/g.length;
   groups.sort((x,y)=>avg(y)-avg(x));
   const days=groups.map((g,di)=>{
@@ -775,16 +821,15 @@ const QUIZ=[
   ["friends","users","Con amici","Esperienze, risate e buon cibo"],
   ["family","home","In famiglia","Scoperte da condividere"]]},
  {key:"familiarity",name:"Esperienza",title:"È la tua prima volta a Roma?",sub:"Troviamo il giusto equilibrio tra grandi classici e sorprese.",err:"Dicci se è la tua prima volta a Roma.",opts:[
-  ["first","star","Sì, è la prima volta","Voglio vedere i luoghi simbolo"],
+  ["first","star","Sì, la prima volta","Voglio vedere i luoghi simbolo"],
   ["often","refresh","La conosco già","Voglio scoprire qualcosa di nuovo"]]},
  {key:"duration",name:"Durata",title:"Quanto tempo hai?",sub:"Costruiamo giornate realistiche. Gli itinerari arrivano fino a 7 giorni.",err:"Scegli quanto tempo hai a disposizione.",opts:[
   ["half","#½","Mezza giornata","Una piccola fuga a Roma"],
   ["one","#1","1 giorno","Un assaggio della città"],
-  ["two","#2","2 giorni","Classici e quartieri"],
-  ["three","#3","3 giorni","Una scoperta più profonda"],
-  ["four","#4","4 giorni","Roma con più calma"],
-  ["five","#5","5 giorni","Anche fuori dal centro"],
-  ["week","#7","Una settimana","Il massimo che copriamo: 7 giorni"]]},
+  ["multi","#+","Più giorni","Da 2 a 7 giorni"]],
+  followUp:{key:"days",when:"multi",title:"Se hai selezionato più giorni, quanti?",err:"Scegli per quanti giorni resti a Roma.",opts:[
+   ["2","#2","2 giorni",""],["3","#3","3 giorni",""],["4","#4","4 giorni",""],
+   ["5","#5","5 giorni",""],["6","#6","6 giorni",""],["7","#7","7 giorni",""]]}},
  {key:"interests",multi:true,name:"Interessi",title:"Cosa ti fa brillare gli occhi?",sub:"Scegli quante risposte vuoi: useremo tutte le tue preferenze.",err:"Scegli almeno un interesse.",opts:[
   ["history","column","Storia e monumenti","Le tracce del passato"],
   ["art","frame","Arte e architettura","Capolavori e bellezza"],
@@ -804,31 +849,43 @@ const QUIZ=[
  {key:"pace",name:"Ritmo",title:"Qual è il tuo ritmo ideale?",sub:"Non tutti viaggiano allo stesso passo.",err:"Scegli il tuo ritmo ideale.",walking:true,opts:[
   ["slow","coffee","Con molta calma","Poche tappe, tempo per fermarsi"],
   ["balanced","sliders","Un buon equilibrio","Scoperte e pause"],
-  ["full","bolt","Voglio vedere tanto","Giornate piene e dinamiche"]]}
+  ["full","bolt","Voglio vedere tanto","Giornate piene e dinamiche"]]},
+ {key:"budget",name:"Budget",title:"Qual è il tuo budget?",sub:"Adatteremo tappe ed esperienze a come vuoi vivere Roma.",err:"Scegli il tuo budget per continuare.",opts:[
+  ["low","coin","Budget contenuto","Voglio vivere Roma spendendo poco."],
+  ["mid","sliders","Budget equilibrato","Voglio alternare risparmio ed esperienze."],
+  ["high","star","Voglio concedermi qualcosa","Voglio godermi Roma senza troppe rinunce."]]}
 ];
 const WALK_OPTS=[["low","Poco: preferisco spostamenti brevi"],["medium","Il giusto: camminare mi piace"],["high","Molto: adoro esplorare a piedi"]];
 const LABELS={};QUIZ.forEach(q=>{LABELS[q.key]={};q.opts.forEach(o=>LABELS[q.key][o[0]]=o[2]);});
-const DURATION_LABEL={half:"Mezza giornata",one:"1 giorno",two:"2 giorni",three:"3 giorni",four:"4 giorni",five:"5 giorni",week:"7 giorni"};
+const durationLabel=a=>a.duration==="half"?"Mezza giornata":a.duration==="one"?"1 giorno":a.days+" giorni";
 const PACE_LABEL={slow:"Ritmo lento",balanced:"Ritmo equilibrato",full:"Ritmo intenso"};
 
-const state={step:0,answers:{company:null,familiarity:null,duration:null,interests:[],mood:null,pace:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false};
 const stepEls=[];
 
+function optionButton(q,o){
+  const isText=o[1].charAt(0)==="#";
+  const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
+  if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
+  const btn=el("button",{type:"button",class:"option","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
+    ic,el("span",{class:"opt-copy"},el("strong",{text:o[2]}),o[3]?el("small",{text:o[3]}):null),el("span",{class:"opt-check","aria-hidden":"true"}));
+  btn.addEventListener("click",()=>onOption(q,o[0]));
+  return btn;
+}
 function buildQuiz(){
   const host=$("#quizSteps"),bar=$("#stepsBar");
   QUIZ.forEach((q,qi)=>{
     const legend=el("legend",{text:q.title,tabindex:"-1"});
     const group=el("div",{class:"options"+(q.multi?" multi":""),role:"group","aria-label":q.title});
-    q.opts.forEach(o=>{
-      const isText=o[1].charAt(0)==="#";
-      const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
-      if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
-      const btn=el("button",{type:"button",class:"option","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
-        ic,el("span",{class:"opt-copy"},el("strong",{text:o[2]}),el("small",{text:o[3]})),el("span",{class:"opt-check","aria-hidden":"true"}));
-      btn.addEventListener("click",()=>onOption(q,o[0]));
-      group.append(btn);
-    });
+    q.opts.forEach(o=>group.append(optionButton(q,o)));
     const fs=el("fieldset",{class:"step",hidden:qi!==0,"data-step":qi},legend,el("p",{class:"sub",text:q.sub}),group);
+    if(q.followUp){
+      /* Domanda aggiuntiva: visibile solo quando è selezionata l'opzione "when" */
+      const f=q.followUp;
+      const fg=el("div",{class:"options",role:"group","aria-labelledby":"daysLabel"});
+      f.opts.forEach(o=>fg.append(optionButton(f,o)));
+      fs.append(el("div",{class:"walk",id:"daysQ",hidden:true},el("p",{class:"days-label",id:"daysLabel",text:f.title}),fg));
+    }
     if(q.multi)fs.append(el("p",{class:"sel-count",id:"selCount","aria-live":"polite"}));
     if(q.walking){
       const sel=el("select",{id:"walking"},WALK_OPTS.map(w=>el("option",{value:w[0],text:w[1],selected:w[0]==="medium"})));
@@ -843,7 +900,10 @@ function onOption(q,value){
   if(q.multi){
     const list=state.answers[q.key];
     state.answers[q.key]=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
-  }else state.answers[q.key]=value;
+  }else{
+    state.answers[q.key]=value;
+    if(q.key==="duration"&&value!=="multi")state.answers.days=null;
+  }
   syncOptions();$("#quizError").textContent="";
 }
 function syncOptions(){
@@ -852,12 +912,15 @@ function syncOptions(){
     const on=Array.isArray(v)?v.includes(b.dataset.value):v===b.dataset.value;
     b.setAttribute("aria-pressed",String(on));
   });
+  const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
   const n=state.answers.interests.length,c=$("#selCount");
   if(c)c.textContent=n?(n===1?"1 interesse selezionato":n+" interessi selezionati"):"Nessun interesse selezionato";
 }
 function stepError(i){
   const q=QUIZ[i],v=state.answers[q.key];
-  return (q.multi?v.length>0:!!v)?"":q.err;
+  if(!(q.multi?v.length>0:!!v))return q.err;
+  if(q.followUp&&v===q.followUp.when&&!state.answers[q.followUp.key])return q.followUp.err;
+  return "";
 }
 function setStep(n,focus){
   state.step=Math.max(0,Math.min(QUIZ.length-1,n));
@@ -914,8 +977,12 @@ function canLoad(url){
     im.src=url;
   });
 }
-async function resolvePhoto({local,wiki,width}){
+async function resolvePhoto({local,wiki,commons,width}){
   if(local&&await canLoad(local))return local;
+  for(const f of commons||[]){
+    const url="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(f)+"?width="+width;
+    if(await canLoad(url))return url;
+  }
   for(const t of wiki||[]){
     const info=await wikiInfo(t);
     if(!info||!info.thumb)continue;
@@ -964,7 +1031,7 @@ function renderResults(){
   const ints=a.interests.map(i=>INTEREST_LABEL[i]);
   $("#resultSubtitle").textContent="Un itinerario di "+plan.days.length+(plan.days.length===1?" giornata":" giornate")+" costruito su "+ints.slice(0,3).join(", ").toLowerCase()+(ints.length>3?" e altre passioni":"")+".";
   const pills=$("#pills");pills.replaceChildren();
-  [LABELS.company[a.company],DURATION_LABEL[a.duration],PACE_LABEL[a.pace],LABELS.familiarity[a.familiarity],LABELS.mood[a.mood]].concat(ints)
+  [LABELS.company[a.company],durationLabel(a),PACE_LABEL[a.pace],LABELS.familiarity[a.familiarity],LABELS.mood[a.mood],LABELS.budget[a.budget]].concat(ints)
     .forEach(t=>pills.append(el("span",{class:"pill",text:t})));
   const all=plan.days.flatMap(d=>d.stops);
   const free=all.filter(s=>s.fee==="free").length;
@@ -1007,6 +1074,7 @@ function renderDay(day,di,total){
       el("li",{text:"Distanze in linea d'aria: circa "+day.walkKm.toFixed(1).replace(".",",")+" km"})));
   const list=el("div",{class:"stops"});
   const breakAfter=day.stops.length>=3?Math.floor(day.stops.length/2):-1;
+  const bt=state.answers.budget==="low"?" Per spendere poco: mercati, forni e pizza al taglio sono soste ottime.":state.answers.budget==="high"?" Per concederti qualcosa: una sosta seduta con piatti della tradizione.":"";
   day.stops.forEach((p,i)=>{
     if(i>0)list.append(el("div",{class:"leg"},el("span",{text:fmtKm(p.legKm)+" dalla tappa precedente, in linea d'aria"})));
     list.append(renderStop(p,di,i));
@@ -1014,10 +1082,17 @@ function renderDay(day,di,total){
       list.append(el("div",{class:"leg"},el("span",{text:""})));
       list.append(el("div",{class:"break"},icon("coffee"),el("div",null,
         el("strong",{text:"Pausa consigliata. "}),
-        "Nei dintorni di "+p.name+" cerca una trattoria o un bar. Tra i piatti romani da riconoscere sul menu: "+day.foodTip+". Non abbiamo verificato locali, orari o prezzi.")));
+        "Nei dintorni di "+p.name+" cerca una trattoria o un bar. Tra i piatti romani da riconoscere sul menu: "+day.foodTip+"."+bt+" Non abbiamo verificato locali, orari o prezzi.")));
     }
   });
   return el("section",{class:"day",id:"day-"+di,role:"tabpanel","aria-labelledby":total>1?"tab-"+di:null,"aria-label":total===1?"Itinerario":null,hidden:di!==0},head,list);
+}
+function budgetBox(p){
+  const b=state.answers.budget;
+  if(p.fee==="free")return null;
+  if(b==="high")return el("div",{class:"box"},el("b",{text:"Per concederti qualcosa"}),"Se vuoi un'esperienza più ricca, valuta una visita guidata o un ingresso con prenotazione: verifica offerte, orari e prezzi sui siti ufficiali.");
+  if(b==="low")return el("div",{class:"box"},el("b",{text:"Con budget contenuto"}),"L'ingresso è facoltativo: valuta se vale la spesa per te e verifica prezzi o riduzioni sui siti ufficiali.");
+  return null;
 }
 function renderStop(p,di,i){
   const n=i+1;
@@ -1025,6 +1100,7 @@ function renderStop(p,di,i){
   const photo=el("div",{class:"photo","aria-hidden":"false"},icon(CAT_ICON[main]));
   const why=p.matches.map(m=>INTEREST_LABEL[m]);
   if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push("Classico da non perdere");
+  if(state.answers.budget==="low"&&p.fee==="free")why.push("In linea con il tuo budget");
   if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push("Fuori dai percorsi più battuti");
   const wikiLink=el("a",{href:wikiSearchUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Approfondisci su Wikipedia (esterno)"});
   const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":"Tappa "+n+": "+p.name},
@@ -1040,6 +1116,7 @@ function renderStop(p,di,i){
       el("p",{class:"cost-note",text:p.cost+(p.fee==="free"?"":" Prezzi non verificati.")}),
       el("div",{class:"box"},el("b",{text:"La chicca"}),p.chicca),
       el("div",{class:"box"},el("b",{text:"Il consiglio di VIVI"}),p.consiglio),
+      budgetBox(p),
       el("div",{class:"links"},
         el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni su Google Maps (esterno)"}),
         el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Apri su OpenStreetMap (esterno)"}),
@@ -1156,7 +1233,7 @@ function initCategories(){
       else{list.push(k);syncOptions();toast(card.dataset.label+" aggiunta ai tuoi interessi. La ritrovi alla domanda 4.");}
     });
     lazyLoad(card,()=>{
-      resolvePhoto({local:card.dataset.local,wiki:card.dataset.wiki.split("|"),width:500}).then(url=>{if(url)placePhoto(card,url,card.dataset.alt);});
+      resolvePhoto({local:card.dataset.local,wiki:card.dataset.wiki.split("|"),commons:card.dataset.commons?card.dataset.commons.split("|"):[],width:500}).then(url=>{if(url)placePhoto(card,url,card.dataset.alt);});
     });
   });
 }
