@@ -963,7 +963,8 @@ function wikiInfo(title){
     .then(r=>r.ok?r.json():null)
     .then(j=>{
       if(!j||j.type==="disambiguation")return null;
-      return {thumb:j.thumbnail&&j.thumbnail.source||null,page:j.content_urls&&j.content_urls.desktop&&j.content_urls.desktop.page||null};
+      const o=j.originalimage&&j.originalimage.source?{src:j.originalimage.source,w:j.originalimage.width,h:j.originalimage.height}:null;
+      return {thumb:j.thumbnail&&j.thumbnail.source||null,orig:o,page:j.content_urls&&j.content_urls.desktop&&j.content_urls.desktop.page||null};
     }).catch(()=>null);
   wikiCache.set(title,p);return p;
 }
@@ -977,7 +978,24 @@ function canLoad(url){
     im.src=url;
   });
 }
-async function resolvePhoto({local,wiki,commons,width}){
+/* Foto delle tappe: la miniatura "summary" di Wikipedia è larga ~320 px e va ingrandita 2–3 volte nell'area foto.
+   Qui si sceglie invece la larghezza in base all'area reale (× densità schermo, max 2), senza mai superare l'originale.
+   Si scartano disegni/mappe (SVG) e immagini troppo piccole per restare nitide: meglio il segnaposto che una foto sfocata. */
+const THUMB_STEPS=[500,960,1280,1920];   /* larghezze standard generate da Wikimedia */
+function sharpCandidates(info,fit){
+  const o=info.orig;
+  if(!o||!o.w||!o.h||/\.svg(\.png)?$/i.test(info.thumb)||o.w<800||o.h<500)return [];
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const need=Math.max(fit.w,fit.h*(o.w/o.h))*dpr;       /* larghezza necessaria con object-fit:cover */
+  const width=THUMB_STEPS.find(st=>st>=need)||THUMB_STEPS[THUMB_STEPS.length-1];
+  if(o.w<=width)return [o.src];                          /* l'originale è già al massimo: nessun ingrandimento */
+  const list=[resizeThumb(info.thumb,width)];
+  const lower=THUMB_STEPS.filter(st=>st<width&&st>=960).pop();
+  if(lower)list.push(resizeThumb(info.thumb,lower));
+  if(o.w<=3000)list.push(o.src);
+  return list;
+}
+async function resolvePhoto({local,wiki,commons,width,fit}){
   if(local&&await canLoad(local))return local;
   for(const f of commons||[]){
     const url="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(f)+"?width="+width;
@@ -986,6 +1004,10 @@ async function resolvePhoto({local,wiki,commons,width}){
   for(const t of wiki||[]){
     const info=await wikiInfo(t);
     if(!info||!info.thumb)continue;
+    if(fit){
+      for(const url of sharpCandidates(info,fit))if(await canLoad(url))return url;
+      continue;
+    }
     const big=resizeThumb(info.thumb,width);
     if(await canLoad(big))return big;
     if(big!==info.thumb&&await canLoad(info.thumb))return info.thumb;
@@ -1123,7 +1145,8 @@ function renderStop(p,di,i){
         wikiLink,
         el("button",{type:"button",text:"Vedi sulla mappa",onclick:()=>focusMarker(di,i)}))));
   lazyLoad(card,()=>{
-    resolvePhoto({wiki:[p.wiki],width:500}).then(url=>{if(url)placePhoto(photo,url,p.name+", Roma");});
+    const box=photo.getBoundingClientRect();
+    resolvePhoto({wiki:[p.wiki],width:500,fit:{w:box.width||190,h:box.height||400}}).then(url=>{if(url)placePhoto(photo,url,p.name+", Roma");});
     wikiInfo(p.wiki).then(info=>{if(info&&info.page)wikiLink.href=info.page;});
   });
   return card;
