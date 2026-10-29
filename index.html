@@ -395,7 +395,7 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
           <span class="cat-info"><small>A tavola</small><strong>Sapori romani</strong><em>Mercati, trattorie e piatti della tradizione.</em></span></a>
         <a class="cat-card reveal" href="#crea" data-interest="hidden" data-label="Roma segreta" data-local="img/roma-segreta.jpg" data-wiki="Quartiere_Coppedè" data-alt="Architetture insolite del quartiere Coppedè">
           <span class="cat-info"><small>Fuori rotta</small><strong>Roma segreta</strong><em>Architetture particolari e luoghi insoliti.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="nature" data-label="Verde e quiete" data-local="img/verde.jpg" data-wiki="Giardino_del_Lago|Villa_Borghese" data-alt="Villa Borghese e il suo laghetto">
+        <a class="cat-card reveal" href="#crea" data-interest="nature" data-label="Verde e quiete" data-local="img/verde.jpg" data-wiki="Giardino_del_Lago|Villa_Borghese|Villa_Borghese_(Roma)" data-alt="Villa Borghese e il suo laghetto">
           <span class="cat-info"><small>Respira</small><strong>Verde e quiete</strong><em>Villa Borghese, il suo laghetto e i giardini.</em></span></a>
         <a class="cat-card reveal" href="#crea" data-interest="religious" data-label="Roma sacra" data-local="img/roma-sacra.jpg" data-wiki="Basilica_di_San_Pietro_in_Vaticano|Piazza_San_Pietro" data-alt="La basilica di San Pietro in Vaticano">
           <span class="cat-info"><small>Spiritualità</small><strong>Roma sacra</strong><em>San Pietro, il Vaticano e le grandi basiliche.</em></span></a>
@@ -565,32 +565,32 @@ const PLACES=[
 {id:"trevi",name:"Fontana di Trevi",area:"Trevi",lat:41.9009,lng:12.4833,cats:["iconic","romantic","night","art"],time:"20–40 min",fee:"verify",cost:"Spazio pubblico: verifica eventuali regole d'accesso aggiornate.",desc:"Marmi, acqua e scultura trasformano una piazza raccolta in una scenografia barocca.",chicca:"Torna in un momento diverso della giornata per vedere un'atmosfera nuova.",consiglio:"Rispetta le indicazioni sul posto e lascia spazio agli altri visitatori.",wiki:"Fontana_di_Trevi"},
 {id:"navona",name:"Piazza Navona",area:"Centro storico",lat:41.8992,lng:12.4731,cats:["art","iconic","romantic","lively"],time:"25–45 min",fee:"free",cost:"Piazza pubblica.",desc:"Una grande piazza barocca, con fontane monumentali e facciate che raccontano diverse epoche.",chicca:"Guarda la piazza da un'estremità all'altra per apprezzarne la forma allungata.",consiglio:"Dedica un po' di tempo anche alle strade laterali del centro.",wiki:"Piazza_Navona"},
 {id:"spagna",name:"Piazza di Spagna",area:"Campo Marzio",lat:41.9059,lng:12.4823,cats:["iconic","romantic","art"],time:"25–40 min",fee:"free",cost:"Piazza pubblica.",desc:"La scalinata monumentale collega la piazza alla chiesa di Trinità dei Monti.",chicca:"Sali con calma e osserva i tetti del centro storico dal punto più alto.",consiglio:"Controlla le regole locali prima di sederti sui gradini.",wiki:"Piazza_di_Spagna"},
-{id:"trastevere",name:"Trastevere",area:"Trastevere",lat:41.8897,lng:12.4692,cats:["local","food","romantic","lively","night","hidden"],time:"60–120 min",fee:"free",cost:"Passeggiata libera; le consumazioni sono a scelta.",desc:"Vicolo dopo vicolo, il quartiere alterna piazze, botteghe, trattorie e scorci pieni di carattere.",chicca:"Allontanati dalle strade più affollate: anche una piccola traversa può sorprenderti.",consiglio:"Esploralo a piedi e fermati quando qualcosa attira l'attenzione.",wiki:"Trastevere"},
-{id:"monti",name:"Rione Monti",area:"Monti",lat:41.8956,lng:12.4908,cats:["local","food","hidden","art","lively"],time:"45–90 min",fee:"free",cost:"Passeggiata libera.",desc:"Un quartiere centrale con stradine, piccole piazze, botteghe e locali.",chicca:"Esplora le vie meno trafficate intorno a Piazza della Madonna dei Monti.",consiglio:"Puoi abbinarlo ai Fori, facendo attenzione alle distanze e al tempo disponibile.",wiki:"Rione_Monti"},
+{id:"trastevere",name:"Trastevere",area:"Trastevere",lat:41.8897,lng:12.4692,cats:["local","food","romantic","lively","night","hidden"],time:"60–120 min",fee:"free",cost:"Passeggiata libera; le consumazioni sono a scelta.",desc:"Vicolo dopo vicolo, il quartiere alterna piazze, botteghe, trattorie e scorci pieni di carattere.",chicca:"Allontanati dalle strade più affollate: anche una piccola traversa può sorprenderti.",consiglio:"Esploralo a piedi e fermati quando qualcosa attira l'attenzione.",wiki:"Trastevere",alt:["Trastevere_(rione_di_Roma)"]},
+{id:"monti",name:"Rione Monti",area:"Monti",lat:41.8956,lng:12.4908,cats:["local","food","hidden","art","lively"],time:"45–90 min",fee:"free",cost:"Passeggiata libera.",desc:"Un quartiere centrale con stradine, piccole piazze, botteghe e locali.",chicca:"Esplora le vie meno trafficate intorno a Piazza della Madonna dei Monti.",consiglio:"Puoi abbinarlo ai Fori, facendo attenzione alle distanze e al tempo disponibile.",wiki:"Rione_Monti",alt:["Monti_(rione_di_Roma)"]},
 {id:"testaccio",name:"Testaccio",area:"Testaccio",lat:41.8767,lng:12.4765,cats:["food","local","hidden","lively"],time:"60–120 min",fee:"free",cost:"Passeggiata libera; la spesa dipende da ciò che scegli di mangiare.",desc:"Un quartiere legato alla cucina romana e alla vita quotidiana della città.",chicca:"Cerca i piatti della tradizione e chiedi quali sono le specialità del giorno.",consiglio:"Verifica giorni e orari delle attività prima di organizzare la visita.",wiki:"Testaccio"},
 {id:"campo",name:"Campo de' Fiori",area:"Parione",lat:41.8956,lng:12.4722,cats:["food","local","lively"],time:"25–45 min",fee:"free",cost:"Piazza pubblica; gli acquisti sono facoltativi.",desc:"Una piazza vivace, con un mercato diurno e locali nei dintorni.",chicca:"Il carattere della piazza cambia molto tra mattina e sera.",consiglio:"Se ti interessa il mercato, verifica giorni e orari aggiornati.",wiki:"Campo_de'_Fiori"},
 {id:"gianicolo",name:"Terrazza del Gianicolo",area:"Gianicolo",lat:41.8919,lng:12.4618,cats:["romantic","nature","peaceful","iconic"],time:"30–50 min",fee:"free",cost:"Accesso alla terrazza generalmente libero.",desc:"Uno dei panorami più ampi sui tetti e sulle cupole della città.",chicca:"Concediti qualche minuto per riconoscere i monumenti nell'orizzonte.",consiglio:"Considera la salita e il rientro: il percorso può essere impegnativo a piedi.",wiki:"Gianicolo"},
 {id:"pincio",name:"Terrazza del Pincio",area:"Villa Borghese",lat:41.9107,lng:12.4774,cats:["romantic","nature","peaceful","iconic"],time:"25–40 min",fee:"free",cost:"Accesso generalmente libero.",desc:"Una terrazza panoramica affacciata su Piazza del Popolo e sui tetti di Roma.",chicca:"La luce del tardo pomeriggio può rendere il panorama particolarmente suggestivo.",consiglio:"Abbinala a una passeggiata nel parco se hai tempo.",wiki:"Pincio"},
-{id:"borghese",name:"Villa Borghese",area:"Pinciano",lat:41.9142,lng:12.4922,cats:["nature","peaceful","family","art","romantic"],time:"60–120 min",fee:"mixed",cost:"Parco gratuito; attrazioni e musei al suo interno possono essere a pagamento.",desc:"Un grande parco per rallentare, camminare tra gli alberi e alternare verde e cultura.",chicca:"Non limitarti ai viali principali: cerca un angolo tranquillo per una pausa.",consiglio:"Se vuoi visitare la Galleria Borghese, verifica in anticipo le prenotazioni.",wiki:"Villa_Borghese"},
+{id:"borghese",name:"Villa Borghese",area:"Pinciano",lat:41.9142,lng:12.4922,cats:["nature","peaceful","family","art","romantic"],time:"60–120 min",fee:"mixed",cost:"Parco gratuito; attrazioni e musei al suo interno possono essere a pagamento.",desc:"Un grande parco per rallentare, camminare tra gli alberi e alternare verde e cultura.",chicca:"Non limitarti ai viali principali: cerca un angolo tranquillo per una pausa.",consiglio:"Se vuoi visitare la Galleria Borghese, verifica in anticipo le prenotazioni.",wiki:"Villa_Borghese",alt:["Villa_Borghese_(Roma)"]},
 {id:"aranci",name:"Giardino degli Aranci",area:"Aventino",lat:41.8839,lng:12.4792,cats:["nature","peaceful","romantic"],time:"25–40 min",fee:"free",cost:"Accesso generalmente libero.",desc:"Un giardino raccolto sull'Aventino, apprezzato per il panorama e l'atmosfera rilassata.",chicca:"Abbina la visita a una passeggiata sull'Aventino, senza fretta.",consiglio:"Controlla eventuali chiusure del giardino prima di partire.",wiki:"Giardino_degli_Aranci"},
 {id:"coppede",name:"Quartiere Coppedè",area:"Trieste",lat:41.9208,lng:12.5093,cats:["hidden","art","romantic"],time:"35–60 min",fee:"free",cost:"Passeggiata libera negli spazi pubblici.",desc:"Un insieme sorprendente di architetture decorative, dettagli fantastici e palazzi insoliti.",chicca:"Osserva portali, lampioni e decorazioni: i particolari sono parte dell'esperienza.",consiglio:"È un quartiere abitato: rispetta la tranquillità dei residenti.",wiki:"Quartiere_Coppedè"},
-{id:"appia",name:"Via Appia Antica",area:"Parco dell'Appia Antica",lat:41.8558,lng:12.5207,cats:["history","nature","peaceful","hidden"],time:"90–180 min",fee:"mixed",cost:"Molti tratti sono liberi; siti specifici possono essere a pagamento.",desc:"Una strada storica che porta fuori dal centro, tra basoli, verde e testimonianze archeologiche.",chicca:"Il fascino sta anche nel paesaggio: prenditi tempo per osservare il contesto.",consiglio:"Pianifica i trasporti e indossa scarpe comode; alcuni tratti hanno fondo irregolare.",wiki:"Via_Appia"},
+{id:"appia",name:"Via Appia Antica",area:"Parco dell'Appia Antica",lat:41.8558,lng:12.5207,cats:["history","nature","peaceful","hidden"],time:"90–180 min",fee:"mixed",cost:"Molti tratti sono liberi; siti specifici possono essere a pagamento.",desc:"Una strada storica che porta fuori dal centro, tra basoli, verde e testimonianze archeologiche.",chicca:"Il fascino sta anche nel paesaggio: prenditi tempo per osservare il contesto.",consiglio:"Pianifica i trasporti e indossa scarpe comode; alcuni tratti hanno fondo irregolare.",wiki:"Via_Appia",alt:["Via_Appia_Antica"]},
 {id:"castel",name:"Castel Sant'Angelo",area:"Borgo",lat:41.9031,lng:12.4663,cats:["history","art","iconic","romantic"],time:"60–90 min",fee:"verify",cost:"Verifica biglietti e orari aggiornati.",desc:"Un edificio dalla storia stratificata, collegato al Tevere e alla storia papale di Roma.",chicca:"Osserva il castello anche dal ponte, ricco di scorci sul fiume.",consiglio:"Se vuoi entrare, verifica disponibilità e orari ufficiali.",wiki:"Castel_Sant'Angelo"},
 {id:"sanpietro",name:"Piazza San Pietro",area:"Vaticano",lat:41.9022,lng:12.4539,cats:["religious","iconic","art","history"],time:"30–60 min",fee:"free",cost:"La piazza è generalmente accessibile; basilica e musei hanno regole proprie.",desc:"La grande piazza del Bernini accompagna lo sguardo verso la basilica e il colonnato.",chicca:"Dal centro della piazza, osserva la geometria del colonnato.",consiglio:"Controlla le regole di accesso, i controlli di sicurezza e l'abbigliamento richiesto.",wiki:"Piazza_San_Pietro"},
-{id:"sanclemente",name:"Basilica di San Clemente",area:"Celio",lat:41.8896,lng:12.4988,cats:["religious","history","art","hidden"],time:"45–75 min",fee:"mixed",cost:"Le aree archeologiche sotterranee possono richiedere un biglietto.",desc:"Un luogo in cui diversi livelli raccontano secoli di storia e trasformazioni della città.",chicca:"Il valore della visita è proprio scoprire come gli strati storici si sovrappongono.",consiglio:"Verifica aperture e accesso alle aree sotterranee prima di andare.",wiki:"Basilica_di_San_Clemente"},
+{id:"sanclemente",name:"Basilica di San Clemente",area:"Celio",lat:41.8896,lng:12.4988,cats:["religious","history","art","hidden"],time:"45–75 min",fee:"mixed",cost:"Le aree archeologiche sotterranee possono richiedere un biglietto.",desc:"Un luogo in cui diversi livelli raccontano secoli di storia e trasformazioni della città.",chicca:"Il valore della visita è proprio scoprire come gli strati storici si sovrappongono.",consiglio:"Verifica aperture e accesso alle aree sotterranee prima di andare.",wiki:"Basilica_di_San_Clemente",alt:["Basilica_di_San_Clemente_al_Laterano"]},
 {id:"caracalla",name:"Terme di Caracalla",area:"Aventino",lat:41.8792,lng:12.4923,cats:["history","art","peaceful"],time:"60–90 min",fee:"verify",cost:"Verifica biglietti e orari.",desc:"Resti monumentali di un grande complesso termale dell'antica Roma.",chicca:"Immagina le dimensioni originarie osservando gli spazi rimasti.",consiglio:"Porta acqua nelle giornate calde e verifica le condizioni di accesso.",wiki:"Terme_di_Caracalla"},
-{id:"popolo",name:"Piazza del Popolo",area:"Campo Marzio",lat:41.9105,lng:12.4762,cats:["iconic","art","history"],time:"25–40 min",fee:"free",cost:"Piazza pubblica.",desc:"Una piazza monumentale che collega il centro alla salita verso il Pincio.",chicca:"Guarda la piazza dall'alto della terrazza per coglierne la composizione.",consiglio:"Puoi abbinarla a Via del Corso o alla passeggiata nel parco.",wiki:"Piazza_del_Popolo"},
+{id:"popolo",name:"Piazza del Popolo",area:"Campo Marzio",lat:41.9105,lng:12.4762,cats:["iconic","art","history"],time:"25–40 min",fee:"free",cost:"Piazza pubblica.",desc:"Una piazza monumentale che collega il centro alla salita verso il Pincio.",chicca:"Guarda la piazza dall'alto della terrazza per coglierne la composizione.",consiglio:"Puoi abbinarla a Via del Corso o alla passeggiata nel parco.",wiki:"Piazza_del_Popolo_(Roma)",commons:["Roma_Piazza_del_Popolo_BW_1.JPG","Fontana_della_dea_Roma_in_Rome.jpg"]},
 {id:"margutta",name:"Via Margutta",area:"Campo Marzio",lat:41.9086,lng:12.4807,cats:["art","romantic","hidden","peaceful"],time:"20–40 min",fee:"free",cost:"Passeggiata libera.",desc:"Una strada storicamente legata ad artisti, atelier e scorci raccolti.",chicca:"Osserva le facciate e i dettagli dei cortili visibili dagli spazi pubblici.",consiglio:"Rispetta le aree private e controlla gli eventi se cerchi mostre o iniziative.",wiki:"Via_Margutta"},
 {id:"garbatella",name:"Garbatella",area:"Garbatella",lat:41.8641,lng:12.4887,cats:["local","hidden","food"],time:"60–100 min",fee:"free",cost:"Passeggiata libera.",desc:"Un quartiere con lotti, cortili e piazze che raccontano una Roma diversa dal centro monumentale.",chicca:"Cerca i giardini e gli scorci tra gli edifici storici del quartiere.",consiglio:"È un luogo vissuto: esploralo con rispetto e senza fretta.",wiki:"Garbatella"},
-{id:"ostiense",name:"Ostiense e street art",area:"Ostiense",lat:41.8664,lng:12.4772,cats:["art","hidden","local"],time:"45–90 min",fee:"free",cost:"Passeggiata libera.",desc:"Una zona urbana dove archeologia industriale, murales e spazi contemporanei si incontrano.",chicca:"Guarda anche le pareti laterali e le strade secondarie: le opere sono distribuite nel quartiere.",consiglio:"Controlla il percorso sulla mappa prima di partire: i murales non sono tutti nello stesso punto.",wiki:"Ostiense"},
+{id:"ostiense",name:"Ostiense e street art",area:"Ostiense",lat:41.8664,lng:12.4772,cats:["art","hidden","local"],time:"45–90 min",fee:"free",cost:"Passeggiata libera.",desc:"Una zona urbana dove archeologia industriale, murales e spazi contemporanei si incontrano.",chicca:"Guarda anche le pareti laterali e le strade secondarie: le opere sono distribuite nel quartiere.",consiglio:"Controlla il percorso sulla mappa prima di partire: i murales non sono tutti nello stesso punto.",wiki:"Ostiense_(quartiere)",alt:["Ostiense"]},
 {id:"mercato",name:"Mercato di Testaccio",area:"Testaccio",lat:41.8761,lng:12.4776,cats:["food","local","lively","family"],time:"45–90 min",fee:"free",cost:"Ingresso libero; la spesa dipende dagli acquisti.",desc:"Banchi, ingredienti e proposte gastronomiche raccontano la quotidianità del quartiere.",chicca:"Chiedi ai venditori quali prodotti sono di stagione.",consiglio:"Verifica gli orari e i giorni di apertura prima di organizzare la visita.",wiki:"Mercato_di_Testaccio"},
 {id:"isola",name:"Isola Tiberina",area:"Tevere",lat:41.8919,lng:12.4778,cats:["romantic","history","peaceful"],time:"20–40 min",fee:"free",cost:"Passeggiata libera.",desc:"Una piccola isola sul Tevere, collegata alle rive da ponti storici.",chicca:"Attraversa l'isola a piedi e osserva il fiume dai ponti.",consiglio:"Puoi inserirla tra una visita al Ghetto e una passeggiata verso Trastevere.",wiki:"Isola_Tiberina"},
 {id:"ghetto",name:"Ghetto ebraico",area:"Sant'Angelo",lat:41.8925,lng:12.4772,cats:["history","food","local","hidden"],time:"45–75 min",fee:"mixed",cost:"Passeggiata libera; musei e visite specifiche possono essere a pagamento.",desc:"Un quartiere ricco di storia, memorie e tradizioni gastronomiche.",chicca:"Dedica tempo alla storia della comunità ebraica romana, oltre che alle vie del quartiere.",consiglio:"Per musei e luoghi di culto, controlla in anticipo orari e modalità di visita.",wiki:"Ghetto_ebraico_di_Roma"},
 {id:"bocca",name:"Bocca della Verità",area:"Ripa",lat:41.8883,lng:12.4815,cats:["history","iconic","family"],time:"20–35 min",fee:"verify",cost:"Verifica le condizioni di accesso.",desc:"Un celebre rilievo in marmo diventato protagonista di una leggenda romana.",chicca:"La leggenda è parte del fascino: cerca di scoprire come è nata la sua fama.",consiglio:"Considera possibili code e controlla l'accesso del giorno.",wiki:"Bocca_della_Verità"},
 {id:"circo",name:"Circo Massimo",area:"Aventino e Palatino",lat:41.8861,lng:12.4850,cats:["history","iconic","family","peaceful"],time:"25–50 min",fee:"free",cost:"Passeggiata nell'area esterna generalmente libera.",desc:"L'antico spazio delle corse dei carri si estende tra il Palatino e l'Aventino.",chicca:"Prova a immaginare la scala dell'antico circo osservando l'intera valle.",consiglio:"Puoi abbinarlo a una passeggiata verso il Giardino degli Aranci.",wiki:"Circo_Massimo"},
-{id:"laterano",name:"San Giovanni in Laterano",area:"Laterano",lat:41.8859,lng:12.5058,cats:["religious","art","history"],time:"35–60 min",fee:"verify",cost:"Verifica eventuali visite speciali e condizioni d'accesso.",desc:"Una delle basiliche più importanti di Roma, ricca di storia e opere artistiche.",chicca:"Osserva la navata e le grandi figure scultoree lungo lo spazio interno.",consiglio:"Ricorda che è un luogo di culto: rispetta le celebrazioni e le regole di accesso.",wiki:"Basilica_di_San_Giovanni_in_Laterano"},
+{id:"laterano",name:"San Giovanni in Laterano",area:"Laterano",lat:41.8859,lng:12.5058,cats:["religious","art","history"],time:"35–60 min",fee:"verify",cost:"Verifica eventuali visite speciali e condizioni d'accesso.",desc:"Una delle basiliche più importanti di Roma, ricca di storia e opere artistiche.",chicca:"Osserva la navata e le grandi figure scultoree lungo lo spazio interno.",consiglio:"Ricorda che è un luogo di culto: rispetta le celebrazioni e le regole di accesso.",wiki:"Basilica_di_San_Giovanni_in_Laterano",alt:["Arcibasilica_di_San_Giovanni_in_Laterano"]},
 {id:"eur",name:"EUR e Palazzo della Civiltà Italiana",area:"EUR",lat:41.8341,lng:12.4655,cats:["art","hidden"],time:"45–90 min",fee:"free",cost:"Passeggiata esterna libera; l'accesso agli edifici è soggetto a regole.",desc:"Un volto diverso di Roma, fatto di architettura monumentale, geometrie e grandi prospettive.",chicca:"Confronta le forme dell'architettura razionalista con quelle del centro storico.",consiglio:"Metti in conto il tragitto dal centro e organizza le tappe della zona insieme.",wiki:"Palazzo_della_Civiltà_Italiana"},
-{id:"prati",name:"Prati e Via Cola di Rienzo",area:"Prati",lat:41.9092,lng:12.4617,cats:["local","food","lively"],time:"45–90 min",fee:"free",cost:"Passeggiata libera; gli acquisti sono facoltativi.",desc:"Viali regolari, negozi e indirizzi gastronomici in una zona elegante e vivace.",chicca:"Allontanati per qualche minuto dalle vie commerciali e guarda i palazzi residenziali.",consiglio:"Puoi abbinarla a Castel Sant'Angelo o alla zona del Vaticano.",wiki:"Rione_Prati"},
+{id:"prati",name:"Prati e Via Cola di Rienzo",area:"Prati",lat:41.9092,lng:12.4617,cats:["local","food","lively"],time:"45–90 min",fee:"free",cost:"Passeggiata libera; gli acquisti sono facoltativi.",desc:"Viali regolari, negozi e indirizzi gastronomici in una zona elegante e vivace.",chicca:"Allontanati per qualche minuto dalle vie commerciali e guarda i palazzi residenziali.",consiglio:"Puoi abbinarla a Castel Sant'Angelo o alla zona del Vaticano.",wiki:"Rione_Prati",alt:["Prati_(rione_di_Roma)"]},
 {id:"torlonia",name:"Villa Torlonia",area:"Nomentano",lat:41.9135,lng:12.5118,cats:["nature","art","hidden","peaceful","family"],time:"60–100 min",fee:"mixed",cost:"Il parco è generalmente accessibile; musei e spazi interni possono essere a pagamento.",desc:"Un parco storico con edifici e architetture particolari, ideale per una pausa dal traffico.",chicca:"Cerca la Casina delle Civette, celebre per i suoi dettagli decorativi.",consiglio:"Controlla orari e aperture dei musei prima della visita.",wiki:"Villa_Torlonia_(Roma)"},
 {id:"sanpaolo",name:"San Paolo fuori le Mura",area:"San Paolo",lat:41.8586,lng:12.4768,cats:["religious","art","history","peaceful"],time:"40–60 min",fee:"verify",cost:"Verifica le condizioni per visite speciali.",desc:"Una grande basilica ricca di mosaici, colonne e testimonianze della tradizione cristiana.",chicca:"Osserva la sequenza dei medaglioni papali e i dettagli dei mosaici.",consiglio:"Pianifica lo spostamento: la basilica si trova fuori dal centro storico.",wiki:"Basilica_di_San_Paolo_fuori_le_Mura"}
 ];
@@ -982,12 +982,13 @@ function canLoad(url){
    Qui si sceglie invece la larghezza in base all'area reale (× densità schermo, max 2), senza mai superare l'originale.
    Si scartano disegni/mappe (SVG) e immagini troppo piccole per restare nitide: meglio il segnaposto che una foto sfocata. */
 const THUMB_STEPS=[500,960,1280,1920];   /* larghezze standard generate da Wikimedia */
+const stepFor=need=>THUMB_STEPS.find(st=>st>=need)||THUMB_STEPS[THUMB_STEPS.length-1];
+const dprCap=()=>Math.min(window.devicePixelRatio||1,2);
 function sharpCandidates(info,fit){
   const o=info.orig;
   if(!o||!o.w||!o.h||/\.svg(\.png)?$/i.test(info.thumb)||o.w<800||o.h<500)return [];
-  const dpr=Math.min(window.devicePixelRatio||1,2);
-  const need=Math.max(fit.w,fit.h*(o.w/o.h))*dpr;       /* larghezza necessaria con object-fit:cover */
-  const width=THUMB_STEPS.find(st=>st>=need)||THUMB_STEPS[THUMB_STEPS.length-1];
+  const need=Math.max(fit.w,fit.h*(o.w/o.h))*dprCap();   /* larghezza necessaria con object-fit:cover */
+  const width=stepFor(need);
   if(o.w<=width)return [o.src];                          /* l'originale è già al massimo: nessun ingrandimento */
   const list=[resizeThumb(info.thumb,width)];
   const lower=THUMB_STEPS.filter(st=>st<width&&st>=960).pop();
@@ -995,19 +996,34 @@ function sharpCandidates(info,fit){
   if(o.w<=3000)list.push(o.src);
   return list;
 }
+/* Seconda scelta: la foto principale della voce anche se piccola (mai disegni/mappe SVG): meglio una foto un po' meno nitida del segnaposto. */
+function softCandidates(info){
+  if(!info||!info.thumb||/\.svg(\.png)?$/i.test(info.thumb))return [];
+  const o=info.orig,list=[];
+  if(o&&o.w>=960)list.push(resizeThumb(info.thumb,960));
+  else if(o&&o.src)list.push(o.src);
+  list.push(info.thumb);
+  return list;
+}
+/* Ordine di ricerca: file locale → foto curate su Commons → voci Wikipedia (titolo principale e alternative). */
 async function resolvePhoto({local,wiki,commons,width,fit}){
   if(local&&await canLoad(local))return local;
   for(const f of commons||[]){
-    const url="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(f)+"?width="+width;
-    if(await canLoad(url))return url;
+    const base="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(f)+"?width=";
+    const widths=[width].concat([960,500].filter(w=>w<width));   /* mai l'originale completo: può pesare decine di MB */
+    for(const w of widths)if(await canLoad(base+w))return base+w;
   }
-  for(const t of wiki||[]){
+  const titles=wiki||[];
+  if(fit){
+    const infos=[];
+    for(const t of titles){const i=await wikiInfo(t);if(i&&i.thumb)infos.push(i);}
+    for(const i of infos)for(const url of sharpCandidates(i,fit))if(await canLoad(url))return url;
+    for(const i of infos)for(const url of softCandidates(i))if(await canLoad(url))return url;
+    return null;
+  }
+  for(const t of titles){
     const info=await wikiInfo(t);
     if(!info||!info.thumb)continue;
-    if(fit){
-      for(const url of sharpCandidates(info,fit))if(await canLoad(url))return url;
-      continue;
-    }
     const big=resizeThumb(info.thumb,width);
     if(await canLoad(big))return big;
     if(big!==info.thumb&&await canLoad(info.thumb))return info.thumb;
@@ -1145,9 +1161,10 @@ function renderStop(p,di,i){
         wikiLink,
         el("button",{type:"button",text:"Vedi sulla mappa",onclick:()=>focusMarker(di,i)}))));
   lazyLoad(card,()=>{
-    const box=photo.getBoundingClientRect();
-    resolvePhoto({wiki:[p.wiki],width:500,fit:{w:box.width||190,h:box.height||400}}).then(url=>{if(url)placePhoto(photo,url,p.name+", Roma");});
-    wikiInfo(p.wiki).then(info=>{if(info&&info.page)wikiLink.href=info.page;});
+    const box=photo.getBoundingClientRect(),bw=box.width||190,bh=box.height||400;
+    const titles=[p.wiki].concat(p.alt||[]);
+    resolvePhoto({wiki:titles,commons:p.commons||[],width:stepFor(Math.max(bw,bh*1.5)*dprCap()),fit:{w:bw,h:bh}}).then(url=>{if(url)placePhoto(photo,url,p.name+", Roma");});
+    (async()=>{for(const t of titles){const info=await wikiInfo(t);if(info&&info.page){wikiLink.href=info.page;break;}}})();
   });
   return card;
 }
@@ -1275,6 +1292,33 @@ function initReveal(){
   items.forEach(i=>io.observe(i));
 }
 
+/* Controllo di tutte le foto: aprire la pagina con ?photocheck in fondo all'indirizzo. Mostra per ogni tappa, categoria e hero se la foto si carica e da quale fonte. */
+async function runPhotoAudit(){
+  const box=el("div",{style:"position:fixed;inset:0;z-index:5000;overflow:auto;background:#fffcf7;color:#252321;padding:20px;font:14px/1.5 Inter,Arial,sans-serif"});
+  const head=el("h2",{style:"margin:0 0 6px;font-size:28px",text:"Controllo foto VIVI Roma"});
+  const sum=el("p",{style:"margin:0 0 14px",text:"Verifica in corso…"});
+  const table=el("table",{style:"border-collapse:collapse;width:100%"});
+  box.append(el("button",{type:"button",style:"float:right;padding:8px 14px",text:"Chiudi",onclick:()=>box.remove()}),head,sum,table);
+  document.body.append(box);
+  const rows=[];
+  PLACES.forEach(p=>rows.push({tipo:"Tappa",nome:p.name,opt:{wiki:[p.wiki].concat(p.alt||[]),commons:p.commons||[],width:1280,fit:{w:190,h:815}}}));
+  $$(".cat-card").forEach(c=>rows.push({tipo:"Categoria",nome:c.dataset.label,opt:{local:c.dataset.local,wiki:c.dataset.wiki.split("|"),commons:c.dataset.commons?c.dataset.commons.split("|"):[],width:500}}));
+  rows.push({tipo:"Hero",nome:"Copertina",opt:{local:"img/hero-boscolo.jpg",wiki:["Colosseo","Roma"],width:1280}});
+  let ok=0;
+  for(const r of rows){
+    const tr=el("tr",{style:"border-top:1px solid #ddd4c4"});
+    const cell=(t,st)=>el("td",{style:"padding:6px 8px;vertical-align:middle;"+(st||"")},t);
+    tr.append(cell(r.tipo),cell(r.nome),cell("controllo…"),cell(""),cell(""));table.append(tr);
+    const url=await resolvePhoto(r.opt);
+    const src=!url?"MANCANTE":/^img\//.test(url)?"file locale":/Special:FilePath/.test(url)?"Commons (curata)":"Wikipedia";
+    if(url)ok++;
+    const th=url?el("img",{src:url,alt:"",style:"width:64px;height:48px;object-fit:cover"}):"";
+    tr.replaceChildren(cell(r.tipo),cell(r.nome),cell(src,"font-weight:600;color:"+(url?"#3d4f2a":"#762F3B")),cell(th),cell(url?el("span",{style:"word-break:break-all;font-size:11px",text:url}):""));
+    sum.textContent=ok+" foto caricate su "+rows.length+(ok===rows.length?" — tutte ok.":" — controllo in corso o con mancanti.");
+  }
+  sum.textContent=ok+" foto caricate su "+rows.length+(ok===rows.length?": tutte ok.":". Le righe MANCANTE usano il segnaposto.");
+}
+
 function init(){
   $("#year").textContent=new Date().getFullYear();
   buildQuiz();syncOptions();setStep(0,false);
@@ -1287,6 +1331,7 @@ function init(){
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
   $("#printBtn").addEventListener("click",()=>window.print());
   initMenu();initCategories();initHero();initReveal();
+  if(/[?&]photocheck/.test(location.search))runPhotoAudit();
 }
 init();
 })();
