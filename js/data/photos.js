@@ -3,15 +3,15 @@
    base + "-" + larghezza + ".webp" = file; author/license/source = attribuzione obbligatoria. */
 export const PHOTOS={
 "acattolico": {
-"author": "Flenghi",
+"author": "Gabriele Di Donfrancesco",
 "base": "img/places/acattolico",
-"color": "#998978",
-"file": "Roma - Cimitero acattolico di Roma - 2023-11-11.jpg",
+"color": "#3e4844",
+"file": "Keats And Severn Graves.JPG",
 "kind": "place",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Roma_-_Cimitero_acattolico_di_Roma_-_2023-11-11.jpg",
+"license": "CC BY-SA 3.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+"ratio": 1.5094,
+"source": "https://commons.wikimedia.org/wiki/File:Keats_And_Severn_Graves.JPG",
 "w": [
 480,
 960,
@@ -115,15 +115,15 @@ export const PHOTOS={
 ]
 },
 "bioparco": {
-"author": "Alinti",
+"author": "Albarubescens",
 "base": "img/places/bioparco",
-"color": "#5c687b",
-"file": "Ingresso bioparco 2.JPG",
+"color": "#756156",
+"file": "Fenicotteri al Bioparco di Roma.jpg",
 "kind": "place",
-"license": "CC BY-SA 3.0",
-"licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
 "ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Ingresso_bioparco_2.JPG",
+"source": "https://commons.wikimedia.org/wiki/File:Fenicotteri_al_Bioparco_di_Roma.jpg",
 "w": [
 480,
 960,
@@ -147,15 +147,15 @@ export const PHOTOS={
 ]
 },
 "borghese": {
-"author": "Pierre-Selim Huard",
+"author": "Mister No",
 "base": "img/places/borghese",
-"color": "#6c8185",
-"file": "Roma - 2016-05-21 - Villa Borghese - 0697.jpg",
+"color": "#4d6058",
+"file": "Villa Borghese - Viale del Museo Borghese - panoramio.jpg",
 "kind": "place",
-"license": "CC BY 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-"ratio": 1.7778,
-"source": "https://commons.wikimedia.org/wiki/File:Roma_-_2016-05-21_-_Villa_Borghese_-_0697.jpg",
+"license": "CC BY 3.0",
+"licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+"ratio": 1.3333,
+"source": "https://commons.wikimedia.org/wiki/File:Villa_Borghese_-_Viale_del_Museo_Borghese_-_panoramio.jpg",
 "w": [
 480,
 960,
@@ -163,15 +163,15 @@ export const PHOTOS={
 ]
 },
 "caffarella": {
-"author": "indeciso42",
+"author": "Marcamps",
 "base": "img/places/caffarella",
-"color": "#7c817d",
-"file": "CAFFARELLA163861.jpg",
+"color": "#42584a",
+"file": "20260626 Valle della Caffarella.jpg",
 "kind": "place",
 "license": "CC BY-SA 4.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 1.5501,
-"source": "https://commons.wikimedia.org/wiki/File:CAFFARELLA163861.jpg",
+"ratio": 1.6,
+"source": "https://commons.wikimedia.org/wiki/File:20260626_Valle_della_Caffarella.jpg",
 "w": [
 480,
 960,
@@ -227,15 +227,15 @@ export const PHOTOS={
 ]
 },
 "capitolini": {
-"author": "Unknown artist Unknown artist",
+"author": "Jean-Pol GRANDMONT",
 "base": "img/places/capitolini",
-"color": "#afbab6",
-"file": "0 Marcus Aurelius Exedra - Palazzo dei Conservatori - Musei Capitolini (1).jpg",
+"color": "#937f69",
+"file": "0 Cortile dei Conservatori - Musei Capitolini - Rome (1).JPG",
 "kind": "place",
 "license": "CC BY-SA 3.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-"ratio": 0.8,
-"source": "https://commons.wikimedia.org/wiki/File:0_Marcus_Aurelius_Exedra_-_Palazzo_dei_Conservatori_-_Musei_Capitolini_(1).jpg",
+"ratio": 1.5,
+"source": "https://commons.wikimedia.org/wiki/File:0_Cortile_dei_Conservatori_-_Musei_Capitolini_-_Rome_(1).JPG",
 "w": [
 480,
 960,
@@ -298,7 +298,7 @@ export const PHOTOS={
 "kind": "cat",
 "license": "CC BY-SA 3.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-"ratio": 0.75,
+"ratio": 0.7497,
 "source": "https://commons.wikimedia.org/wiki/File:Vatican_Museums_Spiral_Staircase_2012.jpg",
 "w": [
 420,
@@ -313,23 +313,38 @@ export const PHOTOS={
 "kind": "cat",
 "license": "CC BY-SA 4.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 0.75,
+"ratio": 0.7495,
 "source": "https://commons.wikimedia.org/wiki/File:Espaguetis_carbonara.jpg",
 "w": [
 420,
 840
 ]
 },
-"cat-history": {
-"author": "Lil Herodotus",
-"base": "img/categories/cat-history",
-"color": "#95a5a3",
-"file": "Palatine Hill from across the Circus Maximus April 2019.jpg",
+"cat-hidden": {
+"author": "Blackcat",
+"base": "img/categories/cat-hidden",
+"color": "#747a78",
+"file": "Roma - Coppedè, Arco dei Palazzi degli Ambasciatori da via Tagliamento.jpg",
 "kind": "cat",
 "license": "CC BY-SA 4.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
 "ratio": 0.75,
-"source": "https://commons.wikimedia.org/wiki/File:Palatine_Hill_from_across_the_Circus_Maximus_April_2019.jpg",
+"source": "https://commons.wikimedia.org/wiki/File:Roma_-_Copped%C3%A8,_Arco_dei_Palazzi_degli_Ambasciatori_da_via_Tagliamento.jpg",
+"w": [
+420,
+840
+]
+},
+"cat-history": {
+"author": "JuventusTorin",
+"base": "img/categories/cat-history",
+"color": "#5f5b5c",
+"file": "Colosseum Rome at evening.JPG",
+"kind": "cat",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 0.7499,
+"source": "https://commons.wikimedia.org/wiki/File:Colosseum_Rome_at_evening.JPG",
 "w": [
 420,
 840
@@ -338,7 +353,7 @@ export const PHOTOS={
 "cat-local": {
 "author": "Truque da Banana",
 "base": "img/categories/cat-local",
-"color": "#5e5345",
+"color": "#5e5344",
 "file": "Trastevere, Roma (32089705025).jpg",
 "kind": "cat",
 "license": "CC BY 2.0",
@@ -353,12 +368,12 @@ export const PHOTOS={
 "cat-nature": {
 "author": "Anna Eden 86",
 "base": "img/categories/cat-nature",
-"color": "#757663",
+"color": "#757763",
 "file": "Tempio di Esculapio a Villa Borghese 3.jpg",
 "kind": "cat",
 "license": "CC BY-SA 4.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 0.75,
+"ratio": 0.7502,
 "source": "https://commons.wikimedia.org/wiki/File:Tempio_di_Esculapio_a_Villa_Borghese_3.jpg",
 "w": [
 420,
@@ -373,10 +388,11 @@ export const PHOTOS={
 "kind": "cat",
 "license": "CC BY-SA 4.0",
 "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 0.7498,
+"ratio": 0.7496,
 "source": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg",
 "w": [
-420
+420,
+840
 ]
 },
 "cat-romantic": {
@@ -696,44 +712,46 @@ export const PHOTOS={
 ]
 },
 "hero": {
-"author": "FeaturedPics",
+"author": "Radek Kucharski from Warsaw, Poland",
 "base": "img/hero/hero",
-"color": "#a79a90",
-"file": "Colosseo 2020.jpg",
+"color": "#53484b",
+"file": "Rome Street - Flickr - radkuch.13.jpg",
 "kind": "hero",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"license": "CC BY 2.0",
+"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
 "ratio": 1.5,
-"source": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
+"source": "https://commons.wikimedia.org/wiki/File:Rome_Street_-_Flickr_-_radkuch.13.jpg",
 "w": [
 960,
-1600
+1600,
+2400
 ]
 },
 "hero-portrait": {
-"author": "FeaturedPics",
+"author": "Radek Kucharski from Warsaw, Poland",
 "base": "img/hero/hero-portrait",
-"color": "#a3958c",
-"file": "Colosseo 2020.jpg",
+"color": "#4d4957",
+"file": "Rome Street - Flickr - radkuch.13.jpg",
 "kind": "hero-portrait",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 0.5621,
-"source": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
+"license": "CC BY 2.0",
+"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+"ratio": 0.5625,
+"source": "https://commons.wikimedia.org/wiki/File:Rome_Street_-_Flickr_-_radkuch.13.jpg",
 "w": [
-720
+720,
+1080
 ]
 },
 "isola": {
-"author": "Livioandronico2013",
+"author": "Nicholas Hartmann",
 "base": "img/places/isola",
-"color": "#8294a4",
-"file": "Isola Tiberina 2014.JPG",
+"color": "#7b7a72",
+"file": "Rome Tiber Ponte Fabricio.jpg",
 "kind": "place",
-"license": "CC BY-SA 3.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-"ratio": 1.5035,
-"source": "https://commons.wikimedia.org/wiki/File:Isola_Tiberina_2014.JPG",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 1.7771,
+"source": "https://commons.wikimedia.org/wiki/File:Rome_Tiber_Ponte_Fabricio.jpg",
 "w": [
 480,
 960,
@@ -757,15 +775,15 @@ export const PHOTOS={
 ]
 },
 "malta": {
-"author": "user:Lalupa",
+"author": "Phyrexian",
 "base": "img/places/malta",
-"color": "#7c848a",
-"file": "Piazza dei cavalieri di Malta 00042.JPG",
+"color": "#292a27",
+"file": "Roma - Villa del Priorato di Malta 8505.jpg",
 "kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
-"ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Piazza_dei_cavalieri_di_Malta_00042.JPG",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 0.8,
+"source": "https://commons.wikimedia.org/wiki/File:Roma_-_Villa_del_Priorato_di_Malta_8505.jpg",
 "w": [
 480,
 960,
@@ -821,15 +839,15 @@ export const PHOTOS={
 ]
 },
 "montemartini": {
-"author": "Jean-Pierre Dalbéra from Paris, France",
+"author": "Carole Raddato from FRANKFURT, Germany",
 "base": "img/places/montemartini",
-"color": "#888c8d",
-"file": "Le musée de la centrale Montemartini (Rome) (34321364485).jpg",
+"color": "#655745",
+"file": "Statue of a Muse (Polyhymnia?), Found in via Terni inside an ancient underground passage in the area of the Horti Variani, 2nd century BC, Centrale Montemartini, Rome (21108641384).jpg",
 "kind": "place",
-"license": "CC BY 2.0",
-"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-"ratio": 1.2708,
-"source": "https://commons.wikimedia.org/wiki/File:Le_mus%C3%A9e_de_la_centrale_Montemartini_(Rome)_(34321364485).jpg",
+"license": "CC BY-SA 2.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+"ratio": 1.4612,
+"source": "https://commons.wikimedia.org/wiki/File:Statue_of_a_Muse_(Polyhymnia%3F),_Found_in_via_Terni_inside_an_ancient_underground_passage_in_the_area_of_the_Horti_Variani,_2nd_century_BC,_Centrale_Montemartini,_Rome_(21108641384).jpg",
 "w": [
 480,
 960,
@@ -869,15 +887,15 @@ export const PHOTOS={
 ]
 },
 "orto": {
-"author": "Lalupa",
+"author": "Daderot",
 "base": "img/places/orto",
-"color": "#606160",
-"file": "Orto botanico - ingresso 2704.JPG",
+"color": "#56673b",
+"file": "Tropical Greenhouse - Orto botanico - Rome, Italy - DSC00160.jpg",
 "kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
-"ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Orto_botanico_-_ingresso_2704.JPG",
+"license": "CC0",
+"licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+"ratio": 1.5,
+"source": "https://commons.wikimedia.org/wiki/File:Tropical_Greenhouse_-_Orto_botanico_-_Rome,_Italy_-_DSC00160.jpg",
 "w": [
 480,
 960,
@@ -1013,15 +1031,15 @@ export const PHOTOS={
 ]
 },
 "prati": {
-"author": "Unknown author Unknown author",
+"author": "Fred Romero from Paris, France",
 "base": "img/places/prati",
-"color": "#a6a9ad",
-"file": "Via cola di rienzo.jpg",
+"color": "#7a7f8a",
+"file": "Roma - Palazzo di Giustizia (42815336271).jpg",
 "kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
-"ratio": 1.5656,
-"source": "https://commons.wikimedia.org/wiki/File:Via_cola_di_rienzo.jpg",
+"license": "CC BY 2.0",
+"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+"ratio": 1.5,
+"source": "https://commons.wikimedia.org/wiki/File:Roma_-_Palazzo_di_Giustizia_(42815336271).jpg",
 "w": [
 480,
 960,
@@ -1101,6 +1119,22 @@ export const PHOTOS={
 "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
 "ratio": 1.5,
 "source": "https://commons.wikimedia.org/wiki/File:Rome,_Vatican,_Italy,_Saint_Peter%27s_Square_as_seen_from_Michelangelo_dome.jpg",
+"w": [
+480,
+960,
+1440
+]
+},
+"scalasanta": {
+"author": "Fallaner",
+"base": "img/places/scalasanta",
+"color": "#8e786b",
+"file": "Rome Scala Santa 2020 P01.jpg",
+"kind": "place",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 0.8,
+"source": "https://commons.wikimedia.org/wiki/File:Rome_Scala_Santa_2020_P01.jpg",
 "w": [
 480,
 960,
@@ -1188,18 +1222,19 @@ export const PHOTOS={
 ]
 },
 "testaccio": {
-"author": "Pirrica",
+"author": "Lalupa",
 "base": "img/places/testaccio",
-"color": "#909299",
-"file": "Roma. Piazza Testaccio. Fontana delle Anfore.jpeg",
+"color": "#53574d",
+"file": "Testaccio - fontana Anfore 01464.jpg",
 "kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
-"ratio": 0.8148,
-"source": "https://commons.wikimedia.org/wiki/File:Roma._Piazza_Testaccio._Fontana_delle_Anfore.jpeg",
+"license": "CC BY-SA 3.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+"ratio": 1.3333,
+"source": "https://commons.wikimedia.org/wiki/File:Testaccio_-_fontana_Anfore_01464.jpg",
 "w": [
 480,
-960
+960,
+1440
 ]
 },
 "torlonia": {
@@ -1283,15 +1318,15 @@ export const PHOTOS={
 ]
 },
 "vaticani": {
-"author": "Attributed to Girolamo Muziano",
+"author": "Alvesgaspar",
 "base": "img/places/vaticani",
-"color": "#947852",
-"file": "0 Fresque et stucs - G. Muziano - C. Nebbia - Galleria delle carte geografiche.JPG",
+"color": "#8f7f62",
+"file": "Galleria delle carte geografiche (Vatican Museums) September 2015-1a.jpg",
 "kind": "place",
-"license": "CC BY-SA 3.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-"ratio": 1.4803,
-"source": "https://commons.wikimedia.org/wiki/File:0_Fresque_et_stucs_-_G._Muziano_-_C._Nebbia_-_Galleria_delle_carte_geografiche.JPG",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 1.3627,
+"source": "https://commons.wikimedia.org/wiki/File:Galleria_delle_carte_geografiche_(Vatican_Museums)_September_2015-1a.jpg",
 "w": [
 480,
 960,
