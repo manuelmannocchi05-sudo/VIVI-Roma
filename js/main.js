@@ -1,6 +1,7 @@
 /* VIVI Roma — interfaccia: quiz, risultati, foto, mappa, navigazione. */
 import {PLACES,buildItinerary} from "./planner.js";
 import {QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL} from "./quiz-data.js";
+import {PHOTOS} from "./data/photos.js";
 
 /* ==========================================================================
    UTILITÀ
@@ -151,86 +152,31 @@ function submitQuiz(){
 }
 
 /* ==========================================================================
-   IMMAGINI: file locale (se presente) → fotografia Wikipedia/Commons → segnaposto
+   IMMAGINI: solo file locali WebP (img/), generati da tools/photos/build.py con licenza verificata.
+   Nessuna richiesta a servizi esterni. Senza foto resta il segnaposto (gradiente + icona).
    ========================================================================== */
-const wikiCache=new Map();
-function wikiInfo(title){
-  if(wikiCache.has(title))return wikiCache.get(title);
-  const p=fetch("https://it.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title),{headers:{Accept:"application/json"}})
-    .then(r=>r.ok?r.json():null)
-    .then(j=>{
-      if(!j||j.type==="disambiguation")return null;
-      const o=j.originalimage&&j.originalimage.source?{src:j.originalimage.source,w:j.originalimage.width,h:j.originalimage.height}:null;
-      return {thumb:j.thumbnail&&j.thumbnail.source||null,orig:o,page:j.content_urls&&j.content_urls.desktop&&j.content_urls.desktop.page||null};
-    }).catch(()=>null);
-  wikiCache.set(title,p);return p;
+const srcsetOf=ph=>ph.w.map(w=>ph.base+"-"+w+".webp "+w+"w").join(", ");
+const LICENSE_SHORT=l=>(l||"").replace(/^Public domain$/i,"Pubblico dominio");
+/* Testo dell'attribuzione: autore, licenza, fonte (obbligatoria per CC BY e CC BY-SA). */
+function creditText(ph){return "Foto: "+ph.author+" · "+LICENSE_SHORT(ph.license);}
+function creditNode(ph,cls){
+  return el("p",{class:cls},
+    el("a",{href:ph.source,target:"_blank",rel:"noopener noreferrer","aria-label":creditText(ph)+", Wikimedia Commons (esterno)",text:creditText(ph)}));
 }
-function resizeThumb(url,w){return url.replace(/\/\d+px-/,"/"+w+"px-");}
-function canLoad(url){
-  return new Promise(res=>{
-    const im=new Image();let done=false;
-    const end=ok=>{if(!done){done=true;res(ok);}};
-    im.onload=()=>end(true);im.onerror=()=>end(false);
-    setTimeout(()=>end(false),9000);
-    im.src=url;
-  });
+/* Inserisce la foto nel contenitore. width = larghezza CSS da coprire (object-fit:cover), per scegliere il file giusto. */
+function photoImg(ph,alt,width,{eager}={}){
+  const img=el("img",{src:ph.base+"-"+ph.w[0]+".webp",srcset:srcsetOf(ph),sizes:Math.ceil(width)+"px",alt:alt||"",
+    width:ph.w[ph.w.length-1],height:Math.round(ph.w[ph.w.length-1]/ph.ratio),decoding:"async",loading:eager?"eager":"lazy"});
+  if(eager)img.setAttribute("fetchpriority","high");
+  const show=()=>requestAnimationFrame(()=>img.classList.add("in"));
+  img.addEventListener("load",show);
+  img.addEventListener("error",()=>{img.remove();});   /* file mancante: resta il segnaposto */
+  if(img.complete&&img.naturalWidth)show();
+  return img;
 }
-/* Foto delle tappe: la miniatura "summary" di Wikipedia è larga ~320 px e va ingrandita 2–3 volte nell'area foto.
-   Qui si sceglie invece la larghezza in base all'area reale (× densità schermo, max 2), senza mai superare l'originale.
-   Si scartano disegni/mappe (SVG) e immagini troppo piccole per restare nitide: meglio il segnaposto che una foto sfocata. */
-const THUMB_STEPS=[500,960,1280,1920];   /* larghezze standard generate da Wikimedia */
-const stepFor=need=>THUMB_STEPS.find(st=>st>=need)||THUMB_STEPS[THUMB_STEPS.length-1];
-const dprCap=()=>Math.min(window.devicePixelRatio||1,2);
-function sharpCandidates(info,fit){
-  const o=info.orig;
-  if(!o||!o.w||!o.h||/\.svg(\.png)?$/i.test(info.thumb)||o.w<800||o.h<500)return [];
-  const need=Math.max(fit.w,fit.h*(o.w/o.h))*dprCap();   /* larghezza necessaria con object-fit:cover */
-  const width=stepFor(need);
-  if(o.w<=width)return [o.src];                          /* l'originale è già al massimo: nessun ingrandimento */
-  const list=[resizeThumb(info.thumb,width)];
-  const lower=THUMB_STEPS.filter(st=>st<width&&st>=960).pop();
-  if(lower)list.push(resizeThumb(info.thumb,lower));
-  if(o.w<=3000)list.push(o.src);
-  return list;
-}
-/* Seconda scelta: la foto principale della voce anche se piccola (mai disegni/mappe SVG): meglio una foto un po' meno nitida del segnaposto. */
-function softCandidates(info){
-  if(!info||!info.thumb||/\.svg(\.png)?$/i.test(info.thumb))return [];
-  const o=info.orig,list=[];
-  if(o&&o.w>=960)list.push(resizeThumb(info.thumb,960));
-  else if(o&&o.src)list.push(o.src);
-  list.push(info.thumb);
-  return list;
-}
-/* Ordine di ricerca: file locale → foto curate su Commons → voci Wikipedia (titolo principale e alternative). */
-async function resolvePhoto({local,wiki,commons,width,fit}){
-  if(local&&await canLoad(local))return local;
-  for(const f of commons||[]){
-    const base="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(f)+"?width=";
-    const widths=[width].concat([960,500].filter(w=>w<width));   /* mai l'originale completo: può pesare decine di MB */
-    for(const w of widths)if(await canLoad(base+w))return base+w;
-  }
-  const titles=wiki||[];
-  if(fit){
-    const infos=[];
-    for(const t of titles){const i=await wikiInfo(t);if(i&&i.thumb)infos.push(i);}
-    for(const i of infos)for(const url of sharpCandidates(i,fit))if(await canLoad(url))return url;
-    for(const i of infos)for(const url of softCandidates(i))if(await canLoad(url))return url;
-    return null;
-  }
-  for(const t of titles){
-    const info=await wikiInfo(t);
-    if(!info||!info.thumb)continue;
-    const big=resizeThumb(info.thumb,width);
-    if(await canLoad(big))return big;
-    if(big!==info.thumb&&await canLoad(info.thumb))return info.thumb;
-  }
-  return null;
-}
-function placePhoto(container,url,alt){
-  const img=el("img",{src:url,alt:alt||"",decoding:"async",loading:"lazy"});
-  container.append(img);
-  requestAnimationFrame(()=>img.classList.add("in"));
+function placePhoto(container,ph,alt,width){
+  container.style.backgroundColor=ph.color;            /* segnaposto: colore medio della foto mentre si carica */
+  container.append(photoImg(ph,alt,width));
   container.classList.add("has-photo");
 }
 function lazyLoad(node,fn){
@@ -247,7 +193,7 @@ const CAT_ICON={history:"column",art:"frame",hidden:"compass",romantic:"heart",n
 const INTEREST_LABEL=LABELS.interests;
 const dirUrl=p=>"https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng;
 const osmUrl=p=>"https://www.openstreetmap.org/?mlat="+p.lat+"&mlon="+p.lng+"#map=17/"+p.lat+"/"+p.lng;
-const wikiSearchUrl=p=>"https://it.wikipedia.org/w/index.php?search="+encodeURIComponent(p.wiki.replace(/_/g," "));
+const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
 const fmtKm=k=>k<0.1?"meno di 100 m":"circa "+k.toFixed(1).replace(".",",")+" km";
 const fmtH=m=>{const h=Math.round(m/30)/2;return String(h).replace(".",",");};
 
@@ -360,7 +306,7 @@ function renderStop(p,di,i){
   if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push("Classico da non perdere");
   if(state.answers.budget==="low"&&p.fee==="free")why.push("In linea con il tuo budget");
   if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push("Fuori dai percorsi più battuti");
-  const wikiLink=el("a",{href:wikiSearchUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Approfondisci su Wikipedia (esterno)"});
+  const wikiLink=el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Approfondisci su Wikipedia (esterno)"});
   const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":"Tappa "+n+": "+p.name},
     photo,
     el("div",{class:"stop-body"},
@@ -381,12 +327,14 @@ function renderStop(p,di,i){
         el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Apri su OpenStreetMap (esterno)"}),
         wikiLink,
         el("button",{type:"button",text:"Vedi sulla mappa",onclick:()=>focusMarker(di,i)}))));
-  lazyLoad(card,()=>{
-    const box=photo.getBoundingClientRect(),bw=box.width||190,bh=box.height||400;
-    const titles=[p.wiki].concat(p.alt||[]);
-    resolvePhoto({wiki:titles,commons:p.commons||[],width:stepFor(Math.max(bw,bh*1.5)*dprCap()),fit:{w:bw,h:bh}}).then(url=>{if(url)placePhoto(photo,url,p.name+", Roma");});
-    (async()=>{for(const t of titles){const info=await wikiInfo(t);if(info&&info.page){wikiLink.href=info.page;break;}}})();
-  });
+  const ph=PHOTOS[p.id];
+  if(ph){
+    photo.append(creditNode(ph,"photo-credit"));
+    lazyLoad(card,()=>{
+      const box=photo.getBoundingClientRect(),bw=box.width||190,bh=box.height||400;
+      placePhoto(photo,ph,p.name+", Roma",Math.max(bw,bh*ph.ratio));   /* larghezza necessaria per coprire il riquadro */
+    });
+  }
   return card;
 }
 function showDay(i){
@@ -493,18 +441,22 @@ function initCategories(){
       if(list.includes(k))toast(card.dataset.label+" è già tra i tuoi interessi.");
       else{list.push(k);syncOptions();toast(card.dataset.label+" aggiunta ai tuoi interessi. La ritrovi alla domanda 4.");}
     });
-    lazyLoad(card,()=>{
-      resolvePhoto({local:card.dataset.local,wiki:card.dataset.wiki.split("|"),commons:card.dataset.commons?card.dataset.commons.split("|"):[],width:500}).then(url=>{if(url)placePhoto(card,url,card.dataset.alt);});
-    });
+    const ph=PHOTOS[card.dataset.photo];
+    if(ph)lazyLoad(card,()=>placePhoto(card,ph,card.dataset.alt,card.getBoundingClientRect().width||300));
   });
 }
 function initHero(){
-  const media=$("#heroMedia");
-  resolvePhoto({local:"img/hero-boscolo.jpg",wiki:["Colosseo","Roma"],width:1280}).then(url=>{
-    if(!url)return;
-    const img=el("img",{src:url,alt:"",decoding:"async",fetchpriority:"high"});
-    media.append(img);requestAnimationFrame(()=>img.classList.add("in"));
-  });
+  const media=$("#heroMedia"),land=PHOTOS.hero,port=PHOTOS["hero-portrait"];
+  if(!land)return;
+  const pic=el("picture",null,
+    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:"100vw"}):null,
+    photoImg(land,"",window.innerWidth,{eager:true}));
+  pic.querySelector("img").sizes="100vw";
+  media.style.backgroundColor=land.color;
+  media.append(pic);
+  const credit=$("#heroCredit");
+  credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+" (Wikimedia Commons)"}));
+  credit.hidden=false;
 }
 function initReveal(){
   const items=$$(".reveal");
@@ -513,31 +465,30 @@ function initReveal(){
   items.forEach(i=>io.observe(i));
 }
 
-/* Controllo di tutte le foto: aprire la pagina con ?photocheck in fondo all'indirizzo. Mostra per ogni tappa, categoria e hero se la foto si carica e da quale fonte. */
+/* Controllo di tutte le foto: aprire la pagina con ?photocheck in fondo all'indirizzo.
+   Per ogni tappa, categoria e copertina mostra se il file locale si carica, le sue dimensioni e l'attribuzione. */
 async function runPhotoAudit(){
   const box=el("div",{style:"position:fixed;inset:0;z-index:5000;overflow:auto;background:#fffcf7;color:#252321;padding:20px;font:14px/1.5 Inter,Arial,sans-serif"});
-  const head=el("h2",{style:"margin:0 0 6px;font-size:28px",text:"Controllo foto VIVI Roma"});
   const sum=el("p",{style:"margin:0 0 14px",text:"Verifica in corso…"});
   const table=el("table",{style:"border-collapse:collapse;width:100%"});
-  box.append(el("button",{type:"button",style:"float:right;padding:8px 14px",text:"Chiudi",onclick:()=>box.remove()}),head,sum,table);
+  box.append(el("button",{type:"button",style:"float:right;padding:8px 14px",text:"Chiudi",onclick:()=>box.remove()}),
+    el("h2",{style:"margin:0 0 6px;font-size:28px",text:"Controllo foto VIVI Roma"}),sum,table);
   document.body.append(box);
-  const rows=[];
-  PLACES.forEach(p=>rows.push({tipo:"Tappa",nome:p.name,opt:{wiki:[p.wiki].concat(p.alt||[]),commons:p.commons||[],width:1280,fit:{w:190,h:815}}}));
-  $$(".cat-card").forEach(c=>rows.push({tipo:"Categoria",nome:c.dataset.label,opt:{local:c.dataset.local,wiki:c.dataset.wiki.split("|"),commons:c.dataset.commons?c.dataset.commons.split("|"):[],width:500}}));
-  rows.push({tipo:"Hero",nome:"Copertina",opt:{local:"img/hero-boscolo.jpg",wiki:["Colosseo","Roma"],width:1280}});
+  const rows=PLACES.map(p=>({tipo:"Tappa",nome:p.name,key:p.id}))
+    .concat($$(".cat-card").map(c=>({tipo:"Categoria",nome:c.dataset.label,key:c.dataset.photo})))
+    .concat([{tipo:"Copertina",nome:"Orizzontale",key:"hero"},{tipo:"Copertina",nome:"Verticale (smartphone)",key:"hero-portrait"}]);
+  const loads=src=>new Promise(res=>{const i=new Image();i.onload=()=>res(i.naturalWidth+"×"+i.naturalHeight);i.onerror=()=>res(null);i.src=src;});
   let ok=0;
   for(const r of rows){
-    const tr=el("tr",{style:"border-top:1px solid #ddd4c4"});
-    const cell=(t,st)=>el("td",{style:"padding:6px 8px;vertical-align:middle;"+(st||"")},t);
-    tr.append(cell(r.tipo),cell(r.nome),cell("controllo…"),cell(""),cell(""));table.append(tr);
-    const url=await resolvePhoto(r.opt);
-    const src=!url?"MANCANTE":/^img\//.test(url)?"file locale":/Special:FilePath/.test(url)?"Commons (curata)":"Wikipedia";
-    if(url)ok++;
-    const th=url?el("img",{src:url,alt:"",style:"width:64px;height:48px;object-fit:cover"}):"";
-    tr.replaceChildren(cell(r.tipo),cell(r.nome),cell(src,"font-weight:600;color:"+(url?"#3d4f2a":"#762F3B")),cell(th),cell(url?el("span",{style:"word-break:break-all;font-size:11px",text:url}):""));
-    sum.textContent=ok+" foto caricate su "+rows.length+(ok===rows.length?" — tutte ok.":" — controllo in corso o con mancanti.");
+    const ph=PHOTOS[r.key],cell=(t,st)=>el("td",{style:"padding:6px 8px;vertical-align:middle;"+(st||"")},t);
+    const sizes=ph?await Promise.all(ph.w.map(w=>loads(ph.base+"-"+w+".webp"))):[];
+    const good=ph&&sizes.every(Boolean);if(good)ok++;
+    table.append(el("tr",{style:"border-top:1px solid #ddd4c4"},cell(r.tipo),cell(r.nome),
+      cell(good?"ok":ph?"FILE ROTTO":"SEGNAPOSTO","font-weight:600;color:"+(good?"#3d4f2a":"#762F3B")),
+      cell(ph?el("img",{src:ph.base+"-"+ph.w[0]+".webp",alt:"",style:"width:96px;height:64px;object-fit:cover"}):""),
+      cell(ph?sizes.join(" · "):""),cell(ph?creditNode(ph,""):"")));
   }
-  sum.textContent=ok+" foto caricate su "+rows.length+(ok===rows.length?": tutte ok.":". Le righe MANCANTE usano il segnaposto.");
+  sum.textContent=ok+" foto locali caricate su "+rows.length+(ok===rows.length?": tutte ok.":". Le altre usano il segnaposto.");
 }
 
 function init(){

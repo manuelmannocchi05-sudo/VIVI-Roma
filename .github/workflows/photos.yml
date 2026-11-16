@@ -1,0 +1,26 @@
+# Genera le fotografie locali (WebP) da Wikimedia Commons quando cambia la selezione.
+# Gira solo sul branch di sviluppo e fa il commit dei file generati sullo stesso branch.
+name: Foto da Wikimedia Commons
+on:
+  push:
+    branches: [riorganizzazione-codice]
+    paths: [tools/photos/selection.json, tools/photos/build.py, .github/workflows/photos.yml]
+permissions:
+  contents: write
+concurrency: photos
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install pillow==11.*
+      - run: python3 tools/photos/build.py
+      - name: Commit delle foto generate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A img js/data/photos.js tools/photos/report.json tools/photos/review
+          git diff --cached --quiet || git commit -m "Foto: WebP generati da Wikimedia Commons (automatico)"
+          git push

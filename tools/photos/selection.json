@@ -1,0 +1,448 @@
+{
+ "photos": [
+  {
+   "key": "colosseo",
+   "kind": "place",
+   "file": "Colosseo 2020.jpg"
+  },
+  {
+   "key": "fori",
+   "kind": "place",
+   "file": "Via dei Fori Imperiali Roma 20160616.jpg"
+  },
+  {
+   "key": "pantheon",
+   "kind": "place",
+   "file": "Pantheon (Rome) - Right side and front.jpg"
+  },
+  {
+   "key": "trevi",
+   "kind": "place",
+   "file": "Trevi Fountain - Roma.jpg"
+  },
+  {
+   "key": "navona",
+   "kind": "place",
+   "file": "Piazza Navona Sant'Agnese in Agone fontana dei Fiumi Roma.jpg"
+  },
+  {
+   "key": "spagna",
+   "kind": "place",
+   "file": "Piazza di Spagna 2018.jpg"
+  },
+  {
+   "key": "trastevere",
+   "kind": "place",
+   "file": "Vicolo del Cedro, Trastevere, Rome, Lazio, Italy - panoramio.jpg"
+  },
+  {
+   "key": "monti",
+   "kind": "place",
+   "file": "Piazza Madonna dei Monti - La fontana.JPG"
+  },
+  {
+   "key": "testaccio",
+   "kind": "place",
+   "file": "Roma. Piazza Testaccio. Fontana delle Anfore.jpeg"
+  },
+  {
+   "key": "campo",
+   "kind": "place",
+   "file": "Il Valle delle Rose ....JPG"
+  },
+  {
+   "key": "gianicolo",
+   "kind": "place",
+   "file": "Janiculum.jpg"
+  },
+  {
+   "key": "pincio",
+   "kind": "place",
+   "file": "Terrazza del Pincio (46397854832).jpg"
+  },
+  {
+   "key": "borghese",
+   "kind": "place",
+   "file": "Roma - 2016-05-21 - Villa Borghese - 0697.jpg"
+  },
+  {
+   "key": "aranci",
+   "kind": "place",
+   "file": "Giardino degli Aranci.JPG"
+  },
+  {
+   "key": "coppede",
+   "kind": "place",
+   "file": "Quartiere Coppedé 09.jpg"
+  },
+  {
+   "key": "appia",
+   "kind": "place",
+   "file": "Appian Way.jpg"
+  },
+  {
+   "key": "castel",
+   "kind": "place",
+   "file": "Castel Sant'Angelo at Night.jpg"
+  },
+  {
+   "key": "sanpietro",
+   "kind": "place",
+   "file": "Rome, Vatican, Italy, Saint Peter's Square as seen from Michelangelo dome.jpg"
+  },
+  {
+   "key": "sanclemente",
+   "kind": "place",
+   "file": "Basilica di San Clemente al Laterano - esterno.jpg"
+  },
+  {
+   "key": "caracalla",
+   "kind": "place",
+   "file": "Baths of Caracalla, facing Caldarium.jpg"
+  },
+  {
+   "key": "popolo",
+   "kind": "place",
+   "file": "Piazza del Popolo, Roma (Rome).jpg"
+  },
+  {
+   "key": "margutta",
+   "kind": "place",
+   "file": "03 Margutta.JPG"
+  },
+  {
+   "key": "garbatella",
+   "kind": "place",
+   "file": "Roma Garbatella teatro Palladium.jpg"
+  },
+  {
+   "key": "ostiense",
+   "kind": "place",
+   "file": "Piazzale Ostiense Piramide porta san Paolo.jpg"
+  },
+  {
+   "key": "mercato",
+   "kind": "place",
+   "file": "Testaccio - nuovo mercato P1040527.JPG"
+  },
+  {
+   "key": "isola",
+   "kind": "place",
+   "file": "Isola Tiberina 2014.JPG"
+  },
+  {
+   "key": "ghetto",
+   "kind": "place",
+   "file": "Roma- Portico d'Ottavia - 52350512476.jpg"
+  },
+  {
+   "key": "bocca",
+   "kind": "place",
+   "file": "Età imperiale, chiusino a forma di mascherone di divinità fluviale, detta bocca della verità, collocata qui nel 1632.jpg"
+  },
+  {
+   "key": "circo",
+   "kind": "place",
+   "file": "Circus Maximus • Circo Massimo (46813512141).jpg"
+  },
+  {
+   "key": "laterano",
+   "kind": "place",
+   "file": "San Giovanni in Laterano 2021.jpg"
+  },
+  {
+   "key": "eur",
+   "kind": "place",
+   "file": "PALACIVILTA888.jpg"
+  },
+  {
+   "key": "prati",
+   "kind": "place",
+   "file": "Via cola di rienzo.jpg"
+  },
+  {
+   "key": "torlonia",
+   "kind": "place",
+   "file": "Villa Torlonia 01304.JPG"
+  },
+  {
+   "key": "sanpaolo",
+   "kind": "place",
+   "file": "StPaul.jpg"
+  },
+  {
+   "key": "foropalatino",
+   "kind": "place",
+   "file": "Foro Romano Musei Capitolini Roma.jpg"
+  },
+  {
+   "key": "campidoglio",
+   "kind": "place",
+   "file": "Piazza del Campidoglio 2015.jpg"
+  },
+  {
+   "key": "capitolini",
+   "kind": "place",
+   "file": "0 Marcus Aurelius Exedra - Palazzo dei Conservatori - Musei Capitolini (1).jpg"
+  },
+  {
+   "key": "traiano",
+   "kind": "place",
+   "file": "Mercati di Traiano - Roma.jpg"
+  },
+  {
+   "key": "arapacis",
+   "kind": "place",
+   "file": "Ara Pacis (SW).jpg"
+  },
+  {
+   "key": "argentina",
+   "kind": "place",
+   "file": "Curia of Pompey.jpg"
+  },
+  {
+   "key": "massimo",
+   "kind": "place",
+   "file": "Palazzo Massimo alle Terme NE.jpg"
+  },
+  {
+   "key": "callisto",
+   "kind": "place",
+   "file": "Catacombe.jpg"
+  },
+  {
+   "key": "acquedotti",
+   "kind": "place",
+   "file": "The park of the aqueducts.jpg"
+  },
+  {
+   "key": "acattolico",
+   "kind": "place",
+   "file": "Roma - Cimitero acattolico di Roma - 2023-11-11.jpg"
+  },
+  {
+   "key": "portasebastiano",
+   "kind": "place",
+   "file": "PortSSebastian(face externe).jpg"
+  },
+  {
+   "key": "vaticani",
+   "kind": "place",
+   "file": "0 Fresque et stucs - G. Muziano - C. Nebbia - Galleria delle carte geografiche.JPG"
+  },
+  {
+   "key": "galleriaborghese",
+   "kind": "place",
+   "file": "GalleriaBorghese.jpg"
+  },
+  {
+   "key": "doria",
+   "kind": "place",
+   "file": "Palazzo doria pamphili, galleria doria, 01.jpg"
+  },
+  {
+   "key": "barberini",
+   "kind": "place",
+   "file": "Palazzo Barberini - esterno.jpg"
+  },
+  {
+   "key": "sanluigi",
+   "kind": "place",
+   "file": "San Luigi dei Francesi - facciata.jpg"
+  },
+  {
+   "key": "smpopolo",
+   "kind": "place",
+   "file": "Roma, basilica di Santa Maria del Popolo - Esterno.jpg"
+  },
+  {
+   "key": "signazio",
+   "kind": "place",
+   "file": "Church of Sant'Ignazio di Loyola.jpg"
+  },
+  {
+   "key": "farnesina",
+   "kind": "place",
+   "file": "La villa Farnesina (Rome) (34029492720).jpg"
+  },
+  {
+   "key": "montemartini",
+   "kind": "place",
+   "file": "Le musée de la centrale Montemartini (Rome) (34321364485).jpg"
+  },
+  {
+   "key": "esquilino",
+   "kind": "place",
+   "file": "Nuovo Mercato Esquilino 01.JPG"
+  },
+  {
+   "key": "pigneto",
+   "kind": "place",
+   "file": "Vallo Ferroviario Pigneto 2.JPG"
+  },
+  {
+   "key": "sanlorenzo",
+   "kind": "place",
+   "file": "Rom 2011-08-by-RaBoe-22.jpg"
+  },
+  {
+   "key": "trilussa",
+   "kind": "place",
+   "file": "Ponte Sisto Roma.jpg"
+  },
+  {
+   "key": "giulia",
+   "kind": "place",
+   "file": "Farnese Arch Rome.jpg"
+  },
+  {
+   "key": "coronari",
+   "kind": "place",
+   "file": "Via dei Coronari da Piazza San Simeone.jpg"
+  },
+  {
+   "key": "malta",
+   "kind": "place",
+   "file": "Piazza dei cavalieri di Malta 00042.JPG"
+  },
+  {
+   "key": "fontanone",
+   "kind": "place",
+   "file": "Fontanone dell'Acqua Paola.jpg"
+  },
+  {
+   "key": "vittoriano",
+   "kind": "place",
+   "file": "Altare della Patria (Roma).jpg"
+  },
+  {
+   "key": "pamphilj",
+   "kind": "place",
+   "file": "Villa Doria Pamphilj in Rom.jpg"
+  },
+  {
+   "key": "caffarella",
+   "kind": "place",
+   "file": "CAFFARELLA163861.jpg"
+  },
+  {
+   "key": "celimontana",
+   "kind": "place",
+   "file": "Villa Celimontana 142.jpg"
+  },
+  {
+   "key": "orto",
+   "kind": "place",
+   "file": "Orto botanico - ingresso 2704.JPG"
+  },
+  {
+   "key": "bioparco",
+   "kind": "place",
+   "file": "Ingresso bioparco 2.JPG"
+  },
+  {
+   "key": "explora",
+   "kind": "place",
+   "file": "Roma - Explora - Museo dei bambini di Roma 1 - 2025-09-10 15-59-19 001.JPG"
+  },
+  {
+   "key": "smmaggiore",
+   "kind": "place",
+   "file": "Basilica di Santa Maria Maggiore - Roma.jpg"
+  },
+  {
+   "key": "smtrastevere",
+   "kind": "place",
+   "file": "01 Santa Maria in Trastevere Facade.jpg"
+  },
+  {
+   "key": "vincoli",
+   "kind": "place",
+   "file": "San Pietro in Vincoli - esterno.jpg"
+  },
+  {
+   "key": "prassede",
+   "kind": "place",
+   "file": "Santa Prassede Façade.jpg"
+  },
+  {
+   "key": "coronati",
+   "kind": "place",
+   "file": "Basilica dei Santi Quattro Coronati - esterno.jpg"
+  },
+  {
+   "key": "cappuccini",
+   "kind": "place",
+   "file": "Rom, die Kirche Convento dei Cappuccini.JPG"
+  },
+  {
+   "key": "cat-history",
+   "kind": "cat",
+   "file": "Palatine Hill from across the Circus Maximus April 2019.jpg"
+  },
+  {
+   "key": "cat-art",
+   "kind": "cat",
+   "file": "Vatican Museums Spiral Staircase 2012.jpg"
+  },
+  {
+   "key": "cat-food",
+   "kind": "cat",
+   "file": "Espaguetis carbonara.jpg"
+  },
+  {
+   "key": "cat-hidden",
+   "kind": "cat",
+   "file": "Quartiere Coppedè - Fontana delle Rane.jpg"
+  },
+  {
+   "key": "cat-nature",
+   "kind": "cat",
+   "file": "Tempio di Esculapio a Villa Borghese 3.jpg"
+  },
+  {
+   "key": "cat-religious",
+   "kind": "cat",
+   "file": "Basilica di San Pietro in Vaticano September 2015-1a.jpg"
+  },
+  {
+   "key": "cat-local",
+   "kind": "cat",
+   "file": "Trastevere, Roma (32089705025).jpg"
+  },
+  {
+   "key": "cat-romantic",
+   "kind": "cat",
+   "file": "Terrazza del Pincio (46397854832).jpg"
+  },
+  {
+   "key": "hero",
+   "kind": "hero",
+   "file": "Colosseo 2020.jpg"
+  },
+  {
+   "key": "hero-portrait",
+   "kind": "hero-portrait",
+   "file": "Colosseo 2020.jpg"
+  }
+ ],
+ "review": {
+  "trionfale": "Mercato Trionfale Roma",
+  "scalasanta": "Scala Santa Roma Laterano",
+  "pigneto": "Via del Pigneto Roma",
+  "sanlorenzo": "Quartiere San Lorenzo Roma strada",
+  "prati": "Rione Prati Roma",
+  "hidden": "Quartiere Coppedè Roma",
+  "romantic": "Roma tramonto vista panorama tetti cupole",
+  "hero": "Colosseo Roma tramonto",
+  "food": "cucina romana piatto",
+  "local": "Trastevere vicolo sera",
+  "art": "Galleria Borghese sala",
+  "history": "Foro Romano panorama",
+  "scalasanta2": "Pontificio Santuario della Scala Santa",
+  "orto": "Orto botanico di Roma",
+  "bioparco": "Bioparco di Roma",
+  "callisto": "Catacombe di San Callisto",
+  "campo": "Campo de' Fiori mercato"
+ }
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crediti fotografici — VIVI Roma</title>
+<meta name="description" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
+<meta name="theme-color" content="#252321">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .credits{padding:120px 0 72px}
+  .credits h1{font-size:clamp(2.2rem,5vw,3.4rem);margin:0 0 12px}
+  .credits .lead{max-width:62ch;color:#4b4742;margin:0 0 32px}
+  .credits h2{font-size:1.8rem;margin:40px 0 14px}
+  .credit-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .credit-list li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center;background:var(--white);border:1px solid var(--line);padding:8px}
+  .credit-list img{width:96px;height:72px;object-fit:cover;display:block}
+  .credit-list b{display:block;font-weight:600;font-size:.92rem}
+  .credit-list span{display:block;font-size:.8rem;color:#4b4742;overflow-wrap:anywhere}
+  .credit-list a{color:var(--wine)}
+</style>
+</head>
+<body>
+<header class="site-header on-dark scrolled" id="siteHeader">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="VIVI Roma, torna alla pagina principale">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-name">VIVI Roma</span>
+    </a>
+  </div>
+</header>
+<main class="credits">
+  <div class="wrap">
+    <p class="eyebrow">Crediti</p>
+    <h1>Crediti fotografici</h1>
+    <p class="lead">Tutte le fotografie provengono da Wikimedia Commons e sono pubblicate con licenze che ne consentono il riuso, anche commerciale: pubblico dominio, CC0, CC BY e CC BY-SA. Le immagini sono state ridimensionate e, in alcuni casi, ritagliate per adattarle all'impaginazione. Per ogni foto trovi autore, licenza e pagina originale.</p>
+    <div id="creditsRoot"><p>Caricamento dei crediti…</p></div>
+  </div>
+</main>
+<footer class="footer on-dark">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <p><a href="index.html">Torna a VIVI Roma</a></p>
+    </div>
+  </div>
+</footer>
+<script type="module">
+import {PHOTOS} from "./js/data/photos.js";
+import {PLACES} from "./js/data/places.js";
+const LABEL={"cat-history":"Categoria · Roma antica","cat-art":"Categoria · Arte e meraviglia","cat-food":"Categoria · Sapori romani",
+  "cat-hidden":"Categoria · Roma segreta","cat-nature":"Categoria · Verde e quiete","cat-religious":"Categoria · Roma sacra",
+  "cat-local":"Categoria · Roma autentica","cat-romantic":"Categoria · Roma romantica",hero:"Copertina",["hero-portrait"]:"Copertina (smartphone)"};
+PLACES.forEach(p=>{LABEL[p.id]=p.name;});
+const lic=l=>/^public domain$/i.test(l)?"Pubblico dominio":l;
+const groups=[["Copertina e categorie",k=>!PLACES.some(p=>p.id===k)],["Luoghi",k=>PLACES.some(p=>p.id===k)]];
+const root=document.getElementById("creditsRoot");root.replaceChildren();
+for(const [title,test] of groups){
+  const keys=Object.keys(PHOTOS).filter(test).sort((a,b)=>(LABEL[a]||a).localeCompare(LABEL[b]||b,"it"));
+  if(!keys.length)continue;
+  const h=document.createElement("h2");h.textContent=title;root.append(h);
+  const ul=document.createElement("ul");ul.className="credit-list";
+  for(const k of keys){
+    const ph=PHOTOS[k],li=document.createElement("li");
+    const img=document.createElement("img");img.src=ph.base+"-"+ph.w[0]+".webp";img.alt="";img.loading="lazy";img.decoding="async";img.width=96;img.height=72;
+    const box=document.createElement("div");
+    const b=document.createElement("b");b.textContent=LABEL[k]||k;
+    const a=document.createElement("span");a.textContent="Autore: "+ph.author;
+    const l=document.createElement("span");
+    if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl;x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append("Licenza: ",x);}
+    else l.textContent="Licenza: "+lic(ph.license);
+    const s=document.createElement("span");const y=document.createElement("a");y.href=ph.source;y.target="_blank";y.rel="noopener noreferrer";y.textContent="Pagina originale su Wikimedia Commons";s.append(y);
+    box.append(b,a,l,s);li.append(img,box);ul.append(li);
+  }
+  root.append(ul);
+}
+</script>
+</body>
+</html>
