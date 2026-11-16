@@ -19,7 +19,7 @@ OK_LICENSE = re.compile(r"^(CC0|Public domain|PD\b|PD-|CC BY(-SA)? \d(\.\d)?( \w
 
 # Formati per tipo: larghezze generate, rapporto massimo (larghezza/altezza) e minimo, qualità WebP.
 KINDS = {
-    "place": {"widths": [480, 960, 1440], "ratio": (16/9, 4/5), "q": 66},
+    "place": {"widths": [480, 960, 1280], "ratio": (16/9, 4/5), "q": 66},
     "cat":   {"widths": [420, 840],       "ratio": (3/4, 3/4),  "q": 68},
     "hero":  {"widths": [960, 1600, 2400], "ratio": (16/9, 3/2), "q": 62},
     "hero-portrait": {"widths": [720, 1080], "ratio": (9/16, 9/16), "q": 62},
@@ -106,7 +106,7 @@ def main():
         for w in widths:
             h = round(im.height * w / im.width)
             name = f"img/{folder}/{key}-{w}.webp"
-            q = spec["q"] + (6 if w <= 480 else 0) - (6 if w >= 1440 else 0)   # più compressione sui file grandi
+            q = spec["q"] + (6 if w <= 480 else 0) - (8 if w >= 1280 else 0)   # più compressione sui file grandi
             im.resize((w, h), Image.LANCZOS).save(os.path.join(ROOT, name), "WEBP", quality=q, method=6)
             files.append(name); keep.add(name)
         avg = im.resize((1, 1), Image.BOX).getpixel((0, 0))
