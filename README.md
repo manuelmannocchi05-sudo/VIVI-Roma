@@ -59,3 +59,13 @@ Vincoli rigidi, controllati da `npm test`:
 - **Camminata**: il percorso di ogni giornata resta entro i km giornalieri del livello di camminata scelto; le tratte oltre la tratta comoda sono segnalate (mezzi pubblici).
 - **Budget = tetto, mai obiettivo**: contenuto circa un ingresso a pagamento ogni due giorni (almeno uno), equilibrato circa uno al giorno (almeno uno e mezzo), "concedermi qualcosa" senza limite. Nessun budget obbliga a spendere: un itinerario gratuito va bene anche con budget alto.
 - **Numero di tappe**: due per giornata è l'obiettivo, non un obbligo. Se nulla entra nel tempo, nel budget o nella zona, la giornata resta di una tappa.
+
+## Fotografie
+
+Le foto sono file locali WebP in `img/` (tappe 480/800/1280 px, categorie 420/840 px, copertina 960–2400 px più una versione verticale per smartphone). Il sito non chiama Wikipedia né Wikimedia Commons.
+
+- **Scelta**: `tools/photos/selection.json` associa a ogni luogo, categoria e copertina un file di Wikimedia Commons (`focus` sposta il ritaglio).
+- **Generazione**: `python3 tools/photos/build.py` legge da Commons autore e licenza, scarta i file senza licenza per uso commerciale (ammesse: pubblico dominio, CC0, CC BY, CC BY-SA), crea i WebP e scrive `js/data/photos.js` e `tools/photos/report.json`. Sul branch di sviluppo lo stesso script gira in automatico (`.github/workflows/photos.yml`) quando cambia la selezione.
+- **Attribuzione**: autore e licenza compaiono su ogni foto delle tappe e sulla copertina; l'elenco completo è in `crediti.html`.
+- **Senza foto**: i luoghi in `tools/photos/missing.json` mostrano il segnaposto (gradiente e icona della categoria).
+- **Controllo**: `npm test` verifica file, pesi, licenze e attribuzioni; aprendo il sito con `?photocheck` si vede l'elenco di tutte le foto con dimensioni e crediti.
