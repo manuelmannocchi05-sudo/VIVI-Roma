@@ -1,0 +1,1840 @@
+[
+ {
+  "key": "colosseo",
+  "kind": "place",
+  "file": "Colosseo 2020.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "FeaturedPics",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "ita-mibac",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
+  "orig": [
+   12051,
+   8442
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/colosseo-480.webp",
+   "img/places/colosseo-960.webp",
+   "img/places/colosseo-1440.webp"
+  ],
+  "bytes": 301594
+ },
+ {
+  "key": "fori",
+  "kind": "place",
+  "file": "Via dei Fori Imperiali Roma 20160616.jpg",
+  "license": "CC0",
+  "author": "Estormiz",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_dei_Fori_Imperiali_Roma_20160616.jpg",
+  "orig": [
+   4500,
+   2666
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/fori-480.webp",
+   "img/places/fori-960.webp",
+   "img/places/fori-1440.webp"
+  ],
+  "bytes": 433862
+ },
+ {
+  "key": "pantheon",
+  "kind": "place",
+  "file": "Pantheon (Rome) - Right side and front.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "NikonZ7II",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Pantheon_(Rome)_-_Right_side_and_front.jpg",
+  "orig": [
+   7512,
+   6048
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/pantheon-480.webp",
+   "img/places/pantheon-960.webp",
+   "img/places/pantheon-1440.webp"
+  ],
+  "bytes": 361924
+ },
+ {
+  "key": "trevi",
+  "kind": "place",
+  "file": "Trevi Fountain - Roma.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "NikonZ7II",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Trevi_Fountain_-_Roma.jpg",
+  "orig": [
+   8734,
+   4738
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/trevi-480.webp",
+   "img/places/trevi-960.webp",
+   "img/places/trevi-1440.webp"
+  ],
+  "bytes": 217232
+ },
+ {
+  "key": "navona",
+  "kind": "place",
+  "file": "Piazza Navona Sant'Agnese in Agone fontana dei Fiumi Roma.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "This Photo was taken by Wolfgang Moroder . Feel free to use my photos, but please mention me as the author and send me a message . This image is not in the public domain . Please respect the copyright protection. It may only be used according to the rules mentioned here. This specifically excludes use in social media , if applicable terms of the licenses listed here are not appropriate. Please do not upload an updated image here without consultation with the Author. The author would like to make corrections only at his own source. This ensures that the changes are preserved. Please if you think that any changes should be required, please inform the author. Otherwise you can upload a new image with a new name. Please use one of the templates derivative or extract .",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_Navona_Sant%27Agnese_in_Agone_fontana_dei_Fiumi_Roma.jpg",
+  "orig": [
+   8532,
+   7782
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/navona-480.webp",
+   "img/places/navona-960.webp",
+   "img/places/navona-1440.webp"
+  ],
+  "bytes": 317054
+ },
+ {
+  "key": "spagna",
+  "kind": "place",
+  "file": "Piazza di Spagna 2018.jpg",
+  "license": "CC BY 4.0",
+  "author": "Photo2023",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_di_Spagna_2018.jpg",
+  "orig": [
+   2448,
+   3264
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/spagna-480.webp",
+   "img/places/spagna-960.webp",
+   "img/places/spagna-1440.webp"
+  ],
+  "bytes": 427882
+ },
+ {
+  "key": "trastevere",
+  "kind": "place",
+  "file": "Vicolo del Cedro, Trastevere, Rome, Lazio, Italy - panoramio.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "trolvag",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Vicolo_del_Cedro,_Trastevere,_Rome,_Lazio,_Italy_-_panoramio.jpg",
+  "orig": [
+   2835,
+   1890
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/trastevere-480.webp",
+   "img/places/trastevere-960.webp",
+   "img/places/trastevere-1440.webp"
+  ],
+  "bytes": 333638
+ },
+ {
+  "key": "monti",
+  "kind": "place",
+  "file": "Piazza Madonna dei Monti - La fontana.JPG",
+  "license": "Public domain",
+  "author": "Galzu",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_Madonna_dei_Monti_-_La_fontana.JPG",
+  "orig": [
+   3264,
+   2448
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/monti-480.webp",
+   "img/places/monti-960.webp",
+   "img/places/monti-1440.webp"
+  ],
+  "bytes": 276686
+ },
+ {
+  "key": "testaccio",
+  "kind": "place",
+  "file": "Roma. Piazza Testaccio. Fontana delle Anfore.jpeg",
+  "license": "Public domain",
+  "author": "Pirrica",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma._Piazza_Testaccio._Fontana_delle_Anfore.jpeg",
+  "orig": [
+   1320,
+   1620
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/testaccio-480.webp",
+   "img/places/testaccio-960.webp"
+  ],
+  "bytes": 71626
+ },
+ {
+  "key": "campo",
+  "kind": "place",
+  "file": "Il Valle delle Rose ....JPG",
+  "license": "CC BY-SA 4.0",
+  "author": "Carlat82",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Il_Valle_delle_Rose_....JPG",
+  "orig": [
+   4608,
+   3456
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/campo-480.webp",
+   "img/places/campo-960.webp",
+   "img/places/campo-1440.webp"
+  ],
+  "bytes": 206458
+ },
+ {
+  "key": "gianicolo",
+  "kind": "place",
+  "file": "Janiculum.jpg",
+  "license": "Public domain",
+  "author": "",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Janiculum.jpg",
+  "orig": [
+   1280,
+   960
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/gianicolo-480.webp",
+   "img/places/gianicolo-960.webp"
+  ],
+  "bytes": 66050
+ },
+ {
+  "key": "pincio",
+  "kind": "place",
+  "file": "Terrazza del Pincio (46397854832).jpg",
+  "license": "CC BY 2.0",
+  "author": "Sonse",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Terrazza_del_Pincio_(46397854832).jpg",
+  "orig": [
+   4607,
+   2935
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/pincio-480.webp",
+   "img/places/pincio-960.webp",
+   "img/places/pincio-1440.webp"
+  ],
+  "bytes": 316666
+ },
+ {
+  "key": "borghese",
+  "kind": "place",
+  "file": "Roma - 2016-05-21 - Villa Borghese - 0697.jpg",
+  "license": "CC BY 4.0",
+  "author": "Pierre-Selim Huard",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma_-_2016-05-21_-_Villa_Borghese_-_0697.jpg",
+  "orig": [
+   4896,
+   2754
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/borghese-480.webp",
+   "img/places/borghese-960.webp",
+   "img/places/borghese-1440.webp"
+  ],
+  "bytes": 367206
+ },
+ {
+  "key": "aranci",
+  "kind": "place",
+  "file": "Giardino degli Aranci.JPG",
+  "license": "CC BY-SA 4.0",
+  "author": "Lasagnolo9",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Giardino_degli_Aranci.JPG",
+  "orig": [
+   4864,
+   3648
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/aranci-480.webp",
+   "img/places/aranci-960.webp",
+   "img/places/aranci-1440.webp"
+  ],
+  "bytes": 199260
+ },
+ {
+  "key": "coppede",
+  "kind": "place",
+  "file": "Quartiere Coppedé 09.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "This Photo was taken by Andrea Bertozzi . Feel free to use my photos, but please mention me as the author and send me a message .",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Quartiere_Copped%C3%A9_09.jpg",
+  "orig": [
+   3000,
+   1987
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/coppede-480.webp",
+   "img/places/coppede-960.webp",
+   "img/places/coppede-1440.webp"
+  ],
+  "bytes": 381512
+ },
+ {
+  "key": "appia",
+  "kind": "place",
+  "file": "Appian Way.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Livioandronico2013",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Appian_Way.jpg",
+  "orig": [
+   6016,
+   4000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/appia-480.webp",
+   "img/places/appia-960.webp",
+   "img/places/appia-1440.webp"
+  ],
+  "bytes": 505504
+ },
+ {
+  "key": "castel",
+  "kind": "place",
+  "file": "Castel Sant'Angelo at Night.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Livioandronico2013",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Castel_Sant%27Angelo_at_Night.jpg",
+  "orig": [
+   4301,
+   3852
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/castel-480.webp",
+   "img/places/castel-960.webp",
+   "img/places/castel-1440.webp"
+  ],
+  "bytes": 220674
+ },
+ {
+  "key": "sanpietro",
+  "kind": "place",
+  "file": "Rome, Vatican, Italy, Saint Peter's Square as seen from Michelangelo dome.jpg",
+  "license": "CC BY 4.0",
+  "author": "Vyacheslav Argenberg",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Rome,_Vatican,_Italy,_Saint_Peter%27s_Square_as_seen_from_Michelangelo_dome.jpg",
+  "orig": [
+   3072,
+   2048
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/sanpietro-480.webp",
+   "img/places/sanpietro-960.webp",
+   "img/places/sanpietro-1440.webp"
+  ],
+  "bytes": 513114
+ },
+ {
+  "key": "sanclemente",
+  "kind": "place",
+  "file": "Basilica di San Clemente al Laterano - esterno.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Labicanense",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Clemente_al_Laterano_-_esterno.jpg",
+  "orig": [
+   5706,
+   6434
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/sanclemente-480.webp",
+   "img/places/sanclemente-960.webp",
+   "img/places/sanclemente-1440.webp"
+  ],
+  "bytes": 413660
+ },
+ {
+  "key": "caracalla",
+  "kind": "place",
+  "file": "Baths of Caracalla, facing Caldarium.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Ethan Doyle White",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "ita-mibac",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Baths_of_Caracalla,_facing_Caldarium.jpg",
+  "orig": [
+   2592,
+   1552
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/caracalla-480.webp",
+   "img/places/caracalla-960.webp",
+   "img/places/caracalla-1440.webp"
+  ],
+  "bytes": 313332
+ },
+ {
+  "key": "popolo",
+  "kind": "place",
+  "file": "Piazza del Popolo, Roma (Rome).jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Apaleutos25",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_del_Popolo,_Roma_(Rome).jpg",
+  "orig": [
+   4000,
+   3000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/popolo-480.webp",
+   "img/places/popolo-960.webp",
+   "img/places/popolo-1440.webp"
+  ],
+  "bytes": 838328
+ },
+ {
+  "key": "margutta",
+  "kind": "place",
+  "file": "03 Margutta.JPG",
+  "license": "Public domain",
+  "author": "user:Lalupa",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:03_Margutta.JPG",
+  "orig": [
+   2048,
+   1536
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/margutta-480.webp",
+   "img/places/margutta-960.webp",
+   "img/places/margutta-1440.webp"
+  ],
+  "bytes": 210700
+ },
+ {
+  "key": "garbatella",
+  "kind": "place",
+  "file": "Roma Garbatella teatro Palladium.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Blackcat",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma_Garbatella_teatro_Palladium.jpg",
+  "orig": [
+   4500,
+   3000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/garbatella-480.webp",
+   "img/places/garbatella-960.webp",
+   "img/places/garbatella-1440.webp"
+  ],
+  "bytes": 159202
+ },
+ {
+  "key": "ostiense",
+  "kind": "place",
+  "file": "Piazzale Ostiense Piramide porta san Paolo.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Blackcat",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazzale_Ostiense_Piramide_porta_san_Paolo.jpg",
+  "orig": [
+   3261,
+   2174
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/ostiense-480.webp",
+   "img/places/ostiense-960.webp",
+   "img/places/ostiense-1440.webp"
+  ],
+  "bytes": 163806
+ },
+ {
+  "key": "mercato",
+  "kind": "place",
+  "file": "Testaccio - nuovo mercato P1040527.JPG",
+  "license": "CC BY-SA 4.0",
+  "author": "Lalupa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Testaccio_-_nuovo_mercato_P1040527.JPG",
+  "orig": [
+   2048,
+   1536
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/mercato-480.webp",
+   "img/places/mercato-960.webp",
+   "img/places/mercato-1440.webp"
+  ],
+  "bytes": 173850
+ },
+ {
+  "key": "isola",
+  "kind": "place",
+  "file": "Isola Tiberina 2014.JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Livioandronico2013",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Isola_Tiberina_2014.JPG",
+  "orig": [
+   6016,
+   4000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/isola-480.webp",
+   "img/places/isola-960.webp",
+   "img/places/isola-1440.webp"
+  ],
+  "bytes": 154532
+ },
+ {
+  "key": "ghetto",
+  "kind": "place",
+  "file": "Roma- Portico d'Ottavia - 52350512476.jpg",
+  "license": "CC BY 2.0",
+  "author": "Jorge Franganillo",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma-_Portico_d%27Ottavia_-_52350512476.jpg",
+  "orig": [
+   4255,
+   2837
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/ghetto-480.webp",
+   "img/places/ghetto-960.webp",
+   "img/places/ghetto-1440.webp"
+  ],
+  "bytes": 343514
+ },
+ {
+  "key": "bocca",
+  "kind": "place",
+  "file": "Età imperiale, chiusino a forma di mascherone di divinità fluviale, detta bocca della verità, collocata qui nel 1632.jpg",
+  "license": "CC BY 3.0",
+  "author": "Sailko",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Et%C3%A0_imperiale,_chiusino_a_forma_di_mascherone_di_divinit%C3%A0_fluviale,_detta_bocca_della_verit%C3%A0,_collocata_qui_nel_1632.jpg",
+  "orig": [
+   4208,
+   5592
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/bocca-480.webp",
+   "img/places/bocca-960.webp",
+   "img/places/bocca-1440.webp"
+  ],
+  "bytes": 542020
+ },
+ {
+  "key": "circo",
+  "kind": "place",
+  "file": "Circus Maximus • Circo Massimo (46813512141).jpg",
+  "license": "CC BY 2.0",
+  "author": "Sonse",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Circus_Maximus_%E2%80%A2_Circo_Massimo_(46813512141).jpg",
+  "orig": [
+   4650,
+   2583
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/circo-480.webp",
+   "img/places/circo-960.webp",
+   "img/places/circo-1440.webp"
+  ],
+  "bytes": 201804
+ },
+ {
+  "key": "laterano",
+  "kind": "place",
+  "file": "San Giovanni in Laterano 2021.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "NikonZ7II",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:San_Giovanni_in_Laterano_2021.jpg",
+  "orig": [
+   8874,
+   6651
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/laterano-480.webp",
+   "img/places/laterano-960.webp",
+   "img/places/laterano-1440.webp"
+  ],
+  "bytes": 275770
+ },
+ {
+  "key": "eur",
+  "kind": "place",
+  "file": "PALACIVILTA888.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "indeciso42",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:PALACIVILTA888.jpg",
+  "orig": [
+   963,
+   1280
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/eur-480.webp",
+   "img/places/eur-960.webp"
+  ],
+  "bytes": 79622
+ },
+ {
+  "key": "prati",
+  "kind": "place",
+  "file": "Via cola di rienzo.jpg",
+  "license": "Public domain",
+  "author": "Unknown author Unknown author",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_cola_di_rienzo.jpg",
+  "orig": [
+   1600,
+   1022
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/prati-480.webp",
+   "img/places/prati-960.webp",
+   "img/places/prati-1440.webp"
+  ],
+  "bytes": 327720
+ },
+ {
+  "key": "torlonia",
+  "kind": "place",
+  "file": "Villa Torlonia 01304.JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Lalupa",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Villa_Torlonia_01304.JPG",
+  "orig": [
+   2048,
+   1536
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/torlonia-480.webp",
+   "img/places/torlonia-960.webp",
+   "img/places/torlonia-1440.webp"
+  ],
+  "bytes": 231868
+ },
+ {
+  "key": "sanpaolo",
+  "kind": "place",
+  "file": "StPaul.jpg",
+  "license": "CC BY 4.0",
+  "author": "StPaul.jpg",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:StPaul.jpg",
+  "orig": [
+   8272,
+   5456
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/sanpaolo-480.webp",
+   "img/places/sanpaolo-960.webp",
+   "img/places/sanpaolo-1440.webp"
+  ],
+  "bytes": 306188
+ },
+ {
+  "key": "foropalatino",
+  "kind": "place",
+  "file": "Foro Romano Musei Capitolini Roma.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "This Photo was taken by Wolfgang Moroder . Feel free to use my photos, but please mention me as the author and send me a message . This image is not in the public domain . Please respect the copyright protection. It may only be used according to the rules mentioned here. This specifically excludes use in social media , if applicable terms of the licenses listed here are not appropriate. Please do not upload an updated image here without consultation with the Author. The author would like to make corrections only at his own source. This ensures that the changes are preserved. Please if you think that any changes should be required, please inform the author. Otherwise you can upload a new image with a new name. Please use one of the templates derivative or extract .",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Foro_Romano_Musei_Capitolini_Roma.jpg",
+  "orig": [
+   17000,
+   6980
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/foropalatino-480.webp",
+   "img/places/foropalatino-960.webp"
+  ],
+  "bytes": 134782
+ },
+ {
+  "key": "campidoglio",
+  "kind": "place",
+  "file": "Piazza del Campidoglio 2015.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Kameister",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_del_Campidoglio_2015.jpg",
+  "orig": [
+   5472,
+   3648
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/campidoglio-480.webp",
+   "img/places/campidoglio-960.webp",
+   "img/places/campidoglio-1440.webp"
+  ],
+  "bytes": 247270
+ },
+ {
+  "key": "capitolini",
+  "kind": "place",
+  "file": "0 Marcus Aurelius Exedra - Palazzo dei Conservatori - Musei Capitolini (1).jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Unknown artist Unknown artist",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:0_Marcus_Aurelius_Exedra_-_Palazzo_dei_Conservatori_-_Musei_Capitolini_(1).jpg",
+  "orig": [
+   2306,
+   2976
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/capitolini-480.webp",
+   "img/places/capitolini-960.webp",
+   "img/places/capitolini-1440.webp"
+  ],
+  "bytes": 189964
+ },
+ {
+  "key": "traiano",
+  "kind": "place",
+  "file": "Mercati di Traiano - Roma.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "NikonZ7II",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Mercati_di_Traiano_-_Roma.jpg",
+  "orig": [
+   8384,
+   5355
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/traiano-480.webp",
+   "img/places/traiano-960.webp",
+   "img/places/traiano-1440.webp"
+  ],
+  "bytes": 308716
+ },
+ {
+  "key": "arapacis",
+  "kind": "place",
+  "file": "Ara Pacis (SW).jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Rabax63",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Ara_Pacis_(SW).jpg",
+  "orig": [
+   5417,
+   3450
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/arapacis-480.webp",
+   "img/places/arapacis-960.webp",
+   "img/places/arapacis-1440.webp"
+  ],
+  "bytes": 310536
+ },
+ {
+  "key": "argentina",
+  "kind": "place",
+  "file": "Curia of Pompey.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sotamies",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Curia_of_Pompey.jpg",
+  "orig": [
+   4608,
+   3456
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/argentina-480.webp",
+   "img/places/argentina-960.webp",
+   "img/places/argentina-1440.webp"
+  ],
+  "bytes": 472646
+ },
+ {
+  "key": "massimo",
+  "kind": "place",
+  "file": "Palazzo Massimo alle Terme NE.jpg",
+  "license": "Public domain",
+  "author": "Jensens",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Massimo_alle_Terme_NE.jpg",
+  "orig": [
+   2400,
+   1331
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/massimo-480.webp",
+   "img/places/massimo-960.webp",
+   "img/places/massimo-1440.webp"
+  ],
+  "bytes": 228842
+ },
+ {
+  "key": "callisto",
+  "kind": "place",
+  "file": "Catacombe.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "User GerardM on nl.wikipedia",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Catacombe.jpg",
+  "orig": [
+   1600,
+   1200
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/callisto-480.webp",
+   "img/places/callisto-960.webp",
+   "img/places/callisto-1440.webp"
+  ],
+  "bytes": 139244
+ },
+ {
+  "key": "acquedotti",
+  "kind": "place",
+  "file": "The park of the aqueducts.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Livioandronico2013",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:The_park_of_the_aqueducts.jpg",
+  "orig": [
+   4690,
+   3591
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/acquedotti-480.webp",
+   "img/places/acquedotti-960.webp",
+   "img/places/acquedotti-1440.webp"
+  ],
+  "bytes": 388368
+ },
+ {
+  "key": "acattolico",
+  "kind": "place",
+  "file": "Roma - Cimitero acattolico di Roma - 2023-11-11.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Flenghi",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma_-_Cimitero_acattolico_di_Roma_-_2023-11-11.jpg",
+  "orig": [
+   5137,
+   3853
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/acattolico-480.webp",
+   "img/places/acattolico-960.webp",
+   "img/places/acattolico-1440.webp"
+  ],
+  "bytes": 323000
+ },
+ {
+  "key": "portasebastiano",
+  "kind": "place",
+  "file": "PortSSebastian(face externe).jpg",
+  "license": "CC BY 4.0",
+  "author": "Ardeatino",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:PortSSebastian(face_externe).jpg",
+  "orig": [
+   6540,
+   5263
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/portasebastiano-480.webp",
+   "img/places/portasebastiano-960.webp",
+   "img/places/portasebastiano-1440.webp"
+  ],
+  "bytes": 257940
+ },
+ {
+  "key": "vaticani",
+  "kind": "place",
+  "file": "0 Fresque et stucs - G. Muziano - C. Nebbia - Galleria delle carte geografiche.JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Attributed to Girolamo Muziano",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:0_Fresque_et_stucs_-_G._Muziano_-_C._Nebbia_-_Galleria_delle_carte_geografiche.JPG",
+  "orig": [
+   3700,
+   2500
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/vaticani-480.webp",
+   "img/places/vaticani-960.webp",
+   "img/places/vaticani-1440.webp"
+  ],
+  "bytes": 522864
+ },
+ {
+  "key": "galleriaborghese",
+  "kind": "place",
+  "file": "GalleriaBorghese.jpg",
+  "license": "Public domain",
+  "author": "MM",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:GalleriaBorghese.jpg",
+  "orig": [
+   1951,
+   1323
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/galleriaborghese-480.webp",
+   "img/places/galleriaborghese-960.webp",
+   "img/places/galleriaborghese-1440.webp"
+  ],
+  "bytes": 211318
+ },
+ {
+  "key": "doria",
+  "kind": "place",
+  "file": "Palazzo doria pamphili, galleria doria, 01.jpg",
+  "license": "CC BY 3.0",
+  "author": "Sailko",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_doria_pamphili,_galleria_doria,_01.jpg",
+  "orig": [
+   2144,
+   3184
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/doria-480.webp",
+   "img/places/doria-960.webp",
+   "img/places/doria-1440.webp"
+  ],
+  "bytes": 377288
+ },
+ {
+  "key": "barberini",
+  "kind": "place",
+  "file": "Palazzo Barberini - esterno.jpg",
+  "license": "CC BY 4.0",
+  "author": "PubblicUsername",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Barberini_-_esterno.jpg",
+  "orig": [
+   6840,
+   4656
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/barberini-480.webp",
+   "img/places/barberini-960.webp",
+   "img/places/barberini-1440.webp"
+  ],
+  "bytes": 322748
+ },
+ {
+  "key": "sanluigi",
+  "kind": "place",
+  "file": "San Luigi dei Francesi - facciata.jpg",
+  "license": "CC BY 4.0",
+  "author": "Labicanense",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:San_Luigi_dei_Francesi_-_facciata.jpg",
+  "orig": [
+   5630,
+   5525
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/sanluigi-480.webp",
+   "img/places/sanluigi-960.webp",
+   "img/places/sanluigi-1440.webp"
+  ],
+  "bytes": 309106
+ },
+ {
+  "key": "smpopolo",
+  "kind": "place",
+  "file": "Roma, basilica di Santa Maria del Popolo - Esterno.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Pufui PcPifpef",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma,_basilica_di_Santa_Maria_del_Popolo_-_Esterno.jpg",
+  "orig": [
+   3204,
+   2665
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/smpopolo-480.webp",
+   "img/places/smpopolo-960.webp",
+   "img/places/smpopolo-1440.webp"
+  ],
+  "bytes": 319912
+ },
+ {
+  "key": "signazio",
+  "kind": "place",
+  "file": "Church of Sant'Ignazio di Loyola.jpg",
+  "license": "CC BY 4.0",
+  "author": "Fiat 500e",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Church_of_Sant%27Ignazio_di_Loyola.jpg",
+  "orig": [
+   6094,
+   5086
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/signazio-480.webp",
+   "img/places/signazio-960.webp",
+   "img/places/signazio-1440.webp"
+  ],
+  "bytes": 297198
+ },
+ {
+  "key": "farnesina",
+  "kind": "place",
+  "file": "La villa Farnesina (Rome) (34029492720).jpg",
+  "license": "CC BY 2.0",
+  "author": "Jean-Pierre Dalbéra from Paris, France",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:La_villa_Farnesina_(Rome)_(34029492720).jpg",
+  "orig": [
+   4884,
+   3504
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/farnesina-480.webp",
+   "img/places/farnesina-960.webp",
+   "img/places/farnesina-1440.webp"
+  ],
+  "bytes": 471160
+ },
+ {
+  "key": "montemartini",
+  "kind": "place",
+  "file": "Le musée de la centrale Montemartini (Rome) (34321364485).jpg",
+  "license": "CC BY 2.0",
+  "author": "Jean-Pierre Dalbéra from Paris, France",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Le_mus%C3%A9e_de_la_centrale_Montemartini_(Rome)_(34321364485).jpg",
+  "orig": [
+   1525,
+   1200
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/montemartini-480.webp",
+   "img/places/montemartini-960.webp",
+   "img/places/montemartini-1440.webp"
+  ],
+  "bytes": 230082
+ },
+ {
+  "key": "esquilino",
+  "kind": "place",
+  "file": "Nuovo Mercato Esquilino 01.JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Nicholas Gemini",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Nuovo_Mercato_Esquilino_01.JPG",
+  "orig": [
+   4000,
+   3000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/esquilino-480.webp",
+   "img/places/esquilino-960.webp",
+   "img/places/esquilino-1440.webp"
+  ],
+  "bytes": 114632
+ },
+ {
+  "key": "pigneto",
+  "kind": "place",
+  "file": "Vallo Ferroviario Pigneto 2.JPG",
+  "license": "Public domain",
+  "author": "Patafisik",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Vallo_Ferroviario_Pigneto_2.JPG",
+  "orig": [
+   2288,
+   1712
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/pigneto-480.webp",
+   "img/places/pigneto-960.webp",
+   "img/places/pigneto-1440.webp"
+  ],
+  "bytes": 429140
+ },
+ {
+  "key": "sanlorenzo",
+  "kind": "place",
+  "file": "Rom 2011-08-by-RaBoe-22.jpg",
+  "license": "CC BY-SA 3.0 de",
+  "author": "© Ra Boe / Wikipedia - Create the proper attribution for your usage by clicking on this button! This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Germany license. Attribution: Ra Boe / Wikipedia You are free: to share – to copy, distribute and transmit the work to remix – to adapt the work Under the following conditions: attribution – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. share alike – If you remix, transform, or build upon the material, you must distribute your contributions under the same or compatible license as the original. https://creativecommons.org/licenses/by-sa/3.0/de/deed.en CC BY-SA 3.0 de Creative Commons Attribution-Share Alike 3.0 de true true Internet: Titel Foto: Ra Boe / Wikipedia , Original ; Lizenz: CC by-sa 3.0 Print: Titel Foto: Ra Boe / Wikipedia, Lizenz: CC by-sa 3.0 I have published this image as author Ra Boe under the \" CC-BY-SA-3.0 \" in Wikipedia. This means that free, commercial usage outside of Wikipedia is permitted under the following licence terms: Online media: The author \" RaBoe/Wikipedia \" is named A weblink to the original image is provided: //commons.wikimedia.org/wiki/File:Rom_2011-08-by-RaBoe-22.jpg A copy of, or the Uniform Resource Identifier ( https://creativecommons.org/licenses/by-sa/3.0/de/legalcode ) for, this License with every copy Print media: The author \" RaBoe/Wikipedia\" is named A copy of, or the Uniform Resource Identifier ( https://creativecommons.org/licenses/by-sa/3.0/de/legalcode ) for, this License with every copy Please send me a specimen copy or the URL of the website where the image is used. Please write an email to raboe001-at-web.de , if you need the image in a higher resolution need my postal address for sending a specimen copy have further questions about the terms of the licence PS: In case of refusal of the above terms the author reserves the right to take legal action. This license and the rights granted hereunder will terminate automatically upon any breach by you of the terms of this license. In this case the author reserves to demand declaration to cease and desist, and compensation (according to the MFM fee references currently in force). Any of the above conditions can be waived if you get permission from the copyright holder. Durch die Übernahme der UMTS Kosten durch den gemeinnützigen Vereins Skillshare.eu konnte dieses Bild bereitstellen werden. Skillshare e.V. ist ein eingetragener gemeinnütziger Verein zur Förderung der Bildung durch Unterstützung der Erstellung, Sammlung und Verbreitung so genannten freien Wissens. IBAN: DE16 8306 5408 0004 8850 66 BIC: GENODEF1SLR Bank: VR-Bank Altenburger Land",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Rom_2011-08-by-RaBoe-22.jpg",
+  "orig": [
+   1111,
+   738
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/sanlorenzo-480.webp",
+   "img/places/sanlorenzo-960.webp"
+  ],
+  "bytes": 99270
+ },
+ {
+  "key": "trilussa",
+  "kind": "place",
+  "file": "Ponte Sisto Roma.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Livioandronico2013",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Ponte_Sisto_Roma.jpg",
+  "orig": [
+   4707,
+   3992
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/trilussa-480.webp",
+   "img/places/trilussa-960.webp",
+   "img/places/trilussa-1440.webp"
+  ],
+  "bytes": 344674
+ },
+ {
+  "key": "giulia",
+  "kind": "place",
+  "file": "Farnese Arch Rome.jpg",
+  "license": "Public domain",
+  "author": "Jensens",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Farnese_Arch_Rome.jpg",
+  "orig": [
+   1767,
+   1413
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/giulia-480.webp",
+   "img/places/giulia-960.webp",
+   "img/places/giulia-1440.webp"
+  ],
+  "bytes": 390038
+ },
+ {
+  "key": "coronari",
+  "kind": "place",
+  "file": "Via dei Coronari da Piazza San Simeone.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Alessandro57",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_dei_Coronari_da_Piazza_San_Simeone.jpg",
+  "orig": [
+   2322,
+   4128
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/coronari-480.webp",
+   "img/places/coronari-960.webp",
+   "img/places/coronari-1440.webp"
+  ],
+  "bytes": 421210
+ },
+ {
+  "key": "malta",
+  "kind": "place",
+  "file": "Piazza dei cavalieri di Malta 00042.JPG",
+  "license": "Public domain",
+  "author": "user:Lalupa",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_dei_cavalieri_di_Malta_00042.JPG",
+  "orig": [
+   2048,
+   1536
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/malta-480.webp",
+   "img/places/malta-960.webp",
+   "img/places/malta-1440.webp"
+  ],
+  "bytes": 136650
+ },
+ {
+  "key": "fontanone",
+  "kind": "place",
+  "file": "Fontanone dell'Acqua Paola.jpg",
+  "license": "CC BY 4.0",
+  "author": "Labicanense",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Fontanone_dell%27Acqua_Paola.jpg",
+  "orig": [
+   5839,
+   5592
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/fontanone-480.webp",
+   "img/places/fontanone-960.webp",
+   "img/places/fontanone-1440.webp"
+  ],
+  "bytes": 284146
+ },
+ {
+  "key": "vittoriano",
+  "kind": "place",
+  "file": "Altare della Patria (Roma).jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "ThePhotografer",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Altare_della_Patria_(Roma).jpg",
+  "orig": [
+   8314,
+   5246
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/vittoriano-480.webp",
+   "img/places/vittoriano-960.webp",
+   "img/places/vittoriano-1440.webp"
+  ],
+  "bytes": 214770
+ },
+ {
+  "key": "pamphilj",
+  "kind": "place",
+  "file": "Villa Doria Pamphilj in Rom.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Burkhard Mücke",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Villa_Doria_Pamphilj_in_Rom.jpg",
+  "orig": [
+   2592,
+   1944
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/pamphilj-480.webp",
+   "img/places/pamphilj-960.webp",
+   "img/places/pamphilj-1440.webp"
+  ],
+  "bytes": 392386
+ },
+ {
+  "key": "caffarella",
+  "kind": "place",
+  "file": "CAFFARELLA163861.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "indeciso42",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:CAFFARELLA163861.jpg",
+  "orig": [
+   1702,
+   1098
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/caffarella-480.webp",
+   "img/places/caffarella-960.webp",
+   "img/places/caffarella-1440.webp"
+  ],
+  "bytes": 230000
+ },
+ {
+  "key": "celimontana",
+  "kind": "place",
+  "file": "Villa Celimontana 142.jpg",
+  "license": "Public domain",
+  "author": "m/m",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Villa_Celimontana_142.jpg",
+  "orig": [
+   1500,
+   1100
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/celimontana-480.webp",
+   "img/places/celimontana-960.webp",
+   "img/places/celimontana-1440.webp"
+  ],
+  "bytes": 415282
+ },
+ {
+  "key": "orto",
+  "kind": "place",
+  "file": "Orto botanico - ingresso 2704.JPG",
+  "license": "Public domain",
+  "author": "Lalupa",
+  "licenseUrl": "",
+  "restrictions": "",
+  "attributionRequired": "false",
+  "page": "https://commons.wikimedia.org/wiki/File:Orto_botanico_-_ingresso_2704.JPG",
+  "orig": [
+   2272,
+   1704
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/orto-480.webp",
+   "img/places/orto-960.webp",
+   "img/places/orto-1440.webp"
+  ],
+  "bytes": 201622
+ },
+ {
+  "key": "bioparco",
+  "kind": "place",
+  "file": "Ingresso bioparco 2.JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Alinti",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Ingresso_bioparco_2.JPG",
+  "orig": [
+   2048,
+   1536
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/bioparco-480.webp",
+   "img/places/bioparco-960.webp",
+   "img/places/bioparco-1440.webp"
+  ],
+  "bytes": 207370
+ },
+ {
+  "key": "explora",
+  "kind": "place",
+  "file": "Roma - Explora - Museo dei bambini di Roma 1 - 2025-09-10 15-59-19 001.JPG",
+  "license": "CC BY-SA 4.0",
+  "author": "Albarubescens",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma_-_Explora_-_Museo_dei_bambini_di_Roma_1_-_2025-09-10_15-59-19_001.JPG",
+  "orig": [
+   3449,
+   2495
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/explora-480.webp",
+   "img/places/explora-960.webp",
+   "img/places/explora-1440.webp"
+  ],
+  "bytes": 411708
+ },
+ {
+  "key": "smmaggiore",
+  "kind": "place",
+  "file": "Basilica di Santa Maria Maggiore - Roma.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "NikonZ7II",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Basilica_di_Santa_Maria_Maggiore_-_Roma.jpg",
+  "orig": [
+   6906,
+   5358
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/smmaggiore-480.webp",
+   "img/places/smmaggiore-960.webp",
+   "img/places/smmaggiore-1440.webp"
+  ],
+  "bytes": 233466
+ },
+ {
+  "key": "smtrastevere",
+  "kind": "place",
+  "file": "01 Santa Maria in Trastevere Facade.jpg",
+  "license": "CC BY 4.0",
+  "author": "NateBergin",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:01_Santa_Maria_in_Trastevere_Facade.jpg",
+  "orig": [
+   6000,
+   6000
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/smtrastevere-480.webp",
+   "img/places/smtrastevere-960.webp",
+   "img/places/smtrastevere-1440.webp"
+  ],
+  "bytes": 352676
+ },
+ {
+  "key": "vincoli",
+  "kind": "place",
+  "file": "San Pietro in Vincoli - esterno.jpg",
+  "license": "CC BY 4.0",
+  "author": "Rione I Monti",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:San_Pietro_in_Vincoli_-_esterno.jpg",
+  "orig": [
+   5280,
+   3744
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/vincoli-480.webp",
+   "img/places/vincoli-960.webp",
+   "img/places/vincoli-1440.webp"
+  ],
+  "bytes": 289896
+ },
+ {
+  "key": "prassede",
+  "kind": "place",
+  "file": "Santa Prassede Façade.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Mari27454",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Santa_Prassede_Fa%C3%A7ade.jpg",
+  "orig": [
+   5489,
+   3659
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/prassede-480.webp",
+   "img/places/prassede-960.webp",
+   "img/places/prassede-1440.webp"
+  ],
+  "bytes": 341988
+ },
+ {
+  "key": "coronati",
+  "kind": "place",
+  "file": "Basilica dei Santi Quattro Coronati - esterno.jpg",
+  "license": "CC BY 4.0",
+  "author": "PubblicUsername",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Basilica_dei_Santi_Quattro_Coronati_-_esterno.jpg",
+  "orig": [
+   6136,
+   4719
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/coronati-480.webp",
+   "img/places/coronati-960.webp",
+   "img/places/coronati-1440.webp"
+  ],
+  "bytes": 252344
+ },
+ {
+  "key": "cappuccini",
+  "kind": "place",
+  "file": "Rom, die Kirche Convento dei Cappuccini.JPG",
+  "license": "CC BY 3.0",
+  "author": "Dguendel",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Rom,_die_Kirche_Convento_dei_Cappuccini.JPG",
+  "orig": [
+   1701,
+   2551
+  ],
+  "status": "ok",
+  "output": [
+   "img/places/cappuccini-480.webp",
+   "img/places/cappuccini-960.webp",
+   "img/places/cappuccini-1440.webp"
+  ],
+  "bytes": 488884
+ },
+ {
+  "key": "cat-history",
+  "kind": "cat",
+  "file": "Palatine Hill from across the Circus Maximus April 2019.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Lil Herodotus",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Palatine_Hill_from_across_the_Circus_Maximus_April_2019.jpg",
+  "orig": [
+   5472,
+   3648
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-history-420.webp",
+   "img/categories/cat-history-840.webp"
+  ],
+  "bytes": 180114
+ },
+ {
+  "key": "cat-art",
+  "kind": "cat",
+  "file": "Vatican Museums Spiral Staircase 2012.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Colin",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Vatican_Museums_Spiral_Staircase_2012.jpg",
+  "orig": [
+   4336,
+   2756
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-art-420.webp",
+   "img/categories/cat-art-840.webp"
+  ],
+  "bytes": 169344
+ },
+ {
+  "key": "cat-food",
+  "kind": "cat",
+  "file": "Espaguetis carbonara.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Javier Somoza",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Espaguetis_carbonara.jpg",
+  "orig": [
+   2048,
+   1365
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-food-420.webp",
+   "img/categories/cat-food-840.webp"
+  ],
+  "bytes": 128594
+ },
+ {
+  "key": "cat-hidden",
+  "kind": "cat",
+  "file": "Quartiere Coppedè - Fontana delle Rane.jpg",
+  "status": "file non trovato su Commons"
+ },
+ {
+  "key": "cat-nature",
+  "kind": "cat",
+  "file": "Tempio di Esculapio a Villa Borghese 3.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Anna Eden 86",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Tempio_di_Esculapio_a_Villa_Borghese_3.jpg",
+  "orig": [
+   2084,
+   4624
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-nature-420.webp",
+   "img/categories/cat-nature-840.webp"
+  ],
+  "bytes": 289620
+ },
+ {
+  "key": "cat-religious",
+  "kind": "cat",
+  "file": "Basilica di San Pietro in Vaticano September 2015-1a.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Alvesgaspar",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg",
+  "orig": [
+   13066,
+   6823
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-religious-420.webp"
+  ],
+  "bytes": 34818
+ },
+ {
+  "key": "cat-local",
+  "kind": "cat",
+  "file": "Trastevere, Roma (32089705025).jpg",
+  "license": "CC BY 2.0",
+  "author": "Truque da Banana",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Trastevere,_Roma_(32089705025).jpg",
+  "orig": [
+   2340,
+   3902
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-local-420.webp",
+   "img/categories/cat-local-840.webp"
+  ],
+  "bytes": 219010
+ },
+ {
+  "key": "cat-romantic",
+  "kind": "cat",
+  "file": "Terrazza del Pincio (46397854832).jpg",
+  "license": "CC BY 2.0",
+  "author": "Sonse",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "restrictions": "",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Terrazza_del_Pincio_(46397854832).jpg",
+  "orig": [
+   4607,
+   2935
+  ],
+  "status": "ok",
+  "output": [
+   "img/categories/cat-romantic-420.webp",
+   "img/categories/cat-romantic-840.webp"
+  ],
+  "bytes": 163132
+ },
+ {
+  "key": "hero",
+  "kind": "hero",
+  "file": "Colosseo 2020.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "FeaturedPics",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "ita-mibac",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
+  "orig": [
+   12051,
+   8442
+  ],
+  "status": "ok",
+  "output": [
+   "img/hero/hero-960.webp",
+   "img/hero/hero-1600.webp"
+  ],
+  "bytes": 306642
+ },
+ {
+  "key": "hero-portrait",
+  "kind": "hero-portrait",
+  "file": "Colosseo 2020.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "FeaturedPics",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "restrictions": "ita-mibac",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
+  "orig": [
+   12051,
+   8442
+  ],
+  "status": "ok",
+  "output": [
+   "img/hero/hero-portrait-720.webp"
+  ],
+  "bytes": 118142
+ }
+]
