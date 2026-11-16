@@ -123,7 +123,7 @@
   {
    "key": "mercato",
    "kind": "place",
-   "file": "Testaccio - nuovo mercato P1040527.JPG"
+   "file": "Testaccio - il nuovo mercato 1280317.jpg"
   },
   {
    "key": "isola",
@@ -274,16 +274,6 @@
    "key": "esquilino",
    "kind": "place",
    "file": "Nuovo Mercato Esquilino 01.JPG"
-  },
-  {
-   "key": "pigneto",
-   "kind": "place",
-   "file": "Vallo Ferroviario Pigneto 2.JPG"
-  },
-  {
-   "key": "sanlorenzo",
-   "kind": "place",
-   "file": "Rom 2011-08-by-RaBoe-22.jpg"
   },
   {
    "key": "trilussa",
@@ -451,15 +441,5 @@
    "file": "Rome Scala Santa 2020 P01.jpg"
   }
  ],
- "review": {
-  "sanlorenzo": "Piazza dell'Immacolata San Lorenzo Roma",
-  "sanlorenzo2": "San Lorenzo Roma Via dei Volsci",
-  "pigneto": "Pigneto Roma strada",
-  "pigneto2": "Circolo Pigneto Roma via Fanfulla da Lodi",
-  "mercato": "Testaccio mercato banchi",
-  "mercato2": "Testaccio nuovo mercato",
-  "trionfale": "Trionfale mercato coperto",
-  "eur": "Palazzo dei Congressi EUR",
-  "eur2": "EUR Roma laghetto"
- }
+ "review": {}
 }

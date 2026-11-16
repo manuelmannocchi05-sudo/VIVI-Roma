@@ -163,9 +163,11 @@ function creditNode(ph,cls){
   return el("p",{class:cls},
     el("a",{href:ph.source,target:"_blank",rel:"noopener noreferrer","aria-label":creditText(ph)+", Wikimedia Commons (esterno)",text:creditText(ph)}));
 }
-/* Inserisce la foto nel contenitore. width = larghezza CSS da coprire (object-fit:cover), per scegliere il file giusto. */
+/* Inserisce la foto nel contenitore. width = larghezza CSS da coprire (object-fit:cover), per scegliere il file giusto.
+   Oltre 2× di densità la differenza non si vede su una foto: sugli schermi 3× si scarica il file per 2× (meno dati su smartphone). */
+const sizesFor=width=>{const dpr=window.devicePixelRatio||1;return Math.ceil(width*Math.min(dpr,2)/dpr)+"px";};
 function photoImg(ph,alt,width,{eager}={}){
-  const img=el("img",{src:ph.base+"-"+ph.w[0]+".webp",srcset:srcsetOf(ph),sizes:Math.ceil(width)+"px",alt:alt||"",
+  const img=el("img",{src:ph.base+"-"+ph.w[0]+".webp",srcset:srcsetOf(ph),sizes:sizesFor(width),alt:alt||"",
     width:ph.w[ph.w.length-1],height:Math.round(ph.w[ph.w.length-1]/ph.ratio),decoding:"async",loading:eager?"eager":"lazy"});
   if(eager)img.setAttribute("fetchpriority","high");
   const show=()=>requestAnimationFrame(()=>img.classList.add("in"));
@@ -449,9 +451,9 @@ function initHero(){
   const media=$("#heroMedia"),land=PHOTOS.hero,port=PHOTOS["hero-portrait"];
   if(!land)return;
   const pic=el("picture",null,
-    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:"100vw"}):null,
+    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:sizesFor(window.innerWidth)}):null,
     photoImg(land,"",window.innerWidth,{eager:true}));
-  pic.querySelector("img").sizes="100vw";
+  pic.querySelector("img").sizes=sizesFor(window.innerWidth);
   media.style.backgroundColor=land.color;
   media.append(pic);
   const credit=$("#heroCredit");
