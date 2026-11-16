@@ -91,7 +91,10 @@ def main():
         if not OK_LICENSE.match(lic or ""):
             rec["status"] = "licenza non ammessa"; report.append(rec); print("LICENZA", key, lic); continue
         src = ii.get("thumburl") if ii["width"] > 1920 else ii["url"]
-        im = Image.open(io.BytesIO(get(src))); im = ImageOps.exif_transpose(im).convert("RGB")
+        try:
+            im = Image.open(io.BytesIO(get(src))); im = ImageOps.exif_transpose(im).convert("RGB")
+        except Exception as ex:
+            rec["status"] = "download non riuscito: " + str(ex)[:120]; report.append(rec); print("ERRORE", key, ex, flush=True); continue
         time.sleep(1.5)
         spec = KINDS[kind]
         im = crop_ratio(im, spec["ratio"][0], spec["ratio"][1], e.get("focus", [0.5, 0.5]))
@@ -164,5 +167,7 @@ def review():
     open(os.path.join(d, "index.tsv"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
 
 if __name__ == "__main__":
-    main()
-    review()
+    import traceback
+    for step in (main, review):
+        try: step()
+        except Exception: traceback.print_exc()
