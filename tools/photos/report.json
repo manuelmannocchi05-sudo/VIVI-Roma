@@ -13,6 +13,7 @@
    12051,
    8442
   ],
+  "description": "Colosseo 2020",
   "status": "ok",
   "output": [
    "img/places/colosseo-480.webp",
@@ -35,6 +36,7 @@
    4500,
    2666
   ],
+  "description": "The Via dei Fori Imperiali street in Rome . A view from Vittoriano .",
   "status": "ok",
   "output": [
    "img/places/fori-480.webp",
@@ -57,6 +59,7 @@
    7512,
    6048
   ],
+  "description": "Pantheon (Rome) - Right side and front",
   "status": "ok",
   "output": [
    "img/places/pantheon-480.webp",
@@ -79,6 +82,7 @@
    8734,
    4738
   ],
+  "description": "Trevi Fountain, Rome",
   "status": "ok",
   "output": [
    "img/places/trevi-480.webp",
@@ -101,6 +105,7 @@
    8532,
    7782
   ],
+  "description": "The Chiesa di Sant'Agnese in Agone church, the Fountain of the four rivers and the ' Obelisco Agonale on Piazza Navona in Rome .",
   "status": "ok",
   "output": [
    "img/places/navona-480.webp",
@@ -123,6 +128,7 @@
    2448,
    3264
   ],
+  "description": "Piazza di Spagna 2018",
   "status": "ok",
   "output": [
    "img/places/spagna-480.webp",
@@ -145,6 +151,7 @@
    2835,
    1890
   ],
+  "description": "Vicolo del Cedro, Trastevere, Rome, Lazio, Italy",
   "status": "ok",
   "output": [
    "img/places/trastevere-480.webp",
@@ -167,6 +174,7 @@
    3264,
    2448
   ],
+  "description": "La fontana in piazza della Madonna dei Monti",
   "status": "ok",
   "output": [
    "img/places/monti-480.webp",
@@ -189,6 +197,7 @@
    1320,
    1620
   ],
+  "description": "La fontana delle Anfore ricollocata nella sua sede originaria, in Piazza Testaccio a Roma",
   "status": "ok",
   "output": [
    "img/places/testaccio-480.webp",
@@ -210,6 +219,7 @@
    4608,
    3456
   ],
+  "description": "Campo di fiori",
   "status": "ok",
   "output": [
    "img/places/campo-480.webp",
@@ -232,6 +242,7 @@
    1280,
    960
   ],
+  "description": "",
   "status": "ok",
   "output": [
    "img/places/gianicolo-480.webp",
@@ -253,6 +264,7 @@
    4607,
    2935
   ],
+  "description": "Rome, Italy",
   "status": "ok",
   "output": [
    "img/places/pincio-480.webp",
@@ -275,6 +287,7 @@
    4896,
    2754
   ],
+  "description": "Lake garden and the 18th century Temple of Aesculapius",
   "status": "ok",
   "output": [
    "img/places/borghese-480.webp",
@@ -297,6 +310,7 @@
    4864,
    3648
   ],
+  "description": "Giardino degli aranci",
   "status": "ok",
   "output": [
    "img/places/aranci-480.webp",
@@ -319,6 +333,7 @@
    3000,
    1987
   ],
+  "description": "Quartiere Coppedè a Roma",
   "status": "ok",
   "output": [
    "img/places/coppede-480.webp",
@@ -341,6 +356,7 @@
    6016,
    4000
   ],
+  "description": "Appian Way, near Casal Rotondo",
   "status": "ok",
   "output": [
    "img/places/appia-480.webp",
@@ -363,6 +379,7 @@
    4301,
    3852
   ],
+  "description": "Castel S'Angelo at Night",
   "status": "ok",
   "output": [
    "img/places/castel-480.webp",
@@ -385,6 +402,7 @@
    3072,
    2048
   ],
+  "description": "Rome, Vatican, Italy. Saint Peter's Square, or Saint Peter's Piazza (Piazza San Pietro), is located directly in front of St. Peter's Basilica, in Vatican City.",
   "status": "ok",
   "output": [
    "img/places/sanpietro-480.webp",
@@ -407,6 +425,7 @@
    5706,
    6434
   ],
+  "description": "basilica di San Clemente al Laterano",
   "status": "ok",
   "output": [
    "img/places/sanclemente-480.webp",
@@ -429,6 +448,7 @@
    2592,
    1552
   ],
+  "description": "The Baths of Caracalla , Rome . This image is taken from the south-west of the caldarium .",
   "status": "ok",
   "output": [
    "img/places/caracalla-480.webp",
@@ -451,6 +471,7 @@
    4000,
    3000
   ],
+  "description": "Piazza del Popolo, Roma (Rome)",
   "status": "ok",
   "output": [
    "img/places/popolo-480.webp",
@@ -473,6 +494,7 @@
    2048,
    1536
   ],
+  "description": "Roma, via Margutta",
   "status": "ok",
   "output": [
    "img/places/margutta-480.webp",
@@ -495,6 +517,7 @@
    4500,
    3000
   ],
+  "description": "Teatro Palladium in Rome. It is operated by Università Roma Tre.",
   "status": "ok",
   "output": [
    "img/places/garbatella-480.webp",
@@ -517,13 +540,14 @@
    3261,
    2174
   ],
+  "description": "Rome, a view of Piazzale Ostiense with the Pyramid and Porta san Paolo",
   "status": "ok",
   "output": [
    "img/places/ostiense-480.webp",
    "img/places/ostiense-960.webp",
    "img/places/ostiense-1440.webp"
   ],
-  "bytes": 163806
+  "bytes": 163694
  },
  {
   "key": "mercato",
@@ -539,6 +563,7 @@
    2048,
    1536
   ],
+  "description": "Roma, nuovo mercato di Testaccio.",
   "status": "ok",
   "output": [
    "img/places/mercato-480.webp",
@@ -561,6 +586,7 @@
    6016,
    4000
   ],
+  "description": "Isola Tiberina",
   "status": "ok",
   "output": [
    "img/places/isola-480.webp",
@@ -583,6 +609,7 @@
    4255,
    2837
   ],
+  "description": "Rome (Italy)",
   "status": "ok",
   "output": [
    "img/places/ghetto-480.webp",
@@ -605,6 +632,7 @@
    4208,
    5592
   ],
+  "description": "Santa Maria in Cosmedin (Rome)",
   "status": "ok",
   "output": [
    "img/places/bocca-480.webp",
@@ -627,6 +655,7 @@
    4650,
    2583
   ],
+  "description": "Rome, Italy The Circus Maximus is an ancient Roman chariot-racing stadium and mass entertainment venue. Situated in the valley between the Aventine and Palatine Hills, it was the first and largest stadium in ancient Rome and its later Empire. It measured 621 m in length and 118 m in width and could ",
   "status": "ok",
   "output": [
    "img/places/circo-480.webp",
@@ -649,6 +678,7 @@
    8874,
    6651
   ],
+  "description": "San Giovanni in Laterano 2021",
   "status": "ok",
   "output": [
    "img/places/laterano-480.webp",
@@ -671,6 +701,7 @@
    963,
    1280
   ],
+  "description": "Palazzo della Civiltà Italiana EUR",
   "status": "ok",
   "output": [
    "img/places/eur-480.webp",
@@ -692,6 +723,7 @@
    1600,
    1022
   ],
+  "description": "Via e Piazza Cola di Rienzo a Roma agli inizi del 1900",
   "status": "ok",
   "output": [
    "img/places/prati-480.webp",
@@ -714,6 +746,7 @@
    2048,
    1536
   ],
+  "description": "Roma, Villa Torlonia : facciata.",
   "status": "ok",
   "output": [
    "img/places/torlonia-480.webp",
@@ -736,6 +769,7 @@
    8272,
    5456
   ],
+  "description": "Saint Paul (Rome) - Facade",
   "status": "ok",
   "output": [
    "img/places/sanpaolo-480.webp",
@@ -758,6 +792,7 @@
    17000,
    6980
   ],
+  "description": "View of the Roman Forum from the Capitoline Museums in Rome .",
   "status": "ok",
   "output": [
    "img/places/foropalatino-480.webp",
@@ -779,6 +814,7 @@
    5472,
    3648
   ],
+  "description": "The Piazza del Campidoglio on the Capitoline Hill in Rome, Italy. View from the Senatorial Palace.",
   "status": "ok",
   "output": [
    "img/places/campidoglio-480.webp",
@@ -801,6 +837,7 @@
    2306,
    2976
   ],
+  "description": "Equestrian statue of Marcus Aurelius , roman artwork.",
   "status": "ok",
   "output": [
    "img/places/capitolini-480.webp",
@@ -823,6 +860,7 @@
    8384,
    5355
   ],
+  "description": "Trajan's Market",
   "status": "ok",
   "output": [
    "img/places/traiano-480.webp",
@@ -845,6 +883,7 @@
    5417,
    3450
   ],
+  "description": "The front of the Ara Pacis Augustae",
   "status": "ok",
   "output": [
    "img/places/arapacis-480.webp",
@@ -867,6 +906,7 @@
    4608,
    3456
   ],
+  "description": "Curia of Pompey and Theater of Pompey in Rome.",
   "status": "ok",
   "output": [
    "img/places/argentina-480.webp",
@@ -889,6 +929,7 @@
    2400,
    1331
   ],
+  "description": "Museo Nazionale Romano at Palazzo Massimo alle Terme, Rome. Seen from Piazza dei Cinquecento.",
   "status": "ok",
   "output": [
    "img/places/massimo-480.webp",
@@ -911,6 +952,7 @@
    1600,
    1200
   ],
+  "description": "St. Callixtus catacombe, Rome",
   "status": "ok",
   "output": [
    "img/places/callisto-480.webp",
@@ -933,6 +975,7 @@
    4690,
    3591
   ],
+  "description": "The park of the aqueducts",
   "status": "ok",
   "output": [
    "img/places/acquedotti-480.webp",
@@ -955,6 +998,7 @@
    5137,
    3853
   ],
+  "description": "Scorcio della Piramide Cestia e Porta San Paolo viste dal Cimitero Acattolico e Porta San Paolo",
   "status": "ok",
   "output": [
    "img/places/acattolico-480.webp",
@@ -977,6 +1021,7 @@
    6540,
    5263
   ],
+  "description": "PortSSebastian(face externe)",
   "status": "ok",
   "output": [
    "img/places/portasebastiano-480.webp",
@@ -999,6 +1044,7 @@
    3700,
    2500
   ],
+  "description": "",
   "status": "ok",
   "output": [
    "img/places/vaticani-480.webp",
@@ -1021,6 +1067,7 @@
    1951,
    1323
   ],
+  "description": "Roma , Villa Borghese , Galleria Borghese, facciata.",
   "status": "ok",
   "output": [
    "img/places/galleriaborghese-480.webp",
@@ -1043,6 +1090,7 @@
    2144,
    3184
   ],
+  "description": "Palazzo Doria Pamphilj (Rome) - Interiors",
   "status": "ok",
   "output": [
    "img/places/doria-480.webp",
@@ -1065,6 +1113,7 @@
    6840,
    4656
   ],
+  "description": "Palazzo Barberini - esterno",
   "status": "ok",
   "output": [
    "img/places/barberini-480.webp",
@@ -1087,6 +1136,7 @@
    5630,
    5525
   ],
+  "description": "San Luigi dei Francesi - facciata",
   "status": "ok",
   "output": [
    "img/places/sanluigi-480.webp",
@@ -1109,6 +1159,7 @@
    3204,
    2665
   ],
+  "description": "Esterno della basilica",
   "status": "ok",
   "output": [
    "img/places/smpopolo-480.webp",
@@ -1131,6 +1182,7 @@
    6094,
    5086
   ],
+  "description": "Church of Sant'Ignazio di Loyola",
   "status": "ok",
   "output": [
    "img/places/signazio-480.webp",
@@ -1153,6 +1205,7 @@
    4884,
    3504
   ],
+  "description": "La facade coté jardin de la villa Farnesina La Farnesina est une des plus belles villas romaines de la Renaissance. La fusion entre l'architecture et la décoration picturale y est particulièrement réussie. Site officiel de la Farnesina www.villafarnesina.it/?lang=en",
   "status": "ok",
   "output": [
    "img/places/farnesina-480.webp",
@@ -1175,6 +1228,7 @@
    1525,
    1200
   ],
+  "description": "Façade du musée Le centre d'exposition des musées du Capitole dans l'ancienne centrale thermoélectrique Giovanni Montemartini à Rome est un exemple étonnant d'un site industriel transformé en musée. Il a ouvert en 1997 avec l'installation de centaines de sculptures antiques. Cette centrale électriqu",
   "status": "ok",
   "output": [
    "img/places/montemartini-480.webp",
@@ -1197,6 +1251,7 @@
    4000,
    3000
   ],
+  "description": "Il nuovo mercato Esquilino",
   "status": "ok",
   "output": [
    "img/places/esquilino-480.webp",
@@ -1219,6 +1274,7 @@
    2288,
    1712
   ],
+  "description": "Vallo ferroviario Pigneto verso via Casilina",
   "status": "ok",
   "output": [
    "img/places/pigneto-480.webp",
@@ -1241,6 +1297,7 @@
    1111,
    738
   ],
+  "description": "Rom 2011",
   "status": "ok",
   "output": [
    "img/places/sanlorenzo-480.webp",
@@ -1262,6 +1319,7 @@
    4707,
    3992
   ],
+  "description": "Ponte Sisto Rome",
   "status": "ok",
   "output": [
    "img/places/trilussa-480.webp",
@@ -1284,6 +1342,7 @@
    1767,
    1413
   ],
+  "description": "Farnese Arch, Via Giulia, Rome",
   "status": "ok",
   "output": [
    "img/places/giulia-480.webp",
@@ -1306,6 +1365,7 @@
    2322,
    4128
   ],
+  "description": "Via del Coronari in Rome seen from Piazza San Simeone",
   "status": "ok",
   "output": [
    "img/places/coronari-480.webp",
@@ -1328,6 +1388,7 @@
    2048,
    1536
   ],
+  "description": "Roma, Aventino: piazza dei Cavalieri di Malta.",
   "status": "ok",
   "output": [
    "img/places/malta-480.webp",
@@ -1350,6 +1411,7 @@
    5839,
    5592
   ],
+  "description": "Fontanone dell'Acqua Paola",
   "status": "ok",
   "output": [
    "img/places/fontanone-480.webp",
@@ -1372,6 +1434,7 @@
    8314,
    5246
   ],
+  "description": "Altare della Patria (Roma)",
   "status": "ok",
   "output": [
    "img/places/vittoriano-480.webp",
@@ -1394,6 +1457,7 @@
    2592,
    1944
   ],
+  "description": "Villa Doria Pamphili an der Via Aurelia Antica in Rom",
   "status": "ok",
   "output": [
    "img/places/pamphilj-480.webp",
@@ -1416,6 +1480,7 @@
    1702,
    1098
   ],
+  "description": "Valle della Caffarella con il Casale della Vaccareccia",
   "status": "ok",
   "output": [
    "img/places/caffarella-480.webp",
@@ -1438,6 +1503,7 @@
    1500,
    1100
   ],
+  "description": "Villa Celimontana , Roma - giardini, sullo sfondo palazzetto Mattei",
   "status": "ok",
   "output": [
    "img/places/celimontana-480.webp",
@@ -1460,6 +1526,7 @@
    2272,
    1704
   ],
+  "description": "Roma, via di Villa Corsini - ingresso all'Orto botanico (sulla destra, Villa corsini)",
   "status": "ok",
   "output": [
    "img/places/orto-480.webp",
@@ -1482,13 +1549,14 @@
    2048,
    1536
   ],
+  "description": "Ingresso Bioparco di Roma",
   "status": "ok",
   "output": [
    "img/places/bioparco-480.webp",
    "img/places/bioparco-960.webp",
    "img/places/bioparco-1440.webp"
   ],
-  "bytes": 207370
+  "bytes": 207606
  },
  {
   "key": "explora",
@@ -1504,6 +1572,7 @@
    3449,
    2495
   ],
+  "description": "Explora - Museo dei bambini di Roma",
   "status": "ok",
   "output": [
    "img/places/explora-480.webp",
@@ -1526,6 +1595,7 @@
    6906,
    5358
   ],
+  "description": "Basilica di Santa Maria Maggiore",
   "status": "ok",
   "output": [
    "img/places/smmaggiore-480.webp",
@@ -1548,6 +1618,7 @@
    6000,
    6000
   ],
+  "description": "Santa Maria in Trastevere Facade",
   "status": "ok",
   "output": [
    "img/places/smtrastevere-480.webp",
@@ -1570,6 +1641,7 @@
    5280,
    3744
   ],
+  "description": "San Pietro in Vincoli - esterno",
   "status": "ok",
   "output": [
    "img/places/vincoli-480.webp",
@@ -1592,6 +1664,7 @@
    5489,
    3659
   ],
+  "description": "Internal Façade of Basilica of Santa Prassede, in Rome.",
   "status": "ok",
   "output": [
    "img/places/prassede-480.webp",
@@ -1614,6 +1687,7 @@
    6136,
    4719
   ],
+  "description": "Basilica dei Santi Quattro Coronati - esterno",
   "status": "ok",
   "output": [
    "img/places/coronati-480.webp",
@@ -1636,6 +1710,7 @@
    1701,
    2551
   ],
+  "description": "Rome, the church Convento dei Cappuccini",
   "status": "ok",
   "output": [
    "img/places/cappuccini-480.webp",
@@ -1658,6 +1733,7 @@
    5472,
    3648
   ],
+  "description": "View of the Palatine Hill from across the Circus Maximus, taken in April 2019.",
   "status": "ok",
   "output": [
    "img/categories/cat-history-420.webp",
@@ -1679,6 +1755,7 @@
    4336,
    2756
   ],
+  "description": "The double spiral staircase designed by Giuseppe Momo, sculpted by Antonio Maraini and realized by the Ferdinando Marinelli Artistic Foundry for the Vatican Museums 1932. This image was taken with a Samyang 8mm fisheye lens at f8, 0.25s, ISO 800.",
   "status": "ok",
   "output": [
    "img/categories/cat-art-420.webp",
@@ -1700,6 +1777,7 @@
    2048,
    1365
   ],
+  "description": "Plato de espaguetis con la salsa carbonara tradicional, hecha a base de huevo, guanciale de cerdo y queso pecorino romano.",
   "status": "ok",
   "output": [
    "img/categories/cat-food-420.webp",
@@ -1727,6 +1805,7 @@
    2084,
    4624
   ],
+  "description": "Tempio nel Giardino del Lago di Villa Borghese",
   "status": "ok",
   "output": [
    "img/categories/cat-nature-420.webp",
@@ -1748,6 +1827,7 @@
    13066,
    6823
   ],
+  "description": "Main facade of Saint Peter's Basilica, Rome",
   "status": "ok",
   "output": [
    "img/categories/cat-religious-420.webp"
@@ -1768,6 +1848,7 @@
    2340,
    3902
   ],
+  "description": "Trastevere, Roma",
   "status": "ok",
   "output": [
    "img/categories/cat-local-420.webp",
@@ -1789,6 +1870,7 @@
    4607,
    2935
   ],
+  "description": "Rome, Italy",
   "status": "ok",
   "output": [
    "img/categories/cat-romantic-420.webp",
@@ -1810,6 +1892,7 @@
    12051,
    8442
   ],
+  "description": "Colosseo 2020",
   "status": "ok",
   "output": [
    "img/hero/hero-960.webp",
@@ -1831,6 +1914,7 @@
    12051,
    8442
   ],
+  "description": "Colosseo 2020",
   "status": "ok",
   "output": [
    "img/hero/hero-portrait-720.webp"

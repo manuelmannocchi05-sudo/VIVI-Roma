@@ -21,7 +21,7 @@ ok caracalla CC BY-SA 4.0 313332
 ok popolo CC BY-SA 4.0 838328
 ok margutta Public domain 210700
 ok garbatella CC BY-SA 4.0 159202
-ok ostiense CC BY-SA 4.0 163806
+ok ostiense CC BY-SA 4.0 163694
 ok mercato CC BY-SA 4.0 173850
 ok isola CC BY-SA 3.0 154532
 ok ghetto CC BY 2.0 343514
@@ -65,7 +65,7 @@ ok pamphilj CC BY-SA 4.0 392386
 ok caffarella CC BY-SA 4.0 230000
 ok celimontana Public domain 415282
 ok orto Public domain 201622
-ok bioparco CC BY-SA 3.0 207370
+ok bioparco CC BY-SA 3.0 207606
 ok explora CC BY-SA 4.0 411708
 ok smmaggiore CC BY-SA 4.0 233466
 ok smtrastevere CC BY 4.0 352676
@@ -85,14 +85,3 @@ ok hero CC BY-SA 4.0 306642
 ok hero-portrait CC BY-SA 4.0 118142
 
 84 foto generate, 1 scartate o mancanti
-Traceback (most recent call last):
-  File "/home/runner/work/VIVI-Roma/VIVI-Roma/tools/photos/build.py", line 172, in <module>
-    try: step()
-         ^^^^^^
-  File "/home/runner/work/VIVI-Roma/VIVI-Roma/tools/photos/build.py", line 166, in review
-    sheet.save(os.path.join(d, g + ".jpg"), quality=72)
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py", line 2588, in save
-    save_handler(self, fp, filename)
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/JpegImagePlugin.py", line 663, in _save
-    raise ValueError(msg)
-ValueError: cannot write empty image as JPEG
