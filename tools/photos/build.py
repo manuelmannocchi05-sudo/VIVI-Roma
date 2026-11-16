@@ -90,7 +90,8 @@ def main():
                     "orig": [ii["width"], ii["height"]], "description": text(m.get("ImageDescription", {}).get("value"))[:300]})
         if not OK_LICENSE.match(lic or ""):
             rec["status"] = "licenza non ammessa"; report.append(rec); print("LICENZA", key, lic); continue
-        src = ii.get("thumburl") if ii["width"] > 1920 else ii["url"]
+        big = 3840 if kind in ("cat", "hero", "hero-portrait") else 1920    # copertina e categorie vengono ritagliate: serve più risoluzione
+        src = ii["url"] if ii["width"] <= big else ii.get("thumburl", "").replace("/1920px-", f"/{big}px-")
         try:
             im = Image.open(io.BytesIO(get(src))); im = ImageOps.exif_transpose(im).convert("RGB")
         except Exception as ex:
@@ -105,7 +106,8 @@ def main():
         for w in widths:
             h = round(im.height * w / im.width)
             name = f"img/{folder}/{key}-{w}.webp"
-            im.resize((w, h), Image.LANCZOS).save(os.path.join(ROOT, name), "WEBP", quality=spec["q"], method=6)
+            q = spec["q"] + (6 if w <= 480 else 0) - (6 if w >= 1440 else 0)   # più compressione sui file grandi
+            im.resize((w, h), Image.LANCZOS).save(os.path.join(ROOT, name), "WEBP", quality=q, method=6)
             files.append(name); keep.add(name)
         avg = im.resize((1, 1), Image.BOX).getpixel((0, 0))
         out[key] = {"kind": kind, "w": widths, "ratio": round(im.width / im.height, 4), "color": "#%02x%02x%02x" % avg,

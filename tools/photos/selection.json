@@ -43,7 +43,7 @@
   {
    "key": "testaccio",
    "kind": "place",
-   "file": "Roma. Piazza Testaccio. Fontana delle Anfore.jpeg"
+   "file": "Testaccio - fontana Anfore 01464.jpg"
   },
   {
    "key": "campo",
@@ -63,7 +63,7 @@
   {
    "key": "borghese",
    "kind": "place",
-   "file": "Roma - 2016-05-21 - Villa Borghese - 0697.jpg"
+   "file": "Villa Borghese - Viale del Museo Borghese - panoramio.jpg"
   },
   {
    "key": "aranci",
@@ -128,7 +128,7 @@
   {
    "key": "isola",
    "kind": "place",
-   "file": "Isola Tiberina 2014.JPG"
+   "file": "Rome Tiber Ponte Fabricio.jpg"
   },
   {
    "key": "ghetto",
@@ -158,7 +158,7 @@
   {
    "key": "prati",
    "kind": "place",
-   "file": "Via cola di rienzo.jpg"
+   "file": "Roma - Palazzo di Giustizia (42815336271).jpg"
   },
   {
    "key": "torlonia",
@@ -183,7 +183,7 @@
   {
    "key": "capitolini",
    "kind": "place",
-   "file": "0 Marcus Aurelius Exedra - Palazzo dei Conservatori - Musei Capitolini (1).jpg"
+   "file": "0 Cortile dei Conservatori - Musei Capitolini - Rome (1).JPG"
   },
   {
    "key": "traiano",
@@ -218,7 +218,7 @@
   {
    "key": "acattolico",
    "kind": "place",
-   "file": "Roma - Cimitero acattolico di Roma - 2023-11-11.jpg"
+   "file": "Keats And Severn Graves.JPG"
   },
   {
    "key": "portasebastiano",
@@ -228,7 +228,7 @@
   {
    "key": "vaticani",
    "kind": "place",
-   "file": "0 Fresque et stucs - G. Muziano - C. Nebbia - Galleria delle carte geografiche.JPG"
+   "file": "Galleria delle carte geografiche (Vatican Museums) September 2015-1a.jpg"
   },
   {
    "key": "galleriaborghese",
@@ -268,7 +268,7 @@
   {
    "key": "montemartini",
    "kind": "place",
-   "file": "Le musée de la centrale Montemartini (Rome) (34321364485).jpg"
+   "file": "Statue of a Muse (Polyhymnia?), Found in via Terni inside an ancient underground passage in the area of the Horti Variani, 2nd century BC, Centrale Montemartini, Rome (21108641384).jpg"
   },
   {
    "key": "esquilino",
@@ -303,7 +303,7 @@
   {
    "key": "malta",
    "kind": "place",
-   "file": "Piazza dei cavalieri di Malta 00042.JPG"
+   "file": "Roma - Villa del Priorato di Malta 8505.jpg"
   },
   {
    "key": "fontanone",
@@ -323,7 +323,7 @@
   {
    "key": "caffarella",
    "kind": "place",
-   "file": "CAFFARELLA163861.jpg"
+   "file": "20260626 Valle della Caffarella.jpg"
   },
   {
    "key": "celimontana",
@@ -333,12 +333,12 @@
   {
    "key": "orto",
    "kind": "place",
-   "file": "Orto botanico - ingresso 2704.JPG"
+   "file": "Tropical Greenhouse - Orto botanico - Rome, Italy - DSC00160.jpg"
   },
   {
    "key": "bioparco",
    "kind": "place",
-   "file": "Ingresso bioparco 2.JPG"
+   "file": "Fenicotteri al Bioparco di Roma.jpg"
   },
   {
    "key": "explora",
@@ -378,7 +378,11 @@
   {
    "key": "cat-history",
    "kind": "cat",
-   "file": "Palatine Hill from across the Circus Maximus April 2019.jpg"
+   "file": "Colosseum Rome at evening.JPG",
+   "focus": [
+    0.42,
+    0.5
+   ]
   },
   {
    "key": "cat-art",
@@ -393,7 +397,7 @@
   {
    "key": "cat-hidden",
    "kind": "cat",
-   "file": "Quartiere Coppedè - Fontana delle Rane.jpg"
+   "file": "Roma - Coppedè, Arco dei Palazzi degli Ambasciatori da via Tagliamento.jpg"
   },
   {
    "key": "cat-nature",
@@ -418,37 +422,36 @@
   {
    "key": "hero",
    "kind": "hero",
-   "file": "Colosseo 2020.jpg"
+   "file": "Rome Street - Flickr - radkuch.13.jpg",
+   "focus": [
+    0.5,
+    0.5
+   ]
   },
   {
    "key": "hero-portrait",
    "kind": "hero-portrait",
-   "file": "Colosseo 2020.jpg"
+   "file": "Rome Street - Flickr - radkuch.13.jpg",
+   "focus": [
+    0.55,
+    0.5
+   ]
+  },
+  {
+   "key": "scalasanta",
+   "kind": "place",
+   "file": "Rome Scala Santa 2020 P01.jpg"
   }
  ],
  "review": {
-  "acattolico": "Cimitero acattolico Roma tombe",
-  "bioparco": "Bioparco di Roma",
-  "caffarella": "Valle della Caffarella",
-  "callisto": "Catacombe di San Callisto",
-  "capitolini": "Musei Capitolini interno",
-  "history": "Foro Romano veduta",
-  "borghese": "Villa Borghese Roma viale",
-  "romantic": "Roma tramonto cupola San Pietro panorama",
-  "hero": "Colosseum Rome evening",
-  "gianicolo": "Terrazza del Gianicolo panorama",
-  "malta": "buco della serratura Cavalieri di Malta",
-  "mercato": "Mercato di Testaccio banchi",
-  "pigneto": "Pigneto murales",
-  "prati": "Piazza Cavour Roma Palazzo di Giustizia",
-  "sanlorenzo": "San Lorenzo Roma murales",
-  "testaccio": "Piazza Testaccio Fontana delle Anfore",
-  "hidden": "Quartiere Coppedè arco",
-  "trionfale": "Mercato Trionfale",
-  "scalasanta": "Scala Santa",
-  "orto": "Orto botanico Roma serra",
-  "isola": "Isola Tiberina Ponte Fabricio",
-  "montemartini": "Centrale Montemartini statue",
-  "vaticani": "Galleria delle Carte Geografiche"
+  "romantic": "Ponte Sant'Angelo tramonto",
+  "romantic2": "Roma tramonto Tevere",
+  "trionfale": "Mercato rionale Trionfale",
+  "sanlorenzo": "Basilica di San Lorenzo fuori le Mura",
+  "gianicolo": "Gianicolo vista Roma",
+  "mercato": "Nuovo Mercato di Testaccio interno",
+  "pigneto": "Via del Pigneto",
+  "food": "Supplì",
+  "food2": "Carciofi alla giudia"
  }
 }
