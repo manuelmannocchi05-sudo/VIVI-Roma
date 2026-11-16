@@ -49,3 +49,13 @@ Aggiungendo un luogo in `js/data/places.js`, `npm test` verifica campi obbligato
 - `when` è la fascia oraria ideale mostrata nella scheda; `slot` serve solo a ordinare le tappe (`am` = aperto solo al mattino, `morning`, `late` = tramonto, `evening` = sera).
 - `ticket` raggruppa i luoghi coperti dallo stesso biglietto (es. Colosseo e Foro Romano); `cheap` indica un biglietto sotto i 10 €; `must` i grandi classici per chi visita Roma la prima volta.
 - I dati variabili vanno ricontrollati periodicamente: la data di verifica è nella scheda.
+
+## Regole del motore degli itinerari
+
+Vincoli rigidi, controllati da `npm test`:
+
+- **Tempo di visita**: la somma dei tempi medi (`time`) di una giornata non supera il tempo del ritmo scelto. Un grande museo può occupare da solo una giornata se la sua durata minima ci sta.
+- **Visite da mezza giornata** (3 ore o più, es. Musei Vaticani): accanto solo tappe leggere, nessun'altra visita impegnativa (90 minuti o più, oppure museo a pagamento da almeno un'ora).
+- **Camminata**: il percorso di ogni giornata resta entro i km giornalieri del livello di camminata scelto; le tratte oltre la tratta comoda sono segnalate (mezzi pubblici).
+- **Budget = tetto, mai obiettivo**: contenuto circa un ingresso a pagamento ogni due giorni (almeno uno), equilibrato circa uno al giorno (almeno uno e mezzo), "concedermi qualcosa" senza limite. Nessun budget obbliga a spendere: un itinerario gratuito va bene anche con budget alto.
+- **Numero di tappe**: due per giornata è l'obiettivo, non un obbligo. Se nulla entra nel tempo, nel budget o nella zona, la giornata resta di una tappa.

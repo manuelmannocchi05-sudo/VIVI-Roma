@@ -1,7 +1,7 @@
 /* Test automatici del pianificatore e del catalogo. Avvio: npm test */
 import {test} from "node:test";
 import assert from "node:assert/strict";
-import {PLACES,buildItinerary,km,CENTER,WALK} from "../js/planner.js";
+import {PLACES,buildItinerary,km,CENTER,WALK,timeRange,spendOf,budgetQuota} from "../js/planner.js";
 import {QUIZ} from "../js/quiz-data.js";
 import {sampleAnswers,expectedDays} from "./combos.js";
 
@@ -102,4 +102,36 @@ test("momento della giornata: le giornate con luoghi serali finiscono la sera, i
   }
   assert.ok(days>0&&endOk/days>=0.9,"giornate che finiscono con un luogo serale: "+endOk+"/"+days);
   assert.ok(morning>0&&morningOk/morning>=0.8,"luoghi del mattino nella prima metà: "+morningOk+"/"+morning);
+});
+
+const midMins=p=>{const t=timeRange(p);return (t[0]+t[1])/2;};
+test("tempo di visita: nessuna giornata oltre il ritmo scelto, nessuna visita impegnativa accanto a una da mezza giornata", ()=>{
+  for(const a of sampleAnswers()){
+    const r=buildItinerary(a);
+    r.days.forEach((d,i)=>{
+      const mins=d.stops.reduce((t,s)=>t+midMins(s),0);
+      const alone=d.stops.length===1&&timeRange(d.stops[0])[0]<=r.cfg.budget;   /* un grande museo da solo, nella durata minima */
+      assert.ok(mins<=r.cfg.budget||alone,JSON.stringify(a)+" giorno "+(i+1)+": "+mins+" min su "+r.cfg.budget);
+      assert.ok(d.stops.length<=r.cfg.max,"troppe tappe per il ritmo");
+      const heavy=s=>midMins(s)>=90||(s.fee==="paid"&&midMins(s)>=60);
+      if(d.stops.some(s=>midMins(s)>=180))assert.ok(d.stops.filter(heavy).length===1,JSON.stringify(a)+": visite impegnative accanto a una da mezza giornata");
+    });
+  }
+});
+
+test("camminata: il percorso di ogni giornata resta entro i km giornalieri scelti", ()=>{
+  for(const a of sampleAnswers()){
+    const r=buildItinerary(a);
+    r.days.forEach(d=>assert.ok(d.walkKm<=r.cfg.walk.day+1e-9,JSON.stringify(a)+": "+d.walkKm.toFixed(2)+" km su "+r.cfg.walk.day));
+  }
+});
+
+test("budget: è un tetto, mai superato con budget contenuto o equilibrato; nessun obbligo di spesa", ()=>{
+  const byId=Object.fromEntries(PLACES.map(p=>[p.id,p]));
+  for(const a of sampleAnswers()){
+    const r=buildItinerary(a),q=budgetQuota(a,r.cfg.days);
+    assert.equal(q.min,0);
+    const spend=spendOf(r.days.flatMap(d=>d.stops.map(s=>({p:byId[s.id]}))));
+    assert.ok(spend<=q.max+1e-9,JSON.stringify(a)+": spesa "+spend+" oltre il limite "+q.max);
+  }
 });
