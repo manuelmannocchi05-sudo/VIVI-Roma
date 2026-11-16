@@ -1,5 +1,15 @@
 /* VIVI Roma — pianificatore degli itinerari.
-   Puro, senza DOM: si usa nel browser e nei test (npm test). */
+   Puro, senza DOM: si usa nel browser e nei test (npm test).
+
+   Come costruisce un itinerario
+   1. Dà un punteggio a ogni luogo in base alle risposte (interessi, atmosfera, compagnia, budget...).
+   2. Costruisce una giornata alla volta attorno a una zona: prova più luoghi di partenza ("ancore")
+      e la fa crescere solo con luoghi vicini, entro il limite di camminata scelto dall'utente.
+   3. Usa solo luoghi che corrispondono agli interessi; altri luoghi entrano solo per arrivare
+      al minimo di 2 tappe per giornata.
+   4. Ordina le tappe per il percorso più breve, con i mercati al mattino e, se richiesti,
+      panorami e luoghi serali verso la fine.
+   Tutte le distanze sono in linea d'aria: nessun orario, costo o tempo di percorrenza viene calcolato o mostrato. */
 import {PLACES} from "./data/places.js";
 
 const CENTER={lat:41.8986,lng:12.4769};          /* Pantheon: riferimento per i luoghi periferici */
@@ -9,6 +19,18 @@ const DURATIONS={half:{days:1,half:true},one:{days:1}};   /* "multi": numero di 
 const COST_UNITS={free:0,mixed:.5,verify:.5,paid:1};
 const units=p=>COST_UNITS[p.fee]||0;
 const PACE={slow:{max:3,budget:240},balanced:{max:4,budget:330},full:{max:5,budget:420}};
+/* Camminata, in km in linea d'aria.
+   leg: tratta più lunga tra due tappe consecutive che consideriamo comoda a piedi; oltre, suggeriamo i mezzi pubblici.
+   zone: distanza massima di ogni tappa dal luogo di partenza della giornata (la giornata resta in una zona).
+   day: somma massima delle tratte di una giornata. */
+const WALK={low:{leg:1.2,zone:1.4,day:3.0},medium:{leg:1.8,zone:2.0,day:5.0},high:{leg:2.2,zone:2.6,day:7.0}};
+const MIN_STOPS=2;          /* minimo di tappe per giornata */
+const ANCHORS=12;           /* luoghi di partenza provati per ogni giornata */
+const REL_BONUS=6;          /* vantaggio di un luogo che corrisponde agli interessi */
+const DIST_WEIGHT=3;        /* penalità per km aggiunto alla giornata */
+const RELAX_WEIGHT=10;      /* penalità per km quando, per arrivare al minimo di tappe, si esce dalla zona */
+const SLOT_MORNING=0.6;     /* km "virtuali" per ogni posizione dopo l'inizio, per i mercati */
+const SLOT_LATE=1.2;        /* km "virtuali" per ogni posizione prima della fine, per sera e panorami */
 const FOOD_TIPS=[
   "carbonara, cacio e pepe, amatriciana e gricia",
   "carciofi alla romana, supplì e pizza al taglio",
@@ -34,7 +56,7 @@ function config(a){
   let max=base.max,budget=base.budget;
   if(d.half){max=Math.min(max,a.pace==="slow"?2:3);budget=Math.round(budget*.55);}
   if(a.walking==="low"){max=Math.max(2,max-1);budget=Math.round(budget*.85);}
-  return {days:d.days,max,budget,half:!!d.half};
+  return {days:d.days,max,budget,half:!!d.half,walk:WALK[a.walking]||WALK.medium};
 }
 function matchesOf(p,a){return a.interests.filter(t=>p.cats.includes(t));}
 function scorePlace(p,a){
@@ -58,99 +80,39 @@ function scorePlace(p,a){
 function blocked(p,chosen){
   return EXCLUSIVE.some(pair=>pair.includes(p.id)&&chosen.some(c=>pair.includes(c.p.id)&&c.p.id!==p.id));
 }
-/* Soglie di spesa per budget: contenuto = pochi luoghi a pagamento · equilibrato = mix (20–35%) · concedermi qualcosa = almeno il 40%, nessun tetto */
+/* Soglie di spesa per budget, sull'intero itinerario: contenuto = pochi luoghi a pagamento · equilibrato = mix (20–35%, ma un grande classico a pagamento è sempre possibile) · concedermi qualcosa = almeno il 40% */
 function budgetQuota(a,n){
   if(a.budget==="low")return {min:0,max:Math.max(1,n*0.2)};
-  if(a.budget==="mid")return {min:n*0.2,max:n*0.35};
+  if(a.budget==="mid")return {min:n*0.2,max:Math.max(1.5,n*0.35)};   /* almeno un ingresso pieno anche nelle giornate brevi */
   if(a.budget==="high")return {min:n*0.4,max:Infinity};
   return {min:0,max:Infinity};
 }
-function pickPlaces(a,cfg){
-  const target=cfg.days*cfg.max,budgetTotal=cfg.days*cfg.budget;
-  const ranked=PLACES.map(p=>({p,score:scorePlace(p,a),matches:matchesOf(p,a)}))
-    .sort((x,y)=>y.score-x.score||x.p.id.localeCompare(y.p.id));
-  const farLimit=Math.max(1,cfg.days);   /* al massimo un luogo periferico per giornata */
-  const isFar=p=>km(CENTER,p)>4;
-  const quota=budgetQuota(a,target);
-  const chosen=[];let mins=0,farCount=0,spend=0;
-  const add=(r,m)=>{chosen.push(r);mins+=m;spend+=units(r.p);if(isFar(r.p))farCount++;};
-  /* 1° passaggio: rispetta il tetto di spesa del budget scelto */
-  for(const r of ranked){
-    if(chosen.length>=target)break;
-    if(blocked(r.p,chosen))continue;
-    if(isFar(r.p)&&farCount>=farLimit)continue;
-    if(spend+units(r.p)>quota.max+1e-9)continue;
-    const m=midMins(r.p);
-    if(mins+m>budgetTotal&&chosen.length>=cfg.days*2)continue;
-    add(r,m);
-  }
-  /* 2° passaggio: se mancano tappe per avere almeno 2 per giornata, allenta il tetto */
-  for(const r of ranked){
-    if(chosen.length>=cfg.days*2)break;
-    if(chosen.includes(r)||blocked(r.p,chosen))continue;
-    if(isFar(r.p)&&farCount>=farLimit)continue;
-    add(r,midMins(r.p));
-  }
-  /* Budget equilibrato / concedermi qualcosa: garantisce una quota minima di tappe a pagamento, scelte tra le più adatte agli interessi */
-  if(a.budget==="mid"||a.budget==="high"){
-    let guard=0;
-    while(spend<quota.min-1e-9&&guard++<8){
-      const cand=ranked.find(r=>units(r.p)>0&&!chosen.includes(r)&&!blocked(r.p,chosen)&&!(isFar(r.p)&&farCount>=farLimit));
-      const victim=chosen.filter(c=>units(c.p)===0).sort((x,y)=>x.score-y.score)[0];
-      if(!cand||!victim)break;
-      chosen.splice(chosen.indexOf(victim),1,cand);
-      spend+=units(cand.p);
-      if(isFar(cand.p))farCount++;
-      if(isFar(victim.p))farCount--;
-    }
-  }
-  return chosen;
-}
-/* Raggruppa le tappe in giornate geograficamente compatte e di dimensione equilibrata. */
-function clusterDays(items,k){
-  if(k<=1||items.length<=1)return [items.slice()];
-  k=Math.min(k,items.length);
-  const cap=Math.ceil(items.length/k);
-  const seeds=[items[0]];
-  while(seeds.length<k){
-    let best=null,bd=-1;
-    items.forEach(it=>{
-      if(seeds.includes(it))return;
-      const d=Math.min(...seeds.map(s=>km(s.p,it.p)));
-      if(d>bd){bd=d;best=it;}
-    });
-    seeds.push(best);
-  }
-  let centers=seeds.map(s=>({lat:s.p.lat,lng:s.p.lng}));
-  let groups=[];
-  for(let iter=0;iter<8;iter++){
-    groups=centers.map(()=>[]);
-    const pairs=[];
-    items.forEach((it,i)=>centers.forEach((c,j)=>pairs.push({i,j,d:km(c,it.p)})));
-    pairs.sort((x,y)=>x.d-y.d||x.i-y.i||x.j-y.j);
-    const used=new Set();
-    const isFar=it=>km(CENTER,it.p)>4;
-    const separateFar=items.filter(isFar).length<=k;   /* un solo luogo periferico per giornata, se possibile */
-    pairs.forEach(({i,j})=>{
-      if(used.has(i)||groups[j].length>=cap)return;
-      if(separateFar&&isFar(items[i])&&groups[j].some(isFar))return;
-      used.add(i);groups[j].push(items[i]);
-    });
-    items.forEach((it,i)=>{                                   /* eventuali tappe rimaste: gruppo più vicino con spazio */
-      if(used.has(i))return;
-      let bj=-1,bd=Infinity;
-      centers.forEach((c,j)=>{if(groups[j].length<cap){const d=km(c,it.p);if(d<bd){bd=d;bj=j;}}});
-      if(bj<0){centers.forEach((c,j)=>{const d=km(c,it.p);if(d<bd){bd=d;bj=j;}});}
-      groups[bj].push(it);used.add(i);
-    });
-    centers=groups.map((g,j)=>g.length?{lat:g.reduce((s,x)=>s+x.p.lat,0)/g.length,lng:g.reduce((s,x)=>s+x.p.lng,0)/g.length}:centers[j]);
-  }
-  return groups.filter(g=>g.length);
-}
+
 function pathLength(list){let t=0;for(let i=1;i<list.length;i++)t+=km(list[i-1].p,list[i].p);return t;}
-/* Ordine di visita più corto (esatto fino a 7 tappe, euristico oltre). */
-function bestOrder(items){
-  if(items.length<3)return items.slice();
+
+/* Momento ideale della giornata: "morning" (mercati) va all'inizio; "late" (panorami, se cerchi romanticismo)
+   e i luoghi serali (se scegli "Roma di sera") vanno verso la fine. Nessun orario viene indicato. */
+function slotOf(p,a){
+  if(p.slot==="morning")return "morning";
+  if(a.interests.includes("night")&&p.cats.includes("night"))return "late";
+  if(p.slot==="late"&&a.interests.includes("romantic"))return "late";
+  return null;
+}
+function orderCost(list,a){
+  let c=pathLength(list),lastLate=-1;
+  const n=list.length;
+  list.forEach((x,i)=>{
+    const s=slotOf(x.p,a);
+    if(s==="morning")c+=i*SLOT_MORNING;           /* ogni mercato il prima possibile */
+    else if(s==="late")lastLate=i;
+  });
+  if(lastLate>=0)c+=(n-1-lastLate)*SLOT_LATE;     /* basta che la giornata finisca con un luogo serale o un panorama */
+  return c;
+}
+/* Ordine di visita: il più corto tenendo conto del momento della giornata (esatto fino a 7 tappe, euristico oltre).
+   A parità di costo, si parte dalla tappa con il punteggio più alto. */
+function bestOrder(items,a){
+  if(items.length<2)return items.slice();
   if(items.length>7){
     const rest=items.slice(),out=[rest.shift()];
     while(rest.length){
@@ -160,38 +122,142 @@ function bestOrder(items){
     }
     return out;
   }
-  let best=null,bl=Infinity;
+  let best=null,bc=Infinity;
   (function perm(arr,rest){
-    if(!rest.length){const l=pathLength(arr);if(l<bl-1e-9){bl=l;best=arr.slice();}return;}
-    for(let i=0;i<rest.length;i++){perm(arr.concat(rest[i]),rest.slice(0,i).concat(rest.slice(i+1)));}
-  })([],items);
-  const rev=best.slice().reverse();
-  return rev[0].score>best[0].score?rev:best;
-}
-/* Affina i gruppi scambiando tappe tra giornate finché la somma dei percorsi (in linea d'aria) diminuisce. */
-function refineGroups(groups,budget){
-  const cost=g=>{
-    const spend=g.reduce((t,x)=>t+units(x.p),0);
-    const pen=budget==="mid"?4*Math.max(0,spend-Math.ceil(g.length*0.6)):0;   /* budget equilibrato: alterna gratuito e a pagamento nello stesso giorno */
-    return (g.length<2?0:Math.pow(pathLength(bestOrder(g)),1.5))+pen;
-  };
-  let costs=groups.map(cost),improved=true,pass=0;
-  while(improved&&pass++<6){
-    improved=false;
-    for(let x=0;x<groups.length;x++)for(let y=x+1;y<groups.length;y++){
-      for(let i=0;i<groups[x].length;i++)for(let j=0;j<groups[y].length;j++){
-        const gx=groups[x].slice(),gy=groups[y].slice();
-        const t=gx[i];gx[i]=gy[j];gy[j]=t;
-        const cx=cost(gx),cy=cost(gy);
-        if(cx+cy<costs[x]+costs[y]-1e-6){groups[x]=gx;groups[y]=gy;costs[x]=cx;costs[y]=cy;improved=true;}
-      }
+    if(!rest.length){
+      const c=orderCost(arr,a||{interests:[]});
+      if(c<bc-1e-9||(Math.abs(c-bc)<=1e-9&&arr[0].score>best[0].score)){bc=c;best=arr.slice();}
+      return;
     }
-  }
-  return groups;
+    for(let i=0;i<rest.length;i++)perm(arr.concat(rest[i]),rest.slice(0,i).concat(rest.slice(i+1)));
+  })([],items);
+  return best;
 }
+
+/* Valore di una giornata: luoghi pertinenti e ben valutati, poca strada, poche tratte da fare con i mezzi. */
+function dayValue(day,a,cfg){
+  if(!day.length)return -Infinity;
+  const ord=bestOrder(day,a);
+  let v=0,long=0;
+  day.forEach(r=>{v+=r.score+(r.matches.length?REL_BONUS:0);});
+  for(let i=1;i<ord.length;i++)if(km(ord[i-1].p,ord[i].p)>cfg.walk.leg)long++;
+  return v-2.5*pathLength(ord)-6*long;
+}
+
+/* Fa crescere una giornata attorno all'ancora, aggiungendo sempre il luogo migliore tra quelli vicini. */
+function growDay(anchor,pool,a,cfg,target,maxRel,ctx){
+  const W=cfg.walk,chosen=[anchor];
+  let rels=anchor.matches.length?1:0;
+  let mins=midMins(anchor.p),spend=ctx.spend+units(anchor.p),spread=0;
+  const near=r=>{let d=Infinity;for(const c of chosen)d=Math.min(d,km(c.p,r.p));return d;};
+  const pick=(allowOff,relax)=>{
+    let bv=-Infinity,br=null,bd=0;
+    for(const r of pool){
+      if(chosen.includes(r)||blocked(r.p,chosen))continue;
+      const rel=r.matches.length>0;
+      if(!rel&&!allowOff)continue;
+      if(rel&&rels>=maxRel)continue;                                 /* lascia luoghi pertinenti anche alle altre giornate */
+      const d=near(r);
+      if(!relax){
+        if(d>W.leg||km(anchor.p,r.p)>W.zone||spread+d>W.day)continue;   /* resta nella zona e nel limite di camminata */
+        if(mins+midMins(r.p)>cfg.budget)continue;                    /* rispetta il tempo di visita del ritmo scelto */
+        if(spend+units(r.p)>ctx.quota.max+1e-9)continue;             /* rispetta il budget */
+      }
+      let v=r.score+(rel?REL_BONUS:0)-(relax?RELAX_WEIGHT:DIST_WEIGHT)*d;   /* fuori zona conta soprattutto la vicinanza */
+      if(units(r.p)>0&&ctx.quota.min>0&&spend<ctx.quota.min*ctx.progress)v+=a.budget==="high"?5:3;   /* budget equilibrato o alto: qualche ingresso a pagamento */
+      if(v>bv){bv=v;br=r;bd=d;}
+    }
+    return br?{r:br,d:bd}:null;
+  };
+  const add=x=>{chosen.push(x.r);mins+=midMins(x.r.p);spend+=units(x.r.p);spread+=x.d;if(x.r.matches.length)rels++;};
+  let x;
+  while(chosen.length<target&&(x=pick(false,false)))add(x);
+  const need=Math.min(MIN_STOPS,target);
+  while(chosen.length<need&&(x=pick(true,false)||pick(true,true)))add(x);
+  return chosen;
+}
+
+/* Sceglie la giornata migliore provando più ancore tra i luoghi pertinenti ancora disponibili. */
+function planDay(pool,a,cfg,target,maxRel,ctx){
+  const relevant=pool.filter(r=>r.matches.length>0);
+  const anchors=(relevant.length?relevant:pool).slice(0,ANCHORS);
+  let best=null,bv=-Infinity;
+  for(const anc of anchors){
+    if(units(anc.p)>0&&ctx.spend+units(anc.p)>ctx.quota.max+1e-9&&anchors.some(o=>units(o.p)===0))continue;
+    const day=growDay(anc,pool,a,cfg,target,maxRel,ctx);
+    const v=dayValue(day,a,cfg);
+    if(v>bv){bv=v;best=day;}
+  }
+  return best||[];
+}
+
+/* Forma di una giornata nell'ordine di visita: km totali e numero di tratte oltre il limite di camminata. */
+function dayShape(day,a,cfg){
+  const ord=bestOrder(day,a);let long=0;
+  for(let i=1;i<ord.length;i++)if(km(ord[i-1].p,ord[i].p)>cfg.walk.leg)long++;
+  return {km:pathLength(ord),long};
+}
+
+/* Correzione del budget: se l'itinerario ha troppi o troppo pochi ingressi a pagamento rispetto al budget scelto,
+   scambia una tappa con un luogo della stessa zona (entro la tratta comoda dalle altre tappe del giorno)
+   e almeno altrettanto pertinente agli interessi. Geografia e pertinenza non peggiorano. */
+function repairBudget(groups,pool,a,cfg){
+  for(let guard=0;guard<16;guard++){
+    const all=groups.flat(),n=all.length,q=budgetQuota(a,n);
+    const spend=all.reduce((t,r)=>t+units(r.p),0);
+    const dir=spend<q.min-1e-9?1:spend>q.max+1e-9?-1:0;
+    if(!dir)return;
+    let best=null,bv=-Infinity;
+    groups.forEach((g,gi)=>g.forEach((v,vi)=>{
+      const others=g.filter((_,k)=>k!==vi);
+      for(const c of pool){
+        const du=units(c.p)-units(v.p);
+        if(du*dir<=0)continue;                                        /* deve spostare la spesa nella direzione giusta */
+        if(dir<0&&spend+du<q.min-1e-9)continue;
+        if(dir>0&&spend+du>q.max+1e-9)continue;
+        if((c.matches.length>0)<(v.matches.length>0))continue;         /* mai meno pertinente */
+        if(blocked(c.p,all.filter(x=>x!==v)))continue;
+        let d=0;
+        if(others.length){
+          d=Infinity;for(const o of others)d=Math.min(d,km(o.p,c.p));
+          const mid={lat:others.reduce((t,o)=>t+o.p.lat,0)/others.length,lng:others.reduce((t,o)=>t+o.p.lng,0)/others.length};
+          if(d>cfg.walk.leg||km(mid,c.p)>cfg.walk.zone)continue;          /* resta nella zona della giornata */
+          const before=dayShape(g,a,cfg),after=dayShape(others.concat(c),a,cfg);
+          if(after.long>before.long||after.km>Math.max(before.km,cfg.walk.day)+1e-9)continue;   /* nessuna nuova tratta lunga, giornata non più lunga */
+        }
+        const val=c.score-v.score-DIST_WEIGHT*d;
+        if(val>bv){bv=val;best={gi,vi,c};}
+      }
+    }));
+    if(!best)return;
+    const g=groups[best.gi],old=g[best.vi];
+    g[best.vi]=best.c;
+    pool.splice(pool.indexOf(best.c),1);pool.push(old);
+  }
+}
+
 function buildItinerary(a){
   const cfg=config(a);
-  const chosen=pickPlaces(a,cfg);
+  let pool=PLACES.map(p=>({p,score:scorePlace(p,a),matches:matchesOf(p,a)}))
+    .sort((x,y)=>y.score-x.score||x.p.id.localeCompare(y.p.id));
+  const relevantTotal=pool.filter(r=>r.matches.length>0).length;
+  const plannedStops=Math.min(cfg.days*cfg.max,Math.max(cfg.days*MIN_STOPS,relevantTotal));
+  const ctx={spend:0,quota:budgetQuota(a,plannedStops),progress:0};
+  const groups=[];
+  for(let d=0;d<cfg.days;d++){
+    const left=cfg.days-d;
+    const relLeft=pool.filter(r=>r.matches.length>0).length;
+    const target=Math.min(cfg.max,Math.max(MIN_STOPS,Math.ceil(relLeft/left)));
+    const maxRel=relLeft>=left?relLeft-(left-1):1;     /* ogni giornata successiva deve poter avere almeno un luogo pertinente */
+    ctx.progress=(d+1)/cfg.days;
+    const day=planDay(pool,a,cfg,target,maxRel,ctx);
+    if(!day.length)break;
+    day.forEach(r=>{ctx.spend+=units(r.p);});
+    pool=pool.filter(r=>!day.includes(r)&&!blocked(r.p,day));
+    groups.push(day);
+  }
+  repairBudget(groups,pool,a,cfg);
+  const chosen=groups.flat();
   const notes=[];
   if(chosen.length<cfg.days*cfg.max){
     notes.push("Il catalogo comprende "+PLACES.length+" luoghi: per questa durata e questi interessi abbiamo usato "+chosen.length+" tappe invece delle "+(cfg.days*cfg.max)+" previste dal tuo ritmo.");
@@ -204,16 +270,22 @@ function buildItinerary(a){
     notes.push("Budget contenuto: abbiamo privilegiato luoghi gratuiti. Le poche tappe con ingresso a pagamento o da verificare sono facoltative.");
   }
   if(cfg.days>=5)notes.push("Per soggiorni lunghi l'itinerario copre fino a 7 giorni e usa luoghi anche fuori dal centro. Se resti più a lungo, ripeti il quiz cambiando interessi per ottenere nuove idee.");
-  let groups=refineGroups(clusterDays(chosen,cfg.days),a.budget).map(g=>bestOrder(g));
   const avg=g=>g.reduce((s,x)=>s+x.score,0)/g.length;
-  groups.sort((x,y)=>avg(y)-avg(x));
-  const days=groups.map((g,di)=>{
-    const stops=g.map((r,i)=>({...r.p,score:r.score,matches:r.matches,legKm:i?km(g[i-1].p,r.p):null}));
+  const ordered=groups.map(g=>bestOrder(g,a)).sort((x,y)=>avg(y)-avg(x));
+  let transit=0;
+  const days=ordered.map((g,di)=>{
+    const stops=g.map((r,i)=>{
+      const legKm=i?km(g[i-1].p,r.p):null;
+      const far=legKm!==null&&legKm>cfg.walk.leg;
+      if(far)transit++;
+      return {...r.p,score:r.score,matches:r.matches,legKm,transit:far};
+    });
     let lo=0,hi=0;stops.forEach(s=>{const t=timeRange(s);lo+=t[0];hi+=t[1];});
     const areas=[];stops.forEach(s=>{if(!areas.includes(s.area))areas.push(s.area);});
     return {index:di,stops,areas,minMins:lo,maxMins:hi,walkKm:pathLength(g),foodTip:FOOD_TIPS[di%FOOD_TIPS.length]};
   });
+  if(transit)notes.push(transit===1?"Una tratta è più lunga di quanto preferisci camminare: la trovi segnalata, lì conviene usare i mezzi pubblici.":transit+" tratte sono più lunghe di quanto preferisci camminare: le trovi segnalate, lì conviene usare i mezzi pubblici.");
   return {cfg,days,notes,total:chosen.length};
 }
 
-export {PLACES,CENTER,EXCLUSIVE,COST_UNITS,PACE,FOOD_TIPS,km,timeRange,config,scorePlace,pickPlaces,clusterDays,bestOrder,pathLength,refineGroups,buildItinerary};
+export {PLACES,CENTER,EXCLUSIVE,COST_UNITS,PACE,WALK,MIN_STOPS,FOOD_TIPS,km,timeRange,config,scorePlace,bestOrder,pathLength,buildItinerary};

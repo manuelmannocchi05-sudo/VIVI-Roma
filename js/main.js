@@ -311,7 +311,9 @@ function renderDay(day,di,total){
   const breakAfter=day.stops.length>=3?Math.floor(day.stops.length/2):-1;
   const bt=state.answers.budget==="low"?" Per spendere poco: mercati, forni e pizza al taglio sono soste ottime.":state.answers.budget==="high"?" Per concederti qualcosa: una sosta seduta con piatti della tradizione.":"";
   day.stops.forEach((p,i)=>{
-    if(i>0)list.append(el("div",{class:"leg"},el("span",{text:fmtKm(p.legKm)+" dalla tappa precedente, in linea d'aria"})));
+    if(i>0)list.append(el("div",{class:"leg"+(p.transit?" leg-transit":"")},
+      el("span",null,fmtKm(p.legKm)+" dalla tappa precedente, in linea d'aria",
+        p.transit?el("strong",{text:" · Tratta lunga: conviene usare i mezzi pubblici."}):null)));
     list.append(renderStop(p,di,i));
     if(i+1===breakAfter&&i<day.stops.length-1){
       list.append(el("div",{class:"leg"},el("span",{text:""})));

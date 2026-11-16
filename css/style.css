@@ -205,6 +205,8 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 .links a,.links button{background:none;border:0;padding:6px 0;min-height:36px;font-size:.84rem;font-weight:600;color:var(--wine);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 .leg{display:flex;align-items:center;gap:12px;padding:10px 0 10px 94px;font-size:.8rem;color:var(--grey-d)}
 .leg::before{content:"";width:1px;height:22px;background:repeating-linear-gradient(var(--gold) 0 3px,transparent 3px 6px);margin-left:-1px}
+.leg-transit{color:var(--wine)}
+.leg-transit strong{font-weight:600}
 .break{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;margin:0;background:var(--cream);border:1px dashed var(--gold);font-size:.9rem;color:var(--grey-d)}
 .break .ico{color:var(--wine);margin-top:2px}
 .break strong{color:var(--ink)}
