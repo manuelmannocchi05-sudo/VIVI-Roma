@@ -14,7 +14,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Keats_And_Severn_Graves.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -30,7 +30,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:The_park_of_the_aqueducts.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -46,7 +46,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Appian_Way.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -62,7 +62,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Giardino_degli_Aranci.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -78,7 +78,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Ara_Pacis_(SW).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -94,7 +94,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Curia_of_Pompey.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -110,7 +110,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Palazzo_Barberini_-_esterno.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -126,7 +126,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Fenicotteri_al_Bioparco_di_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -142,7 +142,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Et%C3%A0_imperiale,_chiusino_a_forma_di_mascherone_di_divinit%C3%A0_fluviale,_detta_bocca_della_verit%C3%A0,_collocata_qui_nel_1632.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -158,7 +158,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Villa_Borghese_-_Viale_del_Museo_Borghese_-_panoramio.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -174,7 +174,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:20260626_Valle_della_Caffarella.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -190,7 +190,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Catacombe.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -206,7 +206,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazza_del_Campidoglio_2015.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -222,7 +222,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Il_Valle_delle_Rose_....JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -238,7 +238,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:0_Cortile_dei_Conservatori_-_Musei_Capitolini_-_Rome_(1).JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -254,7 +254,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Rom,_die_Kirche_Convento_dei_Cappuccini.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -270,7 +270,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Baths_of_Caracalla,_facing_Caldarium.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -286,7 +286,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Castel_Sant%27Angelo_at_Night.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -422,7 +422,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Villa_Celimontana_142.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -438,7 +438,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Circus_Maximus_%E2%80%A2_Circo_Massimo_(46813512141).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -454,7 +454,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -470,7 +470,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Quartiere_Copped%C3%A9_09.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -486,7 +486,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Via_dei_Coronari_da_Piazza_San_Simeone.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -502,7 +502,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Basilica_dei_Santi_Quattro_Coronati_-_esterno.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -518,7 +518,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Palazzo_doria_pamphili,_galleria_doria,_01.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -534,7 +534,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Nuovo_Mercato_Esquilino_01.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -550,7 +550,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:PALACIVILTA888.jpg",
 "w": [
 480,
-960
+800
 ]
 },
 "explora": {
@@ -565,7 +565,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma_-_Explora_-_Museo_dei_bambini_di_Roma_1_-_2025-09-10_15-59-19_001.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -581,7 +581,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:La_villa_Farnesina_(Rome)_(34029492720).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -597,7 +597,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Fontanone_dell%27Acqua_Paola.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -613,7 +613,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Via_dei_Fori_Imperiali_Roma_20160616.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -629,7 +629,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Foro_Romano_Musei_Capitolini_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -645,7 +645,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:GalleriaBorghese.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -661,7 +661,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma_Garbatella_teatro_Palladium.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -677,7 +677,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma-_Portico_d%27Ottavia_-_52350512476.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -693,7 +693,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma_Basilica_di_San_Pietro_vista_dal_Gianicolo.jpg",
 "w": [
 480,
-960
+800
 ]
 },
 "giulia": {
@@ -708,7 +708,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Farnese_Arch_Rome.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -755,7 +755,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Rome_Tiber_Ponte_Fabricio.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -771,7 +771,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:San_Giovanni_in_Laterano_2021.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -787,7 +787,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma_-_Villa_del_Priorato_di_Malta_8505.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -803,7 +803,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:03_Margutta.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -819,23 +819,23 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Palazzo_Massimo_alle_Terme_NE.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
 "mercato": {
 "author": "Lalupa",
 "base": "img/places/mercato",
-"color": "#707786",
-"file": "Testaccio - nuovo mercato P1040527.JPG",
+"color": "#6e7b90",
+"file": "Testaccio - il nuovo mercato 1280317.jpg",
 "kind": "place",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Testaccio_-_nuovo_mercato_P1040527.JPG",
+"license": "CC BY-SA 3.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+"ratio": 1.3913,
+"source": "https://commons.wikimedia.org/wiki/File:Testaccio_-_il_nuovo_mercato_1280317.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -851,7 +851,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Statue_of_a_Muse_(Polyhymnia%3F),_Found_in_via_Terni_inside_an_ancient_underground_passage_in_the_area_of_the_Horti_Variani,_2nd_century_BC,_Centrale_Montemartini,_Rome_(21108641384).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -867,7 +867,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazza_Madonna_dei_Monti_-_La_fontana.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -883,7 +883,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazza_Navona_Sant%27Agnese_in_Agone_fontana_dei_Fiumi_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -899,7 +899,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Tropical_Greenhouse_-_Orto_botanico_-_Rome,_Italy_-_DSC00160.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -915,7 +915,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazzale_Ostiense_Piramide_porta_san_Paolo.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -931,7 +931,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Villa_Doria_Pamphilj_in_Rom.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -947,23 +947,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Pantheon_(Rome)_-_Right_side_and_front.jpg",
 "w": [
 480,
-960,
-1280
-]
-},
-"pigneto": {
-"author": "Patafisik",
-"base": "img/places/pigneto",
-"color": "#7d866f",
-"file": "Vallo Ferroviario Pigneto 2.JPG",
-"kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
-"ratio": 1.3361,
-"source": "https://commons.wikimedia.org/wiki/File:Vallo_Ferroviario_Pigneto_2.JPG",
-"w": [
-480,
-960,
+800,
 1280
 ]
 },
@@ -979,7 +963,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Terrazza_del_Pincio_(46397854832).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -995,7 +979,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazza_del_Popolo,_Roma_(Rome).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1011,7 +995,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:PortSSebastian(face_externe).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1027,7 +1011,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Santa_Prassede_Fa%C3%A7ade.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1043,7 +1027,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma_-_Palazzo_di_Giustizia_(42815336271).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1059,23 +1043,8 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Clemente_al_Laterano_-_esterno.jpg",
 "w": [
 480,
-960,
+800,
 1280
-]
-},
-"sanlorenzo": {
-"author": "© Ra Boe / Wikipedia - Create the proper attribution for your usage by clicking on this button! This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Germany license. Attribution: Ra Boe / Wikipedia You are free: to share – to copy, distribute and transmit the work to remix – to adapt the work Under the following conditions: attribution – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. share alike – If you remix, transform, or build upon the material, you must distribute your contributions under the same or compatible license as the original. https://creativecommons.org/licenses/by-sa/3.0/de/deed.en CC BY-SA 3.0 de Creative Commons Attribution-Share Alike 3.0 de true true Internet: Titel Foto: Ra Boe / Wikipedia , Original ; Lizenz: CC by-sa 3.0 Print: Titel Foto: Ra Boe / Wikipedia, Lizenz: CC by-sa 3.0 I have published this image as author Ra Boe under the \" CC-BY-SA-3.0 \" in Wikipedia. This means that free, commercial usage outside of Wikipedia is permitted under the following licence terms: Online media: The author \" RaBoe/Wikipedia \" is named A weblink to the original image is provided: //commons.wikimedia.org/wiki/File:Rom_2011-08-by-RaBoe-22.jpg A copy of, or the Uniform Resource Identifier ( https://creativecommons.org/licenses/by-sa/3.0/de/legalcode ) for, this License with every copy Print media: The author \" RaBoe/Wikipedia\" is named A copy of, or the Uniform Resource Identifier ( https://creativecommons.org/licenses/by-sa/3.0/de/legalcode ) for, this License with every copy Please send me a specimen copy or the URL of the website where the image is used. Please write an email to raboe001-at-web.de , if you need the image in a higher resolution need my postal address for sending a specimen copy have further questions about the terms of the licence PS: In case of refusal of the above terms the author reserves the right to take legal action. This license and the rights granted hereunder will terminate automatically upon any breach by you of the terms of this license. In this case the author reserves to demand declaration to cease and desist, and compensation (according to the MFM fee references currently in force). Any of the above conditions can be waived if you get permission from the copyright holder. Durch die Übernahme der UMTS Kosten durch den gemeinnützigen Vereins Skillshare.eu konnte dieses Bild bereitstellen werden. Skillshare e.V. ist ein eingetragener gemeinnütziger Verein zur Förderung der Bildung durch Unterstützung der Erstellung, Sammlung und Verbreitung so genannten freien Wissens. IBAN: DE16 8306 5408 0004 8850 66 BIC: GENODEF1SLR Bank: VR-Bank Altenburger Land",
-"base": "img/places/sanlorenzo",
-"color": "#686766",
-"file": "Rom 2011-08-by-RaBoe-22.jpg",
-"kind": "place",
-"license": "CC BY-SA 3.0 de",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-"ratio": 1.5054,
-"source": "https://commons.wikimedia.org/wiki/File:Rom_2011-08-by-RaBoe-22.jpg",
-"w": [
-480,
-960
 ]
 },
 "sanluigi": {
@@ -1090,7 +1059,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:San_Luigi_dei_Francesi_-_facciata.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1106,7 +1075,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:StPaul.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1122,7 +1091,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Rome,_Vatican,_Italy,_Saint_Peter%27s_Square_as_seen_from_Michelangelo_dome.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1138,7 +1107,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Rome_Scala_Santa_2020_P01.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1154,7 +1123,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Church_of_Sant%27Ignazio_di_Loyola.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1170,7 +1139,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Basilica_di_Santa_Maria_Maggiore_-_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1186,7 +1155,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Roma,_basilica_di_Santa_Maria_del_Popolo_-_Esterno.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1202,7 +1171,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:01_Santa_Maria_in_Trastevere_Facade.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1218,7 +1187,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Piazza_di_Spagna_2018.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1234,7 +1203,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Testaccio_-_fontana_Anfore_01464.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1250,7 +1219,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Villa_Torlonia_01304.JPG",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1266,7 +1235,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Mercati_di_Traiano_-_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1282,7 +1251,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Vicolo_del_Cedro,_Trastevere,_Rome,_Lazio,_Italy_-_panoramio.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1298,7 +1267,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Trevi_Fountain_-_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1314,7 +1283,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Ponte_Sisto_Roma.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1330,7 +1299,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Galleria_delle_carte_geografiche_(Vatican_Museums)_September_2015-1a.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1346,7 +1315,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:San_Pietro_in_Vincoli_-_esterno.jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 },
@@ -1362,7 +1331,7 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Altare_della_Patria_(Roma).jpg",
 "w": [
 480,
-960,
+800,
 1280
 ]
 }
