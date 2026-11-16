@@ -15,7 +15,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "acquedotti": {
@@ -31,7 +31,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "appia": {
@@ -47,7 +47,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "aranci": {
@@ -63,7 +63,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "arapacis": {
@@ -79,7 +79,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "argentina": {
@@ -95,7 +95,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "barberini": {
@@ -111,7 +111,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "bioparco": {
@@ -127,7 +127,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "bocca": {
@@ -143,7 +143,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "borghese": {
@@ -159,7 +159,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "caffarella": {
@@ -175,7 +175,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "callisto": {
@@ -191,7 +191,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "campidoglio": {
@@ -207,7 +207,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "campo": {
@@ -223,7 +223,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "capitolini": {
@@ -239,7 +239,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "cappuccini": {
@@ -255,7 +255,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "caracalla": {
@@ -271,7 +271,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "castel": {
@@ -287,7 +287,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "cat-art": {
@@ -308,7 +308,7 @@ export const PHOTOS={
 "cat-food": {
 "author": "Javier Somoza",
 "base": "img/categories/cat-food",
-"color": "#684c35",
+"color": "#8e6c4c",
 "file": "Espaguetis carbonara.jpg",
 "kind": "cat",
 "license": "CC BY-SA 4.0",
@@ -396,15 +396,15 @@ export const PHOTOS={
 ]
 },
 "cat-romantic": {
-"author": "Sonse",
+"author": "D.belfiore",
 "base": "img/categories/cat-romantic",
-"color": "#658096",
-"file": "Terrazza del Pincio (46397854832).jpg",
+"color": "#9a744e",
+"file": "Ponte Sant'Angelo al tramonto..jpg",
 "kind": "cat",
-"license": "CC BY 2.0",
-"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-"ratio": 0.7498,
-"source": "https://commons.wikimedia.org/wiki/File:Terrazza_del_Pincio_(46397854832).jpg",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 0.7497,
+"source": "https://commons.wikimedia.org/wiki/File:Ponte_Sant%27Angelo_al_tramonto..jpg",
 "w": [
 420,
 840
@@ -423,7 +423,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "circo": {
@@ -439,7 +439,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "colosseo": {
@@ -455,7 +455,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "coppede": {
@@ -471,7 +471,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "coronari": {
@@ -487,7 +487,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "coronati": {
@@ -503,7 +503,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "doria": {
@@ -519,7 +519,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "esquilino": {
@@ -535,7 +535,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "eur": {
@@ -566,7 +566,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "farnesina": {
@@ -582,7 +582,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "fontanone": {
@@ -598,7 +598,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "fori": {
@@ -614,7 +614,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "foropalatino": {
@@ -629,7 +629,8 @@ export const PHOTOS={
 "source": "https://commons.wikimedia.org/wiki/File:Foro_Romano_Musei_Capitolini_Roma.jpg",
 "w": [
 480,
-960
+960,
+1280
 ]
 },
 "galleriaborghese": {
@@ -645,7 +646,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "garbatella": {
@@ -661,7 +662,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "ghetto": {
@@ -677,19 +678,19 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "gianicolo": {
-"author": "Autore non indicato",
+"author": "Gobbler",
 "base": "img/places/gianicolo",
-"color": "#7c898f",
-"file": "Janiculum.jpg",
+"color": "#818981",
+"file": "Roma Basilica di San Pietro vista dal Gianicolo.jpg",
 "kind": "place",
-"license": "Public domain",
-"licenseUrl": "",
+"license": "CC BY-SA 3.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
 "ratio": 1.3333,
-"source": "https://commons.wikimedia.org/wiki/File:Janiculum.jpg",
+"source": "https://commons.wikimedia.org/wiki/File:Roma_Basilica_di_San_Pietro_vista_dal_Gianicolo.jpg",
 "w": [
 480,
 960
@@ -708,7 +709,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "hero": {
@@ -755,7 +756,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "laterano": {
@@ -771,7 +772,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "malta": {
@@ -787,7 +788,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "margutta": {
@@ -803,7 +804,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "massimo": {
@@ -819,7 +820,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "mercato": {
@@ -835,7 +836,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "montemartini": {
@@ -851,7 +852,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "monti": {
@@ -867,7 +868,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "navona": {
@@ -883,7 +884,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "orto": {
@@ -899,7 +900,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "ostiense": {
@@ -915,7 +916,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "pamphilj": {
@@ -931,7 +932,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "pantheon": {
@@ -947,7 +948,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "pigneto": {
@@ -963,7 +964,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "pincio": {
@@ -979,7 +980,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "popolo": {
@@ -995,7 +996,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "portasebastiano": {
@@ -1011,7 +1012,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "prassede": {
@@ -1027,7 +1028,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "prati": {
@@ -1043,7 +1044,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "sanclemente": {
@@ -1059,7 +1060,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "sanlorenzo": {
@@ -1090,7 +1091,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "sanpaolo": {
@@ -1106,7 +1107,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "sanpietro": {
@@ -1122,7 +1123,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "scalasanta": {
@@ -1138,7 +1139,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "signazio": {
@@ -1154,7 +1155,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "smmaggiore": {
@@ -1170,7 +1171,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "smpopolo": {
@@ -1186,7 +1187,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "smtrastevere": {
@@ -1202,7 +1203,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "spagna": {
@@ -1218,7 +1219,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "testaccio": {
@@ -1234,7 +1235,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "torlonia": {
@@ -1250,7 +1251,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "traiano": {
@@ -1266,7 +1267,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "trastevere": {
@@ -1282,7 +1283,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "trevi": {
@@ -1298,7 +1299,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "trilussa": {
@@ -1314,7 +1315,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "vaticani": {
@@ -1330,7 +1331,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "vincoli": {
@@ -1346,7 +1347,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 },
 "vittoriano": {
@@ -1362,7 +1363,7 @@ export const PHOTOS={
 "w": [
 480,
 960,
-1440
+1280
 ]
 }
 };

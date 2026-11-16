@@ -18,9 +18,9 @@
   "output": [
    "img/places/colosseo-480.webp",
    "img/places/colosseo-960.webp",
-   "img/places/colosseo-1440.webp"
+   "img/places/colosseo-1280.webp"
   ],
-  "bytes": 287908
+  "bytes": 242424
  },
  {
   "key": "fori",
@@ -41,9 +41,9 @@
   "output": [
    "img/places/fori-480.webp",
    "img/places/fori-960.webp",
-   "img/places/fori-1440.webp"
+   "img/places/fori-1280.webp"
   ],
-  "bytes": 417928
+  "bytes": 361204
  },
  {
   "key": "pantheon",
@@ -64,9 +64,9 @@
   "output": [
    "img/places/pantheon-480.webp",
    "img/places/pantheon-960.webp",
-   "img/places/pantheon-1440.webp"
+   "img/places/pantheon-1280.webp"
   ],
-  "bytes": 344474
+  "bytes": 292424
  },
  {
   "key": "trevi",
@@ -87,9 +87,9 @@
   "output": [
    "img/places/trevi-480.webp",
    "img/places/trevi-960.webp",
-   "img/places/trevi-1440.webp"
+   "img/places/trevi-1280.webp"
   ],
-  "bytes": 209816
+  "bytes": 181122
  },
  {
   "key": "navona",
@@ -110,9 +110,9 @@
   "output": [
    "img/places/navona-480.webp",
    "img/places/navona-960.webp",
-   "img/places/navona-1440.webp"
+   "img/places/navona-1280.webp"
   ],
-  "bytes": 306390
+  "bytes": 264852
  },
  {
   "key": "spagna",
@@ -133,9 +133,9 @@
   "output": [
    "img/places/spagna-480.webp",
    "img/places/spagna-960.webp",
-   "img/places/spagna-1440.webp"
+   "img/places/spagna-1280.webp"
   ],
-  "bytes": 398910
+  "bytes": 339212
  },
  {
   "key": "trastevere",
@@ -156,9 +156,9 @@
   "output": [
    "img/places/trastevere-480.webp",
    "img/places/trastevere-960.webp",
-   "img/places/trastevere-1440.webp"
+   "img/places/trastevere-1280.webp"
   ],
-  "bytes": 319882
+  "bytes": 273792
  },
  {
   "key": "monti",
@@ -179,9 +179,9 @@
   "output": [
    "img/places/monti-480.webp",
    "img/places/monti-960.webp",
-   "img/places/monti-1440.webp"
+   "img/places/monti-1280.webp"
   ],
-  "bytes": 264874
+  "bytes": 229946
  },
  {
   "key": "testaccio",
@@ -202,9 +202,9 @@
   "output": [
    "img/places/testaccio-480.webp",
    "img/places/testaccio-960.webp",
-   "img/places/testaccio-1440.webp"
+   "img/places/testaccio-1280.webp"
   ],
-  "bytes": 259238
+  "bytes": 237332
  },
  {
   "key": "campo",
@@ -225,31 +225,31 @@
   "output": [
    "img/places/campo-480.webp",
    "img/places/campo-960.webp",
-   "img/places/campo-1440.webp"
+   "img/places/campo-1280.webp"
   ],
-  "bytes": 197804
+  "bytes": 175400
  },
  {
   "key": "gianicolo",
   "kind": "place",
-  "file": "Janiculum.jpg",
-  "license": "Public domain",
-  "author": "",
-  "licenseUrl": "",
+  "file": "Roma Basilica di San Pietro vista dal Gianicolo.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Gobbler",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "restrictions": "",
-  "attributionRequired": "false",
-  "page": "https://commons.wikimedia.org/wiki/File:Janiculum.jpg",
+  "attributionRequired": "true",
+  "page": "https://commons.wikimedia.org/wiki/File:Roma_Basilica_di_San_Pietro_vista_dal_Gianicolo.jpg",
   "orig": [
-   1280,
-   960
+   1024,
+   768
   ],
-  "description": "",
+  "description": "Basilica di San Pietro vista dal colle Gianicolo in Roma",
   "status": "ok",
   "output": [
    "img/places/gianicolo-480.webp",
    "img/places/gianicolo-960.webp"
   ],
-  "bytes": 67406
+  "bytes": 178628
  },
  {
   "key": "pincio",
@@ -270,9 +270,9 @@
   "output": [
    "img/places/pincio-480.webp",
    "img/places/pincio-960.webp",
-   "img/places/pincio-1440.webp"
+   "img/places/pincio-1280.webp"
   ],
-  "bytes": 305532
+  "bytes": 261442
  },
  {
   "key": "borghese",
@@ -293,9 +293,9 @@
   "output": [
    "img/places/borghese-480.webp",
    "img/places/borghese-960.webp",
-   "img/places/borghese-1440.webp"
+   "img/places/borghese-1280.webp"
   ],
-  "bytes": 552830
+  "bytes": 483450
  },
  {
   "key": "aranci",
@@ -316,9 +316,9 @@
   "output": [
    "img/places/aranci-480.webp",
    "img/places/aranci-960.webp",
-   "img/places/aranci-1440.webp"
+   "img/places/aranci-1280.webp"
   ],
-  "bytes": 193160
+  "bytes": 171272
  },
  {
   "key": "coppede",
@@ -339,9 +339,9 @@
   "output": [
    "img/places/coppede-480.webp",
    "img/places/coppede-960.webp",
-   "img/places/coppede-1440.webp"
+   "img/places/coppede-1280.webp"
   ],
-  "bytes": 361698
+  "bytes": 302278
  },
  {
   "key": "appia",
@@ -362,9 +362,9 @@
   "output": [
    "img/places/appia-480.webp",
    "img/places/appia-960.webp",
-   "img/places/appia-1440.webp"
+   "img/places/appia-1280.webp"
   ],
-  "bytes": 484424
+  "bytes": 404402
  },
  {
   "key": "castel",
@@ -385,9 +385,9 @@
   "output": [
    "img/places/castel-480.webp",
    "img/places/castel-960.webp",
-   "img/places/castel-1440.webp"
+   "img/places/castel-1280.webp"
   ],
-  "bytes": 212098
+  "bytes": 187072
  },
  {
   "key": "sanpietro",
@@ -408,9 +408,9 @@
   "output": [
    "img/places/sanpietro-480.webp",
    "img/places/sanpietro-960.webp",
-   "img/places/sanpietro-1440.webp"
+   "img/places/sanpietro-1280.webp"
   ],
-  "bytes": 497224
+  "bytes": 429558
  },
  {
   "key": "sanclemente",
@@ -431,9 +431,9 @@
   "output": [
    "img/places/sanclemente-480.webp",
    "img/places/sanclemente-960.webp",
-   "img/places/sanclemente-1440.webp"
+   "img/places/sanclemente-1280.webp"
   ],
-  "bytes": 397228
+  "bytes": 339830
  },
  {
   "key": "caracalla",
@@ -454,9 +454,9 @@
   "output": [
    "img/places/caracalla-480.webp",
    "img/places/caracalla-960.webp",
-   "img/places/caracalla-1440.webp"
+   "img/places/caracalla-1280.webp"
   ],
-  "bytes": 300106
+  "bytes": 253034
  },
  {
   "key": "popolo",
@@ -477,9 +477,9 @@
   "output": [
    "img/places/popolo-480.webp",
    "img/places/popolo-960.webp",
-   "img/places/popolo-1440.webp"
+   "img/places/popolo-1280.webp"
   ],
-  "bytes": 813590
+  "bytes": 691712
  },
  {
   "key": "margutta",
@@ -500,9 +500,9 @@
   "output": [
    "img/places/margutta-480.webp",
    "img/places/margutta-960.webp",
-   "img/places/margutta-1440.webp"
+   "img/places/margutta-1280.webp"
   ],
-  "bytes": 203898
+  "bytes": 184956
  },
  {
   "key": "garbatella",
@@ -523,9 +523,9 @@
   "output": [
    "img/places/garbatella-480.webp",
    "img/places/garbatella-960.webp",
-   "img/places/garbatella-1440.webp"
+   "img/places/garbatella-1280.webp"
   ],
-  "bytes": 152732
+  "bytes": 135628
  },
  {
   "key": "ostiense",
@@ -546,9 +546,9 @@
   "output": [
    "img/places/ostiense-480.webp",
    "img/places/ostiense-960.webp",
-   "img/places/ostiense-1440.webp"
+   "img/places/ostiense-1280.webp"
   ],
-  "bytes": 156636
+  "bytes": 134190
  },
  {
   "key": "mercato",
@@ -569,9 +569,9 @@
   "output": [
    "img/places/mercato-480.webp",
    "img/places/mercato-960.webp",
-   "img/places/mercato-1440.webp"
+   "img/places/mercato-1280.webp"
   ],
-  "bytes": 169368
+  "bytes": 154544
  },
  {
   "key": "isola",
@@ -592,9 +592,9 @@
   "output": [
    "img/places/isola-480.webp",
    "img/places/isola-960.webp",
-   "img/places/isola-1440.webp"
+   "img/places/isola-1280.webp"
   ],
-  "bytes": 452240
+  "bytes": 375300
  },
  {
   "key": "ghetto",
@@ -615,9 +615,9 @@
   "output": [
    "img/places/ghetto-480.webp",
    "img/places/ghetto-960.webp",
-   "img/places/ghetto-1440.webp"
+   "img/places/ghetto-1280.webp"
   ],
-  "bytes": 331448
+  "bytes": 280780
  },
  {
   "key": "bocca",
@@ -638,9 +638,9 @@
   "output": [
    "img/places/bocca-480.webp",
    "img/places/bocca-960.webp",
-   "img/places/bocca-1440.webp"
+   "img/places/bocca-1280.webp"
   ],
-  "bytes": 518170
+  "bytes": 445962
  },
  {
   "key": "circo",
@@ -661,9 +661,9 @@
   "output": [
    "img/places/circo-480.webp",
    "img/places/circo-960.webp",
-   "img/places/circo-1440.webp"
+   "img/places/circo-1280.webp"
   ],
-  "bytes": 193204
+  "bytes": 162494
  },
  {
   "key": "laterano",
@@ -684,9 +684,9 @@
   "output": [
    "img/places/laterano-480.webp",
    "img/places/laterano-960.webp",
-   "img/places/laterano-1440.webp"
+   "img/places/laterano-1280.webp"
   ],
-  "bytes": 263158
+  "bytes": 224360
  },
  {
   "key": "eur",
@@ -729,9 +729,9 @@
   "output": [
    "img/places/prati-480.webp",
    "img/places/prati-960.webp",
-   "img/places/prati-1440.webp"
+   "img/places/prati-1280.webp"
   ],
-  "bytes": 273204
+  "bytes": 238984
  },
  {
   "key": "torlonia",
@@ -752,9 +752,9 @@
   "output": [
    "img/places/torlonia-480.webp",
    "img/places/torlonia-960.webp",
-   "img/places/torlonia-1440.webp"
+   "img/places/torlonia-1280.webp"
   ],
-  "bytes": 223094
+  "bytes": 197940
  },
  {
   "key": "sanpaolo",
@@ -775,9 +775,9 @@
   "output": [
    "img/places/sanpaolo-480.webp",
    "img/places/sanpaolo-960.webp",
-   "img/places/sanpaolo-1440.webp"
+   "img/places/sanpaolo-1280.webp"
   ],
-  "bytes": 292986
+  "bytes": 250132
  },
  {
   "key": "foropalatino",
@@ -797,9 +797,10 @@
   "status": "ok",
   "output": [
    "img/places/foropalatino-480.webp",
-   "img/places/foropalatino-960.webp"
+   "img/places/foropalatino-960.webp",
+   "img/places/foropalatino-1280.webp"
   ],
-  "bytes": 136494
+  "bytes": 314968
  },
  {
   "key": "campidoglio",
@@ -820,9 +821,9 @@
   "output": [
    "img/places/campidoglio-480.webp",
    "img/places/campidoglio-960.webp",
-   "img/places/campidoglio-1440.webp"
+   "img/places/campidoglio-1280.webp"
   ],
-  "bytes": 236588
+  "bytes": 201894
  },
  {
   "key": "capitolini",
@@ -843,9 +844,9 @@
   "output": [
    "img/places/capitolini-480.webp",
    "img/places/capitolini-960.webp",
-   "img/places/capitolini-1440.webp"
+   "img/places/capitolini-1280.webp"
   ],
-  "bytes": 263562
+  "bytes": 231968
  },
  {
   "key": "traiano",
@@ -866,9 +867,9 @@
   "output": [
    "img/places/traiano-480.webp",
    "img/places/traiano-960.webp",
-   "img/places/traiano-1440.webp"
+   "img/places/traiano-1280.webp"
   ],
-  "bytes": 295686
+  "bytes": 250210
  },
  {
   "key": "arapacis",
@@ -889,9 +890,9 @@
   "output": [
    "img/places/arapacis-480.webp",
    "img/places/arapacis-960.webp",
-   "img/places/arapacis-1440.webp"
+   "img/places/arapacis-1280.webp"
   ],
-  "bytes": 296564
+  "bytes": 257194
  },
  {
   "key": "argentina",
@@ -912,9 +913,9 @@
   "output": [
    "img/places/argentina-480.webp",
    "img/places/argentina-960.webp",
-   "img/places/argentina-1440.webp"
+   "img/places/argentina-1280.webp"
   ],
-  "bytes": 458032
+  "bytes": 394126
  },
  {
   "key": "massimo",
@@ -935,9 +936,9 @@
   "output": [
    "img/places/massimo-480.webp",
    "img/places/massimo-960.webp",
-   "img/places/massimo-1440.webp"
+   "img/places/massimo-1280.webp"
   ],
-  "bytes": 221944
+  "bytes": 198566
  },
  {
   "key": "callisto",
@@ -958,9 +959,9 @@
   "output": [
    "img/places/callisto-480.webp",
    "img/places/callisto-960.webp",
-   "img/places/callisto-1440.webp"
+   "img/places/callisto-1280.webp"
   ],
-  "bytes": 131644
+  "bytes": 115784
  },
  {
   "key": "acquedotti",
@@ -981,9 +982,9 @@
   "output": [
    "img/places/acquedotti-480.webp",
    "img/places/acquedotti-960.webp",
-   "img/places/acquedotti-1440.webp"
+   "img/places/acquedotti-1280.webp"
   ],
-  "bytes": 372436
+  "bytes": 317098
  },
  {
   "key": "acattolico",
@@ -1004,9 +1005,9 @@
   "output": [
    "img/places/acattolico-480.webp",
    "img/places/acattolico-960.webp",
-   "img/places/acattolico-1440.webp"
+   "img/places/acattolico-1280.webp"
   ],
-  "bytes": 380502
+  "bytes": 328424
  },
  {
   "key": "portasebastiano",
@@ -1027,9 +1028,9 @@
   "output": [
    "img/places/portasebastiano-480.webp",
    "img/places/portasebastiano-960.webp",
-   "img/places/portasebastiano-1440.webp"
+   "img/places/portasebastiano-1280.webp"
   ],
-  "bytes": 246096
+  "bytes": 204308
  },
  {
   "key": "vaticani",
@@ -1050,9 +1051,9 @@
   "output": [
    "img/places/vaticani-480.webp",
    "img/places/vaticani-960.webp",
-   "img/places/vaticani-1440.webp"
+   "img/places/vaticani-1280.webp"
   ],
-  "bytes": 600626
+  "bytes": 516746
  },
  {
   "key": "galleriaborghese",
@@ -1073,9 +1074,9 @@
   "output": [
    "img/places/galleriaborghese-480.webp",
    "img/places/galleriaborghese-960.webp",
-   "img/places/galleriaborghese-1440.webp"
+   "img/places/galleriaborghese-1280.webp"
   ],
-  "bytes": 203148
+  "bytes": 185670
  },
  {
   "key": "doria",
@@ -1096,9 +1097,9 @@
   "output": [
    "img/places/doria-480.webp",
    "img/places/doria-960.webp",
-   "img/places/doria-1440.webp"
+   "img/places/doria-1280.webp"
   ],
-  "bytes": 362240
+  "bytes": 333670
  },
  {
   "key": "barberini",
@@ -1119,9 +1120,9 @@
   "output": [
    "img/places/barberini-480.webp",
    "img/places/barberini-960.webp",
-   "img/places/barberini-1440.webp"
+   "img/places/barberini-1280.webp"
   ],
-  "bytes": 310034
+  "bytes": 267280
  },
  {
   "key": "sanluigi",
@@ -1142,9 +1143,9 @@
   "output": [
    "img/places/sanluigi-480.webp",
    "img/places/sanluigi-960.webp",
-   "img/places/sanluigi-1440.webp"
+   "img/places/sanluigi-1280.webp"
   ],
-  "bytes": 294412
+  "bytes": 249974
  },
  {
   "key": "smpopolo",
@@ -1165,9 +1166,9 @@
   "output": [
    "img/places/smpopolo-480.webp",
    "img/places/smpopolo-960.webp",
-   "img/places/smpopolo-1440.webp"
+   "img/places/smpopolo-1280.webp"
   ],
-  "bytes": 308900
+  "bytes": 268716
  },
  {
   "key": "signazio",
@@ -1188,9 +1189,9 @@
   "output": [
    "img/places/signazio-480.webp",
    "img/places/signazio-960.webp",
-   "img/places/signazio-1440.webp"
+   "img/places/signazio-1280.webp"
   ],
-  "bytes": 283434
+  "bytes": 241312
  },
  {
   "key": "farnesina",
@@ -1211,9 +1212,9 @@
   "output": [
    "img/places/farnesina-480.webp",
    "img/places/farnesina-960.webp",
-   "img/places/farnesina-1440.webp"
+   "img/places/farnesina-1280.webp"
   ],
-  "bytes": 452424
+  "bytes": 383052
  },
  {
   "key": "montemartini",
@@ -1234,9 +1235,9 @@
   "output": [
    "img/places/montemartini-480.webp",
    "img/places/montemartini-960.webp",
-   "img/places/montemartini-1440.webp"
+   "img/places/montemartini-1280.webp"
   ],
-  "bytes": 175428
+  "bytes": 154484
  },
  {
   "key": "esquilino",
@@ -1257,9 +1258,9 @@
   "output": [
    "img/places/esquilino-480.webp",
    "img/places/esquilino-960.webp",
-   "img/places/esquilino-1440.webp"
+   "img/places/esquilino-1280.webp"
   ],
-  "bytes": 108600
+  "bytes": 93792
  },
  {
   "key": "pigneto",
@@ -1280,9 +1281,9 @@
   "output": [
    "img/places/pigneto-480.webp",
    "img/places/pigneto-960.webp",
-   "img/places/pigneto-1440.webp"
+   "img/places/pigneto-1280.webp"
   ],
-  "bytes": 413766
+  "bytes": 361512
  },
  {
   "key": "sanlorenzo",
@@ -1325,9 +1326,9 @@
   "output": [
    "img/places/trilussa-480.webp",
    "img/places/trilussa-960.webp",
-   "img/places/trilussa-1440.webp"
+   "img/places/trilussa-1280.webp"
   ],
-  "bytes": 329762
+  "bytes": 280304
  },
  {
   "key": "giulia",
@@ -1348,9 +1349,9 @@
   "output": [
    "img/places/giulia-480.webp",
    "img/places/giulia-960.webp",
-   "img/places/giulia-1440.webp"
+   "img/places/giulia-1280.webp"
   ],
-  "bytes": 376086
+  "bytes": 334368
  },
  {
   "key": "coronari",
@@ -1371,9 +1372,9 @@
   "output": [
    "img/places/coronari-480.webp",
    "img/places/coronari-960.webp",
-   "img/places/coronari-1440.webp"
+   "img/places/coronari-1280.webp"
   ],
-  "bytes": 399668
+  "bytes": 353102
  },
  {
   "key": "malta",
@@ -1394,9 +1395,9 @@
   "output": [
    "img/places/malta-480.webp",
    "img/places/malta-960.webp",
-   "img/places/malta-1440.webp"
+   "img/places/malta-1280.webp"
   ],
-  "bytes": 170624
+  "bytes": 155360
  },
  {
   "key": "fontanone",
@@ -1417,9 +1418,9 @@
   "output": [
    "img/places/fontanone-480.webp",
    "img/places/fontanone-960.webp",
-   "img/places/fontanone-1440.webp"
+   "img/places/fontanone-1280.webp"
   ],
-  "bytes": 273042
+  "bytes": 236440
  },
  {
   "key": "vittoriano",
@@ -1440,9 +1441,9 @@
   "output": [
    "img/places/vittoriano-480.webp",
    "img/places/vittoriano-960.webp",
-   "img/places/vittoriano-1440.webp"
+   "img/places/vittoriano-1280.webp"
   ],
-  "bytes": 205946
+  "bytes": 177592
  },
  {
   "key": "pamphilj",
@@ -1463,9 +1464,9 @@
   "output": [
    "img/places/pamphilj-480.webp",
    "img/places/pamphilj-960.webp",
-   "img/places/pamphilj-1440.webp"
+   "img/places/pamphilj-1280.webp"
   ],
-  "bytes": 377382
+  "bytes": 322368
  },
  {
   "key": "caffarella",
@@ -1486,9 +1487,9 @@
   "output": [
    "img/places/caffarella-480.webp",
    "img/places/caffarella-960.webp",
-   "img/places/caffarella-1440.webp"
+   "img/places/caffarella-1280.webp"
   ],
-  "bytes": 424056
+  "bytes": 358090
  },
  {
   "key": "celimontana",
@@ -1509,9 +1510,9 @@
   "output": [
    "img/places/celimontana-480.webp",
    "img/places/celimontana-960.webp",
-   "img/places/celimontana-1440.webp"
+   "img/places/celimontana-1280.webp"
   ],
-  "bytes": 400614
+  "bytes": 361610
  },
  {
   "key": "orto",
@@ -1532,9 +1533,9 @@
   "output": [
    "img/places/orto-480.webp",
    "img/places/orto-960.webp",
-   "img/places/orto-1440.webp"
+   "img/places/orto-1280.webp"
   ],
-  "bytes": 606648
+  "bytes": 531874
  },
  {
   "key": "bioparco",
@@ -1555,9 +1556,9 @@
   "output": [
    "img/places/bioparco-480.webp",
    "img/places/bioparco-960.webp",
-   "img/places/bioparco-1440.webp"
+   "img/places/bioparco-1280.webp"
   ],
-  "bytes": 529096
+  "bytes": 462112
  },
  {
   "key": "explora",
@@ -1578,9 +1579,9 @@
   "output": [
    "img/places/explora-480.webp",
    "img/places/explora-960.webp",
-   "img/places/explora-1440.webp"
+   "img/places/explora-1280.webp"
   ],
-  "bytes": 394982
+  "bytes": 337378
  },
  {
   "key": "smmaggiore",
@@ -1601,9 +1602,9 @@
   "output": [
    "img/places/smmaggiore-480.webp",
    "img/places/smmaggiore-960.webp",
-   "img/places/smmaggiore-1440.webp"
+   "img/places/smmaggiore-1280.webp"
   ],
-  "bytes": 223818
+  "bytes": 191602
  },
  {
   "key": "smtrastevere",
@@ -1624,9 +1625,9 @@
   "output": [
    "img/places/smtrastevere-480.webp",
    "img/places/smtrastevere-960.webp",
-   "img/places/smtrastevere-1440.webp"
+   "img/places/smtrastevere-1280.webp"
   ],
-  "bytes": 338966
+  "bytes": 288738
  },
  {
   "key": "vincoli",
@@ -1647,9 +1648,9 @@
   "output": [
    "img/places/vincoli-480.webp",
    "img/places/vincoli-960.webp",
-   "img/places/vincoli-1440.webp"
+   "img/places/vincoli-1280.webp"
   ],
-  "bytes": 276510
+  "bytes": 236710
  },
  {
   "key": "prassede",
@@ -1670,9 +1671,9 @@
   "output": [
    "img/places/prassede-480.webp",
    "img/places/prassede-960.webp",
-   "img/places/prassede-1440.webp"
+   "img/places/prassede-1280.webp"
   ],
-  "bytes": 325572
+  "bytes": 275644
  },
  {
   "key": "coronati",
@@ -1693,9 +1694,9 @@
   "output": [
    "img/places/coronati-480.webp",
    "img/places/coronati-960.webp",
-   "img/places/coronati-1440.webp"
+   "img/places/coronati-1280.webp"
   ],
-  "bytes": 240402
+  "bytes": 199352
  },
  {
   "key": "cappuccini",
@@ -1716,9 +1717,9 @@
   "output": [
    "img/places/cappuccini-480.webp",
    "img/places/cappuccini-960.webp",
-   "img/places/cappuccini-1440.webp"
+   "img/places/cappuccini-1280.webp"
   ],
-  "bytes": 467922
+  "bytes": 413472
  },
  {
   "key": "cat-history",
@@ -1784,7 +1785,7 @@
    "img/categories/cat-food-420.webp",
    "img/categories/cat-food-840.webp"
   ],
-  "bytes": 133466
+  "bytes": 175934
  },
  {
   "key": "cat-hidden",
@@ -1877,24 +1878,24 @@
  {
   "key": "cat-romantic",
   "kind": "cat",
-  "file": "Terrazza del Pincio (46397854832).jpg",
-  "license": "CC BY 2.0",
-  "author": "Sonse",
-  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "file": "Ponte Sant'Angelo al tramonto..jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "D.belfiore",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "restrictions": "",
   "attributionRequired": "true",
-  "page": "https://commons.wikimedia.org/wiki/File:Terrazza_del_Pincio_(46397854832).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Ponte_Sant%27Angelo_al_tramonto..jpg",
   "orig": [
-   4607,
-   2935
+   3500,
+   2337
   ],
-  "description": "Rome, Italy",
+  "description": "Ponte Sant'Angelo",
   "status": "ok",
   "output": [
    "img/categories/cat-romantic-420.webp",
    "img/categories/cat-romantic-840.webp"
   ],
-  "bytes": 145536
+  "bytes": 101418
  },
  {
   "key": "hero",
@@ -1917,7 +1918,7 @@
    "img/hero/hero-1600.webp",
    "img/hero/hero-2400.webp"
   ],
-  "bytes": 525112
+  "bytes": 512590
  },
  {
   "key": "hero-portrait",
@@ -1960,8 +1961,8 @@
   "output": [
    "img/places/scalasanta-480.webp",
    "img/places/scalasanta-960.webp",
-   "img/places/scalasanta-1440.webp"
+   "img/places/scalasanta-1280.webp"
   ],
-  "bytes": 357792
+  "bytes": 314260
  }
 ]
