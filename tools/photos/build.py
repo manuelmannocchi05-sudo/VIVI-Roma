@@ -48,7 +48,7 @@ def metadata(files):
         batch = files[i:i+40]
         q = {"action": "query", "format": "json", "formatversion": "2", "prop": "imageinfo",
              "titles": "|".join("File:" + f for f in batch), "iiprop": "url|size|mime|extmetadata", "iiurlwidth": "1920",
-             "iiextmetadatafilter": "Artist|LicenseShortName|LicenseUrl|AttributionRequired|Restrictions|Copyrighted|UsageTerms|Credit"}
+             "iiextmetadatafilter": "Artist|LicenseShortName|LicenseUrl|AttributionRequired|Restrictions|Copyrighted|UsageTerms|Credit|ImageDescription|ObjectName"}
         j = json.loads(get("https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode(q)))
         norm = {n["to"]: n["from"] for n in j["query"].get("normalized", [])}
         for p in j["query"]["pages"]:
@@ -87,7 +87,7 @@ def main():
         rec.update({"license": lic, "author": text(m.get("Artist", {}).get("value")) or text(m.get("Credit", {}).get("value")),
                     "licenseUrl": m.get("LicenseUrl", {}).get("value", ""), "restrictions": text(m.get("Restrictions", {}).get("value")),
                     "attributionRequired": m.get("AttributionRequired", {}).get("value", ""), "page": ii.get("descriptionurl"),
-                    "orig": [ii["width"], ii["height"]]})
+                    "orig": [ii["width"], ii["height"]], "description": text(m.get("ImageDescription", {}).get("value"))[:300]})
         if not OK_LICENSE.match(lic or ""):
             rec["status"] = "licenza non ammessa"; report.append(rec); print("LICENZA", key, lic); continue
         src = ii.get("thumburl") if ii["width"] > 1920 else ii["url"]
@@ -147,6 +147,8 @@ def review():
     meta = metadata(sorted({f for fs in groups.values() for f in fs}))
     lines = []
     for g, files in groups.items():
+        if not files:
+            lines.append(f"{g}\t-\tnessun risultato\t"); continue
         W, H = 320, 240
         sheet = Image.new("RGB", (W * 4, (H + 30) * ((len(files) + 3) // 4)), "white"); dr = ImageDraw.Draw(sheet)
         for i, f in enumerate(files):
@@ -162,7 +164,8 @@ def review():
                 except Exception as e: dr.text((x + 8, y + 100), "errore: " + str(e)[:40], fill="red")
                 time.sleep(1)
             dr.text((x + 4, y + H + 2), f"{i+1}. {f[:46]}", fill="black"); dr.text((x + 4, y + H + 15), f"{lic} {ii['width']}x{ii['height']}" if p else "NON TROVATO", fill="black")
-            lines.append(f"{g}\t{i+1}\t{f}\t{lic}")
+            desc = text(p["imageinfo"][0].get("extmetadata", {}).get("ImageDescription", {}).get("value"))[:160] if p else ""
+            lines.append(f"{g}\t{i+1}\t{f}\t{lic}\t{desc}")
         sheet.save(os.path.join(d, g + ".jpg"), quality=72)
     open(os.path.join(d, "index.tsv"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
 
