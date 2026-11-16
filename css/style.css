@@ -199,6 +199,11 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 .chip.fee-mixed{background:#efe6cf;color:#5f4a1b}
 .chip.fee-verify{background:#e9e4dc;color:#4a453f}
 .cost-note{font-size:.84rem;color:var(--grey-d);margin:0 0 10px}
+.practical{margin:0 0 12px}
+.practical .cost-note{margin:0 0 4px}
+.practical .cost-note strong{color:var(--ink);font-weight:600}
+.verify-note{font-size:.78rem;font-style:italic}
+.verify-note a{color:var(--wine)}
 .box{margin:0 0 8px;padding:10px 12px;background:var(--ivory);border-left:2px solid var(--gold);font-size:.86rem;color:#4b4742}
 .box b{display:block;color:var(--wine);font-size:.78rem;letter-spacing:.02em;margin-bottom:2px}
 .links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;align-items:center}

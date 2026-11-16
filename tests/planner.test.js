@@ -18,6 +18,11 @@ test("catalogo: id unici e campi obbligatori presenti", ()=>{
     assert.ok(Array.isArray(p.cats)&&p.cats.length,p.id+": nessuna categoria");
     p.cats.forEach(c=>assert.ok(CATS.includes(c),p.id+": categoria sconosciuta '"+c+"'"));
     assert.match(p.time,/^\d+\s*[–-]\s*\d+ min$/,p.id+": formato del tempo di visita");
+    if(p.booking!==undefined)assert.ok(["required","recommended","no"].includes(p.booking),p.id+": prenotazione non valida");
+    if(p.slot!==undefined)assert.ok(["am","morning","late","evening"].includes(p.slot),p.id+": fascia non valida");
+    if(p.source)assert.ok(/^https:\/\//.test(p.source)&&/^\d{4}-\d{2}-\d{2}$/.test(p.checked||""),p.id+": fonte senza data di verifica");
+    assert.ok(p.public||p.hours||p.hoursNote,p.id+": manca l'indicazione sugli orari (o la nota 'non verificati')");
+    assert.ok(typeof p.when==="string"&&p.when.trim(),p.id+": manca la fascia oraria ideale");
   }
 });
 
@@ -85,17 +90,16 @@ test("interessi: poche tappe fuori tema quando il catalogo offre abbastanza luog
   assert.ok(off/tot<0.05,"tappe fuori tema: "+(100*off/tot).toFixed(1)+"%");
 });
 
-test("momento della giornata: luoghi serali verso la fine, mercati verso l'inizio", ()=>{
-  let late=0,lateOk=0,morning=0,morningOk=0;
+test("momento della giornata: le giornate con luoghi serali finiscono la sera, i luoghi del mattino stanno all'inizio", ()=>{
+  const isLate=(s,a)=>s.slot==="evening"||s.slot==="late"||(a.interests.includes("night")&&s.cats.includes("night"));
+  let days=0,endOk=0,morning=0,morningOk=0;
   for(const a of sampleAnswers()){
     buildItinerary(a).days.forEach(d=>{
       const n=d.stops.length;if(n<3)return;
-      d.stops.forEach((s,i)=>{
-        if(a.interests.includes("night")&&s.cats.includes("night")){late++;if(i>=n-2)lateOk++;}
-        if(s.slot==="morning"){morning++;if(i<n/2)morningOk++;}
-      });
+      if(d.stops.some(s=>isLate(s,a))){days++;if(isLate(d.stops[n-1],a))endOk++;}
+      d.stops.forEach((s,i)=>{if(s.slot==="morning"){morning++;if(i<n/2)morningOk++;}});
     });
   }
-  assert.ok(late>0&&lateOk/late>=0.9,"luoghi serali a fine giornata: "+lateOk+"/"+late);
-  assert.ok(morning>0&&morningOk/morning>=0.8,"mercati nella prima metà: "+morningOk+"/"+morning);
+  assert.ok(days>0&&endOk/days>=0.9,"giornate che finiscono con un luogo serale: "+endOk+"/"+days);
+  assert.ok(morning>0&&morningOk/morning>=0.8,"luoghi del mattino nella prima metà: "+morningOk+"/"+morning);
 });

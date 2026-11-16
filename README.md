@@ -38,3 +38,14 @@ npm run report       # misure di qualità degli itinerari, da confrontare dopo o
 ```
 
 Aggiungendo un luogo in `js/data/places.js`, `npm test` verifica campi obbligatori, categorie, costo e coordinate.
+
+## Catalogo dei luoghi
+
+`js/data/places.js` contiene 77 luoghi. Regole per aggiungerne o modificarne uno:
+
+- **Coordinate** da OpenStreetMap, controllate sul posto indicato dal nome.
+- **Prezzi, orari, chiusure, prenotazione**: solo da una fonte verificabile, preferibilmente ufficiale. Se il dato è verificato, inserisci `source` (URL) e `checked` (data `AAAA-MM-GG`); la scheda mostrerà "Informazioni verificate il …".
+- **Mai inventare**: se un prezzo o un orario non è verificabile, scrivilo nel testo ("prezzo non verificato") o usa `hoursNote`.
+- `when` è la fascia oraria ideale mostrata nella scheda; `slot` serve solo a ordinare le tappe (`am` = aperto solo al mattino, `morning`, `late` = tramonto, `evening` = sera).
+- `ticket` raggruppa i luoghi coperti dallo stesso biglietto (es. Colosseo e Foro Romano); `cheap` indica un biglietto sotto i 10 €; `must` i grandi classici per chi visita Roma la prima volta.
+- I dati variabili vanno ricontrollati periodicamente: la data di verifica è nella scheda.

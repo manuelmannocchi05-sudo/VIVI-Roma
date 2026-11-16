@@ -281,7 +281,7 @@ function renderResults(){
   );
   const notes=$("#notes");notes.replaceChildren();
   const list=plan.notes.concat([
-    "Orari, prezzi e prenotazioni non sono verificati: controllali sui siti ufficiali. Le distanze tra le tappe sono in linea d'aria (in totale circa "+walk.toFixed(1).replace(".",",")+" km) e i tempi di visita sono indicativi."
+    "Prezzi e orari indicati con fonte sono stati verificati in una data precisa e possono cambiare; gli altri non sono verificati: controlla sempre i siti ufficiali. Le distanze tra le tappe sono in linea d'aria (in totale circa "+walk.toFixed(1).replace(".",",")+" km) e i tempi di visita sono indicativi."
   ]);
   list.forEach(t=>notes.append(el("li",{text:t})));
 
@@ -331,6 +331,27 @@ function budgetBox(p){
   if(b==="low")return el("div",{class:"box"},el("b",{text:"Con budget contenuto"}),"L'ingresso è facoltativo: valuta se vale la spesa per te e verifica prezzi o riduzioni sui siti ufficiali.");
   return null;
 }
+/* Informazioni pratiche: costo, orari, giorni di chiusura, momento ideale, prenotazione e fonte della verifica.
+   I dati non verificati sono dichiarati come tali: niente prezzi o orari inventati. */
+const BOOKING_LABEL={required:"Prenotazione obbligatoria",recommended:"Prenotazione consigliata"};
+const fmtDate=d=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");return m?m[3]+"/"+m[2]+"/"+m[1]:"";};
+function practicalInfo(p){
+  const box=el("div",{class:"practical"});
+  const line=(label,text)=>{if(text)box.append(el("p",{class:"cost-note"},el("strong",{text:label+": "}),text));};
+  line("Costo",p.cost);
+  const hours=p.hours||p.hoursNote;
+  line("Orari",hours?hours+(p.closed?" Chiuso: "+p.closed+".":""):(p.closed?"Chiuso: "+p.closed+".":""));
+  line("Momento ideale",p.when);
+  line("Prenotazione",p.bookingNote);
+  if(p.source&&p.checked){
+    box.append(el("p",{class:"cost-note verify-note"},"Informazioni verificate il "+fmtDate(p.checked)+" · ",
+      el("a",{href:p.source,target:"_blank",rel:"noopener noreferrer",text:"fonte (esterno)"}),
+      ". Possono cambiare: ricontrolla prima di andare."));
+  }else if(!p.public){
+    box.append(el("p",{class:"cost-note verify-note",text:"Prezzi e orari non verificati da VIVI Roma: controlla le fonti ufficiali prima di andare."}));
+  }
+  return box;
+}
 function renderStop(p,di,i){
   const n=i+1;
   const main=p.cats.find(c=>CAT_ICON[c])||"star";
@@ -349,8 +370,9 @@ function renderStop(p,di,i){
       el("div",{class:"chips"},
         el("span",{class:"chip",text:"Visita: circa "+p.time}),
         el("span",{class:"chip fee-"+p.fee,text:FEE_LABEL[p.fee]}),
+        BOOKING_LABEL[p.booking]?el("span",{class:"chip fee-paid",text:BOOKING_LABEL[p.booking]}):null,
         why.map(w=>el("span",{class:"chip",text:w}))),
-      el("p",{class:"cost-note",text:p.cost+(p.fee==="free"?"":" Prezzi non verificati.")}),
+      practicalInfo(p),
       el("div",{class:"box"},el("b",{text:"La chicca"}),p.chicca),
       el("div",{class:"box"},el("b",{text:"Il consiglio di VIVI"}),p.consiglio),
       budgetBox(p),
