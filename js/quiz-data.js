@@ -1,50 +1,85 @@
-/* VIVI Roma — domande del quiz ed etichette.
-   Opzioni: [valore, icona (o "#testo"), titolo, descrizione] */
+/* VIVI Roma — quiz in 5 passaggi.
+   STEPS: i passaggi mostrati; ogni passaggio contiene una o più domande (chiavi di QUIZ).
+   QUIZ: le domande. Opzioni: [valore, icona (o "#testo"), titolo, descrizione, etichetta breve per il riepilogo].
+   multi:true = si possono scegliere più risposte (nessun minimo oltre a una, nessun massimo).
+   photo = foto locale (js/data/photos.js) mostrata nella card dell'opzione.
+   legacy = opzioni non più proposte nel quiz ma ancora valide nei viaggi salvati e nei link condivisi
+   delle versioni precedenti (vedi docs/quiz-logica.md). */
+
+const STEPS=[
+ {id:"who",name:"Compagnia",title:"Con chi vivi Roma?",sub:"Ogni compagnia scopre la città a modo suo.",keys:["company","familiarity"]},
+ {id:"time",name:"Durata",title:"Quanto tempo hai?",sub:"Giornate realistiche, da mezza giornata a una settimana.",keys:["duration"]},
+ {id:"interests",name:"Interessi",title:"Cosa vuoi scoprire e vivere?",sub:"Scegline quante vuoi: anche una sola va benissimo.",keys:["interests"]},
+ {id:"mood",name:"Atmosfera",title:"Che atmosfera preferisci?",sub:"Una o più: ci aiutano a scegliere tra luoghi simili.",keys:["mood"]},
+ {id:"practical",name:"Preferenze",title:"Come ti piace viaggiare?",sub:"Ritmo, passi e budget: tre scelte rapide.",keys:["pace","walking","budget"]}
+];
 
 const QUIZ=[
- {key:"company",name:"Compagnia",title:"Con chi vivi Roma?",sub:"La compagnia cambia il modo di scoprire una città.",err:"Scegli con chi viaggi per continuare.",opts:[
-  ["solo","user","Da solo/a","Libertà di seguire la curiosità"],
+ {key:"company",title:"Con chi viaggi?",err:"Scegli con chi viaggi.",opts:[
+  ["solo","user","Da solo/a","Libertà e curiosità"],
   ["couple","heart","In coppia","Atmosfera e momenti speciali"],
-  ["friends","users","Con amici","Esperienze, risate e buon cibo"],
+  ["friends","users","Con amici","Esperienze e buon cibo"],
   ["family","home","In famiglia","Scoperte da condividere"]]},
- {key:"familiarity",name:"Esperienza",title:"È la tua prima volta a Roma?",sub:"Troviamo il giusto equilibrio tra grandi classici e sorprese.",err:"Dicci se è la tua prima volta a Roma.",opts:[
-  ["first","star","Sì, la prima volta","Voglio vedere i luoghi simbolo"],
-  ["often","refresh","La conosco già","Voglio scoprire qualcosa di nuovo"]]},
- {key:"duration",name:"Durata",title:"Quanto tempo hai?",sub:"Costruiamo giornate realistiche. Gli itinerari arrivano fino a 7 giorni.",err:"Scegli quanto tempo hai a disposizione.",opts:[
-  ["half","#½","Mezza giornata","Una piccola fuga a Roma"],
-  ["one","#1","1 giorno","Un assaggio della città"],
+ {key:"familiarity",title:"È la tua prima volta a Roma?",err:"Dicci se è la tua prima volta a Roma.",compact:true,opts:[
+  ["first","star","Sì, la prima volta","I luoghi simbolo","Prima volta a Roma"],
+  ["often","refresh","La conosco già","Qualcosa di nuovo","Conosce già Roma"]]},
+ {key:"duration",title:"Quanto tempo hai?",err:"Scegli quanto tempo hai a disposizione.",opts:[
+  ["half","#½","Mezza giornata","Qualche ora"],
+  ["one","#1","Un giorno","Il meglio in una giornata"],
   ["multi","#+","Più giorni","Da 2 a 7 giorni"]],
-  followUp:{key:"days",when:"multi",title:"Se hai selezionato più giorni, quanti?",err:"Scegli per quanti giorni resti a Roma.",opts:[
-   ["2","#2","2 giorni",""],["3","#3","3 giorni",""],["4","#4","4 giorni",""],
-   ["5","#5","5 giorni",""],["6","#6","6 giorni",""],["7","#7","7 giorni",""]]}},
- {key:"interests",multi:true,name:"Interessi",title:"Cosa ti fa brillare gli occhi?",sub:"Scegli quante risposte vuoi: useremo tutte le tue preferenze.",err:"Scegli almeno un interesse.",opts:[
-  ["history","column","Storia e monumenti","Le tracce del passato"],
-  ["art","frame","Arte e architettura","Capolavori e bellezza"],
-  ["hidden","compass","Luoghi insoliti","Angoli poco conosciuti"],
-  ["romantic","heart","Romanticismo","Panorami e passeggiate"],
-  ["nature","leaf","Natura e relax","Parchi e giardini"],
-  ["food","utensils","Cibo e mercati","La Roma da assaggiare"],
-  ["religious","dome","Roma religiosa","Basiliche e spiritualità"],
+  followUp:{key:"days",when:"multi",title:"Quanti giorni?",err:"Scegli per quanti giorni resti a Roma.",opts:[
+   ["2","#2","2",""],["3","#3","3",""],["4","#4","4",""],["5","#5","5",""],["6","#6","6",""],["7","#7","7",""]]}},
+ {key:"interests",multi:true,title:"Cosa vuoi scoprire e vivere?",err:"Scegli almeno un interesse.",opts:[
+  ["history","column","Storia e monumenti","Colosseo, Fori, l'impero",null,"cat-history"],
+  ["art","frame","Arte e architettura","Musei e capolavori",null,"cat-art"],
+  ["religious","dome","Roma sacra","Basiliche e spiritualità",null,"cat-religious"],
+  ["hidden","compass","Luoghi nascosti","Angoli poco conosciuti",null,"cat-hidden"],
+  ["romantic","heart","Roma romantica","Panorami e tramonti",null,"cat-romantic"],
+  ["nature","leaf","Verde e quiete","Parchi e giardini",null,"cat-nature"],
+  ["food","utensils","Cibo e tradizioni","Mercati e sapori romani",null,"cat-food"],
+  ["night","moon","Roma di sera","Luci e atmosfera",null,"castel"]],
+  legacy:[
   ["local","pin","Vita locale","Quartieri e tradizioni"],
-  ["night","moon","Roma di sera","Luci e atmosfera"],
   ["family","smile","Esperienze per tutti","Idee adatte alle famiglie"]]},
- {key:"mood",name:"Atmosfera",title:"Che atmosfera cerchi?",sub:"Immagina la sensazione che vuoi portare a casa.",err:"Scegli l'atmosfera che cerchi.",opts:[
-  ["iconic","star","Meraviglia","I luoghi che tolgono il fiato"],
-  ["local","home","Autenticità","La città vissuta dai romani"],
-  ["peaceful","leaf","Calma e bellezza","Verde, silenzio e panorami"],
-  ["lively","sun","Energia","Piazze, mercati e movimento"]]},
- {key:"pace",name:"Ritmo",title:"Qual è il tuo ritmo ideale?",sub:"Non tutti viaggiano allo stesso passo.",err:"Scegli il tuo ritmo ideale.",walking:true,opts:[
-  ["slow","coffee","Con molta calma","Poche tappe, tempo per fermarsi"],
-  ["balanced","sliders","Un buon equilibrio","Scoperte e pause"],
-  ["full","bolt","Voglio vedere tanto","Giornate piene e dinamiche"]]},
- {key:"budget",name:"Budget",title:"Qual è il tuo budget?",sub:"Adatteremo tappe ed esperienze a come vuoi vivere Roma.",err:"Scegli il tuo budget per continuare.",opts:[
-  ["low","coin","Budget contenuto","Voglio vivere Roma spendendo poco."],
-  ["mid","sliders","Budget equilibrato","Voglio alternare risparmio ed esperienze."],
-  ["high","star","Voglio concedermi qualcosa","Voglio godermi Roma senza troppe rinunce."]]}
+ {key:"mood",multi:true,title:"Che atmosfera preferisci?",err:"Scegli almeno un'atmosfera.",opts:[
+  ["iconic","star","Meraviglia","I luoghi che tolgono il fiato",null,"trevi"],
+  ["local","pin","Autenticità","Quartieri e tradizioni romane",null,"cat-local"],
+  ["peaceful","leaf","Calma","Verde, silenzio e panorami",null,"aranci"],
+  ["lively","sun","Energia","Piazze, mercati e movimento",null,"campo"]]},
+ {key:"pace",title:"Ritmo",err:"Scegli il tuo ritmo.",compact:true,opts:[
+  ["slow","coffee","Con calma","Poche tappe","Ritmo lento"],
+  ["balanced","sliders","Equilibrato","Scoperte e pause","Ritmo equilibrato"],
+  ["full","bolt","Intenso","Giornate piene","Ritmo intenso"]]},
+ {key:"walking",title:"Quanto vuoi camminare?",err:"Scegli quanto vuoi camminare.",compact:true,opts:[
+  ["low","pin","Poco","Tratti brevi","Cammina poco"],
+  ["medium","pin","Il giusto","Mi piace camminare","Camminata media"],
+  ["high","pin","Molto","Esplorare a piedi","Cammina molto"]]},
+ {key:"budget",title:"Budget",err:"Scegli il tuo budget.",compact:true,opts:[
+  ["low","coin","Contenuto","Spendere poco","Budget contenuto"],
+  ["mid","sliders","Medio","Qualche ingresso","Budget medio"],
+  ["high","star","Libero","Senza troppe rinunce","Budget libero"]]}
 ];
+QUIZ.forEach(q=>{q.step=STEPS.findIndex(s=>s.keys.includes(q.key));});
+
+/* Compatibilità: etichette della camminata usate in versioni precedenti */
 const WALK_OPTS=[["low","Poco: preferisco spostamenti brevi"],["medium","Il giusto: camminare mi piace"],["high","Molto: adoro esplorare a piedi"]];
-const LABELS={};QUIZ.forEach(q=>{LABELS[q.key]={};q.opts.forEach(o=>LABELS[q.key][o[0]]=o[2]);});
+const LABELS={};QUIZ.forEach(q=>{LABELS[q.key]={};q.opts.concat(q.legacy||[]).forEach(o=>LABELS[q.key][o[0]]=o[4]||o[2]);});
 const durationLabel=a=>a.duration==="half"?"Mezza giornata":a.duration==="one"?"1 giorno":a.days+" giorni";
 const PACE_LABEL={slow:"Ritmo lento",balanced:"Ritmo equilibrato",full:"Ritmo intenso"};
 
-export {QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL};
+/* Atmosfere scelte: sempre un elenco (i dati delle versioni precedenti hanno un solo valore). */
+const moodsOf=a=>a&&a.mood?(Array.isArray(a.mood)?a.mood:[a.mood]):[];
+
+/* Dalle risposte del quiz a quelle usate dal motore (docs/quiz-logica.md):
+   - "Vita locale" non è più un interesse a sé: è compresa nell'atmosfera «Autenticità»;
+   - "Esperienze per tutti" non è più un interesse a sé: è compresa in «In famiglia».
+   I viaggi salvati prima del nuovo quiz che contengono questi interessi restano invariati. */
+function engineAnswers(a){
+  const ints=a.interests.slice();
+  const add=v=>{if(!ints.includes(v))ints.push(v);};
+  if(moodsOf(a).includes("local"))add("local");
+  if(a.company==="family")add("family");
+  return {...a,interests:ints,mood:moodsOf(a)};
+}
+
+export {STEPS,QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL,moodsOf,engineAnswers};

@@ -1,8 +1,8 @@
 /* VIVI Roma — interfaccia: quiz, risultati, foto, mappa, navigazione. */
 import {PLACES,buildItinerary,restoreItinerary} from "./planner.js";
 import {createStore,tripFromPlan,tripTitle,MAX_TRIPS,shareUrl,shareText,decodeShare} from "./trips.js";
-import {QUIZ,WALK_OPTS} from "./quiz-data.js";
-import {t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,walkText,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
+import {STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
+import {t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
 
 /* ==========================================================================
@@ -58,55 +58,71 @@ function toast(msg){
 function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:block||"start"});}
 
 /* ==========================================================================
-   STATO DEL QUIZ
+   QUIZ: 5 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
-const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
+const Q=Object.fromEntries(QUIZ.map(q=>[q.key,q]));
 
 function optionButton(q,o){
-  const isText=o[1].charAt(0)==="#";
-  const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
-  if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
+  const isText=o[1].charAt(0)==="#",photo=o[5]&&PHOTOS[o[5]];
   const tx=optText(q,o);
-  const btn=el("button",{type:"button",class:"option","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
-    ic,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),el("span",{class:"opt-check","aria-hidden":"true"}));
-  btn.addEventListener("click",()=>onOption(q,o[0]));
+  const check=el("span",{class:"opt-check","aria-hidden":"true"});
+  let btn;
+  if(photo){
+    const media=el("span",{class:"opt-media","aria-hidden":"true"});
+    media.style.backgroundColor=photo.color;
+    media.append(photoImg(photo,"",isNarrow()?200:260));
+    btn=el("button",{type:"button",class:"option opt-photo","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
+      media,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),check);
+  }else{
+    const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
+    if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
+    btn=el("button",{type:"button",class:"option"+(q.compact?" opt-compact":""),"aria-pressed":"false","data-key":q.key,"data-value":o[0]},
+      q.compact?null:ic,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),check);
+  }
+  btn.addEventListener("click",()=>onOption(q,o[0],btn));
   return btn;
+}
+function questionBlock(q,single){
+  const id="q-"+q.key;
+  const label=el("p",{class:"q-label"+(single?" sr-only":""),id:id+"-label",text:qText(q,"title")});
+  const group=el("div",{class:"options opts-"+q.key+(q.multi?" multi":"")+(q.compact?" compact":""),role:"group","aria-labelledby":id+"-label"});
+  q.opts.forEach(o=>group.append(optionButton(q,o)));
+  const box=el("div",{class:"q-block",id},label,group);
+  if(q.followUp){
+    const f=q.followUp;
+    const fg=el("div",{class:"options opts-days compact",role:"group","aria-labelledby":"daysLabel"});
+    f.opts.forEach(o=>fg.append(optionButton(f,o)));
+    box.append(el("div",{class:"q-follow",id:"daysQ",hidden:true},el("p",{class:"q-label",id:"daysLabel",text:qText(f,"title")}),fg));
+  }
+  if(q.multi)box.append(el("p",{class:"sel-count",id:"selCount-"+q.key,"aria-live":"polite"}));
+  return box;
 }
 function buildQuiz(){
   const host=$("#quizSteps"),bar=$("#stepsBar");
-  QUIZ.forEach((q,qi)=>{
-    const legend=el("legend",{text:qText(q,"title"),tabindex:"-1"});
-    const group=el("div",{class:"options"+(q.multi?" multi":""),role:"group","aria-label":qText(q,"title")});
-    q.opts.forEach(o=>group.append(optionButton(q,o)));
-    const fs=el("fieldset",{class:"step",hidden:qi!==0,"data-step":qi},legend,el("p",{class:"sub",text:qText(q,"sub")}),group);
-    if(q.followUp){
-      /* Domanda aggiuntiva: visibile solo quando è selezionata l'opzione "when" */
-      const f=q.followUp;
-      const fg=el("div",{class:"options",role:"group","aria-labelledby":"daysLabel"});
-      f.opts.forEach(o=>fg.append(optionButton(f,o)));
-      fs.append(el("div",{class:"walk",id:"daysQ",hidden:true},el("p",{class:"days-label",id:"daysLabel",text:qText(f,"title")}),fg));
-    }
-    if(q.multi)fs.append(el("p",{class:"sel-count",id:"selCount","aria-live":"polite"}));
-    if(q.walking){
-      const sel=el("select",{id:"walking"},WALK_OPTS.map(w=>el("option",{value:w[0],text:walkText(w),selected:w[0]==="medium"})));
-      sel.addEventListener("change",e=>{state.answers.walking=e.target.value;});
-      fs.append(el("div",{class:"walk"},el("label",{for:"walking",id:"walkingLabel",text:t("quiz.walking")}),sel));
-    }
+  STEPS.forEach((s,si)=>{
+    const legend=el("legend",{text:stepText(s,"title"),tabindex:"-1"});
+    const fs=el("fieldset",{class:"step step-"+s.id,hidden:si!==0,"data-step":si},legend,el("p",{class:"sub",text:stepText(s,"sub")}));
+    s.keys.forEach(k=>fs.append(questionBlock(Q[k],s.keys.length===1)));
     host.append(fs);stepEls.push(fs);
-    bar.append(el("span"));
+    bar.append(el("span",null,el("i")));
   });
 }
-function onOption(q,value){
+const ORDER=k=>Q[k].opts.map(o=>o[0]);
+function onOption(q,value,btn){
   if(q.multi){
     const list=state.answers[q.key];
-    state.answers[q.key]=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
+    const next=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
+    /* le atmosfere seguono l'ordine del quiz; gli interessi restano nell'ordine di scelta, come nelle versioni precedenti */
+    state.answers[q.key]=q.key==="mood"?ORDER("mood").filter(v=>next.includes(v)):next;
   }else{
     state.answers[q.key]=value;
     if(q.key==="duration"&&value!=="multi")state.answers.days=null;
   }
+  if(btn&&!reduceMotion()){btn.classList.remove("tap");void btn.offsetWidth;btn.classList.add("tap");}
   syncOptions();$("#quizError").textContent="";
 }
 function syncOptions(){
@@ -116,38 +132,44 @@ function syncOptions(){
     b.setAttribute("aria-pressed",String(on));
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
-  const n=state.answers.interests.length,c=$("#selCount");
-  if(c)c.textContent=n?t("quiz.selCount",{n}):t("quiz.selNone");
+  for(const k of ["interests","mood"]){
+    const n=state.answers[k].length,c=$("#selCount-"+k);
+    if(c)c.textContent=n?t("quiz.selCount."+k,{n}):t("quiz.selNone."+k);
+  }
 }
 function stepError(i){
-  const q=QUIZ[i],v=state.answers[q.key];
-  if(!(q.multi?v.length>0:!!v))return qText(q,"err");
-  if(q.followUp&&v===q.followUp.when&&!state.answers[q.followUp.key])return qText(q.followUp,"err");
+  for(const k of STEPS[i].keys){
+    const q=Q[k],v=state.answers[k];
+    if(!(q.multi?v.length>0:!!v))return qText(q,"err");
+    if(q.followUp&&v===q.followUp.when&&!state.answers[q.followUp.key])return qText(q.followUp,"err");
+  }
   return "";
 }
 function setStep(n,focus){
-  state.step=Math.max(0,Math.min(QUIZ.length-1,n));
+  const prev=state.step;
+  state.step=Math.max(0,Math.min(STEPS.length-1,n));
+  const dir=state.step<prev?"back":"fwd";
   stepEls.forEach((s,i)=>{
     const on=i===state.step;
-    if(on&&s.hidden){s.hidden=false;s.classList.remove("enter");void s.offsetWidth;if(!reduceMotion())s.classList.add("enter");}
+    if(on&&s.hidden){s.hidden=false;s.classList.remove("enter","enter-back");void s.offsetWidth;if(!reduceMotion())s.classList.add(dir==="back"?"enter-back":"enter");}
     else if(!on)s.hidden=true;
   });
-  const last=state.step===QUIZ.length-1;
+  const last=state.step===STEPS.length-1;
   $("#prevBtn").disabled=state.step===0;
   $("#nextBtn").hidden=last;$("#createBtn").hidden=!last;
-  $("#qCounter").textContent=t("quiz.counter",{n:state.step+1,total:QUIZ.length});
-  $("#qName").textContent=qText(QUIZ[state.step],"name");
+  $("#qCounter").textContent=t("quiz.counter",{n:state.step+1,total:STEPS.length});
+  $("#qName").textContent=stepText(STEPS[state.step],"name");
   $$("#stepsBar span").forEach((s,i)=>{s.className=i<state.step?"done":i===state.step?"now":"";});
   $("#stepsBar").setAttribute("aria-valuenow",String(state.step+1));
+  $("#stepsBar").setAttribute("aria-valuemax",String(STEPS.length));
   $("#quizError").textContent="";
   if(focus){
-    /* Su smartphone, dopo «Continua» la nuova domanda può iniziare sopra lo schermo: riportiamo in vista l'inizio del pannello. */
+    /* Su smartphone la nuova domanda può iniziare sopra lo schermo: riportiamo in vista l'inizio del pannello. */
     const lg=$("legend",stepEls[state.step]);
     const check=()=>{
       const top=lg.getBoundingClientRect().top,head=$("#siteHeader").offsetHeight;
       if(top<head||top>window.innerHeight*0.5)scrollToEl($(".quiz-panel"),"start");
     };
-    /* subito e di nuovo dopo l'eventuale scorrimento del browser dovuto al cambio di altezza della domanda */
     requestAnimationFrame(check);setTimeout(check,450);
     lg.focus({preventScroll:true});
   }
@@ -158,32 +180,34 @@ function goNext(){
   setStep(state.step+1,true);
 }
 function submitQuiz(){
-  for(let i=0;i<QUIZ.length;i++){
+  for(let i=0;i<STEPS.length;i++){
     const err=stepError(i);
     if(err){setStep(i,true);$("#quizError").textContent=err;return;}
   }
-  state.answers.walking=$("#walking").value;
   createItinerary();
 }
 /* Cambio lingua: aggiorna i testi del quiz senza toccare risposte, passo corrente o selezioni. */
 function relabelQuiz(){
-  QUIZ.forEach((q,qi)=>{
-    const fs=stepEls[qi];
-    $("legend",fs).textContent=qText(q,"title");
-    $(".sub",fs).textContent=qText(q,"sub");
-    $(".options",fs).setAttribute("aria-label",qText(q,"title"));
-    const groups=[q].concat(q.followUp?[q.followUp]:[]);
-    groups.forEach(g=>g.opts.forEach(o=>{
-      const b=$(`.option[data-key="${g.key}"][data-value="${o[0]}"]`,fs);if(!b)return;
-      const tx=optText(g,o);$("strong",b).textContent=tx.title;const sm=$("small",b);if(sm)sm.textContent=tx.desc;
-    }));
-    if(q.followUp)$("#daysLabel").textContent=qText(q.followUp,"title");
-    if(q.walking){$("#walkingLabel").textContent=t("quiz.walking");$$("#walking option").forEach(op=>{op.textContent=walkText(WALK_OPTS.find(w=>w[0]===op.value));});}
+  STEPS.forEach((s,si)=>{
+    const fs=stepEls[si];
+    $("legend",fs).textContent=stepText(s,"title");
+    $(".sub",fs).textContent=stepText(s,"sub");
+    s.keys.forEach(k=>{
+      const q=Q[k];
+      $("#q-"+k+"-label").textContent=qText(q,"title");
+      [q].concat(q.followUp?[q.followUp]:[]).forEach(g=>g.opts.forEach(o=>{
+        const b=$(`.option[data-key="${g.key}"][data-value="${o[0]}"]`,fs);if(!b)return;
+        const tx=optText(g,o);$("strong",b).textContent=tx.title;const sm=$("small",b);if(sm)sm.textContent=tx.desc;
+      }));
+      if(q.followUp)$("#daysLabel").textContent=qText(q.followUp,"title");
+    });
   });
   const shown=!!$("#quizError").textContent;
   setStep(state.step,false);syncOptions();
   if(shown){const err=stepError(state.step);$("#quizError").textContent=err;}
 }
+/* Risposte ricevute da un viaggio salvato o da un link: copia indipendente, con le atmosfere sempre in elenco. */
+function loadAnswers(a){state.answers={...a,interests:[...a.interests],mood:moodsOf(a).slice()};syncOptions();}
 
 /* ==========================================================================
    IMMAGINI: solo file locali WebP (img/), generati da tools/photos/build.py con licenza verificata.
@@ -233,7 +257,7 @@ const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
 const fmtKm=k=>k<0.1?t("res.legLess"):t("res.legKm",{km:num1(k)});
 
 function createItinerary(){
-  showPlan(buildItinerary(state.answers),{savedId:null});
+  showPlan(buildItinerary(engineAnswers(state.answers)),{savedId:null});
 }
 /* Mostra un itinerario: appena creato, riaperto da «I miei viaggi» o ricevuto da un link. */
 function showPlan(plan,{savedId=null,status=null}={}){
@@ -251,7 +275,7 @@ function renderResults(){
   const ints=a.interests.map(interestLabel);
   $("#resultSubtitle").textContent=t("res.subtitle",{days:plan.days.length,ints});
   const pills=$("#pills");pills.replaceChildren();
-  [answerLabel("company",a.company),durationLabel(a),paceLabel(a.pace),answerLabel("familiarity",a.familiarity),answerLabel("mood",a.mood),answerLabel("budget",a.budget)].concat(ints)
+  [answerLabel("company",a.company),durationLabel(a),paceLabel(a.pace),answerLabel("familiarity",a.familiarity),...moodLabels(a),answerLabel("budget",a.budget)].concat(ints)
     .forEach(x=>pills.append(el("span",{class:"pill",text:x})));
   const all=plan.days.flatMap(d=>d.stops);
   const free=all.filter(s=>s.fee==="free").length;
@@ -565,9 +589,8 @@ function renderTrips(){
 function openTrip(id){
   const trip=getStore().get(id);
   if(!trip){toast(t("toast.tripGone"));renderTrips();return;}
-  state.answers={...trip.answers,interests:[...trip.answers.interests]};syncOptions();
-  const w=$("#walking");if(w)w.value=state.answers.walking;
-  const plan=restoreItinerary(state.answers,trip.days);
+  loadAnswers(trip.answers);
+  const plan=restoreItinerary(engineAnswers(state.answers),trip.days);
   showPlan(plan,{savedId:trip.id,status:[["status.reopened"]].concat(plan.missing.length?[["status.missing",{n:plan.missing.length}]]:[])});
 }
 function confirmDialog(text){
@@ -614,9 +637,8 @@ function openFromLink(){
   if(!m)return false;
   const data=decodeShare(decodeURIComponent(m[1]));
   if(!data){toast(t("toast.linkInvalid"));return false;}
-  state.answers={...data.answers};syncOptions();
-  const w=$("#walking");if(w)w.value=state.answers.walking;
-  const plan=restoreItinerary(state.answers,data.days);
+  loadAnswers(data.answers);
+  const plan=restoreItinerary(engineAnswers(state.answers),data.days);
   if(!plan.days.length){toast(t("toast.linkEmpty"));return false;}
   const saved=getStore().find(tripFromPlan(state.answers,plan));
   showPlan(plan,{savedId:saved?saved.id:null,status:[["status.fromLink"],[saved?"status.linkSaved":"status.linkCanSave"]]});
@@ -637,6 +659,7 @@ function applyLang(){
   relabelQuiz();
   $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
   heroCredit();
+  renderPreview();
   renderTrips();
   if(state.plan)rerenderResults();
 }
@@ -710,6 +733,33 @@ function heroCredit(){
   credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+t("photo.commons")}));
   credit.hidden=false;
 }
+/* Anteprima in homepage: un itinerario vero, calcolato adesso dal motore con risposte di esempio (nessun dato inventato). */
+const SAMPLE={company:"couple",familiarity:"first",duration:"one",days:null,interests:["history","food","romantic"],mood:["iconic"],pace:"balanced",budget:"mid",walking:"medium"};
+let samplePlan=null;
+function renderPreview(){
+  const host=$("#previewHost");if(!host)return;
+  if(!samplePlan)samplePlan=buildItinerary(engineAnswers(SAMPLE));
+  const day=samplePlan.days[0];if(!day){host.replaceChildren();return;}
+  const list=[answerLabel("company",SAMPLE.company),answerLabel("familiarity",SAMPLE.familiarity),durationLabel(SAMPLE)]
+    .concat(SAMPLE.interests.map(interestLabel)).concat(moodLabels(SAMPLE)).join(" · ");
+  $("#previewText").textContent=t("pv.text",{list});
+  const first=day.stops[0],cover=el("div",{class:"pv-cover"});
+  const ph=PHOTOS[first.id];
+  if(ph)lazyLoad(cover,()=>placePhoto(cover,ph,"",Math.min(560,host.getBoundingClientRect().width||400)));
+  cover.append(el("div",{class:"pv-cover-text"},
+    el("span",{class:"pv-badge",text:t("pv.badge")}),
+    el("h3",{text:tripTitle(SAMPLE)}),
+    el("p",{text:day.areas.slice(0,3).map(areaText).join(" · ")})));
+  const shown=day.stops.slice(0,4);
+  const ol=el("ol",{class:"pv-stops"},shown.map((p,i)=>{
+    const th=el("span",{class:"pv-thumb","aria-hidden":"true"});
+    const tp=PHOTOS[p.id];if(tp)lazyLoad(th,()=>placePhoto(th,tp,"",72));
+    return el("li",null,th,el("span",{class:"pv-n","aria-hidden":"true",text:String(i+1)}),
+      el("span",{class:"pv-info"},el("strong",{lang:"it",text:p.name}),el("small",{text:areaText(p.area)+(p.matches.length?" · "+p.matches.map(interestLabel).join(", "):"")})));
+  }));
+  const foot=el("p",{class:"pv-foot"},t("res.stops",{n:day.stops.length})+" · "+t("res.distance",{km:num1(day.walkKm)})+(day.stops.length>shown.length?" · "+t("pv.more",{n:day.stops.length-shown.length}):""));
+  host.replaceChildren(el("article",{class:"pv-card"},cover,ol,foot));
+}
 function initReveal(){
   const items=$$(".reveal");
   if(!("IntersectionObserver"in window)||reduceMotion()){items.forEach(i=>i.classList.add("in"));return;}
@@ -752,7 +802,7 @@ function init(){
   $("#prevBtn").addEventListener("click",()=>setStep(state.step-1,true));
   $("#quizForm").addEventListener("submit",e=>{
     e.preventDefault();
-    if(state.step<QUIZ.length-1)goNext();else submitQuiz();
+    if(state.step<STEPS.length-1)goNext();else submitQuiz();
   });
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
   $("#printBtn").addEventListener("click",()=>window.print());
@@ -762,7 +812,7 @@ function init(){
   /* In stampa servono tutte le informazioni: si aprono le parti a scomparsa. */
   window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
   $("#langToggle").addEventListener("click",toggleLang);
-  initMenu();initCategories();initHero();initReveal();
+  initMenu();initCategories();initHero();renderPreview();initReveal();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */

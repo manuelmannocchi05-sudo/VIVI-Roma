@@ -10,16 +10,19 @@ export const MAX_TRIPS=30;
 const SCHEMA=1;
 
 /* ---------- Validazione delle risposte (dati salvati o ricevuti da un link: mai fidarsi) ---------- */
-const OPTS={};QUIZ.forEach(q=>{OPTS[q.key]=q.opts.map(o=>o[0]);if(q.followUp)OPTS[q.followUp.key]=q.followUp.opts.map(o=>o[0]);});
+const OPTS={};QUIZ.forEach(q=>{OPTS[q.key]=q.opts.concat(q.legacy||[]).map(o=>o[0]);if(q.followUp)OPTS[q.followUp.key]=q.followUp.opts.map(o=>o[0]);});
 OPTS.walking=WALK_OPTS.map(w=>w[0]);
+/* Elenco di valori validi, senza doppioni. Le atmosfere seguono l'ordine del quiz (così lo stesso viaggio ha sempre la stessa firma). */
+const list=(v,key)=>[...new Set((Array.isArray(v)?v:v?[v]:[]).map(String))].filter(x=>OPTS[key].includes(x));
 export function cleanAnswers(x){
   if(!x||typeof x!=="object")return null;
   const one=k=>OPTS[k].includes(String(x[k]))?String(x[k]):null;
+  const moods=list(x.mood,"mood");
   const a={company:one("company"),familiarity:one("familiarity"),duration:one("duration"),days:null,
-    interests:Array.isArray(x.interests)?[...new Set(x.interests.map(String))].filter(v=>OPTS.interests.includes(v)):[],
-    mood:one("mood"),pace:one("pace"),budget:one("budget"),walking:one("walking")||"medium"};
+    interests:list(x.interests,"interests"),
+    mood:OPTS.mood.filter(m=>moods.includes(m)),pace:one("pace"),budget:one("budget"),walking:one("walking")||"medium"};
   if(a.duration==="multi")a.days=one("days");
-  if(!a.company||!a.familiarity||!a.duration||(a.duration==="multi"&&!a.days)||!a.interests.length||!a.mood||!a.pace||!a.budget)return null;
+  if(!a.company||!a.familiarity||!a.duration||(a.duration==="multi"&&!a.days)||!a.interests.length||!a.mood.length||!a.pace||!a.budget)return null;
   return a;
 }
 const ID=/^[a-z0-9-]{1,40}$/;
@@ -36,7 +39,7 @@ export function tripTitle(a){
 }
 export function tripFromPlan(a,plan,now=new Date()){
   return {v:SCHEMA,id:"t"+now.getTime().toString(36)+Math.random().toString(36).slice(2,6),savedAt:now.toISOString(),
-    title:tripTitle(a),answers:{...a,interests:[...a.interests]},days:plan.days.map(d=>d.stops.map(s=>s.id))};
+    title:tripTitle(a),answers:cleanAnswers(a)||{...a,interests:[...a.interests],mood:[].concat(a.mood||[])},days:plan.days.map(d=>d.stops.map(s=>s.id))};
 }
 /* Stessa combinazione di risposte e tappe = stesso viaggio (per non salvarlo due volte). */
 export function tripSignature(t){return JSON.stringify([t.answers,t.days]);}
@@ -100,14 +103,14 @@ const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\
 const unb64=s=>decodeURIComponent(escape(atob(s.replace(/-/g,"+").replace(/_/g,"/"))));
 const SHORT=["company","familiarity","duration","days","interests","mood","pace","budget","walking"];
 export function encodeShare(a,days){
-  return "1."+b64(JSON.stringify([SHORT.map(k=>k==="interests"?a.interests.join(","):a[k]||""),days.map(d=>d.join(","))]));
+  return "1."+b64(JSON.stringify([SHORT.map(k=>k==="interests"||k==="mood"?[].concat(a[k]||[]).join(","):a[k]||""),days.map(d=>d.join(","))]));
 }
 export function decodeShare(str){
   try{
     const m=/^1\.([A-Za-z0-9_-]{4,4000})$/.exec(str||"");
     if(!m)return null;
     const [vals,days]=JSON.parse(unb64(m[1]));
-    const raw={};SHORT.forEach((k,i)=>{raw[k]=k==="interests"?String(vals[i]||"").split(",").filter(Boolean):vals[i];});
+    const raw={};SHORT.forEach((k,i)=>{raw[k]=k==="interests"||k==="mood"?String(vals[i]||"").split(",").filter(Boolean):vals[i];});
     const answers=cleanAnswers(raw);
     const d=cleanDays((days||[]).map(x=>String(x).split(",").filter(Boolean)));
     return answers&&d?{answers,days:d}:null;

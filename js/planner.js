@@ -72,12 +72,15 @@ function config(a){
   return {days:d.days,max,budget,half:!!d.half,walk};
 }
 function matchesOf(p,a){return a.interests.filter(t=>p.cats.includes(t));}
+/* Atmosfere: una sola (versioni precedenti) o più di una (nuovo quiz). Con una sola il risultato è identico a prima. */
+const moodList=a=>Array.isArray(a.mood)?a.mood:a.mood?[a.mood]:[];
+const moodMatch=(p,a)=>moodList(a).some(m=>p.cats.includes(m));
 function scorePlace(p,a){
   let s=0;
   s+=matchesOf(p,a).length*5;
-  if(p.cats.includes(a.mood))s+=4;
+  if(moodMatch(p,a))s+=4;
   if(a.familiarity==="first"&&p.cats.includes("iconic"))s+=4;
-  if(a.familiarity==="first"&&p.must&&(matchesOf(p,a).length||a.mood==="iconic"))s+=6;   /* grandi classici per chi viene la prima volta */
+  if(a.familiarity==="first"&&p.must&&(matchesOf(p,a).length||moodList(a).includes("iconic")))s+=6;   /* grandi classici per chi viene la prima volta */
   if(a.familiarity==="often"&&p.cats.includes("hidden"))s+=3;
   if(a.company==="couple"&&p.cats.includes("romantic"))s+=2;
   if(a.company==="family"&&p.cats.includes("family"))s+=3;
@@ -301,7 +304,7 @@ function finalize(ordered,a,cfg){
   if(chosen.length<cfg.days*cfg.max){
     notes.push({k:"catalog",total:PLACES.length,used:chosen.length,planned:cfg.days*cfg.max});
   }
-  const filler=chosen.filter(c=>c.matches.length===0&&!(c.p.cats.includes(a.mood)));
+  const filler=chosen.filter(c=>c.matches.length===0&&!moodMatch(c.p,a));
   if(filler.length){
     notes.push({k:"filler",n:filler.length});
   }

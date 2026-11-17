@@ -6,7 +6,7 @@
    La lingua cambia solo i testi: motore, tappe, budget, distanze, salvataggi e link restano identici. */
 import IT from "./i18n/it.js";
 import EN from "./i18n/en.js";
-import {QUIZ} from "./quiz-data.js";
+import {QUIZ,moodsOf} from "./quiz-data.js";
 import {TEXT as PLACE_TEXT,GLOSS,AREA,FOOD_TIPS as FOOD_EN} from "./data/places-en.js";
 
 export const LANGS=["it","en"];
@@ -46,15 +46,18 @@ export function numHalf(m){const h=Math.round(m/30)/2;return lang==="en"?String(
 export function qText(q,field){return lang==="en"&&EN["q."+q.key+"."+field]!==undefined?EN["q."+q.key+"."+field]:q[field];}
 export function optText(q,o){
   const en=lang==="en"?EN["q."+q.key+"."+o[0]]:null;
-  return en?{title:en[0],desc:en[1]}:{title:o[2],desc:o[3]};
+  return en?{title:en[0],desc:en[1],short:en[2]||en[0]}:{title:o[2],desc:o[3],short:o[4]||o[2]};
 }
+/* testi di un passaggio del quiz (titolo, sottotitolo, nome breve) */
+export function stepText(s,field){return lang==="en"&&EN["q.step."+s.id+"."+field]!==undefined?EN["q.step."+s.id+"."+field]:s[field];}
 export function walkText(w){return lang==="en"&&EN["walk."+w[0]]?EN["walk."+w[0]]:w[1];}
 const OPTS={};QUIZ.forEach(q=>{OPTS[q.key]=q;if(q.followUp)OPTS[q.followUp.key]=q.followUp;});
-/* etichetta breve di una risposta (es. "In coppia" / "As a couple") */
+/* etichetta breve di una risposta (es. "In coppia" / "As a couple"), anche per le opzioni delle versioni precedenti */
 export function answerLabel(key,value){
-  const q=OPTS[key];const o=q&&q.opts.find(x=>x[0]===value);
-  return o?optText(q,o).title:String(value);
+  const q=OPTS[key];const o=q&&q.opts.concat(q.legacy||[]).find(x=>x[0]===value);
+  return o?optText(q,o).short:String(value);
 }
+export function moodLabels(a){return moodsOf(a).map(m=>answerLabel("mood",m));}
 export function durationLabel(a){
   return a.duration==="half"?t("label.duration.half"):a.duration==="one"?t("label.duration.one"):t("label.duration.days",{n:a.days});
 }

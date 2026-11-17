@@ -1,0 +1,65 @@
+# Quiz in 5 passaggi: logica e corrispondenza con il motore
+
+Restyling, blocco A. Il quiz passa da 7 domande a 5 passaggi e ammette risposte multiple dove le scelte sono compatibili.
+In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il resto dell'adattamento è previsto nel blocco B.
+
+## Come le risposte influenzano il motore (analisi prima delle modifiche)
+
+| Risposta | Dove agisce in `js/planner.js` |
+|---|---|
+| Compagnia | Punteggio dei luoghi: coppia → +2 ai romantici; famiglia → +3 ai luoghi per famiglie; amici → +2 ai luoghi vivaci; da solo/a → +1 a luoghi insoliti e locali. Titolo del risultato. |
+| Prima volta / la conosco | Prima volta: +4 ai luoghi simbolo e +6 ai "must" pertinenti. La conosco: +3 ai luoghi insoliti. |
+| Durata / giorni | Numero di giornate. Con mezza giornata: meno tappe, meno tempo e una zona più raccolta. |
+| Interessi (multipli) | +5 per ogni interesse in comune con il luogo. Gli interessi determinano le tappe "pertinenti" e la ripartizione tra i giorni. "Roma di sera" sposta i luoghi serali a fine giornata. |
+| Atmosfera | +4 se il luogo ha quella categoria. Una tappa senza interessi né atmosfera in comune è segnalata come "riempitivo". |
+| Ritmo | Massimo di tappe e tempo di visita per giornata. |
+| Camminata | Distanza massima tra tappe e raggio della zona. Con "poco" scende anche il numero di tappe. Penalità ai luoghi lontani dal centro. |
+| Budget | Tetto agli ingressi a pagamento (contenuto ≈ uno ogni due giorni; medio ≈ uno al giorno; libero: nessun tetto). Con budget contenuto i luoghi gratuiti hanno un vantaggio. |
+
+## Nuova struttura
+
+| Passaggio | Domande | Tipo di selezione |
+|---|---|---|
+| 1. Con chi vivi Roma? | Compagnia + «È la tua prima volta a Roma?» | singola + singola |
+| 2. Quanto tempo hai? | Durata (+ numero di giorni se "più giorni") | singola |
+| 3. Cosa vuoi scoprire e vivere? | Interessi (8 card fotografiche) | **multipla**: da 1 a 8, senza massimo |
+| 4. Che atmosfera preferisci? | Atmosfera (4 card fotografiche) | **multipla**: da 1 a 4, senza massimo |
+| 5. Come ti piace viaggiare? | Ritmo, camminata, budget | singola per ognuna (valori incompatibili tra loro) |
+
+La camminata parte da "Il giusto", come prima. Le altre domande non hanno risposte predefinite.
+
+## Corrispondenza tra vecchie e nuove risposte
+
+| Vecchio quiz | Nuovo quiz | Valore per il motore |
+|---|---|---|
+| Compagnia, prima volta, durata, giorni, ritmo, camminata, budget | Stesse opzioni, testi più brevi | invariato |
+| Interessi: storia, arte, religiosa, insoliti, romanticismo, natura, cibo, sera | Stessi 8 interessi, alcuni rinominati («Luoghi nascosti», «Roma sacra», «Verde e quiete», «Cibo e tradizioni») | invariato |
+| Interesse «Vita locale» (`local`) | Assorbito dall'atmosfera **Autenticità** («Quartieri e tradizioni romane») | Se scegli Autenticità, il motore riceve anche l'interesse `local` |
+| Interesse «Esperienze per tutti» (`family`) | Assorbito dalla compagnia **In famiglia** | Se scegli In famiglia, il motore riceve anche l'interesse `family` |
+| Atmosfera: una sola | Atmosfera: una o più | `mood` diventa un elenco. Ogni luogo riceve +4 se ha almeno una delle atmosfere scelte (non +4 per ognuna). Così molte atmosfere non gonfiano i punteggi. |
+
+La conversione avviene in `engineAnswers()` (`js/quiz-data.js`). Le risposte salvate restano quelle scelte nel quiz, e la conversione si ripete identica quando un viaggio viene riaperto o ricevuto da un link.
+
+Effetti da conoscere:
+- Chi sceglie «Autenticità» ora riceve più quartieri e luoghi della vita locale (+4 per l'atmosfera e +5 per l'interesse). Prima l'atmosfera da sola dava solo +4.
+- Chi viaggia «In famiglia» ora riceve sempre il vantaggio dei luoghi per famiglie. Prima serviva scegliere anche l'interesse «Esperienze per tutti».
+
+## Compatibilità
+
+- **Viaggi salvati** con il vecchio quiz: le risposte restano valide, compresi gli interessi `local` e `family` che non compaiono più tra le opzioni. Un'atmosfera singola viene letta come elenco di un elemento.
+- **Link condivisi:** il formato non cambia (`#itinerario=1.…`). Le atmosfere multiple sono separate da virgole nello stesso campo, come gli interessi. Un link con una sola atmosfera è identico a quello delle versioni precedenti.
+- **Motore:** sulle 8.064 combinazioni del vecchio quiz il risultato è identico alla fase 7, sia con l'atmosfera come testo sia come elenco di un elemento (0 differenze).
+
+## Test aggiornati
+
+- `tests/quiz.test.js` (nuovo):
+  - 5 passaggi;
+  - selezione multipla solo per interessi e atmosfera;
+  - conversione verso il motore;
+  - equivalenza testo/elenco;
+  - effetto reale di una seconda atmosfera;
+  - limiti di durata, ritmo e budget con tutte le opzioni selezionate;
+  - viaggi e link delle versioni precedenti;
+  - link con più atmosfere.
+- `tests/i18n.test.js`: controlla anche i testi inglesi dei 5 passaggi e delle opzioni non più proposte. Nel controllo dei messaggi con parametri è stato aggiunto il parametro `list`.
+- Prove nel browser (fuori dal repository): percorso a 5 passaggi; la camminata è una scelta a pulsanti invece di un menu a tendina; nuovi testi attesi ("Step 3 of 5", "Choose your budget."). Il carosello orizzontale delle categorie su smartphone è escluso dal controllo "fuori schermo", perché scorre di lato per scelta.

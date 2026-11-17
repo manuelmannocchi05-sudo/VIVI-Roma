@@ -1,7 +1,7 @@
 /* Test della versione italiana e inglese: npm test */
 import {test} from "node:test";
 import assert from "node:assert/strict";
-import {QUIZ,WALK_OPTS} from "../js/quiz-data.js";
+import {STEPS,QUIZ,WALK_OPTS} from "../js/quiz-data.js";
 import {PLACES,buildItinerary,restoreItinerary} from "../js/planner.js";
 import {TEXT,GLOSS,AREA,FOOD_TIPS} from "../js/data/places-en.js";
 import {IT,EN,t,setLang,getLang,detectLang,LANG_KEY,qText,optText,durationLabel} from "../js/i18n.js";
@@ -24,6 +24,8 @@ test("lingua: quiz completo in inglese", ()=>{
     for(const o of q.opts){const x=optText(q,o);assert.ok(x.title&&x.title!==o[2],"opzione "+q.key+"."+o[0]);if(o[3])assert.ok(x.desc,"descrizione "+q.key+"."+o[0]);}
     if(q.followUp){for(const f of ["title","err"])assert.ok(qText(q.followUp,f)!==q.followUp[f]);q.followUp.opts.forEach(o=>assert.ok(EN["q.days."+o[0]]));}
   }
+  for(const q of QUIZ)for(const o of q.legacy||[])assert.ok(EN["q."+q.key+"."+o[0]],"opzione precedente senza inglese "+q.key+"."+o[0]);
+  for(const s of STEPS)for(const f of ["name","title","sub"])assert.ok(EN["q.step."+s.id+"."+f]&&EN["q.step."+s.id+"."+f]!==s[f],"manca q.step."+s.id+"."+f);
   WALK_OPTS.forEach(w=>assert.ok(EN["walk."+w[0]]));
   setLang("it");
 });
@@ -55,7 +57,7 @@ test("lingua: note del motore e messaggi con parametri", ()=>{
       assert.ok(s&&!s.startsWith("note.")&&!/undefined|NaN/.test(s),l+" note."+k);
     }
     for(const k of Object.keys(IT)){
-      const v=t(k,{n:2,total:7,title:"X",label:"X",name:"X",area:"X",time:"X",km:"1",min:"1",max:"2",days:2,stops:3,date:"1",dist:"X",food:"X",url:"X",author:"X",license:"X",ints:["A","B"],used:1,planned:2,max:30});
+      const v=t(k,{n:2,total:7,title:"X",label:"X",name:"X",area:"X",time:"X",km:"1",min:"1",max:"2",days:2,stops:3,date:"1",dist:"X",food:"X",url:"X",author:"X",license:"X",ints:["A","B"],list:"A · B",used:1,planned:2,max:30});
       assert.ok(typeof v==="string"&&!/undefined|NaN|\[object/.test(v),l+" "+k+": "+v);
     }
   }
