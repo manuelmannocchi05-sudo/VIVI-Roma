@@ -764,6 +764,7 @@ function init(){
   $("#langToggle").addEventListener("click",toggleLang);
   initMenu();initCategories();initHero();initReveal();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
+  document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */
   if(/[?&]photocheck/.test(location.search))runPhotoAudit();
   else openFromLink();

@@ -7,10 +7,18 @@
 <meta name="description" data-i18n-attr="content:credits.desc" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
 <meta name="theme-color" content="#252321">
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<script>/* Lingua prima del primo disegno: scelta salvata → lingua del dispositivo → italiano (stessa regola di js/i18n.js). */
+(function(){var d=document.documentElement,l=null,s=null;d.classList.add("js");
+try{s=localStorage.getItem("vivi-roma:lingua");}catch(e){}
+if(s==="it"||s==="en")l=s;else{var n=navigator.languages||[navigator.language||""];for(var i=0;i<n.length&&!l;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(c==="it"||c==="en")l=c;}}
+l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function(){d.classList.remove("i18n-wait");},2500);}})();</script>
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css?v=4fd5d62f14">
+<!-- importmap:start -->
+<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=ef17f45679","./js/i18n/en.js":"./js/i18n/en.js?v=bc68d05481","./js/i18n/it.js":"./js/i18n/it.js?v=344062b6e4","./js/main.js":"./js/main.js?v=d86a62dc9f","./js/planner.js":"./js/planner.js?v=f0d1f4679e","./js/quiz-data.js":"./js/quiz-data.js?v=f5f8396b99","./js/trips.js":"./js/trips.js?v=0e547bb5ef"}}</script>
+<!-- importmap:end -->
+
 <style>
   .credits{padding:120px 0 72px}
   .credits h1{font-size:clamp(2.2rem,5vw,3.4rem);margin:0 0 12px}
@@ -28,10 +36,10 @@
 <header class="site-header on-dark scrolled" id="siteHeader">
   <div class="wrap nav">
     <a class="brand" href="index.html" data-i18n-attr="aria-label:credits.homeAria" aria-label="VIVI Roma, torna alla pagina principale">
-      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-mark" aria-hidden="true" data-mark="V"></span>
       <span class="brand-name">VIVI Roma</span>
     </a>
-    <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="Switch to English">EN</button>
+    <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
   </div>
 </header>
 <main class="credits">
@@ -82,7 +90,7 @@ function render(){
       const b=document.createElement("b");b.textContent=label(k);
       const a=document.createElement("span");a.textContent=t("credits.author",{author:author(ph.author)});
       const l=document.createElement("span");
-      if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl;x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append(t("credits.license"),x);}
+      if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl.replace(/^http:\/\//,"https://");x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append(t("credits.license"),x);}
       else l.textContent=t("credits.license")+lic(ph.license);
       const s=document.createElement("span");const y=document.createElement("a");y.href=ph.source;y.target="_blank";y.rel="noopener noreferrer";y.textContent=t("credits.page");s.append(y);
       box.append(b,a,l,s);li.append(img,box);ul.append(li);
@@ -92,6 +100,7 @@ function render(){
 }
 document.getElementById("langToggle").addEventListener("click",()=>{setLang(getLang()==="it"?"en":"it",store);render();});
 render();
+document.documentElement.classList.remove("i18n-wait");
 </script>
 </body>
 </html>

@@ -19,10 +19,12 @@ jobs:
         with: {python-version: "3.12"}
       - run: pip install pillow==11.*
       - run: python3 -u tools/photos/build.py 2>&1 | tee tools/photos/build.log
+      - name: Aggiorna la versione dei file (cache del browser)
+        run: node tools/stamp.mjs
       - name: Commit delle foto generate
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- img js/data/photos.js tools/photos
+          git add -A -- img js/data/photos.js tools/photos index.html crediti.html
           git diff --cached --quiet || git commit -m "Foto: WebP generati da Wikimedia Commons (automatico)"
           git push origin HEAD:refs/heads/riorganizzazione-codice

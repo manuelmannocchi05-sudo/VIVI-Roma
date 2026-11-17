@@ -70,3 +70,18 @@ test("condivisione: il link riapre lo stesso itinerario; dati estranei rifiutati
   const r=restoreItinerary(A,[["colosseo","luogo-sparito","colosseo"]]);
   assert.deepEqual(ids(r),[["colosseo"]]);assert.deepEqual(r.missing,["luogo-sparito"]);
 });
+
+test("viaggi: dati salvati da versioni precedenti dell'app restano apribili", ()=>{
+  const mem=memory();
+  /* formato della fase 5: titolo italiano memorizzato, giorni come stringa, campi in più ignorati */
+  mem.setItem(STORE_KEY,JSON.stringify({v:1,trips:[
+    {v:1,id:"tlegacy1",savedAt:"2026-11-17T08:00:00.000Z",title:"Roma in coppia · 3 giorni",answers:{...A},days:[["colosseo","foropalatino"],["pantheon","trevi"],["vaticani"]],extra:"ignorato"},
+    {v:1,id:"tlegacy2",savedAt:"2026-11-16T08:00:00.000Z",title:"x",answers:{...B,walking:undefined},days:[["borghese","luogo-rimosso"]]}]}));
+  const list=createStore(mem).list();
+  assert.equal(list.ok,true);assert.equal(list.trips.length,2);
+  const t1=list.trips.find(t=>t.id==="tlegacy1"),t2=list.trips.find(t=>t.id==="tlegacy2");
+  assert.deepEqual(restoreItinerary(t1.answers,t1.days).days.map(d=>d.stops.map(s=>s.id)),[["colosseo","foropalatino"],["pantheon","trevi"],["vaticani"]]);
+  assert.equal(t2.answers.walking,"medium","risposta mancante: valore predefinito");
+  const r2=restoreItinerary(t2.answers,t2.days);
+  assert.deepEqual(r2.missing,["luogo-rimosso"],"luogo non più nel catalogo: segnalato e tolto");
+});
