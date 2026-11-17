@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="credits.title">Crediti fotografici — VIVI Roma</title>
+<meta name="description" data-i18n-attr="content:credits.desc" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
+<meta name="theme-color" content="#252321">
+<meta name="robots" content="noindex">
+<script>/* Lingua prima del primo disegno: scelta salvata → lingua del dispositivo → italiano (stessa regola di js/i18n.js). */
+(function(){var d=document.documentElement,l=null,s=null;d.classList.add("js");
+try{s=localStorage.getItem("vivi-roma:lingua");}catch(e){}
+if(s==="it"||s==="en")l=s;else{var n=navigator.languages||[navigator.language||""];for(var i=0;i<n.length&&!l;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(c==="it"||c==="en")l=c;}}
+l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function(){d.classList.remove("i18n-wait");},2500);}})();</script>
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css?v=4fd5d62f14">
+<!-- importmap:start -->
+<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=ef17f45679","./js/i18n/en.js":"./js/i18n/en.js?v=bc68d05481","./js/i18n/it.js":"./js/i18n/it.js?v=344062b6e4","./js/main.js":"./js/main.js?v=d86a62dc9f","./js/planner.js":"./js/planner.js?v=f0d1f4679e","./js/quiz-data.js":"./js/quiz-data.js?v=f5f8396b99","./js/trips.js":"./js/trips.js?v=0e547bb5ef"}}</script>
+<!-- importmap:end -->
+
+<style>
+  .credits{padding:120px 0 72px}
+  .credits h1{font-size:clamp(2.2rem,5vw,3.4rem);margin:0 0 12px}
+  .credits .lead{max-width:62ch;color:#4b4742;margin:0 0 32px}
+  .credits h2{font-size:1.8rem;margin:40px 0 14px}
+  .credit-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .credit-list li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center;background:var(--white);border:1px solid var(--line);padding:8px}
+  .credit-list img{width:96px;height:72px;object-fit:cover;display:block}
+  .credit-list b{display:block;font-weight:600;font-size:.92rem}
+  .credit-list span{display:block;font-size:.8rem;color:#4b4742;overflow-wrap:anywhere}
+  .credit-list a{color:var(--wine)}
+</style>
+</head>
+<body>
+<header class="site-header on-dark scrolled" id="siteHeader">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" data-i18n-attr="aria-label:credits.homeAria" aria-label="VIVI Roma, torna alla pagina principale">
+      <span class="brand-mark" aria-hidden="true" data-mark="V"></span>
+      <span class="brand-name">VIVI Roma</span>
+    </a>
+    <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
+  </div>
+</header>
+<main class="credits">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="credits.eyebrow">Crediti</p>
+    <h1 data-i18n="credits.h1">Crediti fotografici</h1>
+    <p class="lead" data-i18n="credits.lead">Tutte le fotografie provengono da Wikimedia Commons e sono pubblicate con licenze che ne consentono il riuso, anche commerciale: pubblico dominio, CC0, CC BY e CC BY-SA. Le immagini sono state ridimensionate e, in alcuni casi, ritagliate per adattarle all'impaginazione. Per ogni foto trovi autore, licenza e pagina originale.</p>
+    <div id="creditsRoot"><p data-i18n="credits.loading">Caricamento dei crediti…</p></div>
+  </div>
+</main>
+<footer class="footer on-dark">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <p><a href="index.html" data-i18n="credits.back">Torna a VIVI Roma</a></p>
+    </div>
+  </div>
+</footer>
+<script type="module">
+import {PHOTOS} from "./js/data/photos.js";
+import {PLACES} from "./js/data/places.js";
+import {t,getLang,setLang,detectLang,applyStatic,placeGloss} from "./js/i18n.js";
+const store=(()=>{try{return localStorage;}catch(e){return null;}})();
+setLang(detectLang(store,navigator.languages||[navigator.language]),null);
+const PLACE={};PLACES.forEach(p=>{PLACE[p.id]=p;});
+const label=k=>{
+  if(PLACE[k]){const g=placeGloss(PLACE[k]);return PLACE[k].name+(g?" — "+g:"");}
+  if(k==="hero")return t("credits.hero");
+  if(k==="hero-portrait")return t("credits.heroPortrait");
+  return t("credits.category",{label:t("cat."+k.replace(/^cat-/,"")+".label")});
+};
+const lic=l=>/^public domain$/i.test(l)?t("photo.pd"):l;
+const author=a=>a==="Autore non indicato"?t("photo.noAuthor"):a;
+function render(){
+  document.documentElement.lang=getLang();
+  applyStatic(document);document.title=t("credits.title");
+  document.getElementById("langToggle").setAttribute("lang",getLang()==="it"?"en":"it");
+  const groups=[["credits.group.main",k=>!PLACE[k]],["credits.group.places",k=>!!PLACE[k]]];
+  const root=document.getElementById("creditsRoot");root.replaceChildren();
+  for(const [title,test] of groups){
+    const keys=Object.keys(PHOTOS).filter(test).sort((a,b)=>label(a).localeCompare(label(b),getLang()));
+    if(!keys.length)continue;
+    const h=document.createElement("h2");h.textContent=t(title);root.append(h);
+    const ul=document.createElement("ul");ul.className="credit-list";
+    for(const k of keys){
+      const ph=PHOTOS[k],li=document.createElement("li");
+      const img=document.createElement("img");img.src=ph.base+"-"+ph.w[0]+".webp";img.alt="";img.loading="lazy";img.decoding="async";img.width=96;img.height=72;
+      const box=document.createElement("div");
+      const b=document.createElement("b");b.textContent=label(k);
+      const a=document.createElement("span");a.textContent=t("credits.author",{author:author(ph.author)});
+      const l=document.createElement("span");
+      if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl.replace(/^http:\/\//,"https://");x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append(t("credits.license"),x);}
+      else l.textContent=t("credits.license")+lic(ph.license);
+      const s=document.createElement("span");const y=document.createElement("a");y.href=ph.source;y.target="_blank";y.rel="noopener noreferrer";y.textContent=t("credits.page");s.append(y);
+      box.append(b,a,l,s);li.append(img,box);ul.append(li);
+    }
+    root.append(ul);
+  }
+}
+document.getElementById("langToggle").addEventListener("click",()=>{setLang(getLang()==="it"?"en":"it",store);render();});
+render();
+document.documentElement.classList.remove("i18n-wait");
+</script>
+</body>
+</html>
