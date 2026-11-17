@@ -288,7 +288,14 @@ function buildItinerary(a){
     groups.push(day);
   }
   repairBudget(groups,pool,a,cfg);
-  const chosen=groups.flat();
+  const avg=g=>g.reduce((s,x)=>s+x.score,0)/g.length;
+  const ordered=groups.map(g=>bestOrder(g,a)).sort((x,y)=>avg(y)-avg(x));
+  return finalize(ordered,a,cfg);
+}
+
+/* Note e dati delle giornate, a partire dalle tappe già ordinate. Usato sia per i nuovi itinerari sia per quelli salvati. */
+function finalize(ordered,a,cfg){
+  const chosen=ordered.flat();
   const notes=[];
   if(chosen.length<cfg.days*cfg.max){
     notes.push("Il catalogo comprende "+PLACES.length+" luoghi: per questa durata e questi interessi abbiamo usato "+chosen.length+" tappe invece delle "+(cfg.days*cfg.max)+" previste dal tuo ritmo.");
@@ -301,8 +308,6 @@ function buildItinerary(a){
     notes.push("Budget contenuto: abbiamo privilegiato luoghi gratuiti. Le poche tappe con ingresso a pagamento o da verificare sono facoltative.");
   }
   if(cfg.days>=5)notes.push("Per soggiorni lunghi l'itinerario copre fino a 7 giorni e usa luoghi anche fuori dal centro. Se resti più a lungo, ripeti il quiz cambiando interessi per ottenere nuove idee.");
-  const avg=g=>g.reduce((s,x)=>s+x.score,0)/g.length;
-  const ordered=groups.map(g=>bestOrder(g,a)).sort((x,y)=>avg(y)-avg(x));
   let transit=0;
   const days=ordered.map((g,di)=>{
     const stops=g.map((r,i)=>{
@@ -320,4 +325,19 @@ function buildItinerary(a){
   return {cfg,days,notes,total:chosen.length};
 }
 
-export {PLACES,CENTER,EXCLUSIVE,COST_UNITS,PACE,WALK,MIN_STOPS,FOOD_TIPS,km,timeRange,config,scorePlace,bestOrder,pathLength,units,spendOf,budgetQuota,buildItinerary};
+/* Ricostruisce un itinerario salvato o condiviso: stesse tappe, stesso ordine, dati del catalogo attuale.
+   dayIds = [["colosseo","fori"],["pantheon",…]]. I luoghi non più presenti nel catalogo vengono saltati (missing). */
+function restoreItinerary(a,dayIds){
+  const cfg=config(a);
+  const byId=new Map(PLACES.map(p=>[p.id,p]));
+  const missing=[],seen=new Set();
+  const ordered=dayIds.map(ids=>ids.filter(id=>{
+    if(seen.has(id))return false;seen.add(id);
+    if(!byId.has(id)){missing.push(id);return false;}return true;
+  }).map(id=>{const p=byId.get(id);return {p,score:scorePlace(p,a),matches:matchesOf(p,a)};})).filter(g=>g.length);
+  const plan=finalize(ordered,a,cfg);
+  plan.missing=missing;
+  return plan;
+}
+
+export {PLACES,CENTER,EXCLUSIVE,COST_UNITS,PACE,WALK,MIN_STOPS,FOOD_TIPS,km,timeRange,config,scorePlace,bestOrder,pathLength,units,spendOf,budgetQuota,buildItinerary,restoreItinerary};

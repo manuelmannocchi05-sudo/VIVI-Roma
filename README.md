@@ -69,3 +69,10 @@ Le foto sono file locali WebP in `img/` (tappe 480/800/1280 px, categorie 420/84
 - **Attribuzione**: autore e licenza compaiono su ogni foto delle tappe e sulla copertina; l'elenco completo è in `crediti.html`.
 - **Senza foto**: i luoghi in `tools/photos/missing.json` mostrano il segnaposto (gradiente e icona della categoria).
 - **Controllo**: `npm test` verifica file, pesi, licenze e attribuzioni; aprendo il sito con `?photocheck` si vede l'elenco di tutte le foto con dimensioni e crediti.
+
+## Uso su smartphone, mappa, viaggi salvati e condivisione
+
+- **Mappa** (`js/vendor/leaflet/`, Leaflet 1.9.4 incluso nel sito, licenza BSD-2): su touch un dito scorre la pagina e due dita spostano e ingrandiscono la mappa; il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Toccando un numero si evidenziano il marker e la scheda, con il pulsante «Vai alla scheda». La linea tratteggiata è solo l'ordine di visita in linea d'aria. Le tessere della mappa arrivano da OpenStreetMap.
+- **I miei viaggi** (`js/trips.js`): gli itinerari si salvano nel `localStorage` del browser (chiave `vivi-roma:viaggi:v1`, massimo 30), senza account né server e senza sincronizzazione tra dispositivi. Si salvano risposte e tappe; schede, prezzi e orari si ricostruiscono dal catalogo attuale (`restoreItinerary` in `js/planner.js`). Dati non validi vengono scartati; un archivio illeggibile viene conservato a parte, non cancellato.
+- **Condivisione**: «Condividi» usa la condivisione nativa del dispositivo quando c'è, altrimenti mostra il riepilogo da copiare. Il link contiene l'itinerario dopo `#itinerario=` (nessun dato inviato a un server) e lo riapre senza rifare il quiz.
+- **Test**: `npm test` copre anche salvataggio, eliminazione, errori di memoria e link condivisi (`tests/trips.test.js`).

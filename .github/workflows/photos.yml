@@ -10,6 +10,8 @@ permissions:
 concurrency: photos
 jobs:
   build:
+    # Doppia sicurezza: anche se il file finisse su un altro branch, il job gira solo sul branch di sviluppo.
+    if: github.ref == 'refs/heads/riorganizzazione-codice'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +23,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A img js/data/photos.js tools/photos/report.json tools/photos/review tools/photos/build.log
+          git add -A -- img js/data/photos.js tools/photos
           git diff --cached --quiet || git commit -m "Foto: WebP generati da Wikimedia Commons (automatico)"
-          git push
+          git push origin HEAD:refs/heads/riorganizzazione-codice

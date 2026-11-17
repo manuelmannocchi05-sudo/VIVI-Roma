@@ -1,5 +1,6 @@
 /* VIVI Roma — interfaccia: quiz, risultati, foto, mappa, navigazione. */
-import {PLACES,buildItinerary} from "./planner.js";
+import {PLACES,buildItinerary,restoreItinerary} from "./planner.js";
+import {createStore,tripFromPlan,tripTitle,STORE_ERRORS,shareUrl,shareText,decodeShare} from "./trips.js";
 import {QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL} from "./quiz-data.js";
 import {PHOTOS} from "./data/photos.js";
 
@@ -58,7 +59,9 @@ function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"au
 /* ==========================================================================
    STATO DEL QUIZ
    ========================================================================== */
-const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null};
+const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
+const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
 
 function optionButton(q,o){
@@ -135,7 +138,17 @@ function setStep(n,focus){
   $$("#stepsBar span").forEach((s,i)=>{s.className=i<state.step?"done":i===state.step?"now":"";});
   $("#stepsBar").setAttribute("aria-valuenow",String(state.step+1));
   $("#quizError").textContent="";
-  if(focus){const lg=$("legend",stepEls[state.step]);if(lg)lg.focus({preventScroll:true});}
+  if(focus){
+    /* Su smartphone, dopo «Continua» la nuova domanda può iniziare sopra lo schermo: riportiamo in vista l'inizio del pannello. */
+    const lg=$("legend",stepEls[state.step]);
+    const check=()=>{
+      const top=lg.getBoundingClientRect().top,head=$("#siteHeader").offsetHeight;
+      if(top<head||top>window.innerHeight*0.5)scrollToEl($(".quiz-panel"),"start");
+    };
+    /* subito e di nuovo dopo l'eventuale scorrimento del browser dovuto al cambio di altezza della domanda */
+    requestAnimationFrame(check);setTimeout(check,450);
+    lg.focus({preventScroll:true});
+  }
 }
 function goNext(){
   const err=stepError(state.step);
@@ -200,11 +213,15 @@ const fmtKm=k=>k<0.1?"meno di 100 m":"circa "+k.toFixed(1).replace(".",",")+" km
 const fmtH=m=>{const h=Math.round(m/30)/2;return String(h).replace(".",",");};
 
 function createItinerary(){
-  state.plan=buildItinerary(state.answers);
-  state.active=0;
+  showPlan(buildItinerary(state.answers),{savedId:null});
+}
+/* Mostra un itinerario: appena creato, riaperto da «I miei viaggi» o ricevuto da un link. */
+function showPlan(plan,{savedId=null,status=""}={}){
+  state.plan=plan;state.active=0;state.savedId=savedId;
   renderResults();
   const r=$("#results");r.classList.add("visible");
   initMap();buildMapLayers();showDay(0);
+  setTripStatus(status);syncSaveBtn();
   scrollToEl(r);
   setTimeout(()=>{$("#resultTitle").focus({preventScroll:true});if(state.map)state.map.invalidateSize();},reduceMotion()?0:600);
 }
@@ -237,7 +254,7 @@ function renderResults(){
   tabs.hidden=plan.days.length<2;
   plan.days.forEach((d,i)=>{
     tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",text:"Giorno "+(i+1),
-      onclick:()=>showDay(i),
+      onclick:()=>showDay(i,{scroll:true}),
       onkeydown:e=>{
         const n=plan.days.length;let t=null;
         if(e.key==="ArrowRight")t=(i+1)%n;else if(e.key==="ArrowLeft")t=(i-1+n)%n;else if(e.key==="Home")t=0;else if(e.key==="End")t=n-1;
@@ -255,6 +272,10 @@ function renderDay(day,di,total){
       el("li",{text:day.stops.length+(day.stops.length===1?" tappa":" tappe")}),
       el("li",{text:"Visite: circa "+fmtH(day.minMins)+"–"+fmtH(day.maxMins)+" ore, esclusi spostamenti e pause"}),
       el("li",{text:"Distanze in linea d'aria: circa "+day.walkKm.toFixed(1).replace(".",",")+" km"})));
+  const index=el("ol",{class:"stop-index","aria-label":"Tappe della giornata"},
+    day.stops.map((p,i)=>el("li",null,el("button",{type:"button",onclick:()=>goToCard(di,i)},
+      el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),el("span",{text:p.name})))));
+  head.append(index);
   const list=el("div",{class:"stops"});
   const breakAfter=day.stops.length>=3?Math.floor(day.stops.length/2):-1;
   const bt=state.answers.budget==="low"?" Per spendere poco: mercati, forni e pizza al taglio sono soste ottime.":state.answers.budget==="high"?" Per concederti qualcosa: una sosta seduta con piatti della tradizione.":"";
@@ -270,7 +291,10 @@ function renderDay(day,di,total){
         "Nei dintorni di "+p.name+" cerca una trattoria o un bar. Tra i piatti romani da riconoscere sul menu: "+day.foodTip+"."+bt+" Non abbiamo verificato locali, orari o prezzi.")));
     }
   });
-  return el("section",{class:"day",id:"day-"+di,role:"tabpanel","aria-labelledby":total>1?"tab-"+di:null,"aria-label":total===1?"Itinerario":null,hidden:di!==0},head,list);
+  const nav=total>1?el("div",{class:"day-nav"},
+    di>0?el("button",{type:"button",class:"btn btn-line",text:"← Giorno "+di,onclick:()=>showDay(di-1,{scroll:true})}):el("span"),
+    di<total-1?el("button",{type:"button",class:"btn btn-wine",text:"Giorno "+(di+2)+" →",onclick:()=>showDay(di+1,{scroll:true})}):null):null;
+  return el("section",{class:"day",id:"day-"+di,role:"tabpanel","aria-labelledby":total>1?"tab-"+di:null,"aria-label":total===1?"Itinerario":null,hidden:di!==0},head,list,nav);
 }
 function budgetBox(p){
   const b=state.answers.budget;
@@ -321,14 +345,18 @@ function renderStop(p,di,i){
         BOOKING_LABEL[p.booking]?el("span",{class:"chip fee-paid",text:BOOKING_LABEL[p.booking]}):null,
         why.map(w=>el("span",{class:"chip",text:w}))),
       practicalInfo(p),
-      el("div",{class:"box"},el("b",{text:"La chicca"}),p.chicca),
-      el("div",{class:"box"},el("b",{text:"Il consiglio di VIVI"}),p.consiglio),
-      budgetBox(p),
-      el("div",{class:"links"},
-        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni su Google Maps (esterno)"}),
-        el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Apri su OpenStreetMap (esterno)"}),
-        wikiLink,
-        el("button",{type:"button",text:"Vedi sulla mappa",onclick:()=>focusMarker(di,i)}))));
+      el("div",{class:"links primary"},
+        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni (Google Maps)","aria-label":"Indicazioni per "+p.name+" su Google Maps (esterno)"}),
+        el("button",{type:"button",text:"Vedi sulla mappa","aria-label":"Vedi "+p.name+" sulla mappa",onclick:()=>focusMarker(di,i)})),
+      /* Consigli e link secondari: aperti su schermi grandi, a scomparsa su smartphone per accorciare la scheda. */
+      el("details",{class:"more",open:!isNarrow()},
+        el("summary",null,"La chicca e il consiglio di VIVI"),
+        el("div",{class:"box"},el("b",{text:"La chicca"}),p.chicca),
+        el("div",{class:"box"},el("b",{text:"Il consiglio di VIVI"}),p.consiglio),
+        budgetBox(p),
+        el("div",{class:"links"},
+          el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Apri su OpenStreetMap (esterno)"}),
+          wikiLink))));
   const ph=PHOTOS[p.id];
   if(ph){
     photo.append(creditNode(ph,"photo-credit"));
@@ -339,14 +367,18 @@ function renderStop(p,di,i){
   }
   return card;
 }
-function showDay(i){
+function showDay(i,{scroll}={}){
   state.active=i;
+  if(state.map)state.map.closePopup();
+  $("#mapSelected").hidden=true;
   $$(".day").forEach((d,k)=>{d.hidden=k!==i;});
   $$(".day-tab").forEach((t,k)=>{
     const on=k===i;
     t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;t.classList.toggle("active",on);
   });
   updateMap();
+  /* Cambiando giornata più in basso nella pagina, si riparte dall'inizio della giornata (o dalla mappa su smartphone). */
+  if(scroll){const target=isNarrow()&&state.map?$(".map-col"):$("#day-"+i);if(target.getBoundingClientRect().top<0)scrollToEl(target,"start");}
 }
 
 /* ==========================================================================
@@ -361,13 +393,35 @@ function initMap(){
     mapEl.style.height="auto";mapEl.style.minHeight="0";
     return;
   }
-  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false,zoomControl:true}).setView([41.9028,12.4964],12);
+  /* Su touch: con un dito si scorre la pagina, con due dita si sposta e si ingrandisce la mappa;
+     il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Su computer: trascinamento normale. */
+  const touch=isTouch();
+  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:true,bounceAtZoomLimits:false}).setView([41.9028,12.4964],12);
+  if(touch)initTouchMap(mapEl);
   const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
   tiles.on("tileload",()=>{state.tileOk=true;});
   tiles.on("tileerror",()=>{
     if(state.tileOk||state.tileWarned)return;
     state.tileWarned=true;setTimeout(()=>{if(!state.tileOk)$("#mapNotice").hidden=false;},4000);
   });
+}
+function initTouchMap(mapEl){
+  const btn=$("#mapMove"),hint=$("#mapHint");
+  btn.hidden=false;
+  let hintTimer=null;
+  const set=on=>{
+    if(on)state.map.dragging.enable();else state.map.dragging.disable();
+    btn.setAttribute("aria-pressed",String(on));
+    btn.textContent=on?"Blocca la mappa":"Sposta la mappa";
+    mapEl.classList.toggle("map-free",on);
+  };
+  btn.addEventListener("click",()=>set(!state.map.dragging.enabled()));
+  mapEl.addEventListener("touchstart",e=>{
+    if(e.touches.length!==1||state.map.dragging.enabled())return;
+    hint.classList.add("show");clearTimeout(hintTimer);hintTimer=setTimeout(()=>hint.classList.remove("show"),1600);
+  },{passive:true});
+  mapEl.addEventListener("touchstart",e=>{if(e.touches.length>1)hint.classList.remove("show");},{passive:true});
+  set(false);
 }
 function buildMapLayers(){
   state.mapLayers=[];
@@ -383,7 +437,7 @@ function buildMapLayers(){
         el("strong",{text:(i+1)+". "+p.name}),el("span",{text:p.area}),
         el("button",{type:"button",text:"Vai alla scheda",onclick:()=>goToCard(di,i)}),
         el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni su Google Maps (esterno)"})));
-      m.on("click",()=>highlightCard(di,i));
+      m.on("click",()=>selectStop(di,i));
       group.addLayer(m);markers.push(m);pts.push([p.lat,p.lng]);
     });
     if(pts.length>1)group.addLayer(L.polyline(pts,{color:"#B69A67",weight:2,opacity:.9,dashArray:"4 7",interactive:false}));
@@ -401,8 +455,19 @@ function updateMap(){
   if(l.pts.length===1)state.map.setView(l.pts[0],15);
   else state.map.fitBounds(l.pts,{padding:[34,34],maxZoom:15});
 }
+/* Tappa scelta sulla mappa: numero evidenziato, scheda evidenziata e riga sotto la mappa per raggiungerla. */
+function selectStop(di,i){
+  highlightCard(di,i);
+  const p=state.plan.days[di].stops[i],box=$("#mapSelected");
+  box.replaceChildren(el("span",null,el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),"Tappa "+(i+1)+": ",el("strong",{text:p.name})),
+    el("button",{type:"button",class:"btn btn-line",text:"Vai alla scheda",onclick:()=>goToCard(di,i)}));
+  box.hidden=false;
+}
 function highlightCard(di,i,focus){
   $$(".stop.is-active").forEach(c=>c.classList.remove("is-active"));
+  $$(".vm.is-active").forEach(m=>m.classList.remove("is-active"));
+  const l=state.mapLayers[di];
+  if(l&&l.markers[i]&&l.markers[i].getElement())l.markers[i].getElement().classList.add("is-active");
   const c=$("#stop-"+di+"-"+(i+1));
   if(!c)return null;
   c.classList.add("is-active");
@@ -417,6 +482,114 @@ function focusMarker(di,i){
   scrollToEl($("#map"),"center");
   state.map.setView(l.pts[i],16,{animate:!reduceMotion()});
   l.markers[i].openPopup();
+  selectStop(di,i);
+}
+
+/* ==========================================================================
+   I MIEI VIAGGI (salvataggio locale) E CONDIVISIONE
+   ========================================================================== */
+let store=null;
+function getStore(){
+  if(store)return store;
+  let ls=null;try{ls=window.localStorage;}catch(e){ls=null;}
+  store=createStore(ls||{getItem(){throw new Error("no storage");},setItem(){throw new Error("no storage");}});
+  return store;
+}
+const fmtSaved=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});};
+function setTripStatus(t){const p=$("#tripStatus");p.textContent=t||"";p.hidden=!t;}
+function syncSaveBtn(){
+  const b=$("#saveBtn");
+  const saved=!!state.savedId;
+  b.textContent=saved?"Salvato nei miei viaggi ✓":"Salva nei miei viaggi";
+  b.disabled=saved;
+}
+function saveCurrent(){
+  if(!state.plan)return;
+  const r=getStore().save(tripFromPlan(state.answers,state.plan));
+  if(!r.ok){toast(STORE_ERRORS[r.error]||STORE_ERRORS.unavailable);setTripStatus(STORE_ERRORS[r.error]||STORE_ERRORS.unavailable);return;}
+  state.savedId=r.trip.id;syncSaveBtn();
+  setTripStatus(r.existing?"Questo itinerario era già nei tuoi viaggi.":"Salvato in «I miei viaggi» su questo dispositivo.");
+  renderTrips();
+}
+function renderTrips(){
+  const r=getStore().list(),sec=$("#viaggi"),list=$("#tripList"),err=$("#tripsError");
+  err.hidden=r.ok;err.textContent=r.ok?"":(STORE_ERRORS[r.error]||"");
+  sec.hidden=!r.trips.length&&r.ok;
+  $("#navTrips").hidden=!r.trips.length;
+  $("#heroTrips").hidden=!r.trips.length;
+  $("#navTrips").textContent=r.trips.length?"I miei viaggi ("+r.trips.length+")":"I miei viaggi";
+  list.replaceChildren();
+  if(!r.trips.length){list.append(el("li",{class:"trip-empty",text:"Nessun viaggio salvato."}));return;}
+  r.trips.forEach(t=>{
+    const stops=t.days.reduce((n,d)=>n+d.length,0);
+    list.append(el("li",{class:"trip-card"},
+      el("div",{class:"trip-info"},
+        el("h3",{text:t.title}),
+        el("p",null,(t.days.length===1?"1 giornata":t.days.length+" giornate")+" · "+stops+(stops===1?" tappa":" tappe")+(t.savedAt?" · salvato il "+fmtSaved(t.savedAt):""))),
+      el("div",{class:"trip-actions"},
+        el("button",{type:"button",class:"btn btn-wine",text:"Apri","aria-label":"Apri "+t.title,onclick:()=>openTrip(t.id)}),
+        el("button",{type:"button",class:"btn btn-line",text:"Elimina","aria-label":"Elimina "+t.title,onclick:()=>deleteTrip(t)}))));
+  });
+}
+function openTrip(id){
+  const t=getStore().get(id);
+  if(!t){toast("Questo viaggio non è più disponibile.");renderTrips();return;}
+  state.answers={...t.answers,interests:[...t.answers.interests]};syncOptions();
+  const w=$("#walking");if(w)w.value=state.answers.walking;
+  const plan=restoreItinerary(state.answers,t.days);
+  showPlan(plan,{savedId:t.id,status:"Viaggio riaperto da «I miei viaggi»."+(plan.missing.length?" "+plan.missing.length+(plan.missing.length===1?" tappa non è più nel catalogo ed è stata tolta.":" tappe non sono più nel catalogo e sono state tolte."):"")});
+}
+function confirmDialog(text){
+  const d=$("#confirmDlg");
+  if(typeof d.showModal!=="function")return Promise.resolve(window.confirm(text));
+  $("#confirmText").textContent=text;
+  return new Promise(res=>{
+    d.addEventListener("close",()=>res(d.returnValue==="ok"),{once:true});
+    d.returnValue="";d.showModal();$("#confirmDlg [value=cancel]").focus();
+  });
+}
+async function deleteTrip(t){
+  if(!await confirmDialog("«"+t.title+"» verrà eliminato da questo dispositivo. L'operazione non si può annullare."))return;
+  const r=getStore().remove(t.id);
+  if(!r.ok){toast(STORE_ERRORS[r.error]||"Non è stato possibile eliminare il viaggio.");return;}
+  if(state.savedId===t.id){state.savedId=null;syncSaveBtn();setTripStatus("");}
+  renderTrips();toast("Viaggio eliminato.");
+  const first=$("#tripList button");if(first)first.focus();else $("#tripsTitle").setAttribute("tabindex","-1"),$("#tripsTitle").focus();
+}
+async function shareCurrent(){
+  if(!state.plan)return;
+  const url=shareUrl(location.href,state.answers,state.plan);
+  const text=shareText(state.answers,state.plan,url);
+  if(navigator.share){
+    try{await navigator.share({title:"VIVI Roma · "+tripTitle(state.answers),text});return;}
+    catch(e){if(e&&e.name==="AbortError")return;}   /* annullato dall'utente: nessun messaggio */
+  }
+  const d=$("#shareDlg");$("#shareText").value=text;$("#shareStatus").textContent="";
+  if(typeof d.showModal==="function"){d.showModal();$("#shareText").focus();$("#shareText").select();}
+  else copyText(text);
+}
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);$("#shareStatus").textContent="Testo copiato.";toast("Riepilogo copiato: incollalo dove vuoi.");return true;}
+  catch(e){
+    const ta=$("#shareText");ta.value=text;ta.focus();ta.select();
+    let ok=false;try{ok=document.execCommand("copy");}catch(_){}
+    $("#shareStatus").textContent=ok?"Testo copiato.":"Copia non riuscita: seleziona il testo e copialo a mano.";
+    return ok;
+  }
+}
+/* Itinerario ricevuto con un link (#itinerario=…): si apre senza rifare il quiz. */
+function openFromLink(){
+  const m=/[#&]itinerario=([^&]+)/.exec(location.hash);
+  if(!m)return false;
+  const data=decodeShare(decodeURIComponent(m[1]));
+  if(!data){toast("Il link dell'itinerario non è valido o è incompleto.");return false;}
+  state.answers={...data.answers};syncOptions();
+  const w=$("#walking");if(w)w.value=state.answers.walking;
+  const plan=restoreItinerary(state.answers,data.days);
+  if(!plan.days.length){toast("Le tappe di questo link non sono più disponibili.");return false;}
+  const saved=getStore().find(tripFromPlan(state.answers,plan));
+  showPlan(plan,{savedId:saved?saved.id:null,status:"Itinerario aperto da un link condiviso."+(saved?" È già nei tuoi viaggi.":" Puoi salvarlo nei tuoi viaggi.")});
+  return true;
 }
 
 /* ==========================================================================
@@ -504,7 +677,15 @@ function init(){
   });
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
   $("#printBtn").addEventListener("click",()=>window.print());
+  $("#saveBtn").addEventListener("click",saveCurrent);
+  $("#shareBtn").addEventListener("click",shareCurrent);
+  $("#copyBtn").addEventListener("click",()=>copyText($("#shareText").value));
+  /* In stampa servono tutte le informazioni: si aprono le parti a scomparsa. */
+  window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
   initMenu();initCategories();initHero();initReveal();
+  renderTrips();
+  if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */
   if(/[?&]photocheck/.test(location.search))runPhotoAudit();
+  else openFromLink();
 }
 init();

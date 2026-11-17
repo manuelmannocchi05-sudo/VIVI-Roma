@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="js/vendor/leaflet/leaflet.css">
 <script>document.documentElement.classList.add("js");</script>
 
 <link rel="stylesheet" href="css/style.css">
@@ -34,6 +34,7 @@
     <nav class="nav-links" id="navLinks" aria-label="Navigazione principale">
       <a href="#esplora">Esplora</a>
       <a href="#come-funziona">Come funziona</a>
+      <a href="#viaggi" id="navTrips" hidden>I miei viaggi</a>
       <a class="btn" href="#crea">Crea il tuo viaggio</a>
     </nav>
   </div>
@@ -51,6 +52,7 @@
       <div class="hero-actions">
         <a class="btn btn-gold" href="#crea">Crea il tuo itinerario</a>
         <a class="btn btn-ghost" href="#esplora">Lasciati ispirare</a>
+        <a class="btn btn-ghost" href="#viaggi" id="heroTrips" hidden>I miei viaggi</a>
       </div>
     </div>
     <p class="hero-credit" id="heroCredit" hidden></p>
@@ -95,7 +97,7 @@
       <div class="process-grid">
         <article class="process-item reveal"><div class="num" aria-hidden="true">1</div><h3>Ci racconti chi sei</h3><p>Con chi viaggi, quanto tempo hai, cosa ti incuriosisce e che ritmo preferisci.</p></article>
         <article class="process-item reveal"><div class="num" aria-hidden="true">2</div><h3>Componiamo le giornate</h3><p>Scegliamo i luoghi che combaciano con le tue risposte e li raggruppiamo per vicinanza, così ogni giornata ha un senso geografico.</p></article>
-        <article class="process-item reveal"><div class="num" aria-hidden="true">3</div><h3>Esplori, stampi, parti</h3><p>Leggi le schede, guarda la mappa, apri le indicazioni e salva tutto in PDF con la stampa del browser.</p></article>
+        <article class="process-item reveal"><div class="num" aria-hidden="true">3</div><h3>Salvi, condividi, parti</h3><p>Leggi le schede, guarda la mappa e apri le indicazioni. Salva l'itinerario nei tuoi viaggi su questo dispositivo, condividilo o stampalo in PDF.</p></article>
       </div>
     </div>
   </section>
@@ -126,6 +128,17 @@
     </div>
   </section>
 
+  <!-- I MIEI VIAGGI -->
+  <section class="section trips" id="viaggi" aria-labelledby="tripsTitle" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Salvati su questo dispositivo</p>
+      <h2 id="tripsTitle">I miei viaggi</h2>
+      <p class="trips-note">Gli itinerari restano in questo browser, su questo dispositivo: non sono sincronizzati con altri dispositivi e possono andare persi se cancelli i dati di navigazione. Per conservarli altrove, usa «Condividi» o la stampa in PDF.</p>
+      <p class="trips-error" id="tripsError" role="alert" hidden></p>
+      <ul class="trip-list" id="tripList"></ul>
+    </div>
+  </section>
+
   <!-- RISULTATI -->
   <section class="section results" id="results" aria-labelledby="resultTitle">
     <div class="wrap">
@@ -136,10 +149,13 @@
           <p id="resultSubtitle"></p>
         </div>
         <div class="results-actions">
+          <button class="btn btn-wine" id="saveBtn" type="button">Salva nei miei viaggi</button>
+          <button class="btn btn-line" id="shareBtn" type="button">Condividi</button>
           <button class="btn btn-line" id="editBtn" type="button">Modifica le risposte</button>
-          <button class="btn btn-wine" id="printBtn" type="button">Stampa o salva in PDF</button>
+          <button class="btn btn-line" id="printBtn" type="button">Stampa o PDF</button>
         </div>
       </div>
+      <p class="trip-status" id="tripStatus" role="status" hidden></p>
       <p class="print-only">VIVI Roma · Non visitare Roma. Vivila.</p>
       <div class="pills" id="pills"></div>
       <div class="trip-stats" id="tripStats"></div>
@@ -148,7 +164,12 @@
       <div class="it-layout">
         <div id="days"></div>
         <aside class="map-col" aria-label="Mappa">
-          <div id="map" role="region" aria-label="Mappa delle tappe della giornata selezionata"></div>
+          <div class="map-wrap">
+            <div id="map" role="region" aria-label="Mappa delle tappe della giornata selezionata"></div>
+            <p class="map-hint" id="mapHint" aria-hidden="true">Usa due dita per spostare la mappa, oppure tocca «Sposta la mappa».</p>
+            <button class="map-move" id="mapMove" type="button" aria-pressed="false" hidden>Sposta la mappa</button>
+          </div>
+          <p class="map-selected" id="mapSelected" role="status" hidden></p>
           <div class="map-cap"><strong>La mappa mostra le tappe del giorno selezionato.</strong> La linea tratteggiata indica solo l'ordine di visita in linea d'aria, non un percorso pedonale verificato.
             <div class="map-notice" id="mapNotice" role="status" hidden>Alcune parti della mappa non si sono caricate. Le schede restano complete e ogni tappa ha il link alle indicazioni.</div>
           </div>
@@ -174,7 +195,31 @@
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<dialog class="dlg" id="confirmDlg" aria-labelledby="confirmTitle">
+  <form method="dialog">
+    <h3 id="confirmTitle">Eliminare questo viaggio?</h3>
+    <p id="confirmText"></p>
+    <div class="dlg-actions">
+      <button class="btn btn-line" value="cancel" type="submit">Annulla</button>
+      <button class="btn btn-wine" value="ok" type="submit" id="confirmOk">Elimina</button>
+    </div>
+  </form>
+</dialog>
+<dialog class="dlg" id="shareDlg" aria-labelledby="shareTitle">
+  <form method="dialog">
+    <h3 id="shareTitle">Condividi l'itinerario</h3>
+    <p>Copia il riepilogo e incollalo in un messaggio o in una nota. Il link riapre lo stesso itinerario su qualsiasi dispositivo, senza rifare il quiz.</p>
+    <label class="sr-only" for="shareText">Riepilogo dell'itinerario</label>
+    <textarea id="shareText" readonly rows="9"></textarea>
+    <p class="dlg-status" id="shareStatus" role="status"></p>
+    <div class="dlg-actions">
+      <button class="btn btn-line" value="close" type="submit">Chiudi</button>
+      <button class="btn btn-wine" type="button" id="copyBtn">Copia il testo</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="js/vendor/leaflet/leaflet.js"></script>
 <script type="module" src="js/main.js"></script>
 </body>
 </html>
