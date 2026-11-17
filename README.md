@@ -76,3 +76,10 @@ Le foto sono file locali WebP in `img/` (tappe 480/800/1280 px, categorie 420/84
 - **I miei viaggi** (`js/trips.js`): gli itinerari si salvano nel `localStorage` del browser (chiave `vivi-roma:viaggi:v1`, massimo 30), senza account né server e senza sincronizzazione tra dispositivi. Si salvano risposte e tappe; schede, prezzi e orari si ricostruiscono dal catalogo attuale (`restoreItinerary` in `js/planner.js`). Dati non validi vengono scartati; un archivio illeggibile viene conservato a parte, non cancellato.
 - **Condivisione**: «Condividi» usa la condivisione nativa del dispositivo quando c'è, altrimenti mostra il riepilogo da copiare. Il link contiene l'itinerario dopo `#itinerario=` (nessun dato inviato a un server) e lo riapre senza rifare il quiz.
 - **Test**: `npm test` copre anche salvataggio, eliminazione, errori di memoria e link condivisi (`tests/trips.test.js`).
+
+## Lingue (italiano e inglese)
+
+- **Cambio lingua**: pulsante `EN` / `IT` nell'intestazione, sempre visibile (anche su smartphone e nella pagina dei crediti). La scelta resta salvata nel browser (`vivi-roma:lingua`). Alla prima visita la lingua segue le preferenze del dispositivo; se non è né italiano né inglese, si parte in italiano.
+- **Struttura** (`js/i18n.js`): testi dell'interfaccia in `js/i18n/it.js` e `js/i18n/en.js` (stesse chiavi); domande del quiz in italiano in `js/quiz-data.js`, in inglese nelle chiavi `q.*`; catalogo dei luoghi in italiano in `js/data/places.js`, traduzioni inglesi in `js/data/places-en.js` (testo italiano → testo inglese, più una breve spiegazione accanto ai nomi italiani). Nell'HTML, `data-i18n` e `data-i18n-attr` indicano i testi da tradurre.
+- **Cosa non cambia**: il motore non conosce la lingua (le note sono codici tradotti dall'interfaccia). Tappe, budget, distanze, viaggi salvati e link condivisi sono identici; un link si apre nella lingua di chi lo riceve.
+- **Aggiornare un testo**: se cambi un testo italiano del catalogo, aggiungi la nuova traduzione in `places-en.js`; `npm test` segnala ogni testo senza traduzione, ogni chiave mancante e ogni prezzo o anno diverso tra le due lingue.

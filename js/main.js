@@ -1,7 +1,8 @@
 /* VIVI Roma — interfaccia: quiz, risultati, foto, mappa, navigazione. */
 import {PLACES,buildItinerary,restoreItinerary} from "./planner.js";
-import {createStore,tripFromPlan,tripTitle,STORE_ERRORS,shareUrl,shareText,decodeShare} from "./trips.js";
-import {QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL} from "./quiz-data.js";
+import {createStore,tripFromPlan,tripTitle,MAX_TRIPS,shareUrl,shareText,decodeShare} from "./trips.js";
+import {QUIZ,WALK_OPTS} from "./quiz-data.js";
+import {t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,walkText,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
 
 /* ==========================================================================
@@ -59,7 +60,7 @@ function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"au
 /* ==========================================================================
    STATO DEL QUIZ
    ========================================================================== */
-const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:null,pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
@@ -68,30 +69,31 @@ function optionButton(q,o){
   const isText=o[1].charAt(0)==="#";
   const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
   if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
+  const tx=optText(q,o);
   const btn=el("button",{type:"button",class:"option","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
-    ic,el("span",{class:"opt-copy"},el("strong",{text:o[2]}),o[3]?el("small",{text:o[3]}):null),el("span",{class:"opt-check","aria-hidden":"true"}));
+    ic,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),el("span",{class:"opt-check","aria-hidden":"true"}));
   btn.addEventListener("click",()=>onOption(q,o[0]));
   return btn;
 }
 function buildQuiz(){
   const host=$("#quizSteps"),bar=$("#stepsBar");
   QUIZ.forEach((q,qi)=>{
-    const legend=el("legend",{text:q.title,tabindex:"-1"});
-    const group=el("div",{class:"options"+(q.multi?" multi":""),role:"group","aria-label":q.title});
+    const legend=el("legend",{text:qText(q,"title"),tabindex:"-1"});
+    const group=el("div",{class:"options"+(q.multi?" multi":""),role:"group","aria-label":qText(q,"title")});
     q.opts.forEach(o=>group.append(optionButton(q,o)));
-    const fs=el("fieldset",{class:"step",hidden:qi!==0,"data-step":qi},legend,el("p",{class:"sub",text:q.sub}),group);
+    const fs=el("fieldset",{class:"step",hidden:qi!==0,"data-step":qi},legend,el("p",{class:"sub",text:qText(q,"sub")}),group);
     if(q.followUp){
       /* Domanda aggiuntiva: visibile solo quando è selezionata l'opzione "when" */
       const f=q.followUp;
       const fg=el("div",{class:"options",role:"group","aria-labelledby":"daysLabel"});
       f.opts.forEach(o=>fg.append(optionButton(f,o)));
-      fs.append(el("div",{class:"walk",id:"daysQ",hidden:true},el("p",{class:"days-label",id:"daysLabel",text:f.title}),fg));
+      fs.append(el("div",{class:"walk",id:"daysQ",hidden:true},el("p",{class:"days-label",id:"daysLabel",text:qText(f,"title")}),fg));
     }
     if(q.multi)fs.append(el("p",{class:"sel-count",id:"selCount","aria-live":"polite"}));
     if(q.walking){
-      const sel=el("select",{id:"walking"},WALK_OPTS.map(w=>el("option",{value:w[0],text:w[1],selected:w[0]==="medium"})));
+      const sel=el("select",{id:"walking"},WALK_OPTS.map(w=>el("option",{value:w[0],text:walkText(w),selected:w[0]==="medium"})));
       sel.addEventListener("change",e=>{state.answers.walking=e.target.value;});
-      fs.append(el("div",{class:"walk"},el("label",{for:"walking",text:"Quanto ti va di camminare?"}),sel));
+      fs.append(el("div",{class:"walk"},el("label",{for:"walking",id:"walkingLabel",text:t("quiz.walking")}),sel));
     }
     host.append(fs);stepEls.push(fs);
     bar.append(el("span"));
@@ -115,12 +117,12 @@ function syncOptions(){
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
   const n=state.answers.interests.length,c=$("#selCount");
-  if(c)c.textContent=n?(n===1?"1 interesse selezionato":n+" interessi selezionati"):"Nessun interesse selezionato";
+  if(c)c.textContent=n?t("quiz.selCount",{n}):t("quiz.selNone");
 }
 function stepError(i){
   const q=QUIZ[i],v=state.answers[q.key];
-  if(!(q.multi?v.length>0:!!v))return q.err;
-  if(q.followUp&&v===q.followUp.when&&!state.answers[q.followUp.key])return q.followUp.err;
+  if(!(q.multi?v.length>0:!!v))return qText(q,"err");
+  if(q.followUp&&v===q.followUp.when&&!state.answers[q.followUp.key])return qText(q.followUp,"err");
   return "";
 }
 function setStep(n,focus){
@@ -133,8 +135,8 @@ function setStep(n,focus){
   const last=state.step===QUIZ.length-1;
   $("#prevBtn").disabled=state.step===0;
   $("#nextBtn").hidden=last;$("#createBtn").hidden=!last;
-  $("#qCounter").textContent="Domanda "+(state.step+1)+" di "+QUIZ.length;
-  $("#qName").textContent=QUIZ[state.step].name;
+  $("#qCounter").textContent=t("quiz.counter",{n:state.step+1,total:QUIZ.length});
+  $("#qName").textContent=qText(QUIZ[state.step],"name");
   $$("#stepsBar span").forEach((s,i)=>{s.className=i<state.step?"done":i===state.step?"now":"";});
   $("#stepsBar").setAttribute("aria-valuenow",String(state.step+1));
   $("#quizError").textContent="";
@@ -163,18 +165,38 @@ function submitQuiz(){
   state.answers.walking=$("#walking").value;
   createItinerary();
 }
+/* Cambio lingua: aggiorna i testi del quiz senza toccare risposte, passo corrente o selezioni. */
+function relabelQuiz(){
+  QUIZ.forEach((q,qi)=>{
+    const fs=stepEls[qi];
+    $("legend",fs).textContent=qText(q,"title");
+    $(".sub",fs).textContent=qText(q,"sub");
+    $(".options",fs).setAttribute("aria-label",qText(q,"title"));
+    const groups=[q].concat(q.followUp?[q.followUp]:[]);
+    groups.forEach(g=>g.opts.forEach(o=>{
+      const b=$(`.option[data-key="${g.key}"][data-value="${o[0]}"]`,fs);if(!b)return;
+      const tx=optText(g,o);$("strong",b).textContent=tx.title;const sm=$("small",b);if(sm)sm.textContent=tx.desc;
+    }));
+    if(q.followUp)$("#daysLabel").textContent=qText(q.followUp,"title");
+    if(q.walking){$("#walkingLabel").textContent=t("quiz.walking");$$("#walking option").forEach(op=>{op.textContent=walkText(WALK_OPTS.find(w=>w[0]===op.value));});}
+  });
+  const shown=!!$("#quizError").textContent;
+  setStep(state.step,false);syncOptions();
+  if(shown){const err=stepError(state.step);$("#quizError").textContent=err;}
+}
 
 /* ==========================================================================
    IMMAGINI: solo file locali WebP (img/), generati da tools/photos/build.py con licenza verificata.
    Nessuna richiesta a servizi esterni. Senza foto resta il segnaposto (gradiente + icona).
    ========================================================================== */
 const srcsetOf=ph=>ph.w.map(w=>ph.base+"-"+w+".webp "+w+"w").join(", ");
-const LICENSE_SHORT=l=>(l||"").replace(/^Public domain$/i,"Pubblico dominio");
+const LICENSE_SHORT=l=>/^public domain$/i.test(l||"")?t("photo.pd"):(l||"");
+const AUTHOR=a=>a==="Autore non indicato"?t("photo.noAuthor"):a;
 /* Testo dell'attribuzione: autore, licenza, fonte (obbligatoria per CC BY e CC BY-SA). */
-function creditText(ph){return "Foto: "+ph.author+" · "+LICENSE_SHORT(ph.license);}
+function creditText(ph){return t("photo.credit",{author:AUTHOR(ph.author),license:LICENSE_SHORT(ph.license)});}
 function creditNode(ph,cls){
   return el("p",{class:cls},
-    el("a",{href:ph.source,target:"_blank",rel:"noopener noreferrer","aria-label":creditText(ph)+", Wikimedia Commons (esterno)",text:creditText(ph)}));
+    el("a",{href:ph.source,target:"_blank",rel:"noopener noreferrer","aria-label":t("photo.creditAria",{author:AUTHOR(ph.author),license:LICENSE_SHORT(ph.license)}),text:creditText(ph)}));
 }
 /* Inserisce la foto nel contenitore. width = larghezza CSS da coprire (object-fit:cover), per scegliere il file giusto.
    Oltre 2× di densità la differenza non si vede su una foto: sugli schermi 3× si scarica il file per 2× (meno dati su smartphone). */
@@ -203,20 +225,18 @@ function lazyLoad(node,fn){
 /* ==========================================================================
    RISULTATI
    ========================================================================== */
-const FEE_LABEL={free:"Accesso libero",paid:"A pagamento",mixed:"Libero + parti a pagamento",verify:"Costo da verificare"};
 const CAT_ICON={history:"column",art:"frame",hidden:"compass",romantic:"heart",nature:"leaf",food:"utensils",religious:"dome",local:"pin",night:"moon",family:"smile",iconic:"star",peaceful:"leaf",lively:"sun"};
-const INTEREST_LABEL=LABELS.interests;
-const dirUrl=p=>"https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng;
+const interestLabel=i=>answerLabel("interests",i);
+const dirUrl=p=>"https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng+"&hl="+getLang();
 const osmUrl=p=>"https://www.openstreetmap.org/?mlat="+p.lat+"&mlon="+p.lng+"#map=17/"+p.lat+"/"+p.lng;
 const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
-const fmtKm=k=>k<0.1?"meno di 100 m":"circa "+k.toFixed(1).replace(".",",")+" km";
-const fmtH=m=>{const h=Math.round(m/30)/2;return String(h).replace(".",",");};
+const fmtKm=k=>k<0.1?t("res.legLess"):t("res.legKm",{km:num1(k)});
 
 function createItinerary(){
   showPlan(buildItinerary(state.answers),{savedId:null});
 }
 /* Mostra un itinerario: appena creato, riaperto da «I miei viaggi» o ricevuto da un link. */
-function showPlan(plan,{savedId=null,status=""}={}){
+function showPlan(plan,{savedId=null,status=null}={}){
   state.plan=plan;state.active=0;state.savedId=savedId;
   renderResults();
   const r=$("#results");r.classList.add("visible");
@@ -227,38 +247,37 @@ function showPlan(plan,{savedId=null,status=""}={}){
 }
 function renderResults(){
   const a=state.answers,plan=state.plan;
-  $("#resultTitle").textContent=a.company==="couple"?"La vostra Roma":a.company==="family"?"Roma da vivere insieme":a.company==="friends"?"Roma in compagnia":"La tua Roma";
-  const ints=a.interests.map(i=>INTEREST_LABEL[i]);
-  $("#resultSubtitle").textContent="Un itinerario di "+plan.days.length+(plan.days.length===1?" giornata":" giornate")+" costruito su "+ints.slice(0,3).join(", ").toLowerCase()+(ints.length>3?" e altre passioni":"")+".";
+  $("#resultTitle").textContent=t("res.title."+a.company);
+  const ints=a.interests.map(interestLabel);
+  $("#resultSubtitle").textContent=t("res.subtitle",{days:plan.days.length,ints});
   const pills=$("#pills");pills.replaceChildren();
-  [LABELS.company[a.company],durationLabel(a),PACE_LABEL[a.pace],LABELS.familiarity[a.familiarity],LABELS.mood[a.mood],LABELS.budget[a.budget]].concat(ints)
-    .forEach(t=>pills.append(el("span",{class:"pill",text:t})));
+  [answerLabel("company",a.company),durationLabel(a),paceLabel(a.pace),answerLabel("familiarity",a.familiarity),answerLabel("mood",a.mood),answerLabel("budget",a.budget)].concat(ints)
+    .forEach(x=>pills.append(el("span",{class:"pill",text:x})));
   const all=plan.days.flatMap(d=>d.stops);
   const free=all.filter(s=>s.fee==="free").length;
   const toCheck=all.length-free;
   const walk=plan.days.reduce((s,d)=>s+d.walkKm,0);
-  const stat=(b,t)=>el("div",null,el("b",{text:b}),el("span",{text:t}));
+  const stat=(b,x)=>el("div",null,el("b",{text:b}),el("span",{text:x}));
   const stats=$("#tripStats");stats.replaceChildren(
-    stat(String(plan.days.length),plan.days.length===1?"giornata":"giornate"),
-    stat(String(all.length),"tappe, senza duplicati"),
-    stat(String(free),"ad accesso libero (verifica sempre le regole)"),
-    stat(String(toCheck),"con costi o condizioni da verificare")
+    stat(String(plan.days.length),t("res.stat.days",{n:plan.days.length})),
+    stat(String(all.length),t("res.stat.stops")),
+    stat(String(free),t("res.stat.free")),
+    stat(String(toCheck),t("res.stat.check"))
   );
   const notes=$("#notes");notes.replaceChildren();
-  const list=plan.notes.concat([
-    "Prezzi e orari indicati con fonte sono stati verificati in una data precisa e possono cambiare; gli altri non sono verificati: controlla sempre i siti ufficiali. Le distanze tra le tappe sono in linea d'aria (in totale circa "+walk.toFixed(1).replace(".",",")+" km) e i tempi di visita sono indicativi."
-  ]);
-  list.forEach(t=>notes.append(el("li",{text:t})));
+  const list=plan.notes.map(n=>t("note."+n.k,n)).concat([t("res.noteData",{km:num1(walk)})]);
+  list.forEach(x=>notes.append(el("li",{text:x})));
+  $("#dayTabs").setAttribute("aria-label",t("res.tabsAria"));
 
   const tabs=$("#dayTabs");tabs.replaceChildren();
   tabs.hidden=plan.days.length<2;
   plan.days.forEach((d,i)=>{
-    tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",text:"Giorno "+(i+1),
+    tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",text:t("res.day",{n:i+1}),
       onclick:()=>showDay(i,{scroll:true}),
       onkeydown:e=>{
-        const n=plan.days.length;let t=null;
-        if(e.key==="ArrowRight")t=(i+1)%n;else if(e.key==="ArrowLeft")t=(i-1+n)%n;else if(e.key==="Home")t=0;else if(e.key==="End")t=n-1;
-        if(t!==null){e.preventDefault();showDay(t);$("#tab-"+t).focus();}
+        const n=plan.days.length;let k=null;
+        if(e.key==="ArrowRight")k=(i+1)%n;else if(e.key==="ArrowLeft")k=(i-1+n)%n;else if(e.key==="Home")k=0;else if(e.key==="End")k=n-1;
+        if(k!==null){e.preventDefault();showDay(k);$("#tab-"+k).focus();}
       }}));
   });
   const host=$("#days");host.replaceChildren();
@@ -266,61 +285,62 @@ function renderResults(){
 }
 function renderDay(day,di,total){
   const head=el("div",{class:"day-head"},
-    el("h3",{text:total===1?"Il tuo itinerario":"Giorno "+(di+1)}),
-    el("p",{class:"areas",text:day.areas.slice(0,4).join(", ")+(day.areas.length>4?" e dintorni":"")}),
+    el("h3",{text:total===1?t("res.single"):t("res.day",{n:di+1})}),
+    el("p",{class:"areas",text:day.areas.slice(0,4).map(areaText).join(", ")+(day.areas.length>4?t("res.areasMore"):"")}),
     el("ul",{class:"day-facts"},
-      el("li",{text:day.stops.length+(day.stops.length===1?" tappa":" tappe")}),
-      el("li",{text:"Visite: circa "+fmtH(day.minMins)+"–"+fmtH(day.maxMins)+" ore, esclusi spostamenti e pause"}),
-      el("li",{text:"Distanze in linea d'aria: circa "+day.walkKm.toFixed(1).replace(".",",")+" km"})));
-  const index=el("ol",{class:"stop-index","aria-label":"Tappe della giornata"},
+      el("li",{text:t("res.stops",{n:day.stops.length})}),
+      el("li",{text:t("res.visits",{min:numHalf(day.minMins),max:numHalf(day.maxMins)})}),
+      el("li",{text:t("res.distance",{km:num1(day.walkKm)})})));
+  const index=el("ol",{class:"stop-index","aria-label":t("res.indexAria")},
     day.stops.map((p,i)=>el("li",null,el("button",{type:"button",onclick:()=>goToCard(di,i)},
-      el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),el("span",{text:p.name})))));
+      el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),el("span",{lang:"it",text:p.name})))));
   head.append(index);
   const list=el("div",{class:"stops"});
   const breakAfter=day.stops.length>=3?Math.floor(day.stops.length/2):-1;
-  const bt=state.answers.budget==="low"?" Per spendere poco: mercati, forni e pizza al taglio sono soste ottime.":state.answers.budget==="high"?" Per concederti qualcosa: una sosta seduta con piatti della tradizione.":"";
+  const bt=state.answers.budget==="low"?t("res.break.low"):state.answers.budget==="high"?t("res.break.high"):"";
   day.stops.forEach((p,i)=>{
     if(i>0)list.append(el("div",{class:"leg"+(p.transit?" leg-transit":"")},
-      el("span",null,fmtKm(p.legKm)+" dalla tappa precedente, in linea d'aria",
-        p.transit?el("strong",{text:" · Tratta lunga: conviene usare i mezzi pubblici."}):null)));
+      el("span",null,t("res.leg",{dist:fmtKm(p.legKm)}),
+        p.transit?el("strong",{text:t("res.transit")}):null)));
     list.append(renderStop(p,di,i));
     if(i+1===breakAfter&&i<day.stops.length-1){
       list.append(el("div",{class:"leg"},el("span",{text:""})));
       list.append(el("div",{class:"break"},icon("coffee"),el("div",null,
-        el("strong",{text:"Pausa consigliata. "}),
-        "Nei dintorni di "+p.name+" cerca una trattoria o un bar. Tra i piatti romani da riconoscere sul menu: "+day.foodTip+"."+bt+" Non abbiamo verificato locali, orari o prezzi.")));
+        el("strong",{text:t("res.break.title")}),
+        t("res.break.text",{name:p.name,food:foodTip(day,day.foodTip)})+bt+t("res.break.note"))));
     }
   });
   const nav=total>1?el("div",{class:"day-nav"},
-    di>0?el("button",{type:"button",class:"btn btn-line",text:"← Giorno "+di,onclick:()=>showDay(di-1,{scroll:true})}):el("span"),
-    di<total-1?el("button",{type:"button",class:"btn btn-wine",text:"Giorno "+(di+2)+" →",onclick:()=>showDay(di+1,{scroll:true})}):null):null;
-  return el("section",{class:"day",id:"day-"+di,role:"tabpanel","aria-labelledby":total>1?"tab-"+di:null,"aria-label":total===1?"Itinerario":null,hidden:di!==0},head,list,nav);
+    di>0?el("button",{type:"button",class:"btn btn-line",text:t("res.dayPrev",{n:di}),onclick:()=>showDay(di-1,{scroll:true})}):el("span"),
+    di<total-1?el("button",{type:"button",class:"btn btn-wine",text:t("res.dayNext",{n:di+2}),onclick:()=>showDay(di+1,{scroll:true})}):null):null;
+  return el("section",{class:"day",id:"day-"+di,role:"tabpanel","aria-labelledby":total>1?"tab-"+di:null,"aria-label":total===1?t("res.singleAria"):null,hidden:di!==state.active},head,list,nav);
 }
 function budgetBox(p){
   const b=state.answers.budget;
   if(p.fee==="free")return null;
-  if(b==="high")return el("div",{class:"box"},el("b",{text:"Per concederti qualcosa"}),"Se vuoi un'esperienza più ricca, valuta una visita guidata o un ingresso con prenotazione: verifica offerte, orari e prezzi sui siti ufficiali.");
-  if(b==="low")return el("div",{class:"box"},el("b",{text:"Con budget contenuto"}),"L'ingresso è facoltativo: valuta se vale la spesa per te e verifica prezzi o riduzioni sui siti ufficiali.");
+  if(b==="high")return el("div",{class:"box"},el("b",{text:t("budget.high.title")}),t("budget.high.text"));
+  if(b==="low")return el("div",{class:"box"},el("b",{text:t("budget.low.title")}),t("budget.low.text"));
   return null;
 }
 /* Informazioni pratiche: costo, orari, giorni di chiusura, momento ideale, prenotazione e fonte della verifica.
    I dati non verificati sono dichiarati come tali: niente prezzi o orari inventati. */
-const BOOKING_LABEL={required:"Prenotazione obbligatoria",recommended:"Prenotazione consigliata"};
-const fmtDate=d=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");return m?m[3]+"/"+m[2]+"/"+m[1]:"";};
+const bookingLabel=b=>b==="required"||b==="recommended"?t("booking."+b):null;
+const fmtDate=d=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");if(!m)return "";
+  return getLang()==="en"?new Date(Date.UTC(+m[1],+m[2]-1,+m[3])).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}):m[3]+"/"+m[2]+"/"+m[1];};
 function practicalInfo(p){
   const box=el("div",{class:"practical"});
   const line=(label,text)=>{if(text)box.append(el("p",{class:"cost-note"},el("strong",{text:label+": "}),text));};
-  line("Costo",p.cost);
-  const hours=p.hours||p.hoursNote;
-  line("Orari",hours?hours+(p.closed?" Chiuso: "+p.closed+".":""):(p.closed?"Chiuso: "+p.closed+".":""));
-  line("Momento ideale",p.when);
-  line("Prenotazione",p.bookingNote);
+  line(t("info.cost"),placeText(p.cost));
+  const hours=placeText(p.hours||p.hoursNote),closed=p.closed?" "+t("info.closed")+": "+placeText(p.closed)+".":"";
+  line(t("info.hours"),hours?hours+closed:closed.trim());
+  line(t("info.when"),placeText(p.when));
+  line(t("info.booking"),placeText(p.bookingNote));
   if(p.source&&p.checked){
-    box.append(el("p",{class:"cost-note verify-note"},"Informazioni verificate il "+fmtDate(p.checked)+" · ",
-      el("a",{href:p.source,target:"_blank",rel:"noopener noreferrer",text:"fonte (esterno)"}),
-      ". Possono cambiare: ricontrolla prima di andare."));
+    box.append(el("p",{class:"cost-note verify-note"},t("info.verified",{date:fmtDate(p.checked)}),
+      el("a",{href:p.source,target:"_blank",rel:"noopener noreferrer",text:t("info.source")}),
+      t("info.verifiedEnd")));
   }else if(!p.public){
-    box.append(el("p",{class:"cost-note verify-note",text:"Prezzi e orari non verificati da VIVI Roma: controlla le fonti ufficiali prima di andare."}));
+    box.append(el("p",{class:"cost-note verify-note",text:t("info.notVerified")}));
   }
   return box;
 }
@@ -328,34 +348,37 @@ function renderStop(p,di,i){
   const n=i+1;
   const main=p.cats.find(c=>CAT_ICON[c])||"star";
   const photo=el("div",{class:"photo","aria-hidden":"false"},icon(CAT_ICON[main]));
-  const why=p.matches.map(m=>INTEREST_LABEL[m]);
-  if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push("Classico da non perdere");
-  if(state.answers.budget==="low"&&p.fee==="free")why.push("In linea con il tuo budget");
-  if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push("Fuori dai percorsi più battuti");
-  const wikiLink=el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Approfondisci su Wikipedia (esterno)"});
-  const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":"Tappa "+n+": "+p.name},
+  const why=p.matches.map(interestLabel);
+  if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push(t("why.must"));
+  if(state.answers.budget==="low"&&p.fee==="free")why.push(t("why.budget"));
+  if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push(t("why.hidden"));
+  const wikiLink=el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",hreflang:"it",text:t("stop.wiki")});
+  const gloss=placeGloss(p),bk=bookingLabel(p.booking);
+  /* i nomi dei luoghi restano in italiano; in inglese, sotto il nome, una breve spiegazione */
+  const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":t("stop.aria",{n,name:p.name+(gloss?" ("+gloss+")":"")})},
     photo,
     el("div",{class:"stop-body"},
-      el("div",{class:"stop-top"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),el("span",{text:"Tappa "+n+" · "+p.area})),
-      el("h4",{text:p.name}),
-      el("p",{text:p.desc}),
+      el("div",{class:"stop-top"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),el("span",{text:t("stop.top",{n,area:areaText(p.area)})})),
+      el("h4",{lang:"it",text:p.name}),
+      gloss?el("p",{class:"gloss",text:gloss}):null,
+      el("p",{text:placeText(p.desc)}),
       el("div",{class:"chips"},
-        el("span",{class:"chip",text:"Visita: circa "+p.time}),
-        el("span",{class:"chip fee-"+p.fee,text:FEE_LABEL[p.fee]}),
-        BOOKING_LABEL[p.booking]?el("span",{class:"chip fee-paid",text:BOOKING_LABEL[p.booking]}):null,
+        el("span",{class:"chip",text:t("stop.visit",{time:p.time})}),
+        el("span",{class:"chip fee-"+p.fee,text:t("fee."+p.fee)}),
+        bk?el("span",{class:"chip fee-paid",text:bk}):null,
         why.map(w=>el("span",{class:"chip",text:w}))),
       practicalInfo(p),
       el("div",{class:"links primary"},
-        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni (Google Maps)","aria-label":"Indicazioni per "+p.name+" su Google Maps (esterno)"}),
-        el("button",{type:"button",text:"Vedi sulla mappa","aria-label":"Vedi "+p.name+" sulla mappa",onclick:()=>focusMarker(di,i)})),
+        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
+        el("button",{type:"button",text:t("stop.onMap"),"aria-label":t("stop.onMapAria",{name:p.name}),onclick:()=>focusMarker(di,i)})),
       /* Consigli e link secondari: aperti su schermi grandi, a scomparsa su smartphone per accorciare la scheda. */
       el("details",{class:"more",open:!isNarrow()},
-        el("summary",null,"La chicca e il consiglio di VIVI"),
-        el("div",{class:"box"},el("b",{text:"La chicca"}),p.chicca),
-        el("div",{class:"box"},el("b",{text:"Il consiglio di VIVI"}),p.consiglio),
+        el("summary",null,t("stop.more")),
+        el("div",{class:"box"},el("b",{text:t("stop.chicca")}),placeText(p.chicca)),
+        el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
         budgetBox(p),
         el("div",{class:"links"},
-          el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Apri su OpenStreetMap (esterno)"}),
+          el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.osm")}),
           wikiLink))));
   const ph=PHOTOS[p.id];
   if(ph){
@@ -389,14 +412,15 @@ function initMap(){
   if(state.map||mapEl.dataset.failed)return;
   if(!window.L){
     mapEl.dataset.failed="1";
-    mapEl.replaceChildren(el("div",{class:"map-fallback",text:"La mappa non si è caricata (servizio esterno non raggiungibile). Puoi comunque aprire le indicazioni da ogni scheda."}));
+    mapEl.replaceChildren(el("div",{class:"map-fallback","data-i18n":"map.failed",text:t("map.failed")}));
     mapEl.style.height="auto";mapEl.style.minHeight="0";
     return;
   }
   /* Su touch: con un dito si scorre la pagina, con due dita si sposta e si ingrandisce la mappa;
      il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Su computer: trascinamento normale. */
   const touch=isTouch();
-  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:true,bounceAtZoomLimits:false}).setView([41.9028,12.4964],12);
+  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false}).setView([41.9028,12.4964],12);
+  state.zoom=L.control.zoom({zoomInTitle:t("map.zoomIn"),zoomOutTitle:t("map.zoomOut")}).addTo(state.map);
   if(touch)initTouchMap(mapEl);
   const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
   tiles.on("tileload",()=>{state.tileOk=true;});
@@ -412,7 +436,7 @@ function initTouchMap(mapEl){
   const set=on=>{
     if(on)state.map.dragging.enable();else state.map.dragging.disable();
     btn.setAttribute("aria-pressed",String(on));
-    btn.textContent=on?"Blocca la mappa":"Sposta la mappa";
+    btn.textContent=on?t("map.lock"):t("map.move");
     mapEl.classList.toggle("map-free",on);
   };
   btn.addEventListener("click",()=>set(!state.map.dragging.enabled()));
@@ -434,9 +458,9 @@ function buildMapLayers(){
         icon:L.divIcon({className:"vm",html:"<span>"+(i+1)+"</span>",iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16]})
       });
       m.bindPopup(el("div",{class:"pop"},
-        el("strong",{text:(i+1)+". "+p.name}),el("span",{text:p.area}),
-        el("button",{type:"button",text:"Vai alla scheda",onclick:()=>goToCard(di,i)}),
-        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:"Indicazioni su Google Maps (esterno)"})));
+        el("strong",{lang:"it",text:(i+1)+". "+p.name}),el("span",{text:placeGloss(p)||areaText(p.area)}),
+        el("button",{type:"button",text:t("map.toCard"),onclick:()=>goToCard(di,i)}),
+        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("map.directions")})));
       m.on("click",()=>selectStop(di,i));
       group.addLayer(m);markers.push(m);pts.push([p.lat,p.lng]);
     });
@@ -459,9 +483,9 @@ function updateMap(){
 function selectStop(di,i){
   highlightCard(di,i);
   const p=state.plan.days[di].stops[i],box=$("#mapSelected");
-  box.replaceChildren(el("span",null,el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),"Tappa "+(i+1)+": ",el("strong",{text:p.name})),
-    el("button",{type:"button",class:"btn btn-line",text:"Vai alla scheda",onclick:()=>goToCard(di,i)}));
-  box.hidden=false;
+  box.replaceChildren(el("span",null,el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),t("map.selected",{n:i+1}),el("strong",{lang:"it",text:p.name})),
+    el("button",{type:"button",class:"btn btn-line",text:t("map.toCard"),onclick:()=>goToCard(di,i)}));
+  box.hidden=false;state.selected=[di,i];
 }
 function highlightCard(di,i,focus){
   $$(".stop.is-active").forEach(c=>c.classList.remove("is-active"));
@@ -477,7 +501,7 @@ function highlightCard(di,i,focus){
 function goToCard(di,i){if(di!==state.active)showDay(di);highlightCard(di,i,true);}
 function focusMarker(di,i){
   highlightCard(di,i);
-  if(!state.map){toast("La mappa non è disponibile: usa i link alle indicazioni.");return;}
+  if(!state.map){toast(t("map.unavailable"));return;}
   const l=state.mapLayers[di];if(!l)return;
   scrollToEl($("#map"),"center");
   state.map.setView(l.pts[i],16,{animate:!reduceMotion()});
@@ -495,49 +519,56 @@ function getStore(){
   store=createStore(ls||{getItem(){throw new Error("no storage");},setItem(){throw new Error("no storage");}});
   return store;
 }
-const fmtSaved=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});};
-function setTripStatus(t){const p=$("#tripStatus");p.textContent=t||"";p.hidden=!t;}
+const fmtSaved=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString(locale(),{day:"numeric",month:"long",year:"numeric"});};
+const errText=code=>t("err."+(["quota","full","corrupt"].includes(code)?code:"unavailable"),{max:MAX_TRIPS});
+/* Il messaggio di stato è conservato come chiavi, così cambia lingua insieme al resto. */
+function setTripStatus(parts){
+  state.status=parts&&parts.length?parts:null;
+  const p=$("#tripStatus");
+  p.textContent=state.status?state.status.map(x=>t(x[0],x[1])).join(""):"";
+  p.hidden=!state.status;
+}
 function syncSaveBtn(){
   const b=$("#saveBtn");
   const saved=!!state.savedId;
-  b.textContent=saved?"Salvato nei miei viaggi ✓":"Salva nei miei viaggi";
+  b.textContent=saved?t("res.saved"):t("res.save");
   b.disabled=saved;
 }
 function saveCurrent(){
   if(!state.plan)return;
   const r=getStore().save(tripFromPlan(state.answers,state.plan));
-  if(!r.ok){toast(STORE_ERRORS[r.error]||STORE_ERRORS.unavailable);setTripStatus(STORE_ERRORS[r.error]||STORE_ERRORS.unavailable);return;}
+  if(!r.ok){toast(errText(r.error));setTripStatus([["err."+(["quota","full"].includes(r.error)?r.error:"unavailable"),{max:MAX_TRIPS}]]);return;}
   state.savedId=r.trip.id;syncSaveBtn();
-  setTripStatus(r.existing?"Questo itinerario era già nei tuoi viaggi.":"Salvato in «I miei viaggi» su questo dispositivo.");
+  setTripStatus([[r.existing?"status.already":"status.saved"]]);
   renderTrips();
 }
 function renderTrips(){
   const r=getStore().list(),sec=$("#viaggi"),list=$("#tripList"),err=$("#tripsError");
-  err.hidden=r.ok;err.textContent=r.ok?"":(STORE_ERRORS[r.error]||"");
+  err.hidden=r.ok;err.textContent=r.ok?"":errText(r.error);
   sec.hidden=!r.trips.length&&r.ok;
   $("#navTrips").hidden=!r.trips.length;
   $("#heroTrips").hidden=!r.trips.length;
-  $("#navTrips").textContent=r.trips.length?"I miei viaggi ("+r.trips.length+")":"I miei viaggi";
+  $("#navTrips").textContent=r.trips.length?t("nav.tripsCount",{n:r.trips.length}):t("nav.trips");
   list.replaceChildren();
-  if(!r.trips.length){list.append(el("li",{class:"trip-empty",text:"Nessun viaggio salvato."}));return;}
-  r.trips.forEach(t=>{
-    const stops=t.days.reduce((n,d)=>n+d.length,0);
+  if(!r.trips.length){list.append(el("li",{class:"trip-empty",text:t("trips.empty")}));return;}
+  r.trips.forEach(trip=>{
+    const stops=trip.days.reduce((n,d)=>n+d.length,0),title=tripTitle(trip.answers);
     list.append(el("li",{class:"trip-card"},
       el("div",{class:"trip-info"},
-        el("h3",{text:t.title}),
-        el("p",null,(t.days.length===1?"1 giornata":t.days.length+" giornate")+" · "+stops+(stops===1?" tappa":" tappe")+(t.savedAt?" · salvato il "+fmtSaved(t.savedAt):""))),
+        el("h3",{text:title}),
+        el("p",{text:t("trips.meta",{days:trip.days.length,stops,date:trip.savedAt?fmtSaved(trip.savedAt):""})})),
       el("div",{class:"trip-actions"},
-        el("button",{type:"button",class:"btn btn-wine",text:"Apri","aria-label":"Apri "+t.title,onclick:()=>openTrip(t.id)}),
-        el("button",{type:"button",class:"btn btn-line",text:"Elimina","aria-label":"Elimina "+t.title,onclick:()=>deleteTrip(t)}))));
+        el("button",{type:"button",class:"btn btn-wine",text:t("trips.open"),"aria-label":t("trips.openAria",{title}),onclick:()=>openTrip(trip.id)}),
+        el("button",{type:"button",class:"btn btn-line",text:t("trips.delete"),"aria-label":t("trips.deleteAria",{title}),onclick:()=>deleteTrip(trip)}))));
   });
 }
 function openTrip(id){
-  const t=getStore().get(id);
-  if(!t){toast("Questo viaggio non è più disponibile.");renderTrips();return;}
-  state.answers={...t.answers,interests:[...t.answers.interests]};syncOptions();
+  const trip=getStore().get(id);
+  if(!trip){toast(t("toast.tripGone"));renderTrips();return;}
+  state.answers={...trip.answers,interests:[...trip.answers.interests]};syncOptions();
   const w=$("#walking");if(w)w.value=state.answers.walking;
-  const plan=restoreItinerary(state.answers,t.days);
-  showPlan(plan,{savedId:t.id,status:"Viaggio riaperto da «I miei viaggi»."+(plan.missing.length?" "+plan.missing.length+(plan.missing.length===1?" tappa non è più nel catalogo ed è stata tolta.":" tappe non sono più nel catalogo e sono state tolte."):"")});
+  const plan=restoreItinerary(state.answers,trip.days);
+  showPlan(plan,{savedId:trip.id,status:[["status.reopened"]].concat(plan.missing.length?[["status.missing",{n:plan.missing.length}]]:[])});
 }
 function confirmDialog(text){
   const d=$("#confirmDlg");
@@ -548,12 +579,12 @@ function confirmDialog(text){
     d.returnValue="";d.showModal();$("#confirmDlg [value=cancel]").focus();
   });
 }
-async function deleteTrip(t){
-  if(!await confirmDialog("«"+t.title+"» verrà eliminato da questo dispositivo. L'operazione non si può annullare."))return;
-  const r=getStore().remove(t.id);
-  if(!r.ok){toast(STORE_ERRORS[r.error]||"Non è stato possibile eliminare il viaggio.");return;}
-  if(state.savedId===t.id){state.savedId=null;syncSaveBtn();setTripStatus("");}
-  renderTrips();toast("Viaggio eliminato.");
+async function deleteTrip(trip){
+  if(!await confirmDialog(t("dlg.delete.text",{title:tripTitle(trip.answers)})))return;
+  const r=getStore().remove(trip.id);
+  if(!r.ok){toast(r.error?errText(r.error):t("toast.deleteFailed"));return;}
+  if(state.savedId===trip.id){state.savedId=null;syncSaveBtn();setTripStatus(null);}
+  renderTrips();toast(t("toast.deleted"));
   const first=$("#tripList button");if(first)first.focus();else $("#tripsTitle").setAttribute("tabindex","-1"),$("#tripsTitle").focus();
 }
 async function shareCurrent(){
@@ -561,7 +592,7 @@ async function shareCurrent(){
   const url=shareUrl(location.href,state.answers,state.plan);
   const text=shareText(state.answers,state.plan,url);
   if(navigator.share){
-    try{await navigator.share({title:"VIVI Roma · "+tripTitle(state.answers),text});return;}
+    try{await navigator.share({title:t("share.title",{title:tripTitle(state.answers)}),text});return;}
     catch(e){if(e&&e.name==="AbortError")return;}   /* annullato dall'utente: nessun messaggio */
   }
   const d=$("#shareDlg");$("#shareText").value=text;$("#shareStatus").textContent="";
@@ -569,11 +600,11 @@ async function shareCurrent(){
   else copyText(text);
 }
 async function copyText(text){
-  try{await navigator.clipboard.writeText(text);$("#shareStatus").textContent="Testo copiato.";toast("Riepilogo copiato: incollalo dove vuoi.");return true;}
+  try{await navigator.clipboard.writeText(text);$("#shareStatus").textContent=t("dlg.copied");toast(t("toast.copied"));return true;}
   catch(e){
     const ta=$("#shareText");ta.value=text;ta.focus();ta.select();
     let ok=false;try{ok=document.execCommand("copy");}catch(_){}
-    $("#shareStatus").textContent=ok?"Testo copiato.":"Copia non riuscita: seleziona il testo e copialo a mano.";
+    $("#shareStatus").textContent=ok?t("dlg.copied"):t("dlg.copyFailed");
     return ok;
   }
 }
@@ -582,14 +613,56 @@ function openFromLink(){
   const m=/[#&]itinerario=([^&]+)/.exec(location.hash);
   if(!m)return false;
   const data=decodeShare(decodeURIComponent(m[1]));
-  if(!data){toast("Il link dell'itinerario non è valido o è incompleto.");return false;}
+  if(!data){toast(t("toast.linkInvalid"));return false;}
   state.answers={...data.answers};syncOptions();
   const w=$("#walking");if(w)w.value=state.answers.walking;
   const plan=restoreItinerary(state.answers,data.days);
-  if(!plan.days.length){toast("Le tappe di questo link non sono più disponibili.");return false;}
+  if(!plan.days.length){toast(t("toast.linkEmpty"));return false;}
   const saved=getStore().find(tripFromPlan(state.answers,plan));
-  showPlan(plan,{savedId:saved?saved.id:null,status:"Itinerario aperto da un link condiviso."+(saved?" È già nei tuoi viaggi.":" Puoi salvarlo nei tuoi viaggi.")});
+  showPlan(plan,{savedId:saved?saved.id:null,status:[["status.fromLink"],[saved?"status.linkSaved":"status.linkCanSave"]]});
   return true;
+}
+
+/* ==========================================================================
+   LINGUA: italiano / inglese. Cambia solo i testi: risposte, itinerario, mappa e viaggi salvati restano gli stessi.
+   ========================================================================== */
+function storageOrNull(){try{return window.localStorage;}catch(e){return null;}}
+function applyLang(){
+  const l=getLang();
+  document.documentElement.lang=l;
+  document.title=t("meta.title");
+  applyStatic(document);
+  $("#langToggle").setAttribute("lang",l==="it"?"en":"it");
+  $("#menuLabel").textContent=$("#navLinks").classList.contains("open")?t("menu.close"):t("menu.open");
+  relabelQuiz();
+  $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
+  heroCredit();
+  renderTrips();
+  if(state.plan)rerenderResults();
+}
+/* Ridisegna i risultati nella nuova lingua mantenendo giornata attiva, vista della mappa e tappa selezionata. */
+function rerenderResults(){
+  const view=state.map?{c:state.map.getCenter(),z:state.map.getZoom()}:null,sel=state.selected,y=window.scrollY;
+  renderResults();
+  if(state.map){
+    if(shownLayer){state.map.removeLayer(shownLayer);shownLayer=null;}
+    buildMapLayers();updateMap();
+    if(view)state.map.setView(view.c,view.z,{animate:false});
+    const zi=$(".leaflet-control-zoom-in"),zo=$(".leaflet-control-zoom-out");
+    if(zi){zi.title=t("map.zoomIn");zi.setAttribute("aria-label",t("map.zoomIn"));}
+    if(zo){zo.title=t("map.zoomOut");zo.setAttribute("aria-label",t("map.zoomOut"));}
+    const mv=$("#mapMove");if(!mv.hidden)mv.textContent=state.map.dragging.enabled()?t("map.lock"):t("map.move");
+  }
+  $$(".day").forEach((d,k)=>{d.hidden=k!==state.active;});
+  $$(".day-tab").forEach((tb,k)=>{const on=k===state.active;tb.setAttribute("aria-selected",String(on));tb.tabIndex=on?0:-1;tb.classList.toggle("active",on);});
+  if(sel&&sel[0]===state.active)selectStop(sel[0],sel[1]);else $("#mapSelected").hidden=true;
+  syncSaveBtn();setTripStatus(state.status);
+  window.scrollTo({top:y,behavior:"instant"});
+}
+function toggleLang(){
+  setLang(getLang()==="it"?"en":"it",storageOrNull());
+  applyLang();
+  toast(t("lang.changed"));
 }
 
 /* ==========================================================================
@@ -599,7 +672,7 @@ function initMenu(){
   const btn=$("#menuToggle"),nav=$("#navLinks"),header=$("#siteHeader");
   const set=open=>{
     nav.classList.toggle("open",open);header.classList.toggle("menu-open",open);
-    btn.setAttribute("aria-expanded",String(open));$("#menuLabel").textContent=open?"Chiudi":"Menu";
+    btn.setAttribute("aria-expanded",String(open));$("#menuLabel").textContent=open?t("menu.close"):t("menu.open");
   };
   btn.addEventListener("click",()=>set(!nav.classList.contains("open")));
   $$("a",nav).forEach(a=>a.addEventListener("click",()=>set(false)));
@@ -613,11 +686,12 @@ function initCategories(){
   $$(".cat-card").forEach(card=>{
     card.addEventListener("click",()=>{
       const k=card.dataset.interest,list=state.answers.interests;
-      if(list.includes(k))toast(card.dataset.label+" è già tra i tuoi interessi.");
-      else{list.push(k);syncOptions();toast(card.dataset.label+" aggiunta ai tuoi interessi. La ritrovi alla domanda 4.");}
+      const label=t("cat."+k+".label");
+      if(list.includes(k))toast(t("cat.already",{label}));
+      else{list.push(k);syncOptions();toast(t("cat.added",{label}));}
     });
     const ph=PHOTOS[card.dataset.photo];
-    if(ph)lazyLoad(card,()=>placePhoto(card,ph,card.dataset.alt,card.getBoundingClientRect().width||300));
+    if(ph)lazyLoad(card,()=>placePhoto(card,ph,t("cat."+card.dataset.interest+".alt"),card.getBoundingClientRect().width||300));
   });
 }
 function initHero(){
@@ -629,8 +703,11 @@ function initHero(){
   pic.querySelector("img").sizes=sizesFor(window.innerWidth);
   media.style.backgroundColor=land.color;
   media.append(pic);
-  const credit=$("#heroCredit");
-  credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+" (Wikimedia Commons)"}));
+  heroCredit();
+}
+function heroCredit(){
+  const land=PHOTOS.hero,credit=$("#heroCredit");if(!land)return;
+  credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+t("photo.commons")}));
   credit.hidden=false;
 }
 function initReveal(){
@@ -667,6 +744,8 @@ async function runPhotoAudit(){
 }
 
 function init(){
+  /* lingua iniziale: scelta salvata → lingua del dispositivo → italiano (la scelta automatica non viene salvata) */
+  setLang(detectLang(storageOrNull(),navigator.languages||[navigator.language]),null);
   $("#year").textContent=new Date().getFullYear();
   buildQuiz();syncOptions();setStep(0,false);
   $("#nextBtn").addEventListener("click",goNext);
@@ -682,8 +761,9 @@ function init(){
   $("#copyBtn").addEventListener("click",()=>copyText($("#shareText").value));
   /* In stampa servono tutte le informazioni: si aprono le parti a scomparsa. */
   window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
+  $("#langToggle").addEventListener("click",toggleLang);
   initMenu();initCategories();initHero();initReveal();
-  renderTrips();
+  if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */
   if(/[?&]photocheck/.test(location.search))runPhotoAudit();
   else openFromLink();

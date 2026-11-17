@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Crediti fotografici — VIVI Roma</title>
-<meta name="description" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
+<title data-i18n="credits.title">Crediti fotografici — VIVI Roma</title>
+<meta name="description" data-i18n-attr="content:credits.desc" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
 <meta name="theme-color" content="#252321">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,56 +27,71 @@
 <body>
 <header class="site-header on-dark scrolled" id="siteHeader">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="VIVI Roma, torna alla pagina principale">
+    <a class="brand" href="index.html" data-i18n-attr="aria-label:credits.homeAria" aria-label="VIVI Roma, torna alla pagina principale">
       <span class="brand-mark" aria-hidden="true">V</span>
       <span class="brand-name">VIVI Roma</span>
     </a>
+    <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="Switch to English">EN</button>
   </div>
 </header>
 <main class="credits">
   <div class="wrap">
-    <p class="eyebrow">Crediti</p>
-    <h1>Crediti fotografici</h1>
-    <p class="lead">Tutte le fotografie provengono da Wikimedia Commons e sono pubblicate con licenze che ne consentono il riuso, anche commerciale: pubblico dominio, CC0, CC BY e CC BY-SA. Le immagini sono state ridimensionate e, in alcuni casi, ritagliate per adattarle all'impaginazione. Per ogni foto trovi autore, licenza e pagina originale.</p>
-    <div id="creditsRoot"><p>Caricamento dei crediti…</p></div>
+    <p class="eyebrow" data-i18n="credits.eyebrow">Crediti</p>
+    <h1 data-i18n="credits.h1">Crediti fotografici</h1>
+    <p class="lead" data-i18n="credits.lead">Tutte le fotografie provengono da Wikimedia Commons e sono pubblicate con licenze che ne consentono il riuso, anche commerciale: pubblico dominio, CC0, CC BY e CC BY-SA. Le immagini sono state ridimensionate e, in alcuni casi, ritagliate per adattarle all'impaginazione. Per ogni foto trovi autore, licenza e pagina originale.</p>
+    <div id="creditsRoot"><p data-i18n="credits.loading">Caricamento dei crediti…</p></div>
   </div>
 </main>
 <footer class="footer on-dark">
   <div class="wrap">
     <div class="footer-bottom">
-      <p><a href="index.html">Torna a VIVI Roma</a></p>
+      <p><a href="index.html" data-i18n="credits.back">Torna a VIVI Roma</a></p>
     </div>
   </div>
 </footer>
 <script type="module">
 import {PHOTOS} from "./js/data/photos.js";
 import {PLACES} from "./js/data/places.js";
-const LABEL={"cat-history":"Categoria · Roma antica","cat-art":"Categoria · Arte e meraviglia","cat-food":"Categoria · Sapori romani",
-  "cat-hidden":"Categoria · Roma segreta","cat-nature":"Categoria · Verde e quiete","cat-religious":"Categoria · Roma sacra",
-  "cat-local":"Categoria · Roma autentica","cat-romantic":"Categoria · Roma romantica",hero:"Copertina",["hero-portrait"]:"Copertina (smartphone)"};
-PLACES.forEach(p=>{LABEL[p.id]=p.name;});
-const lic=l=>/^public domain$/i.test(l)?"Pubblico dominio":l;
-const groups=[["Copertina e categorie",k=>!PLACES.some(p=>p.id===k)],["Luoghi",k=>PLACES.some(p=>p.id===k)]];
-const root=document.getElementById("creditsRoot");root.replaceChildren();
-for(const [title,test] of groups){
-  const keys=Object.keys(PHOTOS).filter(test).sort((a,b)=>(LABEL[a]||a).localeCompare(LABEL[b]||b,"it"));
-  if(!keys.length)continue;
-  const h=document.createElement("h2");h.textContent=title;root.append(h);
-  const ul=document.createElement("ul");ul.className="credit-list";
-  for(const k of keys){
-    const ph=PHOTOS[k],li=document.createElement("li");
-    const img=document.createElement("img");img.src=ph.base+"-"+ph.w[0]+".webp";img.alt="";img.loading="lazy";img.decoding="async";img.width=96;img.height=72;
-    const box=document.createElement("div");
-    const b=document.createElement("b");b.textContent=LABEL[k]||k;
-    const a=document.createElement("span");a.textContent="Autore: "+ph.author;
-    const l=document.createElement("span");
-    if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl;x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append("Licenza: ",x);}
-    else l.textContent="Licenza: "+lic(ph.license);
-    const s=document.createElement("span");const y=document.createElement("a");y.href=ph.source;y.target="_blank";y.rel="noopener noreferrer";y.textContent="Pagina originale su Wikimedia Commons";s.append(y);
-    box.append(b,a,l,s);li.append(img,box);ul.append(li);
+import {t,getLang,setLang,detectLang,applyStatic,placeGloss} from "./js/i18n.js";
+const store=(()=>{try{return localStorage;}catch(e){return null;}})();
+setLang(detectLang(store,navigator.languages||[navigator.language]),null);
+const PLACE={};PLACES.forEach(p=>{PLACE[p.id]=p;});
+const label=k=>{
+  if(PLACE[k]){const g=placeGloss(PLACE[k]);return PLACE[k].name+(g?" — "+g:"");}
+  if(k==="hero")return t("credits.hero");
+  if(k==="hero-portrait")return t("credits.heroPortrait");
+  return t("credits.category",{label:t("cat."+k.replace(/^cat-/,"")+".label")});
+};
+const lic=l=>/^public domain$/i.test(l)?t("photo.pd"):l;
+const author=a=>a==="Autore non indicato"?t("photo.noAuthor"):a;
+function render(){
+  document.documentElement.lang=getLang();
+  applyStatic(document);document.title=t("credits.title");
+  document.getElementById("langToggle").setAttribute("lang",getLang()==="it"?"en":"it");
+  const groups=[["credits.group.main",k=>!PLACE[k]],["credits.group.places",k=>!!PLACE[k]]];
+  const root=document.getElementById("creditsRoot");root.replaceChildren();
+  for(const [title,test] of groups){
+    const keys=Object.keys(PHOTOS).filter(test).sort((a,b)=>label(a).localeCompare(label(b),getLang()));
+    if(!keys.length)continue;
+    const h=document.createElement("h2");h.textContent=t(title);root.append(h);
+    const ul=document.createElement("ul");ul.className="credit-list";
+    for(const k of keys){
+      const ph=PHOTOS[k],li=document.createElement("li");
+      const img=document.createElement("img");img.src=ph.base+"-"+ph.w[0]+".webp";img.alt="";img.loading="lazy";img.decoding="async";img.width=96;img.height=72;
+      const box=document.createElement("div");
+      const b=document.createElement("b");b.textContent=label(k);
+      const a=document.createElement("span");a.textContent=t("credits.author",{author:author(ph.author)});
+      const l=document.createElement("span");
+      if(ph.licenseUrl){const x=document.createElement("a");x.href=ph.licenseUrl;x.target="_blank";x.rel="noopener noreferrer";x.textContent=lic(ph.license);l.append(t("credits.license"),x);}
+      else l.textContent=t("credits.license")+lic(ph.license);
+      const s=document.createElement("span");const y=document.createElement("a");y.href=ph.source;y.target="_blank";y.rel="noopener noreferrer";y.textContent=t("credits.page");s.append(y);
+      box.append(b,a,l,s);li.append(img,box);ul.append(li);
+    }
+    root.append(ul);
   }
-  root.append(ul);
 }
+document.getElementById("langToggle").addEventListener("click",()=>{setLang(getLang()==="it"?"en":"it",store);render();});
+render();
 </script>
 </body>
 </html>

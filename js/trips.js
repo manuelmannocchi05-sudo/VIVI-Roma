@@ -2,7 +2,8 @@
    Niente account e niente server: gli itinerari restano nel browser di questo dispositivo (localStorage).
    Si salvano le risposte del quiz e l'elenco delle tappe per giornata; schede, prezzi e orari
    vengono ricostruiti dal catalogo attuale quando l'itinerario viene riaperto. */
-import {QUIZ,WALK_OPTS,LABELS,durationLabel} from "./quiz-data.js";
+import {QUIZ,WALK_OPTS} from "./quiz-data.js";
+import {t,durationLabel} from "./i18n.js";
 
 export const STORE_KEY="vivi-roma:viaggi:v1";
 export const MAX_TRIPS=30;
@@ -29,9 +30,9 @@ function cleanDays(d){
 }
 
 /* ---------- Titolo e riepilogo ---------- */
+/* Titolo nella lingua attiva, ricavato dalle risposte (così cambia lingua insieme all'interfaccia). */
 export function tripTitle(a){
-  const who={solo:"Roma da solo/a",couple:"Roma in coppia",friends:"Roma con gli amici",family:"Roma in famiglia"}[a.company]||"La mia Roma";
-  return who+" · "+durationLabel(a);
+  return t("trips.who."+a.company)+" · "+durationLabel(a);
 }
 export function tripFromPlan(a,plan,now=new Date()){
   return {v:SCHEMA,id:"t"+now.getTime().toString(36)+Math.random().toString(36).slice(2,6),savedAt:now.toISOString(),
@@ -91,12 +92,8 @@ export function createStore(storage){
     }
   };
 }
-export const STORE_ERRORS={
-  unavailable:"Questo browser non permette di salvare dati (ad esempio in navigazione privata o con i dati del sito bloccati). L'itinerario non è stato salvato: puoi condividerlo o stamparlo.",
-  quota:"Lo spazio del browser per questo sito è pieno. Elimina un viaggio salvato e riprova.",
-  full:"Hai già "+MAX_TRIPS+" viaggi salvati: eliminane uno per salvarne un altro.",
-  corrupt:"I viaggi salvati in questo browser non sono leggibili. Li abbiamo conservati a parte senza cancellarli."
-};
+/* Codici d'errore: il messaggio è nelle chiavi "err.*" dell'interfaccia. */
+export const STORE_ERROR_CODES=["unavailable","quota","full","corrupt"];
 
 /* ---------- Condivisione: link con l'itinerario nell'indirizzo (dopo #), nessun server ---------- */
 const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
@@ -120,15 +117,15 @@ export function shareUrl(base,a,plan){
   return base.split("#")[0]+"#itinerario="+encodeShare(a,plan.days.map(d=>d.stops.map(s=>s.id)));
 }
 /* Riepilogo in testo semplice: nomi delle tappe per giornata, nessuna distanza o durata inventata. */
+/* Riepilogo in testo semplice nella lingua attiva. I nomi dei luoghi restano in italiano. */
 export function shareText(a,plan,url){
-  const lines=["VIVI Roma · "+tripTitle(a)];
+  const lines=[t("share.title",{title:tripTitle(a)})];
   plan.days.forEach((d,i)=>{
     lines.push("");
-    lines.push(plan.days.length===1?"Itinerario":"Giorno "+(i+1));
+    lines.push(plan.days.length===1?t("share.single"):t("res.day",{n:i+1}));
     d.stops.forEach((s,k)=>lines.push((k+1)+". "+s.name));
   });
-  lines.push("","Prezzi e orari possono cambiare: verifica sempre le fonti ufficiali.");
-  if(url)lines.push("Apri l'itinerario: "+url);
+  lines.push("",t("share.check"));
+  if(url)lines.push(t("share.open",{url}));
   return lines.join("\n");
 }
-export {LABELS};

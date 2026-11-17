@@ -293,21 +293,22 @@ function buildItinerary(a){
   return finalize(ordered,a,cfg);
 }
 
-/* Note e dati delle giornate, a partire dalle tappe già ordinate. Usato sia per i nuovi itinerari sia per quelli salvati. */
+/* Note e dati delle giornate, a partire dalle tappe già ordinate. Usato sia per i nuovi itinerari sia per quelli salvati.
+   Le note sono codici ({k:"transit",n:2}): il testo, in italiano o in inglese, lo compone l'interfaccia (chiavi "note.*"). */
 function finalize(ordered,a,cfg){
   const chosen=ordered.flat();
   const notes=[];
   if(chosen.length<cfg.days*cfg.max){
-    notes.push("Il catalogo comprende "+PLACES.length+" luoghi: per questa durata e questi interessi abbiamo usato "+chosen.length+" tappe invece delle "+(cfg.days*cfg.max)+" previste dal tuo ritmo.");
+    notes.push({k:"catalog",total:PLACES.length,used:chosen.length,planned:cfg.days*cfg.max});
   }
   const filler=chosen.filter(c=>c.matches.length===0&&!(c.p.cats.includes(a.mood)));
   if(filler.length){
-    notes.push(filler.length===1?"Una tappa è inclusa come complemento geografico e non corrisponde direttamente ai tuoi interessi.":filler.length+" tappe sono incluse come complemento e non corrispondono direttamente ai tuoi interessi: servivano a completare le giornate.");
+    notes.push({k:"filler",n:filler.length});
   }
   if(a.budget==="low"&&chosen.some(c=>c.p.fee!=="free")){
-    notes.push("Budget contenuto: abbiamo privilegiato luoghi gratuiti. Le poche tappe con ingresso a pagamento o da verificare sono facoltative.");
+    notes.push({k:"lowBudget"});
   }
-  if(cfg.days>=5)notes.push("Per soggiorni lunghi l'itinerario copre fino a 7 giorni e usa luoghi anche fuori dal centro. Se resti più a lungo, ripeti il quiz cambiando interessi per ottenere nuove idee.");
+  if(cfg.days>=5)notes.push({k:"long"});
   let transit=0;
   const days=ordered.map((g,di)=>{
     const stops=g.map((r,i)=>{
@@ -320,8 +321,8 @@ function finalize(ordered,a,cfg){
     const areas=[];stops.forEach(s=>{if(!areas.includes(s.area))areas.push(s.area);});
     return {index:di,stops,areas,minMins:lo,maxMins:hi,walkKm:pathLength(g),foodTip:FOOD_TIPS[di%FOOD_TIPS.length]};
   });
-  if(days.some(d=>d.stops.some(s=>s.closed)))notes.push("Alcune tappe hanno giorni di chiusura (indicati nelle schede): scegli il giorno della visita tenendone conto.");
-  if(transit)notes.push(transit===1?"Una tratta è più lunga di quanto preferisci camminare: la trovi segnalata, lì conviene usare i mezzi pubblici.":transit+" tratte sono più lunghe di quanto preferisci camminare: le trovi segnalate, lì conviene usare i mezzi pubblici.");
+  if(days.some(d=>d.stops.some(s=>s.closed)))notes.push({k:"closed"});
+  if(transit)notes.push({k:"transit",n:transit});
   return {cfg,days,notes,total:chosen.length};
 }
 
