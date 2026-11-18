@@ -72,6 +72,7 @@ export default {
 
   "q.step.who.name":"Company","q.step.who.title":"Who are you exploring Rome with?","q.step.who.sub":"Every kind of trip discovers the city in its own way.",
   "q.step.know.name":"Rome and you","q.step.know.title":"Is this your first time in Rome?","q.step.know.sub":"So we know whether to focus on the great classics or on something new.",
+  "q.step.kids.name":"Family","q.step.kids.title":"Are you travelling with young children?","q.step.kids.sub":"So we only suggest places for children when they are really needed.",
   "q.step.time.name":"Length of stay","q.step.time.title":"How much time do you have?","q.step.time.sub":"Realistic days, from half a day to a week.",
   "q.step.interests.name":"Interests","q.step.interests.title":"What do you want to discover and experience?","q.step.interests.sub":"Pick as many as you like: just one is fine too.",
   "q.step.mood.name":"Atmosphere","q.step.mood.title":"What kind of atmosphere do you prefer?","q.step.mood.sub":"One or more: they help us choose between similar places.",

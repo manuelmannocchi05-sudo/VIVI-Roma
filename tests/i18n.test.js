@@ -21,7 +21,7 @@ test("lingua: quiz completo in inglese", ()=>{
   setLang("en");
   for(const q of QUIZ){
     for(const f of ["name","title","sub","err"])if(q[f])assert.ok(EN["q."+q.key+"."+f],"manca q."+q.key+"."+f);
-    for(const o of q.opts){const x=optText(q,o);assert.ok(x.title&&x.title!==o[2],"opzione "+q.key+"."+o[0]);if(o[3])assert.ok(x.desc,"descrizione "+q.key+"."+o[0]);}
+    for(const o of q.opts){const x=optText(q,o);assert.ok(EN["q."+q.key+"."+o[0]]&&x.title,"opzione "+q.key+"."+o[0]);   /* "No" è uguale nelle due lingue: basta che la traduzione esista */if(o[3])assert.ok(x.desc,"descrizione "+q.key+"."+o[0]);}
     if(q.followUp){for(const f of ["title","err"])assert.ok(qText(q.followUp,f)!==q.followUp[f]);q.followUp.opts.forEach(o=>assert.ok(EN["q."+q.followUp.key+"."+o[0]],"manca q."+q.followUp.key+"."+o[0]));}
   }
   for(const q of QUIZ)for(const o of q.legacy||[])assert.ok(EN["q."+q.key+"."+o[0]],"opzione precedente senza inglese "+q.key+"."+o[0]);

@@ -1,8 +1,10 @@
-# Quiz in 6 passaggi: logica e corrispondenza con il motore
+# Quiz in 6 passaggi (7 in famiglia): logica e corrispondenza con il motore
 
 Restyling, blocco A. Il quiz passa da 7 domande a 5 passaggi e ammette risposte multiple dove le scelte sono compatibili.
 
 **Aggiornamento (revisione del blocco B):** i passaggi diventano 6. «Con chi vivi Roma?» e «È la tua prima volta a Roma?» non condividono più la stessa schermata: ogni schermata ha una sola domanda principale. Motore, risposte salvate e link non cambiano, perché cambia solo la disposizione delle domande.
+
+**Seconda correzione:** «Viaggiate con bambini piccoli?» non compare più sotto le opzioni della compagnia. Ha una schermata autonoma, subito dopo, solo per chi sceglie «In famiglia»: 6 passaggi per tutti gli altri, 7 per le famiglie. L'indicatore di avanzamento si aggiorna appena cambia la compagnia. Passando da «In famiglia» a un'altra compagnia, la risposta sui bambini viene annullata. Anche se restasse nei dati, non avrebbe effetto: il motore la usa solo con «In famiglia», e salvataggio e link la scartano.
 In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il resto dell'adattamento è previsto nel blocco B.
 
 ## Come le risposte influenzano il motore (analisi prima delle modifiche)
@@ -22,7 +24,8 @@ In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il r
 
 | Passaggio | Domande | Tipo di selezione |
 |---|---|---|
-| 1. Con chi vivi Roma? | Compagnia (con «In famiglia» compare la domanda collegata «Viaggiate con bambini piccoli?») | singola |
+| 1. Con chi vivi Roma? | Compagnia | singola |
+| 1b. Viaggiate con bambini piccoli? (solo «In famiglia») | Sì / No | singola |
 | 2. È la tua prima volta a Roma? | «È la mia prima volta» / «La conosco già» | singola |
 | 3. Quanto tempo hai? | Durata (+ numero di giorni se "più giorni") | singola |
 | 4. Cosa vuoi scoprire e vivere? | Interessi (8 card fotografiche) | **multipla**: da 1 a 8, senza massimo |
@@ -56,7 +59,8 @@ Effetti da conoscere:
 ## Test aggiornati
 
 - `tests/quiz.test.js` (nuovo):
-  - 6 passaggi, con compagnia e familiarità su schermate separate;
+  - 6 passaggi, 7 con «In famiglia» (bambini in schermata a sé); compagnia e familiarità su schermate separate;
+  - una risposta sui bambini rimasta dopo un cambio di compagnia non ha effetti su motore, salvataggio e link;
   - selezione multipla solo per interessi e atmosfera;
   - conversione verso il motore;
   - equivalenza testo/elenco;
@@ -84,7 +88,7 @@ Analisi su 6.000 itinerari casuali con il nuovo quiz (interessi e atmosfere mult
 1. **Interessi bilanciati** (`COVER_BONUS = 4`). Quando il motore sceglie la tappa successiva o confronta giornate alternative, un luogo che porta un interesse scelto e non ancora presente nell'itinerario riceve un vantaggio di 4 punti per interesse. Il punteggio di base non cambia: il vantaggio vale solo finché quell'interesse manca.
 2. **Atmosfere rappresentate** (`MOOD_COVER = 3`). Funziona allo stesso modo per le atmosfere scelte e non ancora presenti.
 3. **Bambini piccoli solo se indicati.**
-   - Nuova domanda nel passo 1, collegata a «In famiglia» e visibile solo con quella scelta: «Viaggiate con bambini piccoli?» (Sì / No).
+   - Nuova domanda «Viaggiate con bambini piccoli?» (Sì / No), in una schermata autonoma mostrata solo a chi sceglie «In famiglia».
    - «Esperienze per tutti» si attiva solo con «Sì».
    - I luoghi pensati solo per bambini (quelli che nel catalogo hanno come unica categoria "famiglie"; oggi solo Explora) ricevono una penalità di 12 punti, salvo quando l'interesse per bambini è attivo.
    - Nei viaggi salvati prima di questa domanda la risposta manca: il motore non aggiunge l'interesse per bambini. Se un viaggio vecchio aveva scelto esplicitamente «Esperienze per tutti», quell'interesse resta.

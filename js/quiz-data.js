@@ -1,4 +1,5 @@
-/* VIVI Roma — quiz in 6 passaggi, una domanda principale per schermata.
+/* VIVI Roma — quiz in 6 passaggi (7 per chi viaggia in famiglia), una domanda per schermata.
+   when: passaggio mostrato solo se la condizione sulle risposte è vera.
    STEPS: i passaggi mostrati; ogni passaggio contiene una o più domande (chiavi di QUIZ).
    QUIZ: le domande. Opzioni: [valore, icona (o "#testo"), titolo, descrizione, etichetta breve per il riepilogo].
    multi:true = si possono scegliere più risposte (nessun minimo oltre a una, nessun massimo).
@@ -8,6 +9,7 @@
 
 const STEPS=[
  {id:"who",name:"Compagnia",title:"Con chi vivi Roma?",sub:"Ogni compagnia scopre la città a modo suo.",keys:["company"]},
+ {id:"kids",name:"Famiglia",title:"Viaggiate con bambini piccoli?",sub:"Così proponiamo luoghi per bambini solo se servono davvero.",keys:["kids"],when:a=>a.company==="family"},
  {id:"know",name:"Roma e te",title:"È la tua prima volta a Roma?",sub:"Così sappiamo se puntare sui grandi classici o su qualcosa di nuovo.",keys:["familiarity"]},
  {id:"time",name:"Durata",title:"Quanto tempo hai?",sub:"Giornate realistiche, da mezza giornata a una settimana.",keys:["duration"]},
  {id:"interests",name:"Interessi",title:"Cosa vuoi scoprire e vivere?",sub:"Scegline quante vuoi: anche una sola va benissimo.",keys:["interests"]},
@@ -20,9 +22,11 @@ const QUIZ=[
   ["solo","user","Da solo/a","Libertà e curiosità"],
   ["couple","heart","In coppia","Atmosfera e momenti speciali"],
   ["friends","users","Con amici","Esperienze e buon cibo"],
-  ["family","home","In famiglia","Scoperte da condividere"]],
-  followUp:{key:"kids",when:"family",title:"Viaggiate con bambini piccoli?",err:"Dicci se viaggiate con bambini piccoli.",opts:[
-   ["yes","#","Sì","Fino a 11 anni circa","Con bambini piccoli"],["no","#","No","Adulti o ragazzi","Senza bambini piccoli"]]}},
+  ["family","home","In famiglia","Scoperte da condividere"]]},
+ /* solo per «In famiglia»: schermata a sé, subito dopo la compagnia */
+ {key:"kids",title:"Viaggiate con bambini piccoli?",err:"Dicci se viaggiate con bambini piccoli.",opts:[
+  ["yes","smile","Sì","Fino a 11 anni circa","Con bambini piccoli"],
+  ["no","users","No","Adulti o ragazzi","Senza bambini piccoli"]]},
  {key:"familiarity",title:"È la tua prima volta a Roma?",err:"Dicci se è la tua prima volta a Roma.",opts:[
   ["first","star","È la mia prima volta","I luoghi simbolo da non perdere","Prima volta a Roma"],
   ["often","refresh","La conosco già","Qualcosa di nuovo da scoprire","Conosce già Roma"]]},
@@ -86,4 +90,7 @@ function engineAnswers(a){
   return {...a,interests:ints,mood:moodsOf(a)};
 }
 
-export {STEPS,QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL,moodsOf,engineAnswers};
+/* Passaggi da mostrare con queste risposte (indici in STEPS). */
+const activeSteps=a=>STEPS.map((s,i)=>i).filter(i=>!STEPS[i].when||STEPS[i].when(a));
+
+export {activeSteps,STEPS,QUIZ,WALK_OPTS,LABELS,durationLabel,PACE_LABEL,moodsOf,engineAnswers};

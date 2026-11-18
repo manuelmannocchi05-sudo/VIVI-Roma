@@ -1,7 +1,7 @@
 /* VIVI Roma — interfaccia: quiz, risultati, foto, mappa, navigazione. */
 import {PLACES,buildItinerary,restoreItinerary} from "./planner.js";
 import {createStore,tripFromPlan,tripTitle,MAX_TRIPS,shareUrl,shareText,decodeShare} from "./trips.js";
-import {STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
+import {activeSteps,STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
 import {t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
 
@@ -112,8 +112,19 @@ function buildQuiz(){
     const fs=el("fieldset",{class:"step step-"+s.id,hidden:si!==0,"data-step":si},legend,el("p",{class:"sub",text:stepText(s,"sub")}));
     s.keys.forEach(k=>fs.append(questionBlock(Q[k],s.keys.length===1)));
     host.append(fs);stepEls.push(fs);
-    bar.append(el("span",null,el("i")));
   });
+}
+/* Passaggi visibili con le risposte attuali: 6, oppure 7 con «In famiglia» (domanda sui bambini). */
+const visible=()=>activeSteps(state.answers);
+function renderBar(){
+  const v=visible(),bar=$("#stepsBar"),pos=v.indexOf(state.step);
+  while(bar.children.length<v.length)bar.append(el("span",null,el("i")));
+  while(bar.children.length>v.length)bar.lastElementChild.remove();
+  [...bar.children].forEach((s,i)=>{s.className=i<pos?"done":i===pos?"now":"";});
+  bar.setAttribute("aria-valuenow",String(pos+1));bar.setAttribute("aria-valuemax",String(v.length));
+  $("#qCounter").textContent=t("quiz.counter",{n:pos+1,total:v.length});
+  const last=pos===v.length-1;
+  $("#nextBtn").hidden=last;$("#createBtn").hidden=!last;
 }
 const ORDER=k=>Q[k].opts.map(o=>o[0]);
 function onOption(q,value,btn){
@@ -129,6 +140,7 @@ function onOption(q,value,btn){
   }
   if(btn&&!reduceMotion()){btn.classList.remove("tap");void btn.offsetWidth;btn.classList.add("tap");}
   syncOptions();$("#quizError").textContent="";
+  if(q.key==="company")renderBar();   /* «In famiglia» aggiunge il passaggio sui bambini: 7 invece di 6 */
 }
 function syncOptions(){
   $$(".option[data-key]").forEach(b=>{
@@ -137,7 +149,6 @@ function syncOptions(){
     b.setAttribute("aria-pressed",String(on));
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
-  const kq=$("#q-kids-follow");if(kq)kq.hidden=state.answers.company!=="family";
   for(const k of ["interests","mood"]){
     const n=state.answers[k].length,c=$("#selCount-"+k);
     if(c)c.textContent=n?t("quiz.selCount."+k,{n}):t("quiz.selNone."+k);
@@ -160,14 +171,9 @@ function setStep(n,focus){
     if(on&&s.hidden){s.hidden=false;s.classList.remove("enter","enter-back");void s.offsetWidth;if(!reduceMotion())s.classList.add(dir==="back"?"enter-back":"enter");}
     else if(!on)s.hidden=true;
   });
-  const last=state.step===STEPS.length-1;
-  $("#prevBtn").disabled=state.step===0;
-  $("#nextBtn").hidden=last;$("#createBtn").hidden=!last;
-  $("#qCounter").textContent=t("quiz.counter",{n:state.step+1,total:STEPS.length});
+  $("#prevBtn").disabled=visible()[0]===state.step;
   $("#qName").textContent=stepText(STEPS[state.step],"name");
-  $$("#stepsBar span").forEach((s,i)=>{s.className=i<state.step?"done":i===state.step?"now":"";});
-  $("#stepsBar").setAttribute("aria-valuenow",String(state.step+1));
-  $("#stepsBar").setAttribute("aria-valuemax",String(STEPS.length));
+  renderBar();
   $("#quizError").textContent="";
   if(focus){
     /* Su smartphone la nuova domanda può iniziare sopra lo schermo: riportiamo in vista l'inizio del pannello. */
@@ -183,10 +189,11 @@ function setStep(n,focus){
 function goNext(){
   const err=stepError(state.step);
   if(err){$("#quizError").textContent=err;return;}
-  setStep(state.step+1,true);
+  const v=visible();setStep(v[v.indexOf(state.step)+1],true);
 }
+function goBack(){const v=visible(),i=v.indexOf(state.step);if(i>0)setStep(v[i-1],true);}
 function submitQuiz(){
-  for(let i=0;i<STEPS.length;i++){
+  for(const i of visible()){
     const err=stepError(i);
     if(err){setStep(i,true);$("#quizError").textContent=err;return;}
   }
@@ -847,10 +854,10 @@ function init(){
   $("#year").textContent=new Date().getFullYear();
   buildQuiz();syncOptions();setStep(0,false);
   $("#nextBtn").addEventListener("click",goNext);
-  $("#prevBtn").addEventListener("click",()=>setStep(state.step-1,true));
+  $("#prevBtn").addEventListener("click",goBack);
   $("#quizForm").addEventListener("submit",e=>{
     e.preventDefault();
-    if(state.step<STEPS.length-1)goNext();else submitQuiz();
+    if(state.step!==visible()[visible().length-1])goNext();else submitQuiz();
   });
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
   $("#printBtn").addEventListener("click",()=>window.print());

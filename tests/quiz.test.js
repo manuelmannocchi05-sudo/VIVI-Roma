@@ -1,20 +1,34 @@
 /* Test del quiz in 5 passaggi e della corrispondenza con il motore (docs/quiz-logica.md): npm test */
 import {test} from "node:test";
 import assert from "node:assert/strict";
-import {STEPS,QUIZ,engineAnswers,moodsOf} from "../js/quiz-data.js";
+import {STEPS,QUIZ,engineAnswers,moodsOf,activeSteps} from "../js/quiz-data.js";
 import {PLACES,buildItinerary,restoreItinerary,scorePlace} from "../js/planner.js";
 import {cleanAnswers,encodeShare,decodeShare,tripFromPlan,createStore,STORE_KEY} from "../js/trips.js";
 
 const ids=plan=>plan.days.map(d=>d.stops.map(s=>s.id));
 const NEW={company:"couple",familiarity:"first",duration:"multi",days:"3",interests:["history","food","romantic"],mood:["iconic","local"],pace:"balanced",budget:"mid",walking:"medium"};
 
-test("quiz: sei passaggi, ogni domanda in un solo passaggio", ()=>{
-  assert.equal(STEPS.length,6);
+test("quiz: 6 passaggi, 7 per chi viaggia in famiglia, una domanda per schermata", ()=>{
+  assert.equal(STEPS.length,7);
   const keys=STEPS.flatMap(s=>s.keys);
   assert.deepEqual([...keys].sort(),QUIZ.map(q=>q.key).sort());
   assert.equal(new Set(keys).size,keys.length);
-  assert.deepEqual(STEPS.map(s=>s.keys),[["company"],["familiarity"],["duration"],["interests"],["mood"],["pace","walking","budget"]],"una domanda principale per schermata: compagnia e familiarità separate");
-  });
+  assert.deepEqual(STEPS.map(s=>s.keys),[["company"],["kids"],["familiarity"],["duration"],["interests"],["mood"],["pace","walking","budget"]]);
+  const shown=a=>activeSteps(a).map(i=>STEPS[i].id);
+  for(const company of ["solo","couple","friends"])assert.deepEqual(shown({...NEW,company}),["who","know","time","interests","mood","practical"],company+": 6 passaggi");
+  assert.deepEqual(shown({...NEW,company:"family"}),["who","kids","know","time","interests","mood","practical"],"in famiglia: 7 passaggi, bambini subito dopo la compagnia");
+  assert.deepEqual(shown({...NEW,company:null}),["who","know","time","interests","mood","practical"],"prima di scegliere: 6");
+});
+
+test("quiz: la domanda sui bambini non conta se la compagnia cambia", ()=>{
+  /* risposta rimasta da un cambio «In famiglia» → «In coppia»: nessun effetto su motore, salvataggio e link */
+  const stale={...NEW,company:"couple",kids:"yes"};
+  assert.ok(!engineAnswers(stale).interests.includes("family"));
+  assert.equal(cleanAnswers(stale).kids,null);
+  const plan=buildItinerary(engineAnswers(stale));
+  assert.deepEqual(ids(plan),ids(buildItinerary(engineAnswers({...NEW,company:"couple",kids:null}))));
+  assert.equal(decodeShare(encodeShare(cleanAnswers(stale),ids(plan))).answers.kids,null);
+});
 
 test("quiz: selezione multipla solo dove le risposte sono compatibili", ()=>{
   const multi=QUIZ.filter(q=>q.multi).map(q=>q.key);
