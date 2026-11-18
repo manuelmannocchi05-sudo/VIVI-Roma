@@ -1,6 +1,8 @@
-# Quiz in 5 passaggi: logica e corrispondenza con il motore
+# Quiz in 6 passaggi: logica e corrispondenza con il motore
 
 Restyling, blocco A. Il quiz passa da 7 domande a 5 passaggi e ammette risposte multiple dove le scelte sono compatibili.
+
+**Aggiornamento (revisione del blocco B):** i passaggi diventano 6. «Con chi vivi Roma?» e «È la tua prima volta a Roma?» non condividono più la stessa schermata: ogni schermata ha una sola domanda principale. Motore, risposte salvate e link non cambiano, perché cambia solo la disposizione delle domande.
 In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il resto dell'adattamento è previsto nel blocco B.
 
 ## Come le risposte influenzano il motore (analisi prima delle modifiche)
@@ -20,11 +22,12 @@ In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il r
 
 | Passaggio | Domande | Tipo di selezione |
 |---|---|---|
-| 1. Con chi vivi Roma? | Compagnia + «È la tua prima volta a Roma?» | singola + singola |
-| 2. Quanto tempo hai? | Durata (+ numero di giorni se "più giorni") | singola |
-| 3. Cosa vuoi scoprire e vivere? | Interessi (8 card fotografiche) | **multipla**: da 1 a 8, senza massimo |
-| 4. Che atmosfera preferisci? | Atmosfera (4 card fotografiche) | **multipla**: da 1 a 4, senza massimo |
-| 5. Come ti piace viaggiare? | Ritmo, camminata, budget | singola per ognuna (valori incompatibili tra loro) |
+| 1. Con chi vivi Roma? | Compagnia (con «In famiglia» compare la domanda collegata «Viaggiate con bambini piccoli?») | singola |
+| 2. È la tua prima volta a Roma? | «È la mia prima volta» / «La conosco già» | singola |
+| 3. Quanto tempo hai? | Durata (+ numero di giorni se "più giorni") | singola |
+| 4. Cosa vuoi scoprire e vivere? | Interessi (8 card fotografiche) | **multipla**: da 1 a 8, senza massimo |
+| 5. Che atmosfera preferisci? | Atmosfera (4 card fotografiche) | **multipla**: da 1 a 4, senza massimo |
+| 6. Come ti piace viaggiare? | Ritmo, camminata, budget | singola per ognuna (valori incompatibili tra loro) |
 
 La camminata parte da "Il giusto", come prima. Le altre domande non hanno risposte predefinite.
 
@@ -53,7 +56,7 @@ Effetti da conoscere:
 ## Test aggiornati
 
 - `tests/quiz.test.js` (nuovo):
-  - 5 passaggi;
+  - 6 passaggi, con compagnia e familiarità su schermate separate;
   - selezione multipla solo per interessi e atmosfera;
   - conversione verso il motore;
   - equivalenza testo/elenco;
@@ -61,8 +64,8 @@ Effetti da conoscere:
   - limiti di durata, ritmo e budget con tutte le opzioni selezionate;
   - viaggi e link delle versioni precedenti;
   - link con più atmosfere.
-- `tests/i18n.test.js`: controlla anche i testi inglesi dei 5 passaggi e delle opzioni non più proposte. Nel controllo dei messaggi con parametri è stato aggiunto il parametro `list`.
-- Prove nel browser (fuori dal repository): percorso a 5 passaggi; la camminata è una scelta a pulsanti invece di un menu a tendina; nuovi testi attesi ("Step 3 of 5", "Choose your budget."). Il carosello orizzontale delle categorie su smartphone è escluso dal controllo "fuori schermo", perché scorre di lato per scelta.
+- `tests/i18n.test.js`: controlla anche i testi inglesi dei 6 passaggi e delle opzioni non più proposte. Nel controllo dei messaggi con parametri è stato aggiunto il parametro `list`.
+- Prove nel browser (fuori dal repository): percorso a 6 passaggi; la camminata è una scelta a pulsanti invece di un menu a tendina; nuovi testi attesi ("Step 4 of 6", "Choose your budget."). Il carosello orizzontale delle categorie su smartphone è escluso dal controllo "fuori schermo", perché scorre di lato per scelta.
 
 ---
 
@@ -81,7 +84,7 @@ Analisi su 6.000 itinerari casuali con il nuovo quiz (interessi e atmosfere mult
 1. **Interessi bilanciati** (`COVER_BONUS = 4`). Quando il motore sceglie la tappa successiva o confronta giornate alternative, un luogo che porta un interesse scelto e non ancora presente nell'itinerario riceve un vantaggio di 4 punti per interesse. Il punteggio di base non cambia: il vantaggio vale solo finché quell'interesse manca.
 2. **Atmosfere rappresentate** (`MOOD_COVER = 3`). Funziona allo stesso modo per le atmosfere scelte e non ancora presenti.
 3. **Bambini piccoli solo se indicati.**
-   - Nuova domanda nel passo 1, solo per «In famiglia»: «Viaggiate con bambini piccoli?» (Sì / No).
+   - Nuova domanda nel passo 1, collegata a «In famiglia» e visibile solo con quella scelta: «Viaggiate con bambini piccoli?» (Sì / No).
    - «Esperienze per tutti» si attiva solo con «Sì».
    - I luoghi pensati solo per bambini (quelli che nel catalogo hanno come unica categoria "famiglie"; oggi solo Explora) ricevono una penalità di 12 punti, salvo quando l'interesse per bambini è attivo.
    - Nei viaggi salvati prima di questa domanda la risposta manca: il motore non aggiunge l'interesse per bambini. Se un viaggio vecchio aveva scelto esplicitamente «Esperienze per tutti», quell'interesse resta.

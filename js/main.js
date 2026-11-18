@@ -61,7 +61,7 @@ function toast(msg){
 function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:block||"start"});}
 
 /* ==========================================================================
-   QUIZ: 5 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
+   QUIZ: 6 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
 const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;

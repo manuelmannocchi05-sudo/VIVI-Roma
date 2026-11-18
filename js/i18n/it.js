@@ -5,7 +5,7 @@ const pl=(n,one,many)=>n===1?one:many;
 export default {
   "meta.title":"VIVI Roma — Non visitare Roma. Vivila.",
   "meta.desc":"VIVI Roma crea itinerari personalizzati a Roma in base a compagnia, durata, interessi e ritmo: monumenti, quartieri autentici, arte, verde e sapori romani, con mappa e versione stampabile.",
-  "meta.ogDesc":"Rispondi a cinque domande e ottieni un itinerario a Roma su misura, con mappa, salvataggio e versione stampabile.",
+  "meta.ogDesc":"Rispondi a sei domande e ottieni un itinerario a Roma su misura, con mappa, salvataggio e versione stampabile.",
   "skip":"Vai ai contenuti",
   "brand.aria":"VIVI Roma, torna all'inizio",
   "lang.button":"EN",
@@ -22,7 +22,7 @@ export default {
 
   "hero.kicker":"Itinerari su misura a Roma",
   "hero.slogan":"Non visitare Roma. Vivila.",
-  "hero.lead":"Cinque domande, un minuto. Scegliamo i luoghi giusti per te e li uniamo in giornate che hanno senso sulla mappa: non un elenco di monumenti, ma la tua Roma.",
+  "hero.lead":"Sei domande, un minuto. Scegliamo i luoghi giusti per te e li uniamo in giornate che hanno senso sulla mappa: non un elenco di monumenti, ma la tua Roma.",
   "hero.cta":"Crea il tuo viaggio",
   "hero.inspire":"Guarda un esempio",
   "hero.trips":"I miei viaggi",
@@ -43,13 +43,13 @@ export default {
 
   "how.eyebrow":"Come funziona",
   "how.title":"Dalle tue preferenze a un itinerario.",
-  "how.1.title":"Ci racconti chi sei","how.1.text":"Cinque scelte rapide: compagnia, tempo, interessi, atmosfera e preferenze pratiche. Puoi scegliere più interessi e più atmosfere insieme.",
+  "how.1.title":"Ci racconti chi sei","how.1.text":"Sei scelte rapide: compagnia, prima volta o ritorno, tempo, interessi, atmosfera e preferenze pratiche. Puoi scegliere più interessi e più atmosfere insieme.",
   "how.2.title":"Componiamo le giornate","how.2.text":"Scegliamo i luoghi che combaciano con le tue risposte e li raggruppiamo per vicinanza, così ogni giornata ha un senso geografico.",
   "how.3.title":"Salvi, condividi, parti","how.3.text":"Leggi le schede, guarda la mappa e apri le indicazioni. Salva l'itinerario nei tuoi viaggi su questo dispositivo, condividilo o stampalo in PDF.",
 
   "quiz.eyebrow":"Il tuo itinerario",
   "quiz.title":"Creiamo un viaggio che ti somiglia.",
-  "quiz.intro":"Cinque passaggi, un minuto. Scegli tutto ciò che ti emoziona, anche più risposte insieme: a tempi di visita e distanze pensiamo noi.",
+  "quiz.intro":"Sei passaggi, un minuto. Scegli tutto ciò che ti emoziona, anche più risposte insieme: a tempi di visita e distanze pensiamo noi.",
   "quiz.note":"Puoi tornare indietro in qualsiasi momento: le risposte restano salvate finché non chiudi la pagina.",
   "quiz.nojs":"Per creare l'itinerario serve JavaScript attivo nel browser.",
   "quiz.counter":p=>"Passo "+p.n+" di "+p.total,

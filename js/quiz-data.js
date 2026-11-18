@@ -1,4 +1,4 @@
-/* VIVI Roma — quiz in 5 passaggi.
+/* VIVI Roma — quiz in 6 passaggi, una domanda principale per schermata.
    STEPS: i passaggi mostrati; ogni passaggio contiene una o più domande (chiavi di QUIZ).
    QUIZ: le domande. Opzioni: [valore, icona (o "#testo"), titolo, descrizione, etichetta breve per il riepilogo].
    multi:true = si possono scegliere più risposte (nessun minimo oltre a una, nessun massimo).
@@ -7,7 +7,8 @@
    delle versioni precedenti (vedi docs/quiz-logica.md). */
 
 const STEPS=[
- {id:"who",name:"Compagnia",title:"Con chi vivi Roma?",sub:"Ogni compagnia scopre la città a modo suo.",keys:["company","familiarity"]},
+ {id:"who",name:"Compagnia",title:"Con chi vivi Roma?",sub:"Ogni compagnia scopre la città a modo suo.",keys:["company"]},
+ {id:"know",name:"Roma e te",title:"È la tua prima volta a Roma?",sub:"Così sappiamo se puntare sui grandi classici o su qualcosa di nuovo.",keys:["familiarity"]},
  {id:"time",name:"Durata",title:"Quanto tempo hai?",sub:"Giornate realistiche, da mezza giornata a una settimana.",keys:["duration"]},
  {id:"interests",name:"Interessi",title:"Cosa vuoi scoprire e vivere?",sub:"Scegline quante vuoi: anche una sola va benissimo.",keys:["interests"]},
  {id:"mood",name:"Atmosfera",title:"Che atmosfera preferisci?",sub:"Una o più: ci aiutano a scegliere tra luoghi simili.",keys:["mood"]},
@@ -22,9 +23,9 @@ const QUIZ=[
   ["family","home","In famiglia","Scoperte da condividere"]],
   followUp:{key:"kids",when:"family",title:"Viaggiate con bambini piccoli?",err:"Dicci se viaggiate con bambini piccoli.",opts:[
    ["yes","#","Sì","Fino a 11 anni circa","Con bambini piccoli"],["no","#","No","Adulti o ragazzi","Senza bambini piccoli"]]}},
- {key:"familiarity",title:"È la tua prima volta a Roma?",err:"Dicci se è la tua prima volta a Roma.",compact:true,opts:[
-  ["first","star","Sì, la prima volta","I luoghi simbolo","Prima volta a Roma"],
-  ["often","refresh","La conosco già","Qualcosa di nuovo","Conosce già Roma"]]},
+ {key:"familiarity",title:"È la tua prima volta a Roma?",err:"Dicci se è la tua prima volta a Roma.",opts:[
+  ["first","star","È la mia prima volta","I luoghi simbolo da non perdere","Prima volta a Roma"],
+  ["often","refresh","La conosco già","Qualcosa di nuovo da scoprire","Conosce già Roma"]]},
  {key:"duration",title:"Quanto tempo hai?",err:"Scegli quanto tempo hai a disposizione.",opts:[
   ["half","#½","Mezza giornata","Qualche ora"],
   ["one","#1","Un giorno","Il meglio in una giornata"],

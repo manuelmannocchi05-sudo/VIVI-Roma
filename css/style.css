@@ -265,6 +265,8 @@ fieldset.step{border:0;margin:0;padding:0;min-width:0}
 .opts-duration .option{flex-direction:column;align-items:flex-start;gap:10px;min-height:136px;padding:16px}
 .opts-duration .opt-check{position:absolute;top:12px;right:12px}
 .opts-company .option{min-height:84px}
+.opts-familiarity .option{flex-direction:column;align-items:flex-start;gap:12px;min-height:140px;padding:18px}
+.opts-familiarity .opt-check{position:absolute;top:14px;right:14px}
 .sel-count{margin:14px 0 0;font-size:.82rem;color:var(--grey-d)}
 .quiz-error{min-height:24px;margin:16px 0 0;color:#8A2E2E;font-size:.9rem;font-weight:500}
 .quiz-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding-top:20px;border-top:1px solid var(--line)}
@@ -516,8 +518,9 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
   .quiz-panel{border-radius:22px;padding:22px 18px}
   .options{grid-template-columns:1fr 1fr;gap:10px}
   .opts-interests,.opts-mood{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .opts-company .option{flex-direction:column;align-items:flex-start;gap:10px;min-height:118px;padding:14px}
-  .opts-company .opt-check{position:absolute;top:12px;right:12px}
+  .opts-company .option,.opts-familiarity .option{flex-direction:column;align-items:flex-start;gap:10px;min-height:118px;padding:14px}
+  .opts-company .opt-check,.opts-familiarity .opt-check{position:absolute;top:12px;right:12px}
+  .opts-familiarity .option{min-height:136px}
   .opts-duration .option{min-height:120px;padding:14px 12px;gap:8px}
   .opts-duration .opt-check{top:10px;right:10px}
   .quiz-actions .btn,#nextBtn,#createBtn{flex:1;min-width:0}

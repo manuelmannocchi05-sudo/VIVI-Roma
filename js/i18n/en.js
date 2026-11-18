@@ -4,7 +4,7 @@ const pl=(n,one,many)=>n===1?one:many;
 export default {
   "meta.title":"VIVI Roma — Don't just visit Rome. Live it.",
   "meta.desc":"VIVI Roma builds personalised itineraries in Rome around who you're with, how long you have, what you love and your pace: monuments, real neighbourhoods, art, green spaces and Roman food, with a map and a printable version.",
-  "meta.ogDesc":"Answer five questions and get a Rome itinerary made for you, with a map, saving and a printable version.",
+  "meta.ogDesc":"Answer six questions and get a Rome itinerary made for you, with a map, saving and a printable version.",
   "skip":"Skip to content",
   "brand.aria":"VIVI Roma, back to the top",
   "lang.button":"IT",
@@ -21,7 +21,7 @@ export default {
 
   "hero.kicker":"Tailor-made itineraries in Rome",
   "hero.slogan":"Don't just visit Rome. Live it.",
-  "hero.lead":"Five questions, one minute. We pick the right places for you and join them into days that make sense on the map: not a list of monuments, but your Rome.",
+  "hero.lead":"Six questions, one minute. We pick the right places for you and join them into days that make sense on the map: not a list of monuments, but your Rome.",
   "hero.cta":"Create your trip",
   "hero.inspire":"See an example",
   "hero.trips":"My trips",
@@ -42,13 +42,13 @@ export default {
 
   "how.eyebrow":"How it works",
   "how.title":"From your preferences to an itinerary.",
-  "how.1.title":"Tell us about you","how.1.text":"Five quick choices: company, time, interests, atmosphere and practical preferences. You can pick several interests and atmospheres at once.",
+  "how.1.title":"Tell us about you","how.1.text":"Six quick choices: company, first visit or return, time, interests, atmosphere and practical preferences. You can pick several interests and atmospheres at once.",
   "how.2.title":"We shape your days","how.2.text":"We choose the places that match your answers and group them by distance, so every day makes sense on the map.",
   "how.3.title":"Save, share, go","how.3.text":"Read the cards, check the map and open directions. Save the itinerary to your trips on this device, share it or print it as a PDF.",
 
   "quiz.eyebrow":"Your itinerary",
   "quiz.title":"Let's create a trip that feels like you.",
-  "quiz.intro":"Five steps, one minute. Pick everything that excites you, even several answers at once: we take care of visiting times and distances.",
+  "quiz.intro":"Six steps, one minute. Pick everything that excites you, even several answers at once: we take care of visiting times and distances.",
   "quiz.note":"You can go back at any time: your answers are kept until you close the page.",
   "quiz.nojs":"You need JavaScript enabled in your browser to create an itinerary.",
   "quiz.counter":p=>"Step "+p.n+" of "+p.total,
@@ -71,6 +71,7 @@ export default {
   "pv.more":p=>"and "+p.n+" more "+(p.n===1?"stop":"stops"),
 
   "q.step.who.name":"Company","q.step.who.title":"Who are you exploring Rome with?","q.step.who.sub":"Every kind of trip discovers the city in its own way.",
+  "q.step.know.name":"Rome and you","q.step.know.title":"Is this your first time in Rome?","q.step.know.sub":"So we know whether to focus on the great classics or on something new.",
   "q.step.time.name":"Length of stay","q.step.time.title":"How much time do you have?","q.step.time.sub":"Realistic days, from half a day to a week.",
   "q.step.interests.name":"Interests","q.step.interests.title":"What do you want to discover and experience?","q.step.interests.sub":"Pick as many as you like: just one is fine too.",
   "q.step.mood.name":"Atmosphere","q.step.mood.title":"What kind of atmosphere do you prefer?","q.step.mood.sub":"One or more: they help us choose between similar places.",
@@ -84,8 +85,8 @@ export default {
   "q.kids.yes":["Yes","Up to about 11 years old","With young children"],
   "q.kids.no":["No","Adults or teenagers","No young children"],
   "q.familiarity.title":"Is this your first time in Rome?","q.familiarity.err":"Tell us whether it's your first time in Rome.",
-  "q.familiarity.first":["Yes, first time","The famous landmarks","First time in Rome"],
-  "q.familiarity.often":["I already know it","Something new","Already knows Rome"],
+  "q.familiarity.first":["It's my first time","The landmarks not to miss","First time in Rome"],
+  "q.familiarity.often":["I already know it","Something new to discover","Already knows Rome"],
   "q.duration.title":"How much time do you have?","q.duration.err":"Choose how much time you have.",
   "q.duration.half":["Half a day","A few hours"],
   "q.duration.one":["One day","The best in a single day"],

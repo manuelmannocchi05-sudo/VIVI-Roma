@@ -8,14 +8,13 @@ import {cleanAnswers,encodeShare,decodeShare,tripFromPlan,createStore,STORE_KEY}
 const ids=plan=>plan.days.map(d=>d.stops.map(s=>s.id));
 const NEW={company:"couple",familiarity:"first",duration:"multi",days:"3",interests:["history","food","romantic"],mood:["iconic","local"],pace:"balanced",budget:"mid",walking:"medium"};
 
-test("quiz: cinque passaggi, ogni domanda in un solo passaggio", ()=>{
-  assert.equal(STEPS.length,5);
+test("quiz: sei passaggi, ogni domanda in un solo passaggio", ()=>{
+  assert.equal(STEPS.length,6);
   const keys=STEPS.flatMap(s=>s.keys);
   assert.deepEqual([...keys].sort(),QUIZ.map(q=>q.key).sort());
   assert.equal(new Set(keys).size,keys.length);
-  assert.deepEqual(STEPS[0].keys,["company","familiarity"],"la familiarità è nel primo passaggio");
-  assert.deepEqual(STEPS[4].keys,["pace","walking","budget"]);
-});
+  assert.deepEqual(STEPS.map(s=>s.keys),[["company"],["familiarity"],["duration"],["interests"],["mood"],["pace","walking","budget"]],"una domanda principale per schermata: compagnia e familiarità separate");
+  });
 
 test("quiz: selezione multipla solo dove le risposte sono compatibili", ()=>{
   const multi=QUIZ.filter(q=>q.multi).map(q=>q.key);
