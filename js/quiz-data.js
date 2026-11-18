@@ -19,7 +19,9 @@ const QUIZ=[
   ["solo","user","Da solo/a","Libertà e curiosità"],
   ["couple","heart","In coppia","Atmosfera e momenti speciali"],
   ["friends","users","Con amici","Esperienze e buon cibo"],
-  ["family","home","In famiglia","Scoperte da condividere"]]},
+  ["family","home","In famiglia","Scoperte da condividere"]],
+  followUp:{key:"kids",when:"family",title:"Viaggiate con bambini piccoli?",err:"Dicci se viaggiate con bambini piccoli.",opts:[
+   ["yes","#","Sì","Fino a 11 anni circa","Con bambini piccoli"],["no","#","No","Adulti o ragazzi","Senza bambini piccoli"]]}},
  {key:"familiarity",title:"È la tua prima volta a Roma?",err:"Dicci se è la tua prima volta a Roma.",compact:true,opts:[
   ["first","star","Sì, la prima volta","I luoghi simbolo","Prima volta a Roma"],
   ["often","refresh","La conosco già","Qualcosa di nuovo","Conosce già Roma"]]},
@@ -72,13 +74,14 @@ const moodsOf=a=>a&&a.mood?(Array.isArray(a.mood)?a.mood:[a.mood]):[];
 
 /* Dalle risposte del quiz a quelle usate dal motore (docs/quiz-logica.md):
    - "Vita locale" non è più un interesse a sé: è compresa nell'atmosfera «Autenticità»;
-   - "Esperienze per tutti" non è più un interesse a sé: è compresa in «In famiglia».
+   - "Esperienze per tutti" non è più un interesse a sé: si attiva solo con «In famiglia» + «Sì, con bambini piccoli»
+     (blocco B: «In famiglia» da solo non presuppone bambini piccoli).
    I viaggi salvati prima del nuovo quiz che contengono questi interessi restano invariati. */
 function engineAnswers(a){
   const ints=a.interests.slice();
   const add=v=>{if(!ints.includes(v))ints.push(v);};
   if(moodsOf(a).includes("local"))add("local");
-  if(a.company==="family")add("family");
+  if(a.company==="family"&&a.kids==="yes")add("family");
   return {...a,interests:ints,mood:moodsOf(a)};
 }
 

@@ -43,7 +43,10 @@ const ICON_PATHS={
   coffee:'<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2M7 3v2M11 3v2"/>',
   sliders:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
   bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
-  coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>'
+  coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  ticket:'<path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
+  closed:'<circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/>'
 };
 function icon(name){
   const s=el("span",{class:"ico","aria-hidden":"true"});
@@ -60,7 +63,7 @@ function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"au
 /* ==========================================================================
    QUIZ: 5 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
-const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium"},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
@@ -93,10 +96,11 @@ function questionBlock(q,single){
   q.opts.forEach(o=>group.append(optionButton(q,o)));
   const box=el("div",{class:"q-block",id},label,group);
   if(q.followUp){
-    const f=q.followUp;
-    const fg=el("div",{class:"options opts-days compact",role:"group","aria-labelledby":"daysLabel"});
-    f.opts.forEach(o=>fg.append(optionButton(f,o)));
-    box.append(el("div",{class:"q-follow",id:"daysQ",hidden:true},el("p",{class:"q-label",id:"daysLabel",text:qText(f,"title")}),fg));
+    /* domanda aggiuntiva, visibile solo con l'opzione "when" (giorni per «Più giorni», bambini per «In famiglia») */
+    const f=q.followUp,lid=f.key==="days"?"daysLabel":"q-"+f.key+"-label";
+    const fg=el("div",{class:"options opts-"+f.key+" compact",role:"group","aria-labelledby":lid});
+    f.opts.forEach(o=>fg.append(optionButton({...f,compact:true},o)));
+    box.append(el("div",{class:"q-follow",id:f.key==="days"?"daysQ":"q-"+f.key+"-follow",hidden:true},el("p",{class:"q-label",id:lid,text:qText(f,"title")}),fg));
   }
   if(q.multi)box.append(el("p",{class:"sel-count",id:"selCount-"+q.key,"aria-live":"polite"}));
   return box;
@@ -121,6 +125,7 @@ function onOption(q,value,btn){
   }else{
     state.answers[q.key]=value;
     if(q.key==="duration"&&value!=="multi")state.answers.days=null;
+    if(q.key==="company"&&value!=="family")state.answers.kids=null;
   }
   if(btn&&!reduceMotion()){btn.classList.remove("tap");void btn.offsetWidth;btn.classList.add("tap");}
   syncOptions();$("#quizError").textContent="";
@@ -132,6 +137,7 @@ function syncOptions(){
     b.setAttribute("aria-pressed",String(on));
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
+  const kq=$("#q-kids-follow");if(kq)kq.hidden=state.answers.company!=="family";
   for(const k of ["interests","mood"]){
     const n=state.answers[k].length,c=$("#selCount-"+k);
     if(c)c.textContent=n?t("quiz.selCount."+k,{n}):t("quiz.selNone."+k);
@@ -199,7 +205,7 @@ function relabelQuiz(){
         const b=$(`.option[data-key="${g.key}"][data-value="${o[0]}"]`,fs);if(!b)return;
         const tx=optText(g,o);$("strong",b).textContent=tx.title;const sm=$("small",b);if(sm)sm.textContent=tx.desc;
       }));
-      if(q.followUp)$("#daysLabel").textContent=qText(q.followUp,"title");
+      if(q.followUp)$(q.followUp.key==="days"?"#daysLabel":"#q-"+q.followUp.key+"-label").textContent=qText(q.followUp,"title");
     });
   });
   const shown=!!$("#quizError").textContent;
@@ -269,48 +275,83 @@ function showPlan(plan,{savedId=null,status=null}={}){
   scrollToEl(r);
   setTimeout(()=>{$("#resultTitle").focus({preventScroll:true});if(state.map)state.map.invalidateSize();},reduceMotion()?0:600);
 }
+/* Elenco leggibile: "a, b e c" / "a, b and c"; oltre max voci: "a, b, c e molto altro". */
+function listText(items,max){
+  const l=items.slice(0,max||items.length),more=max&&items.length>max;
+  if(more)return l.join(", ")+t("list.more");
+  return l.length<2?(l[0]||""):l.slice(0,-1).join(", ")+t("list.and")+l[l.length-1];
+}
+const lowerFirst=s=>s?s.charAt(0).toLowerCase()+s.slice(1):s;
+/* Copertina: foto della tappa più pertinente dell'itinerario (solo foto locali con licenza verificata). */
+function coverPlace(plan){
+  const all=plan.days.flatMap(d=>d.stops).filter(p=>PHOTOS[p.id]&&PHOTOS[p.id].ratio>=1.2);
+  const rank=p=>(p.cats.includes("iconic")?2:0)+(p.must?1:0)+p.matches.length;   /* un luogo simbolo e pertinente, per una copertina riconoscibile */
+  return all.sort((x,y)=>(rank(y)-rank(x))||(y.score-x.score))[0]||null;
+}
+function renderCover(plan,a){
+  const media=$("#resCoverMedia"),credit=$("#resCoverCredit");
+  const p=coverPlace(plan);
+  if(media.dataset.place!==(p?p.id:"")){
+    media.replaceChildren();media.dataset.place=p?p.id:"";
+    if(p){const ph=PHOTOS[p.id];media.style.backgroundColor=ph.color;const box=media.getBoundingClientRect(),w=Math.max(box.width||window.innerWidth,(box.height||400)*ph.ratio);
+    media.append(photoImg(ph,"",Math.min(w,1280),{eager:true}));}
+  }
+  if(p){
+    const ph=PHOTOS[p.id];
+    credit.replaceChildren(el("a",{href:ph.source,target:"_blank",rel:"noopener noreferrer",lang:null,text:p.name+" · "+creditText(ph)+t("photo.commons")}));
+    credit.hidden=false;
+  }else credit.hidden=true;
+}
 function renderResults(){
   const a=state.answers,plan=state.plan;
-  $("#resultTitle").textContent=t("res.title."+a.company);
-  const ints=a.interests.map(interestLabel);
-  $("#resultSubtitle").textContent=t("res.subtitle",{days:plan.days.length,ints});
-  const pills=$("#pills");pills.replaceChildren();
-  [answerLabel("company",a.company),durationLabel(a),paceLabel(a.pace),answerLabel("familiarity",a.familiarity),...moodLabels(a),answerLabel("budget",a.budget)].concat(ints)
-    .forEach(x=>pills.append(el("span",{class:"pill",text:x})));
   const all=plan.days.flatMap(d=>d.stops);
+  /* Titolo e testi: solo dalle risposte del quiz e dai dati dell'itinerario. */
+  $("#resultTitle").textContent=t("res.cover.title."+a.company);
+  const themes=a.interests.map(i=>t("theme."+i));
+  $("#resultTheme").textContent=a.interests.length===1?durationLabel(a)+" "+t("theme1."+a.interests[0]):t("res.cover.theme",{dur:durationLabel(a),themes:listText(themes,3)});
+  const span=a.duration==="half"?t("res.span.half"):plan.days.length===1?t("res.span.one"):t("res.span.days",{n:plan.days.length});
+  const who=t("res.who."+a.company)+(a.company==="family"&&a.kids==="yes"?t("res.who.kids"):"")+" "+t("res.fam."+a.familiarity);
+  const moods=listText(moodLabels(a).map(lowerFirst));
+  $("#resultSubtitle").textContent=t("res.cover.intro",{stops:all.length,span,who,moods})+" "+[paceLabel(a.pace),answerLabel("walking",a.walking),answerLabel("budget",a.budget)].join(" · ")+".";
+  const pills=$("#pills");pills.replaceChildren();
+  moodLabels(a).forEach(x=>pills.append(el("span",{class:"pill pill-mood",text:x})));
+  a.interests.map(interestLabel).forEach(x=>pills.append(el("span",{class:"pill",text:x})));
+  renderCover(plan,a);
   const free=all.filter(s=>s.fee==="free").length;
   const toCheck=all.length-free;
   const walk=plan.days.reduce((s,d)=>s+d.walkKm,0);
   const stat=(b,x)=>el("div",null,el("b",{text:b}),el("span",{text:x}));
-  const stats=$("#tripStats");stats.replaceChildren(
+  $("#tripStats").replaceChildren(
     stat(String(plan.days.length),t("res.stat.days",{n:plan.days.length})),
     stat(String(all.length),t("res.stat.stops")),
     stat(String(free),t("res.stat.free")),
-    stat(String(toCheck),t("res.stat.check"))
-  );
+    stat(String(toCheck),t("res.stat.check")));
   const notes=$("#notes");notes.replaceChildren();
-  const list=plan.notes.map(n=>t("note."+n.k,n)).concat([t("res.noteData",{km:num1(walk)})]);
-  list.forEach(x=>notes.append(el("li",{text:x})));
+  plan.notes.map(n=>t("note."+n.k,n)).concat([t("res.noteData",{km:num1(walk)})]).forEach(x=>notes.append(el("li",{text:x})));
   $("#dayTabs").setAttribute("aria-label",t("res.tabsAria"));
 
   const tabs=$("#dayTabs");tabs.replaceChildren();
   tabs.hidden=plan.days.length<2;
   plan.days.forEach((d,i)=>{
-    tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",text:t("res.day",{n:i+1}),
+    tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",
       onclick:()=>showDay(i,{scroll:true}),
       onkeydown:e=>{
         const n=plan.days.length;let k=null;
         if(e.key==="ArrowRight")k=(i+1)%n;else if(e.key==="ArrowLeft")k=(i-1+n)%n;else if(e.key==="Home")k=0;else if(e.key==="End")k=n-1;
         if(k!==null){e.preventDefault();showDay(k);$("#tab-"+k).focus();}
-      }}));
+      }},el("span",{class:"tab-day",text:t("res.day",{n:i+1})}),el("span",{class:"tab-area",text:areaText(d.areas[0]||"")})));
   });
   const host=$("#days");host.replaceChildren();
   plan.days.forEach((d,i)=>host.append(renderDay(d,i,plan.days.length)));
 }
 function renderDay(day,di,total){
+  const areas=day.areas.map(areaText);
   const head=el("div",{class:"day-head"},
-    el("h3",{text:total===1?t("res.single"):t("res.day",{n:di+1})}),
-    el("p",{class:"areas",text:day.areas.slice(0,4).map(areaText).join(", ")+(day.areas.length>4?t("res.areasMore"):"")}),
+    el("p",{class:"day-kicker",text:total===1?t("res.single"):t("res.dayOf",{n:di+1,total})}),
+    /* titolo dalle prime zone della giornata, introduzione da prima e ultima tappa: solo dati dell'itinerario */
+    el("h3",{text:areas.length>2?areas.slice(0,2).join(", ")+t("res.areasMore"):listText(areas)}),
+    el("p",{class:"areas",text:day.stops.length>1?(()=>{const f=day.stops[0],l=day.stops[day.stops.length-1],via=day.areas.filter(x=>x!==f.area&&x!==l.area&&x!==f.name&&x!==l.name).map(areaText);
+      return via.length?t("res.dayIntroVia",{first:f.name,last:l.name,areas:listText(via,3)}):t("res.dayIntro",{first:f.name,last:l.name});})():t("res.dayIntroOne",{first:day.stops[0].name})}),
     el("ul",{class:"day-facts"},
       el("li",{text:t("res.stops",{n:day.stops.length})}),
       el("li",{text:t("res.visits",{min:numHalf(day.minMins),max:numHalf(day.maxMins)})}),
@@ -328,7 +369,7 @@ function renderDay(day,di,total){
         p.transit?el("strong",{text:t("res.transit")}):null)));
     list.append(renderStop(p,di,i));
     if(i+1===breakAfter&&i<day.stops.length-1){
-      list.append(el("div",{class:"leg"},el("span",{text:""})));
+      list.append(el("div",{class:"leg leg-plain"},el("span",{text:""})));
       list.append(el("div",{class:"break"},icon("coffee"),el("div",null,
         el("strong",{text:t("res.break.title")}),
         t("res.break.text",{name:p.name,food:foodTip(day,day.foodTip)})+bt+t("res.break.note"))));
@@ -371,44 +412,47 @@ function practicalInfo(p){
 function renderStop(p,di,i){
   const n=i+1;
   const main=p.cats.find(c=>CAT_ICON[c])||"star";
-  const photo=el("div",{class:"photo","aria-hidden":"false"},icon(CAT_ICON[main]));
+  const photo=el("div",{class:"photo"},icon(CAT_ICON[main]),el("span",{class:"photo-n","aria-hidden":"true",text:String(n)}));
   const why=p.matches.map(interestLabel);
   if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push(t("why.must"));
   if(state.answers.budget==="low"&&p.fee==="free")why.push(t("why.budget"));
   if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push(t("why.hidden"));
-  const wikiLink=el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",hreflang:"it",text:t("stop.wiki")});
   const gloss=placeGloss(p),bk=bookingLabel(p.booking);
+  /* Informazioni essenziali sempre visibili: durata, costo, prenotazione, giorno di chiusura. I dettagli verificati sono nell'approfondimento. */
+  const ess=el("ul",{class:"essentials"},
+    el("li",{class:"ess"},icon("clock"),t("stop.visit",{time:p.time})),
+    el("li",{class:"ess fee-"+p.fee},icon("coin"),t("fee."+p.fee)),
+    bk?el("li",{class:"ess ess-book"},icon("ticket"),bk):null,
+    p.closed?el("li",{class:"ess ess-closed"},icon("closed"),t("info.closed")+": "+placeText(p.closed)):null);
   /* i nomi dei luoghi restano in italiano; in inglese, sotto il nome, una breve spiegazione */
   const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":t("stop.aria",{n,name:p.name+(gloss?" ("+gloss+")":"")})},
     photo,
     el("div",{class:"stop-body"},
-      el("div",{class:"stop-top"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),el("span",{text:t("stop.top",{n,area:areaText(p.area)})})),
+      el("p",{class:"stop-top"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),el("span",{text:t("stop.top",{n,area:areaText(p.area)})})),
       el("h4",{lang:"it",text:p.name}),
       gloss?el("p",{class:"gloss",text:gloss}):null,
-      el("p",{text:placeText(p.desc)}),
-      el("div",{class:"chips"},
-        el("span",{class:"chip",text:t("stop.visit",{time:p.time})}),
-        el("span",{class:"chip fee-"+p.fee,text:t("fee."+p.fee)}),
-        bk?el("span",{class:"chip fee-paid",text:bk}):null,
-        why.map(w=>el("span",{class:"chip",text:w}))),
-      practicalInfo(p),
+      ess,
+      el("p",{class:"stop-desc",text:placeText(p.desc)}),
+      why.length?el("div",{class:"chips"},why.map(w=>el("span",{class:"chip",text:w}))):null,
       el("div",{class:"links primary"},
-        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
-        el("button",{type:"button",text:t("stop.onMap"),"aria-label":t("stop.onMapAria",{name:p.name}),onclick:()=>focusMarker(di,i)})),
-      /* Consigli e link secondari: aperti su schermi grandi, a scomparsa su smartphone per accorciare la scheda. */
-      el("details",{class:"more",open:!isNarrow()},
+        el("a",{class:"btn btn-wine btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
+        el("button",{type:"button",class:"btn btn-line btn-sm",text:t("stop.onMap"),"aria-label":t("stop.onMapAria",{name:p.name}),onclick:()=>focusMarker(di,i)})),
+      /* Approfondimento: orari, costi verificati, chicca, consiglio e link. Chiuso di base per non allungare la scheda; aperto in stampa. */
+      el("details",{class:"more"},
         el("summary",null,t("stop.more")),
-        el("div",{class:"box"},el("b",{text:t("stop.chicca")}),placeText(p.chicca)),
-        el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
-        budgetBox(p),
-        el("div",{class:"links"},
-          el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.osm")}),
-          wikiLink))));
+        el("div",{class:"more-body"},
+          practicalInfo(p),
+          el("div",{class:"box"},el("b",{text:t("stop.chicca")}),placeText(p.chicca)),
+          el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
+          budgetBox(p),
+          el("div",{class:"links"},
+            el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.osm")}),
+            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",hreflang:"it",text:t("stop.wiki")}))))));
   const ph=PHOTOS[p.id];
   if(ph){
     photo.append(creditNode(ph,"photo-credit"));
     lazyLoad(card,()=>{
-      const box=photo.getBoundingClientRect(),bw=box.width||190,bh=box.height||400;
+      const box=photo.getBoundingClientRect(),bw=box.width||320,bh=box.height||200;
       placePhoto(photo,ph,p.name+", Roma",Math.max(bw,bh*ph.ratio));   /* larghezza necessaria per coprire il riquadro */
     });
   }
@@ -418,13 +462,17 @@ function showDay(i,{scroll}={}){
   state.active=i;
   if(state.map)state.map.closePopup();
   $("#mapSelected").hidden=true;
-  $$(".day").forEach((d,k)=>{d.hidden=k!==i;});
+  $$(".day").forEach((d,k)=>{
+    const was=d.hidden;d.hidden=k!==i;
+    if(k===i&&was&&!reduceMotion()){d.classList.remove("enter");void d.offsetWidth;d.classList.add("enter");}
+  });
   $$(".day-tab").forEach((t,k)=>{
     const on=k===i;
     t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;t.classList.toggle("active",on);
   });
   updateMap();
   /* Cambiando giornata più in basso nella pagina, si riparte dall'inizio della giornata (o dalla mappa su smartphone). */
+  const tb=$("#tab-"+i);if(tb&&tb.scrollIntoView)tb.scrollIntoView({block:"nearest",inline:"center",behavior:reduceMotion()?"auto":"smooth"});
   if(scroll){const target=isNarrow()&&state.map?$(".map-col"):$("#day-"+i);if(target.getBoundingClientRect().top<0)scrollToEl(target,"start");}
 }
 

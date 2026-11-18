@@ -33,6 +33,10 @@ const MAJOR_MINS=180;       /* visita da mezza giornata (es. Musei Vaticani): ac
 const HEAVY_MINS=90;        /* visita impegnativa (o museo a pagamento da almeno un'ora): mai accanto a una visita da mezza giornata */
 const ANCHORS=12;           /* luoghi di partenza provati per ogni giornata */
 const REL_BONUS=6;          /* vantaggio di un luogo che corrisponde agli interessi */
+const KIDS_ONLY_PENALTY=12; /* luoghi pensati solo per bambini (unica categoria: famiglie), es. Explora fino a 11 anni */
+const kidsOnly=p=>p.cats.length===1&&p.cats[0]==="family";
+const MOOD_COVER=3;         /* vantaggio per un'atmosfera scelta non ancora presente nell'itinerario */
+const COVER_BONUS=4;        /* vantaggio per ogni interesse scelto non ancora presente nell'itinerario: con più interessi, tutti trovano spazio */
 const DIST_WEIGHT=3;        /* penalità per km aggiunto alla giornata */
 const REPAIR_SLACK=0.5;     /* km in più ammessi per uno scambio fatto per rispettare il budget */
 const COMPACT_WEIGHT=8;      /* variante più raccolta della stessa giornata */
@@ -83,7 +87,8 @@ function scorePlace(p,a){
   if(a.familiarity==="first"&&p.must&&(matchesOf(p,a).length||moodList(a).includes("iconic")))s+=6;   /* grandi classici per chi viene la prima volta */
   if(a.familiarity==="often"&&p.cats.includes("hidden"))s+=3;
   if(a.company==="couple"&&p.cats.includes("romantic"))s+=2;
-  if(a.company==="family"&&p.cats.includes("family"))s+=3;
+  if(a.company==="family"&&p.cats.includes("family")&&(!kidsOnly(p)||a.interests.includes("family")))s+=3;
+  if(kidsOnly(p)&&!a.interests.includes("family"))s-=KIDS_ONLY_PENALTY;   /* pensato solo per bambini: mai senza una richiesta esplicita */
   if(a.company==="friends"&&p.cats.includes("lively"))s+=2;
   if(a.company==="solo"&&(p.cats.includes("hidden")||p.cats.includes("local")))s+=1;
   if(a.budget==="low"){s-=units(p)*6;if(p.fee==="free")s+=3;}   /* budget contenuto: meglio i luoghi gratuiti */
@@ -166,11 +171,18 @@ function bestOrder(items,a){
 }
 
 /* Valore di una giornata: luoghi pertinenti e ben valutati, poca strada, poche tratte da fare con i mezzi. */
-function dayValue(day,a,cfg){
+/* Interessi scelti che un insieme di tappe non ha ancora rappresentato. */
+const coveredBy=list=>{const s=new Set();list.forEach(r=>r.matches.forEach(m=>s.add(m)));return s;};
+const moodsCovered=(list,a)=>{const s=new Set();list.forEach(r=>moodList(a).forEach(m=>{if(r.p.cats.includes(m))s.add(m);}));return s;};
+const newMoods=(r,a,covered)=>moodList(a).reduce((n,m)=>n+(!covered.has(m)&&r.p.cats.includes(m)?1:0),0);
+const newInterests=(r,covered)=>r.matches.reduce((n,m)=>n+(covered.has(m)?0:1),0);
+function dayValue(day,a,cfg,ctx){
   if(!day.length)return -Infinity;
   const ord=bestOrder(day,a);
   let v=0,long=0;
   day.forEach(r=>{v+=r.score+(r.matches.length?REL_BONUS:0);});
+  if(ctx){const before=coveredBy(ctx.all),after=coveredBy(ctx.all.concat(day));v+=COVER_BONUS*(after.size-before.size);
+    v+=MOOD_COVER*(moodsCovered(ctx.all.concat(day),a).size-moodsCovered(ctx.all,a).size);}
   for(let i=1;i<ord.length;i++)if(km(ord[i-1].p,ord[i].p)>cfg.walk.leg)long++;
   return v-5*orderCost(ord,a)-6*long;      /* km e vincoli di orario: una giornata non deve andare avanti e indietro */
 }
@@ -181,6 +193,7 @@ function growDay(anchor,pool,a,cfg,target,maxRel,ctx,distWeight){
   let rels=anchor.matches.length?1:0;
   let spend=ctx.spend+unitsWith(anchor.p,ctx.all),spread=0;
   const near=r=>{let d=Infinity;for(const c of chosen)d=Math.min(d,km(c.p,r.p));return d;};
+  const covered=coveredBy(ctx.all.concat(chosen)),mcov=moodsCovered(ctx.all.concat(chosen),a);
   const pick=(allowOff,relax)=>{
     let bv=-Infinity,br=null,bd=0;
     for(const r of pool){
@@ -194,12 +207,12 @@ function growDay(anchor,pool,a,cfg,target,maxRel,ctx,distWeight){
       if(!relax){
         if(d>W.leg||km(anchor.p,r.p)>W.zone||spread+d>W.day)continue;   /* resta nella zona e nel limite di camminata */
       }else if(d>W.leg*2||spread+d>W.day)continue;                   /* fuori zona, ma non dall'altra parte della città né oltre i km del giorno */
-      const v=r.score+(rel?REL_BONUS:0)-(relax?RELAX_WEIGHT:distWeight)*d;    /* fuori zona conta soprattutto la vicinanza */
+      const v=r.score+(rel?REL_BONUS:0)+COVER_BONUS*newInterests(r,covered)+MOOD_COVER*newMoods(r,a,mcov)-(relax?RELAX_WEIGHT:distWeight)*d;    /* fuori zona conta soprattutto la vicinanza */
       if(v>bv){bv=v;br=r;bd=d;}
     }
     return br?{r:br,d:bd}:null;
   };
-  const add=x=>{spend+=unitsWith(x.r.p,ctx.all.concat(chosen));chosen.push(x.r);spread+=x.d;if(x.r.matches.length)rels++;};
+  const add=x=>{spend+=unitsWith(x.r.p,ctx.all.concat(chosen));chosen.push(x.r);spread+=x.d;if(x.r.matches.length)rels++;x.r.matches.forEach(m=>covered.add(m));moodList(a).forEach(m=>{if(x.r.p.cats.includes(m))mcov.add(m);});};
   let x;
   while(chosen.length<target&&(x=pick(false,false)))add(x);
   const big=midMins(anchor.p)>=0.75*cfg.budget;                    /* un grande museo che occupa quasi tutto il tempo: basta quello */
@@ -218,7 +231,7 @@ function planDay(pool,a,cfg,target,maxRel,ctx){
     for(const w of [DIST_WEIGHT,COMPACT_WEIGHT]){                 /* due varianti: normale e più raccolta */
       const day=growDay(anc,pool,a,cfg,target,maxRel,ctx,w);
       while(day.length>1&&pathLength(bestOrder(day,a))>cfg.walk.day+1e-9)day.pop();   /* percorso reale entro i km del giorno: si toglie l'ultima tappa aggiunta */
-      const v=dayValue(day,a,cfg);
+      const v=dayValue(day,a,cfg,ctx);
       if(v>bv){bv=v;best=day;}
     }
   }

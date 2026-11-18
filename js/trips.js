@@ -22,6 +22,8 @@ export function cleanAnswers(x){
     interests:list(x.interests,"interests"),
     mood:OPTS.mood.filter(m=>moods.includes(m)),pace:one("pace"),budget:one("budget"),walking:one("walking")||"medium"};
   if(a.duration==="multi")a.days=one("days");
+  /* bambini piccoli: domanda nata nel blocco B, solo per «In famiglia»; nei dati precedenti manca (null) */
+  a.kids=a.company==="family"?one("kids"):null;
   if(!a.company||!a.familiarity||!a.duration||(a.duration==="multi"&&!a.days)||!a.interests.length||!a.mood.length||!a.pace||!a.budget)return null;
   return a;
 }
@@ -101,7 +103,7 @@ export const STORE_ERROR_CODES=["unavailable","quota","full","corrupt"];
 /* ---------- Condivisione: link con l'itinerario nell'indirizzo (dopo #), nessun server ---------- */
 const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const unb64=s=>decodeURIComponent(escape(atob(s.replace(/-/g,"+").replace(/_/g,"/"))));
-const SHORT=["company","familiarity","duration","days","interests","mood","pace","budget","walking"];
+const SHORT=["company","familiarity","duration","days","interests","mood","pace","budget","walking","kids"];   /* "kids" in coda: i link precedenti restano validi */
 export function encodeShare(a,days){
   return "1."+b64(JSON.stringify([SHORT.map(k=>k==="interests"||k==="mood"?[].concat(a[k]||[]).join(","):a[k]||""),days.map(d=>d.join(","))]));
 }

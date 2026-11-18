@@ -28,8 +28,10 @@ test("quiz: selezione multipla solo dove le risposte sono compatibili", ()=>{
 });
 
 test("quiz: corrispondenza con il motore", ()=>{
-  const e=engineAnswers({...NEW,company:"family"});
+  const e=engineAnswers({...NEW,company:"family",kids:"yes"});
   assert.deepEqual(e.interests,["history","food","romantic","local","family"]);
+  assert.deepEqual(engineAnswers({...NEW,company:"family",kids:"no"}).interests,["history","food","romantic","local"],"«In famiglia» non presuppone bambini piccoli");
+  assert.ok(!engineAnswers({...NEW,company:"family",kids:null}).interests.includes("family"),"viaggi precedenti senza risposta: nessuna ipotesi");
   assert.deepEqual(e.mood,["iconic","local"]);
   assert.deepEqual(NEW.interests,["history","food","romantic"],"le risposte originali non cambiano");
   const once=engineAnswers({...NEW,interests:["local","history"],mood:["local"]});
@@ -93,4 +95,55 @@ test("condivisione: più atmosfere nel link, andata e ritorno", ()=>{
   const tr=tripFromPlan(NEW,plan);
   assert.deepEqual(tr.answers.mood,["iconic","local"]);
   assert.deepEqual(moodsOf(tr.answers),["iconic","local"]);
+});
+
+/* ---------- Blocco B: personalizzazione con selezioni multiple ---------- */
+const covered=(r,list)=>list.filter(t=>r.days.some(d=>d.stops.some(s=>s.cats.includes(t))));
+const BASE={company:"couple",familiarity:"first",duration:"multi",days:"3",pace:"balanced",walking:"medium",budget:"mid"};
+
+test("motore: più interessi bilanciati (ognuno trova spazio quando il tempo lo consente)", ()=>{
+  const ints=QUIZ.find(q=>q.key==="interests").opts.map(o=>o[0]);
+  let pairs=0,both=0;
+  for(let i=0;i<ints.length;i++)for(let j=i+1;j<ints.length;j++){
+    const a=engineAnswers({...BASE,interests:[ints[i],ints[j]],mood:["iconic"]});
+    pairs++;if(covered(buildItinerary(a),[ints[i],ints[j]]).length===2)both++;
+  }
+  assert.equal(both,pairs,"3 giorni con due interessi: entrambi presenti in "+both+" casi su "+pairs);
+  const all=buildItinerary(engineAnswers({...BASE,days:"7",interests:ints,mood:["iconic","local","peaceful","lively"],pace:"full",walking:"high",budget:"high"}));
+  assert.deepEqual(covered(all,ints),ints,"tutte le opzioni, 7 giorni: tutti gli interessi presenti");
+});
+
+test("motore: più atmosfere rappresentate", ()=>{
+  const moods=["iconic","local","peaceful","lively"];
+  let n=0,ok=0;
+  for(let i=0;i<moods.length;i++)for(let j=i+1;j<moods.length;j++)for(const ints of [["history"],["art","food"],["nature","romantic"]]){
+    const r=buildItinerary(engineAnswers({...BASE,interests:ints,mood:[moods[i],moods[j]]}));
+    n++;if(covered(r,[moods[i],moods[j]]).length===2)ok++;
+  }
+  assert.ok(ok>=n-2,"due atmosfere entrambe presenti in "+ok+" itinerari su "+n);   /* oggi 16 su 18: calma + energia a volte non trovano spazio insieme */
+});
+
+test("motore: «In famiglia» non presuppone bambini piccoli", ()=>{
+  const explora=PLACES.find(p=>p.id==="explora");
+  for(const ints of [["history"],["nature","art"],["history","art","religious","hidden","romantic","nature","food","night"]])
+    for(const days of ["2","5","7"]){
+      const r=buildItinerary(engineAnswers({...BASE,company:"family",kids:"no",days,interests:ints,mood:["peaceful"]}));
+      assert.ok(!r.days.some(d=>d.stops.some(s=>s.id==="explora")),"Explora (fino a 11 anni) senza bambini: "+ints+" "+days);
+    }
+  const withKids=engineAnswers({...BASE,company:"family",kids:"yes",interests:["nature"],mood:["peaceful"]});
+  const noKids=engineAnswers({...BASE,company:"family",kids:"no",interests:["nature"],mood:["peaceful"]});
+  assert.ok(scorePlace(explora,withKids)>scorePlace(explora,noKids)+10,"con bambini piccoli i luoghi per loro tornano in gioco");
+});
+
+test("motore: vincoli rispettati con selezioni multiple", ()=>{
+  const ints=QUIZ.find(q=>q.key==="interests").opts.map(o=>o[0]);
+  for(const pace of ["slow","balanced","full"])for(const walking of ["low","medium","high"])for(const budget of ["low","mid","high"])for(const duration of ["half","one","multi"]){
+    const a=engineAnswers({...BASE,duration,days:duration==="multi"?"4":null,pace,walking,budget,interests:ints.slice(0,5),mood:["iconic","lively"]});
+    const r=buildItinerary(a);
+    for(const d of r.days){
+      assert.ok(d.stops.length<=r.cfg.max,"tappe entro il ritmo");
+      assert.ok(d.minMins<=r.cfg.budget+1e-9,"tempo di visita entro il ritmo");
+      assert.ok(d.walkKm<=r.cfg.walk.day+1e-6,"km del giorno entro la camminata scelta");
+    }
+  }
 });
