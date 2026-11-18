@@ -4,7 +4,8 @@ import assert from "node:assert/strict";
 import {STEPS,QUIZ,WALK_OPTS} from "../js/quiz-data.js";
 import {PLACES,buildItinerary,restoreItinerary} from "../js/planner.js";
 import {TEXT,GLOSS,AREA,FOOD_TIPS} from "../js/data/places-en.js";
-import {IT,EN,t,setLang,getLang,detectLang,LANG_KEY,qText,optText,durationLabel} from "../js/i18n.js";
+import {loadLang,IT,EN,t,setLang,getLang,detectLang,LANG_KEY,qText,optText,durationLabel} from "../js/i18n.js";
+await loadLang("en");   /* l'inglese si carica a richiesta */
 import {shareText,shareUrl,decodeShare,tripTitle} from "../js/trips.js";
 
 const memory=()=>{const m=new Map();return {getItem:k=>m.has(k)?m.get(k):null,setItem:(k,v)=>m.set(k,String(v))};};

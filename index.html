@@ -12,7 +12,6 @@
 <meta property="og:description" data-i18n-attr="content:meta.ogDesc" content="Rispondi a sette domande e ottieni un itinerario a Roma su misura, con mappa e versione stampabile.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23263F35'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-size='40' fill='%23C6A66A'%3EV%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="js/vendor/leaflet/leaflet.css">
 <script>/* Lingua prima del primo disegno: scelta salvata → lingua del dispositivo → italiano (stessa regola di js/i18n.js). */
 (function(){var d=document.documentElement,l=null,s=null;d.classList.add("js");
 try{s=localStorage.getItem("vivi-roma:lingua");}catch(e){}
@@ -22,10 +21,20 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 <link rel="preload" href="fonts/cormorant-garamond-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=5055ceea4d">
+<link rel="stylesheet" href="css/style.css?v=d0b163138a">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=476ca18b0c","./js/i18n/en.js":"./js/i18n/en.js?v=8819b6b030","./js/i18n/it.js":"./js/i18n/it.js?v=924bcd9a62","./js/main.js":"./js/main.js?v=74d04e650b","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/quiz-data.js":"./js/quiz-data.js?v=f00a366fc5","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=b9b880bbf1","./js/i18n/it.js":"./js/i18n/it.js?v=9852c804d3","./js/main.js":"./js/main.js?v=4fff683ffd","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/quiz-data.js":"./js/quiz-data.js?v=f00a366fc5","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
+<!-- modulepreload:start -->
+<link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
+<link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
+<link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
+<link rel="modulepreload" href="./js/i18n/it.js?v=9852c804d3">
+<link rel="modulepreload" href="./js/main.js?v=4fff683ffd">
+<link rel="modulepreload" href="./js/planner.js?v=6a1e73a8a9">
+<link rel="modulepreload" href="./js/quiz-data.js?v=f00a366fc5">
+<link rel="modulepreload" href="./js/trips.js?v=303cca73c9">
+<!-- modulepreload:end -->
 
 </head>
 
@@ -43,7 +52,7 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
     <nav class="nav-links" id="navLinks" data-i18n-attr="aria-label:nav.aria" aria-label="Navigazione principale">
       <a href="#esplora" data-i18n="nav.explore">Esplora</a>
       <a href="#come-funziona" data-i18n="nav.how">Come funziona</a>
-      <a href="#viaggi" id="navTrips" hidden>I miei viaggi</a>
+      <a href="#viaggi" id="navTrips">I miei viaggi</a>
       <a class="btn btn-gold" href="#crea" data-i18n="nav.create">Crea il tuo viaggio</a>
     </nav>
   </div>
@@ -158,13 +167,25 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
   </section>
 
   <!-- I MIEI VIAGGI -->
-  <section class="section trips" id="viaggi" aria-labelledby="tripsTitle" hidden>
+  <section class="section trips" id="viaggi" aria-labelledby="tripsTitle">
     <div class="wrap">
-      <p class="eyebrow" data-i18n="trips.eyebrow">Salvati su questo dispositivo</p>
-      <h2 id="tripsTitle" data-i18n="trips.title">I miei viaggi</h2>
-      <p class="trips-note" data-i18n="trips.note">Gli itinerari restano in questo browser, su questo dispositivo: non sono sincronizzati con altri dispositivi e possono andare persi se cancelli i dati di navigazione. Per conservarli altrove, usa «Condividi» o la stampa in PDF.</p>
+      <div class="trips-head">
+        <div>
+          <p class="eyebrow" data-i18n="trips.eyebrow">Salvati su questo dispositivo</p>
+          <h2 id="tripsTitle" data-i18n="trips.title">I miei viaggi</h2>
+        </div>
+        <p class="trips-count" id="tripsCount" aria-live="polite"></p>
+      </div>
+      <div class="trips-empty" id="tripsEmpty" hidden>
+        <span class="te-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+        <h3 data-i18n="trips.emptyTitle">Il tuo primo viaggio ti aspetta</h3>
+        <p data-i18n="trips.emptyText">Rispondi al quiz e salva l'itinerario: lo ritroverai qui, con la sua copertina, pronto da riaprire anche durante la visita.</p>
+        <a class="btn btn-wine" href="#crea" data-i18n="trips.emptyCta">Crea il tuo primo viaggio</a>
+      </div>
+      <p class="trips-note" id="tripsNote" hidden data-i18n="trips.note">Gli itinerari restano in questo browser, su questo dispositivo: non sono sincronizzati con altri dispositivi e possono andare persi se cancelli i dati di navigazione. Per conservarli altrove, usa «Condividi» o la stampa in PDF.</p>
       <p class="trips-error" id="tripsError" role="alert" hidden></p>
       <ul class="trip-list" id="tripList"></ul>
+      <button class="btn btn-line trips-more" id="tripsMore" type="button" hidden data-i18n="trips.moreAll">Mostra altri viaggi</button>
     </div>
   </section>
 
@@ -200,13 +221,19 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
         <div id="days"></div>
         <aside class="map-col" data-i18n-attr="aria-label:map.region" aria-label="Mappa">
           <div class="map-card">
+            <div class="map-head"><span class="map-dot" aria-hidden="true"></span><span id="mapDayLabel"></span></div>
             <div class="map-wrap">
               <div id="map" role="region" data-i18n-attr="aria-label:map.aria" aria-label="Mappa delle tappe della giornata selezionata"></div>
+              <div class="map-ctrl" id="mapCtrl" role="group" data-i18n-attr="aria-label:map.ctrlAria" aria-label="Controlli della mappa" hidden>
+                <button class="map-btn" id="mapZoomIn" type="button" data-i18n-attr="aria-label:map.zoomIn;title:map.zoomIn" aria-label="Ingrandisci" title="Ingrandisci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+                <button class="map-btn" id="mapZoomOut" type="button" data-i18n-attr="aria-label:map.zoomOut;title:map.zoomOut" aria-label="Riduci" title="Riduci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+                <button class="map-btn" id="mapFit" type="button" data-i18n-attr="aria-label:map.fit;title:map.fit" aria-label="Mostra tutte le tappe del giorno" title="Mostra tutte le tappe del giorno"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><circle cx="12" cy="12" r="2.5"/></svg></button>
+              </div>
               <p class="map-hint" id="mapHint" aria-hidden="true" data-i18n="map.hint">Usa due dita per spostare la mappa, oppure tocca «Sposta la mappa».</p>
-              <button class="map-move" id="mapMove" type="button" aria-pressed="false" hidden data-i18n="map.move">Sposta la mappa</button>
+              <button class="map-move" id="mapMove" type="button" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"/></svg><span data-i18n="map.move">Sposta la mappa</span></button>
             </div>
-            <p class="map-selected" id="mapSelected" role="status" hidden></p>
-            <div class="map-cap"><strong data-i18n="map.capStrong">La mappa mostra le tappe del giorno selezionato.</strong><span data-i18n="map.capText"> La linea tratteggiata indica solo l'ordine di visita in linea d'aria, non un percorso pedonale verificato.</span>
+            <div class="map-selected" id="mapSelected" role="status" aria-live="polite" hidden></div>
+            <div class="map-cap"><strong data-i18n="map.capStrong">La mappa mostra le tappe del giorno selezionato.</strong><span data-i18n="map.capText"> La linea puntinata indica solo l'ordine di visita in linea d'aria, non un percorso pedonale verificato.</span>
               <div class="map-notice" id="mapNotice" role="status" hidden data-i18n="map.notice">Alcune parti della mappa non si sono caricate. Le schede restano complete e ogni tappa ha il link alle indicazioni.</div>
             </div>
           </div>
@@ -256,7 +283,6 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
   </form>
 </dialog>
 
-<script src="js/vendor/leaflet/leaflet.js"></script>
-<script type="module" src="js/main.js?v=74d04e650b"></script>
+<script type="module" src="js/main.js?v=4fff683ffd"></script>
 </body>
 </html>

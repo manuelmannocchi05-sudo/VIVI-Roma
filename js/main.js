@@ -2,7 +2,7 @@
 import {PLACES,buildItinerary,restoreItinerary} from "./planner.js";
 import {createStore,tripFromPlan,tripTitle,MAX_TRIPS,shareUrl,shareText,decodeShare} from "./trips.js";
 import {activeSteps,STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
-import {t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
+import {loadLang,t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
 
 /* ==========================================================================
@@ -43,6 +43,8 @@ const ICON_PATHS={
   coffee:'<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2M7 3v2M11 3v2"/>',
   sliders:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
   bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+  share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/>',
   coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>',
   clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   ticket:'<path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
@@ -128,6 +130,7 @@ function renderBar(){
 }
 const ORDER=k=>Q[k].opts.map(o=>o[0]);
 function onOption(q,value,btn){
+  if(!window.L)loadLeaflet();   /* il quiz è iniziato: la mappa si prepara in sottofondo */
   if(q.multi){
     const list=state.answers[q.key];
     const next=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
@@ -277,7 +280,8 @@ function showPlan(plan,{savedId=null,status=null}={}){
   state.plan=plan;state.active=0;state.savedId=savedId;
   renderResults();
   const r=$("#results");r.classList.add("visible");
-  initMap();buildMapLayers();showDay(0);
+  state.selected=null;$("#mapSelected").hidden=true;
+  showDay(0);mountMap();
   setTripStatus(status);syncSaveBtn();
   scrollToEl(r);
   setTimeout(()=>{$("#resultTitle").focus({preventScroll:true});if(state.map)state.map.invalidateSize();},reduceMotion()?0:600);
@@ -289,6 +293,11 @@ function listText(items,max){
   return l.length<2?(l[0]||""):l.slice(0,-1).join(", ")+t("list.and")+l[l.length-1];
 }
 const lowerFirst=s=>s?s.charAt(0).toLowerCase()+s.slice(1):s;
+/* «3 giorni tra storia, sapori romani e romanticismo»: dalle risposte, senza nulla di inventato (copertina e «I miei viaggi»). */
+function coverTheme(a){
+  if(a.interests.length===1)return durationLabel(a)+" "+t("theme1."+a.interests[0]);
+  return t("res.cover.theme",{dur:durationLabel(a),themes:listText(a.interests.map(i=>t("theme."+i)),3)});
+}
 /* Copertina: foto della tappa più pertinente dell'itinerario (solo foto locali con licenza verificata). */
 function coverPlace(plan){
   const all=plan.days.flatMap(d=>d.stops).filter(p=>PHOTOS[p.id]&&PHOTOS[p.id].ratio>=1.2);
@@ -314,8 +323,7 @@ function renderResults(){
   const all=plan.days.flatMap(d=>d.stops);
   /* Titolo e testi: solo dalle risposte del quiz e dai dati dell'itinerario. */
   $("#resultTitle").textContent=t("res.cover.title."+a.company);
-  const themes=a.interests.map(i=>t("theme."+i));
-  $("#resultTheme").textContent=a.interests.length===1?durationLabel(a)+" "+t("theme1."+a.interests[0]):t("res.cover.theme",{dur:durationLabel(a),themes:listText(themes,3)});
+  $("#resultTheme").textContent=coverTheme(a);
   const span=a.duration==="half"?t("res.span.half"):plan.days.length===1?t("res.span.one"):t("res.span.days",{n:plan.days.length});
   const who=t("res.who."+a.company)+(a.company==="family"&&a.kids==="yes"?t("res.who.kids"):"")+" "+t("res.fam."+a.familiarity);
   const moods=listText(moodLabels(a).map(lowerFirst));
@@ -467,8 +475,7 @@ function renderStop(p,di,i){
 }
 function showDay(i,{scroll}={}){
   state.active=i;
-  if(state.map)state.map.closePopup();
-  $("#mapSelected").hidden=true;
+  if(state.selected&&state.selected[0]!==i){state.selected=null;$("#mapSelected").hidden=true;}
   $$(".day").forEach((d,k)=>{
     const was=d.hidden;d.hidden=k!==i;
     if(k===i&&was&&!reduceMotion()){d.classList.remove("enter");void d.offsetWidth;d.classList.add("enter");}
@@ -484,11 +491,30 @@ function showDay(i,{scroll}={}){
 }
 
 /* ==========================================================================
-   MAPPA (Leaflet + OpenStreetMap)
+   MAPPA (Leaflet, tasselli OpenStreetMap)
+   La libreria (≈150 KB) si scarica solo quando serve: all'inizio del quiz o all'apertura di un itinerario.
    ========================================================================== */
+let leafletP=null;
+function loadLeaflet(){
+  if(window.L)return Promise.resolve(true);
+  if(leafletP)return leafletP;
+  leafletP=new Promise(res=>{
+    const css=el("link",{rel:"stylesheet",href:"js/vendor/leaflet/leaflet.css"});
+    document.head.insertBefore(css,document.querySelector('link[rel="stylesheet"]'));   /* prima di style.css: i nostri stili restano prioritari */
+    const sc=el("script",{src:"js/vendor/leaflet/leaflet.js"});
+    sc.onload=()=>res(!!window.L);
+    sc.onerror=()=>{leafletP=null;sc.remove();res(false);};
+    document.head.append(sc);
+  });
+  return leafletP;
+}
+/* margini interni per non coprire le tappe con i controlli (in alto a destra) e con «Sposta la mappa» (in alto a sinistra) */
+const fitPad=()=>({paddingTopLeft:[28,isTouch()?72:36],paddingBottomRight:[70,40],maxZoom:16});
 function initMap(){
   const mapEl=$("#map");
-  if(state.map||mapEl.dataset.failed)return;
+  if(state.map)return;
+  if(window.L&&mapEl.dataset.failed){delete mapEl.dataset.failed;mapEl.replaceChildren();mapEl.style.height="";mapEl.style.minHeight="";}   /* la rete è tornata: si riprova */
+  if(mapEl.dataset.failed)return;
   if(!window.L){
     mapEl.dataset.failed="1";
     mapEl.replaceChildren(el("div",{class:"map-fallback","data-i18n":"map.failed",text:t("map.failed")}));
@@ -498,15 +524,23 @@ function initMap(){
   /* Su touch: con un dito si scorre la pagina, con due dita si sposta e si ingrandisce la mappa;
      il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Su computer: trascinamento normale. */
   const touch=isTouch();
-  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false}).setView([41.9028,12.4964],12);
-  state.zoom=L.control.zoom({zoomInTitle:t("map.zoomIn"),zoomOutTitle:t("map.zoomOut")}).addTo(state.map);
+  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false,
+    zoomAnimation:!reduceMotion(),fadeAnimation:!reduceMotion(),markerZoomAnimation:!reduceMotion()}).setView([41.9028,12.4964],12);
+  state.map.attributionControl.setPrefix(false);
   if(touch)initTouchMap(mapEl);
+  /* Tasselli pubblici di OpenStreetMap: adatti alla beta, non a un'app commerciale (vedi docs/mappa.md). */
   const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
   tiles.on("tileload",()=>{state.tileOk=true;});
   tiles.on("tileerror",()=>{
     if(state.tileOk||state.tileWarned)return;
     state.tileWarned=true;setTimeout(()=>{if(!state.tileOk)$("#mapNotice").hidden=false;},4000);
   });
+  $("#mapCtrl").hidden=false;
+  $("#mapZoomIn").onclick=()=>state.map.zoomIn();
+  $("#mapZoomOut").onclick=()=>state.map.zoomOut();
+  $("#mapFit").onclick=()=>fitDay(true);
+  state.map.on("zoomend",declutter);
+  window.addEventListener("resize",()=>{if(state.map){state.map.invalidateSize();declutter();}},{passive:true});
 }
 function initTouchMap(mapEl){
   const btn=$("#mapMove"),hint=$("#mapHint");
@@ -515,7 +549,7 @@ function initTouchMap(mapEl){
   const set=on=>{
     if(on)state.map.dragging.enable();else state.map.dragging.disable();
     btn.setAttribute("aria-pressed",String(on));
-    btn.textContent=on?t("map.lock"):t("map.move");
+    $("span:last-child",btn).textContent=on?t("map.lock"):t("map.move");
     mapEl.classList.toggle("map-free",on);
   };
   btn.addEventListener("click",()=>set(!state.map.dragging.enabled()));
@@ -531,21 +565,54 @@ function buildMapLayers(){
   if(!state.map)return;
   state.plan.days.forEach((day,di)=>{
     const group=L.layerGroup(),markers=[],pts=[];
+    if(day.stops.length>1){
+      const line=day.stops.map(p=>[p.lat,p.lng]);
+      group.addLayer(L.polyline(line,{color:"#FBF9F4",weight:6,opacity:.75,interactive:false}));
+      group.addLayer(L.polyline(line,{color:"#8C6F3A",weight:2.5,opacity:.95,dashArray:"1 8",lineCap:"round",interactive:false}));
+    }
     day.stops.forEach((p,i)=>{
-      const m=L.marker([p.lat,p.lng],{
-        title:p.name,alt:(i+1)+". "+p.name,keyboard:true,
-        icon:L.divIcon({className:"vm",html:"<span>"+(i+1)+"</span>",iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16]})
-      });
-      m.bindPopup(el("div",{class:"pop"},
-        el("strong",{lang:"it",text:(i+1)+". "+p.name}),el("span",{text:placeGloss(p)||areaText(p.area)}),
-        el("button",{type:"button",text:t("map.toCard"),onclick:()=>goToCard(di,i)}),
-        el("a",{href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("map.directions")})));
-      m.on("click",()=>selectStop(di,i));
+      const m=L.marker([p.lat,p.lng],{keyboard:true,riseOnHover:true,
+        icon:L.divIcon({className:"vm",html:'<span class="vm-pin"><span class="vm-n">'+(i+1)+'</span></span>',iconSize:[40,40],iconAnchor:[20,20]})});
+      /* marker come pulsante accessibile: nome letto dagli screen reader, Invio o clic per selezionare */
+      m.on("add",()=>{const e=m.getElement();if(!e)return;e.setAttribute("role","button");
+        if(!e.dataset.keys){e.dataset.keys="1";e.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectStop(di,i,{pan:false});}});}e.setAttribute("aria-label",t("map.markerAria",{n:i+1,name:p.name}));e.removeAttribute("title");
+        if(state.selected&&state.selected[0]===di&&state.selected[1]===i)e.classList.add("is-active");});
+      m.on("click",()=>selectStop(di,i,{pan:false}));
       group.addLayer(m);markers.push(m);pts.push([p.lat,p.lng]);
     });
-    if(pts.length>1)group.addLayer(L.polyline(pts,{color:"#B69A67",weight:2,opacity:.9,dashArray:"4 7",interactive:false}));
     state.mapLayers.push({group,markers,pts});
   });
+}
+/* Tappe molto vicine (es. Vittoriano e Campidoglio): i numeri vengono allontanati quanto basta per non sovrapporsi
+   (rilassamento a coppie, partendo dalle posizioni vere); un punto sottile resta sulla posizione vera.
+   Ricalcolato a ogni livello di zoom. */
+function declutter(){
+  const l=state.mapLayers[state.active];if(!state.map||!l)return;
+  const MIN=44,O=l.markers.map(m=>state.map.latLngToContainerPoint(m.getLatLng())),P=O.map(p=>({x:p.x,y:p.y}));
+  for(let it=0;it<40;it++){
+    let moved=false;
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
+      let dx=P[j].x-P[i].x,dy=P[j].y-P[i].y,d=Math.hypot(dx,dy);
+      if(d>=MIN)continue;
+      if(d<0.01){const a=(i+j)*2.39996;dx=Math.cos(a);dy=Math.sin(a);d=1;}   /* stessa posizione: direzione fissa e ripetibile */
+      const push=(MIN-d)/2+0.5,ux=dx/d,uy=dy/d;
+      P[i].x-=ux*push;P[i].y-=uy*push;P[j].x+=ux*push;P[j].y+=uy*push;moved=true;
+    }
+    if(!moved)break;
+  }
+  l.markers.forEach((m,i)=>{
+    const e=m.getElement();if(!e)return;
+    const dx=P[i].x-O[i].x,dy=P[i].y-O[i].y,shifted=Math.hypot(dx,dy)>0.5;
+    e.querySelector(".vm-pin").style.transform=shifted?"translate("+dx.toFixed(1)+"px,"+dy.toFixed(1)+"px)":"";
+    e.classList.toggle("vm-shifted",shifted);
+  });
+}
+function fitDay(animate){
+  const l=state.mapLayers[state.active];if(!state.map||!l)return;
+  const opt={...fitPad(),animate:!!animate&&!reduceMotion()};
+  if(l.pts.length===1)state.map.setView(l.pts[0],16,{animate:opt.animate});
+  else state.map.fitBounds(l.pts,opt);
+  declutter();
 }
 let shownLayer=null;
 function updateMap(){
@@ -555,22 +622,36 @@ function updateMap(){
   if(!l)return;
   l.group.addTo(state.map);shownLayer=l.group;
   state.map.invalidateSize();
-  if(l.pts.length===1)state.map.setView(l.pts[0],15);
-  else state.map.fitBounds(l.pts,{padding:[34,34],maxZoom:15});
+  fitDay(false);
+  $("#mapDayLabel").textContent=state.plan.days.length>1?t("res.day",{n:state.active+1})+" · "+t("res.stops",{n:state.plan.days[state.active].stops.length}):t("res.stops",{n:state.plan.days[state.active].stops.length});
 }
-/* Tappa scelta sulla mappa: numero evidenziato, scheda evidenziata e riga sotto la mappa per raggiungerla. */
-function selectStop(di,i){
+/* Tappa selezionata: numero evidenziato sulla mappa, scheda evidenziata e riquadro sotto la mappa
+   con «Vai alla scheda», indicazioni e tappa precedente/successiva (comodo mentre si cammina). */
+function selectStop(di,i,{pan}={}){
   highlightCard(di,i);
-  const p=state.plan.days[di].stops[i],box=$("#mapSelected");
-  box.replaceChildren(el("span",null,el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),t("map.selected",{n:i+1}),el("strong",{lang:"it",text:p.name})),
-    el("button",{type:"button",class:"btn btn-line",text:t("map.toCard"),onclick:()=>goToCard(di,i)}));
+  const day=state.plan.days[di],p=day.stops[i],box=$("#mapSelected"),n=day.stops.length;
+  const th=el("span",{class:"ms-thumb","aria-hidden":"true"});
+  const ph=PHOTOS[p.id];if(ph)placePhoto(th,ph,"",80);
+  const nav=(k,cls,label,txt)=>el("button",{type:"button",class:"ms-nav "+cls,"aria-label":label,disabled:k<0||k>=n,onclick:()=>selectStop(di,k,{pan:true})},txt);
+  box.replaceChildren(
+    el("div",{class:"ms-main"},th,
+      el("span",{class:"ms-text"},el("small",{text:t("map.selected",{n:i+1,total:n})}),el("strong",{lang:"it",text:p.name}),el("em",{text:areaText(p.area)+" · "+t("stop.visit",{time:p.time})})),
+      el("span",{class:"ms-navs"},nav(i-1,"ms-prev",t("map.prev"),"←"),nav(i+1,"ms-next",t("map.next"),"→"))),
+    el("div",{class:"ms-actions"},
+      el("button",{type:"button",class:"btn btn-wine btn-sm",text:t("map.toCard"),onclick:()=>goToCard(di,i)}),
+      el("a",{class:"btn btn-line btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})})));
   box.hidden=false;state.selected=[di,i];
+  if(pan&&state.map&&state.mapLayers[di]){
+    const ll=state.mapLayers[di].markers[i].getLatLng();
+    if(!state.map.getBounds().pad(-0.15).contains(ll))state.map.panTo(ll,{animate:!reduceMotion()});
+  }
 }
 function highlightCard(di,i,focus){
   $$(".stop.is-active").forEach(c=>c.classList.remove("is-active"));
   $$(".vm.is-active").forEach(m=>m.classList.remove("is-active"));
   const l=state.mapLayers[di];
-  if(l&&l.markers[i]&&l.markers[i].getElement())l.markers[i].getElement().classList.add("is-active");
+  if(l&&l.markers[i]&&l.markers[i].getElement()){l.markers[i].getElement().classList.add("is-active");l.markers[i].setZIndexOffset(1000);}
+  if(l)l.markers.forEach((m,k)=>{if(k!==i)m.setZIndexOffset(0);});
   const c=$("#stop-"+di+"-"+(i+1));
   if(!c)return null;
   c.classList.add("is-active");
@@ -578,14 +659,23 @@ function highlightCard(di,i,focus){
   return c;
 }
 function goToCard(di,i){if(di!==state.active)showDay(di);highlightCard(di,i,true);}
+/* Dalla scheda alla mappa: porta in vista la mappa, centra il numero e lo seleziona. */
 function focusMarker(di,i){
-  highlightCard(di,i);
-  if(!state.map){toast(t("map.unavailable"));return;}
+  if(!state.map){highlightCard(di,i);toast(t("map.unavailable"));return;}
   const l=state.mapLayers[di];if(!l)return;
-  scrollToEl($("#map"),"center");
-  state.map.setView(l.pts[i],16,{animate:!reduceMotion()});
-  l.markers[i].openPopup();
-  selectStop(di,i);
+  if(di!==state.active)showDay(di);
+  scrollToEl($(".map-card"),"center");
+  state.map.setView(l.pts[i],Math.max(state.map.getZoom(),16),{animate:!reduceMotion()});
+  selectStop(di,i,{pan:false});
+  setTimeout(()=>{const e=l.markers[i].getElement();if(e)e.focus({preventScroll:true});},reduceMotion()?0:400);
+}
+/* Mappa pronta (libreria scaricata): costruisce i livelli dell'itinerario mostrato. */
+function mountMap(){
+  return loadLeaflet().then(()=>{
+    if(!state.plan)return;
+    initMap();buildMapLayers();updateMap();
+    if(state.selected)selectStop(state.selected[0],state.selected[1]);
+  });
 }
 
 /* ==========================================================================
@@ -621,25 +711,49 @@ function saveCurrent(){
   setTripStatus([[r.existing?"status.already":"status.saved"]]);
   renderTrips();
 }
+/* «I miei viaggi»: raccolta con copertina (foto della tappa più rappresentativa), titolo, durata, tappe e interessi.
+   Più recenti per primi; oltre TRIPS_PAGE viaggi compare «Mostra altri». */
+const TRIPS_PAGE=6;
+let tripsShown=TRIPS_PAGE;
+const tripPlan=trip=>restoreItinerary(engineAnswers(trip.answers),trip.days);
+function tripCard(trip){
+  const a=trip.answers,plan=tripPlan(trip),stops=plan.days.reduce((n,d)=>n+d.stops.length,0);
+  const title=t("res.cover.title."+a.company),full=tripTitle(a);
+  const cover=el("div",{class:"tc-cover"});
+  const p=coverPlace(plan);
+  if(p){const ph=PHOTOS[p.id];lazyLoad(cover,()=>placePhoto(cover,ph,"",isNarrow()?window.innerWidth:420));}
+  const ints=a.interests.map(interestLabel);
+  return el("li",{class:"trip-card"},
+    el("article",{class:"tc","aria-label":full},
+      cover,
+      el("div",{class:"tc-badge"},el("span",{text:durationLabel(a)}),el("span",{text:t("res.stops",{n:stops})})),
+      el("div",{class:"tc-body"},
+        el("h3",null,el("button",{type:"button",class:"tc-open",onclick:()=>openTrip(trip.id)},title)),
+        el("p",{class:"tc-theme",text:coverTheme(a)}),
+        el("ul",{class:"tc-tags","aria-label":t("trips.interests")},ints.slice(0,3).map(x=>el("li",{text:x})),ints.length>3?el("li",{class:"more",text:"+"+(ints.length-3)}):null),
+        el("p",{class:"tc-date",text:trip.savedAt?t("trips.savedOn",{date:fmtSaved(trip.savedAt)}):""}),
+        el("div",{class:"tc-actions"},
+          el("button",{type:"button",class:"btn btn-wine btn-sm",text:t("trips.open"),"aria-label":t("trips.openAria",{title:full}),onclick:()=>openTrip(trip.id)}),
+          el("button",{type:"button",class:"tc-icon",title:t("trips.share"),"aria-label":t("trips.shareAria",{title:full}),onclick:()=>shareTrip(trip)},icon("share")),
+          el("button",{type:"button",class:"tc-icon tc-del",title:t("trips.delete"),"aria-label":t("trips.deleteAria",{title:full}),onclick:()=>deleteTrip(trip)},icon("trash"))))));
+}
 function renderTrips(){
-  const r=getStore().list(),sec=$("#viaggi"),list=$("#tripList"),err=$("#tripsError");
+  const r=getStore().list(),list=$("#tripList"),err=$("#tripsError"),n=r.trips.length;
   err.hidden=r.ok;err.textContent=r.ok?"":errText(r.error);
-  sec.hidden=!r.trips.length&&r.ok;
-  $("#navTrips").hidden=!r.trips.length;
-  $("#heroTrips").hidden=!r.trips.length;
-  $("#navTrips").textContent=r.trips.length?t("nav.tripsCount",{n:r.trips.length}):t("nav.trips");
+  $("#heroTrips").hidden=!n;
+  $("#navTrips").textContent=n?t("nav.tripsCount",{n}):t("nav.trips");
+  $("#tripsCount").textContent=n?t("trips.count",{n}):"";
+  $("#tripsEmpty").hidden=!!n||!r.ok;
+  $("#tripsNote").hidden=!n;
   list.replaceChildren();
-  if(!r.trips.length){list.append(el("li",{class:"trip-empty",text:t("trips.empty")}));return;}
-  r.trips.forEach(trip=>{
-    const stops=trip.days.reduce((n,d)=>n+d.length,0),title=tripTitle(trip.answers);
-    list.append(el("li",{class:"trip-card"},
-      el("div",{class:"trip-info"},
-        el("h3",{text:title}),
-        el("p",{text:t("trips.meta",{days:trip.days.length,stops,date:trip.savedAt?fmtSaved(trip.savedAt):""})})),
-      el("div",{class:"trip-actions"},
-        el("button",{type:"button",class:"btn btn-wine",text:t("trips.open"),"aria-label":t("trips.openAria",{title}),onclick:()=>openTrip(trip.id)}),
-        el("button",{type:"button",class:"btn btn-line",text:t("trips.delete"),"aria-label":t("trips.deleteAria",{title}),onclick:()=>deleteTrip(trip)}))));
-  });
+  r.trips.slice(0,tripsShown).forEach(trip=>list.append(tripCard(trip)));
+  const more=$("#tripsMore");
+  more.hidden=n<=tripsShown;
+  if(n>tripsShown)more.textContent=t("trips.more",{n:n-tripsShown});
+}
+async function shareTrip(trip){
+  const plan=tripPlan(trip),url=shareUrl(location.href,trip.answers,plan);
+  shareContent(trip.answers,plan,url);
 }
 function openTrip(id){
   const trip=getStore().get(id);
@@ -663,14 +777,16 @@ async function deleteTrip(trip){
   if(!r.ok){toast(r.error?errText(r.error):t("toast.deleteFailed"));return;}
   if(state.savedId===trip.id){state.savedId=null;syncSaveBtn();setTripStatus(null);}
   renderTrips();toast(t("toast.deleted"));
-  const first=$("#tripList button");if(first)first.focus();else $("#tripsTitle").setAttribute("tabindex","-1"),$("#tripsTitle").focus();
+  const first=$("#tripList .tc-open")||$("#tripsEmpty a");if(first)first.focus();else $("#tripsTitle").setAttribute("tabindex","-1"),$("#tripsTitle").focus();
 }
 async function shareCurrent(){
   if(!state.plan)return;
-  const url=shareUrl(location.href,state.answers,state.plan);
-  const text=shareText(state.answers,state.plan,url);
+  shareContent(state.answers,state.plan,shareUrl(location.href,state.answers,state.plan));
+}
+async function shareContent(a,plan,url){
+  const text=shareText(a,plan,url);
   if(navigator.share){
-    try{await navigator.share({title:t("share.title",{title:tripTitle(state.answers)}),text});return;}
+    try{await navigator.share({title:t("share.title",{title:tripTitle(a)}),text});return;}
     catch(e){if(e&&e.name==="AbortError")return;}   /* annullato dall'utente: nessun messaggio */
   }
   const d=$("#shareDlg");$("#shareText").value=text;$("#shareStatus").textContent="";
@@ -726,10 +842,8 @@ function rerenderResults(){
     if(shownLayer){state.map.removeLayer(shownLayer);shownLayer=null;}
     buildMapLayers();updateMap();
     if(view)state.map.setView(view.c,view.z,{animate:false});
-    const zi=$(".leaflet-control-zoom-in"),zo=$(".leaflet-control-zoom-out");
-    if(zi){zi.title=t("map.zoomIn");zi.setAttribute("aria-label",t("map.zoomIn"));}
-    if(zo){zo.title=t("map.zoomOut");zo.setAttribute("aria-label",t("map.zoomOut"));}
-    const mv=$("#mapMove");if(!mv.hidden)mv.textContent=state.map.dragging.enabled()?t("map.lock"):t("map.move");
+    declutter();
+    const mv=$("#mapMove");if(!mv.hidden)$("span:last-child",mv).textContent=state.map.dragging.enabled()?t("map.lock"):t("map.move");
   }
   $$(".day").forEach((d,k)=>{d.hidden=k!==state.active;});
   $$(".day-tab").forEach((tb,k)=>{const on=k===state.active;tb.setAttribute("aria-selected",String(on));tb.tabIndex=on?0:-1;tb.classList.toggle("active",on);});
@@ -737,8 +851,10 @@ function rerenderResults(){
   syncSaveBtn();setTripStatus(state.status);
   window.scrollTo({top:y,behavior:"instant"});
 }
-function toggleLang(){
-  setLang(getLang()==="it"?"en":"it",storageOrNull());
+async function toggleLang(){
+  const next=getLang()==="it"?"en":"it";
+  if(!await loadLang(next)){toast(t("lang.loadFailed"));return;}   /* senza connessione l'inglese può non arrivare: si resta in italiano */
+  setLang(next,storageOrNull());
   applyLang();
   toast(t("lang.changed"));
 }
@@ -848,9 +964,11 @@ async function runPhotoAudit(){
   sum.textContent=ok+" foto locali caricate su "+rows.length+(ok===rows.length?": tutte ok.":". Le altre usano il segnaposto.");
 }
 
-function init(){
+async function init(){
   /* lingua iniziale: scelta salvata → lingua del dispositivo → italiano (la scelta automatica non viene salvata) */
-  setLang(detectLang(storageOrNull(),navigator.languages||[navigator.language]),null);
+  let l=detectLang(storageOrNull(),navigator.languages||[navigator.language]);
+  if(!await loadLang(l))l="it";
+  setLang(l,null);
   $("#year").textContent=new Date().getFullYear();
   buildQuiz();syncOptions();setStep(0,false);
   $("#nextBtn").addEventListener("click",goNext);
@@ -861,6 +979,7 @@ function init(){
   });
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
   $("#printBtn").addEventListener("click",()=>window.print());
+  $("#tripsMore").addEventListener("click",()=>{const k=tripsShown;tripsShown=Infinity;renderTrips();const c=$$("#tripList .tc-open")[k];if(c)c.focus();});
   $("#saveBtn").addEventListener("click",saveCurrent);
   $("#shareBtn").addEventListener("click",shareCurrent);
   $("#copyBtn").addEventListener("click",()=>copyText($("#shareText").value));

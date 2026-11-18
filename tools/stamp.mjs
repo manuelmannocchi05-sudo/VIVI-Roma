@@ -1,13 +1,27 @@
 /* VIVI Roma — versione dei file dopo ogni modifica: node tools/stamp.mjs
    Aggiunge a CSS e moduli JavaScript un'impronta del contenuto (?v=…) tramite una import map in index.html e crediti.html.
    Così, dopo un aggiornamento, il browser non mescola file vecchi in cache con file nuovi.
-   I moduli continuano a importarsi con percorsi normali ("./i18n.js"): è la import map a sostituirli. */
+   I moduli continuano a importarsi con percorsi normali ("./i18n.js"): è la import map a sostituirli.
+   Subito dopo la import map aggiunge i <link rel="modulepreload"> dei moduli di avvio. */
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 const ROOT=path.resolve(path.dirname(new URL(import.meta.url).pathname),"..");
 const hash=f=>crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT,f))).digest("hex").slice(0,10);
 const walk=d=>fs.readdirSync(path.join(ROOT,d),{withFileTypes:true}).flatMap(e=>e.isDirectory()?(e.name==="vendor"?[]:walk(d+"/"+e.name)):e.name.endsWith(".js")?[d+"/"+e.name]:[]);
+/* Moduli importati staticamente dalla pagina (script type=module in linea o js/main.js), seguendo gli import. */
+const STATIC_IMPORT=/^\s*import\s[^'"]*?from\s*["']([^"']+)["']/gm;
+export function startModules(html){
+  const seen=new Set(),todo=[];
+  const add=(spec,fromDir)=>{if(!spec.startsWith("."))return;const p="./"+path.posix.normalize(path.posix.join(fromDir,spec));if(!seen.has(p)){seen.add(p);todo.push(p);}};
+  if(/<script type="module" src="js\/main\.js/.test(html))add("./js/main.js","");
+  for(const m of html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g))for(const i of m[1].matchAll(STATIC_IMPORT))add(i[1],"");
+  while(todo.length){
+    const f=todo.shift(),file=path.join(ROOT,f);if(!fs.existsSync(file))continue;
+    for(const i of fs.readFileSync(file,"utf8").matchAll(STATIC_IMPORT))add(i[1],path.posix.dirname(f.slice(2)));
+  }
+  return [...seen].sort();
+}
 export function stampData(){
   const mods=walk("js").sort();
   const imports={};mods.forEach(m=>{imports["./"+m]="./"+m+"?v="+hash(m);});
@@ -15,7 +29,11 @@ export function stampData(){
 }
 export function stampHtml(html,{imports,css,main}){
   const map='<!-- importmap:start -->\n<script type="importmap">'+JSON.stringify({imports},null,0)+'</script>\n<!-- importmap:end -->';
-  html=html.replace(/<!-- importmap:start -->[\s\S]*?<!-- importmap:end -->/,map);
+  /* precaricamento parallelo dei moduli che la pagina importa all'avvio (import statici: l'inglese, caricato
+     con import() solo se serve, resta fuori). Su reti lente evita di scaricarli uno dopo l'altro. */
+  const pre=startModules(html).filter(k=>imports[k]).map(k=>'<link rel="modulepreload" href="'+imports[k]+'">').join("\n");
+  html=html.replace(/\n<!-- modulepreload:start -->[\s\S]*?<!-- modulepreload:end -->/g,"");
+  html=html.replace(/<!-- importmap:start -->[\s\S]*?<!-- importmap:end -->/,map+"\n<!-- modulepreload:start -->\n"+pre+"\n<!-- modulepreload:end -->");
   html=html.replace(/href="css\/style\.css(\?v=[0-9a-f]+)?"/,'href="css/style.css?v='+css+'"');
   html=html.replace(/src="js\/main\.js(\?v=[0-9a-f]+)?"/,'src="js/main.js?v='+main+'"');
   return html;

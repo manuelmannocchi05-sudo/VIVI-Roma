@@ -5,13 +5,22 @@
    - lingua iniziale: scelta salvata, altrimenti preferenze del dispositivo, altrimenti italiano.
    La lingua cambia solo i testi: motore, tappe, budget, distanze, salvataggi e link restano identici. */
 import IT from "./i18n/it.js";
-import EN from "./i18n/en.js";
 import {QUIZ,moodsOf} from "./quiz-data.js";
-import {TEXT as PLACE_TEXT,GLOSS,AREA,FOOD_TIPS as FOOD_EN} from "./data/places-en.js";
+/* L'inglese (interfaccia e luoghi, ~85 KB) si scarica solo quando serve: loadLang("en") prima di setLang("en").
+   Finché non è arrivato, i testi restano in italiano: nessuna chiave vuota. */
+let EN={},PLACE_TEXT={},GLOSS={},AREA={},FOOD_EN=[];
+let enP=null;
+export function loadLang(l){
+  if(l!=="en")return Promise.resolve(true);
+  if(!enP)enP=Promise.all([import("./i18n/en.js"),import("./data/places-en.js")]).then(([d,p])=>{
+    EN=d.default;PLACE_TEXT=p.TEXT;GLOSS=p.GLOSS;AREA=p.AREA;FOOD_EN=p.FOOD_TIPS;return true;
+  }).catch(()=>{enP=null;return false;});
+  return enP;
+}
+export const langReady=l=>l!=="en"||FOOD_EN.length>0;
 
 export const LANGS=["it","en"];
 export const LANG_KEY="vivi-roma:lingua";
-const DICT={it:IT,en:EN};
 let lang="it";
 const listeners=[];
 
@@ -33,7 +42,7 @@ export function onLangChange(f){listeners.push(f);}
 export function locale(){return lang==="en"?"en-GB":"it-IT";}
 
 export function t(key,params){
-  let v=DICT[lang][key];
+  let v=(lang==="en"?EN:IT)[key];
   if(v===undefined)v=IT[key];
   if(v===undefined)return key;
   return typeof v==="function"?v(params||{}):v;
@@ -67,7 +76,7 @@ export function paceLabel(p){return t("label.pace."+p);}
 export function placeText(s){return lang==="en"&&s&&PLACE_TEXT[s]?PLACE_TEXT[s]:s;}
 export function placeGloss(p){return lang==="en"&&GLOSS[p.id]?GLOSS[p.id]:"";}
 export function areaText(a){return lang==="en"&&AREA[a]?AREA[a]:a;}
-export function foodTip(day,itTip){return lang==="en"?FOOD_EN[day.index%FOOD_EN.length]:itTip;}
+export function foodTip(day,itTip){return lang==="en"&&FOOD_EN.length?FOOD_EN[day.index%FOOD_EN.length]:itTip;}
 
 /* ---------- testi statici della pagina: data-i18n="chiave", data-i18n-attr="attributo:chiave;…" ---------- */
 export function applyStatic(root){

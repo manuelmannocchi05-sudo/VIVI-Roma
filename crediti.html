@@ -14,10 +14,17 @@ if(s==="it"||s==="en")l=s;else{var n=navigator.languages||[navigator.language||"
 l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function(){d.classList.remove("i18n-wait");},2500);}})();</script>
 <link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=5055ceea4d">
+<link rel="stylesheet" href="css/style.css?v=d0b163138a">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=476ca18b0c","./js/i18n/en.js":"./js/i18n/en.js?v=8819b6b030","./js/i18n/it.js":"./js/i18n/it.js?v=924bcd9a62","./js/main.js":"./js/main.js?v=74d04e650b","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/quiz-data.js":"./js/quiz-data.js?v=f00a366fc5","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=b9b880bbf1","./js/i18n/it.js":"./js/i18n/it.js?v=9852c804d3","./js/main.js":"./js/main.js?v=4fff683ffd","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/quiz-data.js":"./js/quiz-data.js?v=f00a366fc5","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
+<!-- modulepreload:start -->
+<link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
+<link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
+<link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
+<link rel="modulepreload" href="./js/i18n/it.js?v=9852c804d3">
+<link rel="modulepreload" href="./js/quiz-data.js?v=f00a366fc5">
+<!-- modulepreload:end -->
 
 <style>
   .credits{padding:120px 0 72px}
@@ -60,9 +67,9 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 <script type="module">
 import {PHOTOS} from "./js/data/photos.js";
 import {PLACES} from "./js/data/places.js";
-import {t,getLang,setLang,detectLang,applyStatic,placeGloss} from "./js/i18n.js";
+import {t,getLang,setLang,detectLang,applyStatic,placeGloss,loadLang} from "./js/i18n.js";
 const store=(()=>{try{return localStorage;}catch(e){return null;}})();
-setLang(detectLang(store,navigator.languages||[navigator.language]),null);
+{let l=detectLang(store,navigator.languages||[navigator.language]);if(!await loadLang(l))l="it";setLang(l,null);}
 const PLACE={};PLACES.forEach(p=>{PLACE[p.id]=p;});
 const label=k=>{
   if(PLACE[k]){const g=placeGloss(PLACE[k]);return PLACE[k].name+(g?" — "+g:"");}
@@ -98,7 +105,7 @@ function render(){
     root.append(ul);
   }
 }
-document.getElementById("langToggle").addEventListener("click",()=>{setLang(getLang()==="it"?"en":"it",store);render();});
+document.getElementById("langToggle").addEventListener("click",async()=>{const n=getLang()==="it"?"en":"it";if(!await loadLang(n))return;setLang(n,store);render();});
 render();
 document.documentElement.classList.remove("i18n-wait");
 </script>
