@@ -891,10 +891,12 @@ function initCategories(){
 function initHero(){
   const media=$("#heroMedia"),land=PHOTOS.hero,port=PHOTOS["hero-portrait"];
   if(!land)return;
+  /* copertina sotto velatura scura: densità massima 1,8× (su smartphone scarica 720 px invece di 1080, ~80 KB in meno) */
+  const dpr=window.devicePixelRatio||1,heroSizes=Math.ceil(window.innerWidth*Math.min(dpr,1.8)/dpr)+"px";
   const pic=el("picture",null,
-    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:sizesFor(window.innerWidth)}):null,
+    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:heroSizes}):null,
     photoImg(land,"",window.innerWidth,{eager:true}));
-  pic.querySelector("img").sizes=sizesFor(window.innerWidth);
+  const heroImg=pic.querySelector("img");heroImg.sizes=heroSizes;heroImg.fetchPriority="high";
   media.style.backgroundColor=land.color;
   media.append(pic);
   heroCredit();
