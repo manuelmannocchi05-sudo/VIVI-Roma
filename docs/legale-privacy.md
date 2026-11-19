@@ -12,7 +12,8 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 | Analisi del traffico, pixel, pubblicità | Nessuno | Verificato |
 | Account, login, database, server propri | Nessuno | Verificato |
 | Memoria del browser | `localStorage`, chiave `vivi-roma:viaggi:v1`: solo i viaggi salvati dall'utente (risposte al quiz e tappe). Resta sul dispositivo, non viene inviata a nessuno | Verificato |
-| Lingua scelta | Non viene memorizzata | Verificato |
+| Lingua scelta | `localStorage`, chiave `vivi-roma:lingua` (valore «it» o «en»), solo quando l'utente cambia lingua. Resta sul dispositivo. *(Correzione: nel Blocco D era indicato per errore che la lingua non veniva memorizzata.)* | Verificato |
+| Service worker (dalla beta) | Copia sul dispositivo dei file del sito (pagine, stili, codice, font, icone, foto viste) per l'apertura senza rete. Nessun dato personale, nessuna richiesta a terzi | Verificato |
 | Font | Ospitati sul sito (nessuna richiesta a Google Fonts) | Verificato |
 | Foto | Ospitate sul sito come WebP (nessuna richiesta a Wikimedia durante la navigazione) | Verificato |
 | Leaflet (mappa) | Copiato nel progetto, nessun CDN | Verificato |

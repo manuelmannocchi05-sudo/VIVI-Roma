@@ -115,8 +115,11 @@ h2{font-size:clamp(2.4rem,5.2vw,4.4rem)}
 .hero-facts li{display:flex;align-items:center;gap:10px}
 .hero-facts li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .hero-credit{position:absolute;right:24px;bottom:18px;margin:0;font-size:.75rem;color:rgba(251,249,244,.62);max-width:46ch;text-align:right}
-.hero-credit a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(251,249,244,.3)}
-.hero-credit a:hover,.hero-credit a:focus-visible{color:var(--white);border-color:var(--gold)}
+.hero-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(251,249,244,.3);text-decoration-thickness:1px;text-underline-offset:3px}
+.hero-credit a:hover,.hero-credit a:focus-visible{color:var(--white);text-decoration-color:var(--gold)}
+/* link dentro il testo (crediti, fonti, attribuzione della mappa): area di tocco di almeno 44 px in altezza
+   con imbottitura verticale, che sugli elementi in linea non sposta le righe */
+.hero-credit a,.verify-note a,.footer-bottom a,.leaflet-container .leaflet-control-attribution a{padding-block:calc(22px - .55em)}
 .hero-media picture{display:contents}
 .hero-scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;min-height:44px;color:rgba(251,249,244,.7);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
 .hero-scroll i{width:1px;height:38px;background:linear-gradient(var(--gold),transparent);transform-origin:top;animation:scrollcue 2.4s var(--ease) infinite}
@@ -331,9 +334,9 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 .stop:hover .photo img{transform:scale(1.04)}
 .photo-n{font-variant-numeric:lining-nums;position:absolute;z-index:2;left:12px;top:12px;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:var(--gold-l);border:1.5px solid rgba(198,166,106,.85);box-shadow:0 4px 14px rgba(0,0,0,.28);font-family:var(--serif);font-size:1.45rem;line-height:1;padding-bottom:2px}
 .photo:not(.has-photo) .photo-n{box-shadow:none}
-.photo-credit{position:absolute;left:0;right:0;bottom:0;z-index:1;margin:0;padding:22px 12px 6px;font-size:.75rem;line-height:1.3;background:linear-gradient(180deg,rgba(19,33,27,0),rgba(19,33,27,.75));opacity:0;visibility:hidden;transition:opacity .4s}
+.photo-credit{position:absolute;left:0;right:0;bottom:0;z-index:1;margin:0;padding:12px 12px 0;font-size:.75rem;line-height:1.3;background:linear-gradient(180deg,rgba(19,33,27,0),rgba(19,33,27,.75));opacity:0;visibility:hidden;transition:opacity .4s}
 .photo.has-photo .photo-credit{opacity:1;visibility:visible}
-.photo-credit a{color:rgba(251,249,244,.92);text-decoration:none;padding:4px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.photo-credit a{color:rgba(251,249,244,.92);text-decoration:none;padding:14px 0;min-height:44px;box-sizing:border-box;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .photo-credit a:hover,.photo-credit a:focus-visible{text-decoration:underline;color:var(--white)}
 .stop-body{padding:20px 22px 8px;min-width:0}
 .stop-top{display:flex;align-items:center;gap:10px;margin:0 0 4px;font-size:.78rem;color:var(--gold-d);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
@@ -423,7 +426,8 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 .vm.is-active .vm-pin::before{content:"";position:absolute;width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);animation:vmPulse 2s var(--ease) infinite}
 @keyframes vmPulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.1);opacity:0}}
 .vm.vm-shifted::after{content:"";position:absolute;z-index:0;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--green);border:1.5px solid var(--white)}
-.leaflet-container .leaflet-control-attribution{font-size:.72rem;background:rgba(251,249,244,.85);border-radius:8px 0 0 0;padding:2px 8px}
+.leaflet-container .leaflet-control-attribution{font-size:.8rem;line-height:1.4;color:var(--ink);background:rgba(251,249,244,.94);border-radius:8px 0 0 0;padding:3px 10px}
+.leaflet-container .leaflet-control-attribution a{color:var(--green);text-decoration:underline;text-underline-offset:2px}
 .leaflet-container a{color:var(--green)}
 /* tappa selezionata sotto la mappa */
 .map-selected{margin:0;padding:12px 14px;background:var(--paper);border-top:1px solid var(--line);animation:dayIn .3s var(--ease)}

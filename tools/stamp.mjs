@@ -38,6 +38,22 @@ export function stampHtml(html,{imports,css,main}){
   html=html.replace(/src="js\/main\.js(\?v=[0-9a-f]+)?"/,'src="js/main.js?v='+main+'"');
   return html;
 }
+/* Service worker: elenco dei file da salvare in anticipo e VERSION (impronta del loro contenuto).
+   Pagine, CSS e moduli con impronta, font, icone, manifest, Leaflet. Le foto no: le salva sw.js mentre si naviga. */
+export function precacheList({imports,css}){
+  const files=fs.readdirSync(path.join(ROOT,"fonts")).filter(f=>f.endsWith(".woff2")).map(f=>"./fonts/"+f).sort();
+  const icons=fs.readdirSync(path.join(ROOT,"img/icons")).filter(f=>f.endsWith(".png")).map(f=>"./img/icons/"+f).sort();
+  return ["./","./index.html","./crediti.html","./manifest.webmanifest","./icon.svg","./css/style.css?v="+css,
+    ...Object.values(imports).sort(),...files,...icons,"./js/vendor/leaflet/leaflet.css","./js/vendor/leaflet/leaflet.js"];
+}
+export function stampSW(sw,list){
+  /* la versione dipende dal contenuto di tutti i file dell'elenco (pagine comprese) */
+  const h=crypto.createHash("sha256");
+  for(const u of list){const f=u.replace(/^\.\//,"").replace(/\?.*$/,"")||"index.html";h.update(u);h.update(fs.readFileSync(path.join(ROOT,f)));}
+  const block="/* precache:start */\nconst VERSION="+JSON.stringify(h.digest("hex").slice(0,12))+";\nconst PRECACHE="+JSON.stringify(list,null,0).replace(/","/g,'",\n "')+";\n/* precache:end */";
+  if(!/\/\* precache:start \*\/[\s\S]*?\/\* precache:end \*\//.test(sw))throw new Error("sw.js: manca il segnaposto precache");
+  return sw.replace(/\/\* precache:start \*\/[\s\S]*?\/\* precache:end \*\//,block);
+}
 if(process.argv[1]&&process.argv[1].endsWith("stamp.mjs")){
   const d=stampData();
   for(const f of ["index.html","crediti.html"]){
@@ -45,4 +61,6 @@ if(process.argv[1]&&process.argv[1].endsWith("stamp.mjs")){
     if(!after.includes("importmap:start"))throw new Error(f+": manca il segnaposto della import map");
     fs.writeFileSync(p,after);console.log(f,before===after?"invariato":"aggiornato");
   }
+  const swp=path.join(ROOT,"sw.js"),swb=fs.readFileSync(swp,"utf8"),swa=stampSW(swb,precacheList(d));
+  fs.writeFileSync(swp,swa);console.log("sw.js",swb===swa?"invariato":"aggiornato");
 }

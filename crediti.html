@@ -6,6 +6,9 @@
 <title data-i18n="credits.title">Crediti fotografici — VIVI Roma</title>
 <meta name="description" data-i18n-attr="content:credits.desc" content="Autori, licenze e fonti delle fotografie usate da VIVI Roma.">
 <meta name="theme-color" content="#252321">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="VIVI Roma">
 <meta name="robots" content="noindex">
 <script>/* Lingua prima del primo disegno: scelta salvata → lingua del dispositivo → italiano (stessa regola di js/i18n.js). */
 (function(){var d=document.documentElement,l=null,s=null;d.classList.add("js");
@@ -14,15 +17,16 @@ if(s==="it"||s==="en")l=s;else{var n=navigator.languages||[navigator.language||"
 l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function(){d.classList.remove("i18n-wait");},2500);}})();</script>
 <link rel="preload" href="fonts/cormorant-garamond-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=6e4ef7da48">
+<link rel="stylesheet" href="css/style.css?v=aebeb26d58">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=35e9562508","./js/i18n/it.js":"./js/i18n/it.js?v=fb224e855f","./js/main.js":"./js/main.js?v=c067d080ec","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=35e9562508","./js/i18n/it.js":"./js/i18n/it.js?v=fb224e855f","./js/main.js":"./js/main.js?v=8079e8c081","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=7e2ca104e0","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
 <!-- modulepreload:start -->
 <link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
 <link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
 <link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
 <link rel="modulepreload" href="./js/i18n/it.js?v=fb224e855f">
+<link rel="modulepreload" href="./js/pwa.js?v=7e2ca104e0">
 <link rel="modulepreload" href="./js/quiz-data.js?v=351776df14">
 <!-- modulepreload:end -->
 
@@ -68,6 +72,8 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 import {PHOTOS} from "./js/data/photos.js";
 import {PLACES} from "./js/data/places.js";
 import {t,getLang,setLang,detectLang,applyStatic,placeGloss,loadLang} from "./js/i18n.js";
+import {registerSW} from "./js/pwa.js";
+registerSW();
 const store=(()=>{try{return localStorage;}catch(e){return null;}})();
 {let l=detectLang(store,navigator.languages||[navigator.language]);if(!await loadLang(l))l="it";setLang(l,null);}
 const PLACE={};PLACES.forEach(p=>{PLACE[p.id]=p;});

@@ -4,6 +4,7 @@ import {createStore,tripFromPlan,tripTitle,MAX_TRIPS,shareUrl,shareText,decodeSh
 import {activeSteps,STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
 import {loadLang,t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
+import {registerSW} from "./pwa.js";
 
 /* ==========================================================================
    UTILITÀ
@@ -996,3 +997,4 @@ async function init(){
   else openFromLink();
 }
 init();
+registerSW();
