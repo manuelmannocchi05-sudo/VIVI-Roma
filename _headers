@@ -1,0 +1,10 @@
+# Cloudflare Pages — intestazioni HTTP (ignorato da GitHub Pages).
+# Cache: si lasciano le impostazioni predefinite di Pages (max-age=0, must-revalidate, con ETag), così un
+# aggiornamento si vede subito; le visite successive non scaricano di nuovo i file perché li serve il service worker.
+# sw.js va sempre ricontrollato: è il file che porta le nuove versioni.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/sw.js
+  Cache-Control: no-cache

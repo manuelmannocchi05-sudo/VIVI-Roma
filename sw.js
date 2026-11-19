@@ -12,9 +12,8 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="49d7c810bbdd";
+const VERSION="0a2b1c6e8571";
 const PRECACHE=["./",
- "./index.html",
  "./crediti.html",
  "./manifest.webmanifest",
  "./icon.svg",
@@ -25,9 +24,9 @@ const PRECACHE=["./",
  "./js/i18n.js?v=111c7df471",
  "./js/i18n/en.js?v=35e9562508",
  "./js/i18n/it.js?v=fb224e855f",
- "./js/main.js?v=8079e8c081",
+ "./js/main.js?v=dc6af4a203",
  "./js/planner.js?v=6a1e73a8a9",
- "./js/pwa.js?v=7e2ca104e0",
+ "./js/pwa.js?v=8fac90f78a",
  "./js/quiz-data.js?v=351776df14",
  "./js/trips.js?v=303cca73c9",
  "./fonts/cormorant-garamond-latin-wght-italic.woff2",
@@ -47,10 +46,18 @@ const NAV_TIMEOUT=4000;
 
 self.addEventListener("install",event=>{
   event.waitUntil((async()=>{
+    const existed=await caches.has(SHELL);   /* stessa versione già in uso (cambia solo sw.js): non va mai cancellata */
     const cache=await caches.open(SHELL);
+    try{
     /* file con impronta ?v=: vanno bene anche dalla cache HTTP (già scaricati con la pagina);
-       gli altri vengono riconvalidati col server (risposta 304 se invariati) */
-    await cache.addAll(PRECACHE.map(u=>u.includes("?v=")?u:new Request(u,{cache:"no-cache"})));
+       gli altri vengono riconvalidati col server (risposta 304 se invariati).
+       Se un file manca o risponde con un errore, l'installazione si interrompe e resta in uso la versione precedente. */
+    await Promise.all(PRECACHE.map(async u=>{
+      const res=await fetch(new Request(u,{cache:u.includes("?v=")?"default":"no-cache"}));
+      if(!res.ok)throw new Error("precache "+u+": "+res.status);
+      await cache.put(u,await clean(res));
+    }));
+    }catch(e){if(!existed)await caches.delete(SHELL);throw e;}   /* niente copie a metà: resta attiva la versione precedente */
     await self.skipWaiting();
   })());
 });
@@ -64,6 +71,14 @@ self.addEventListener("activate",event=>{
 });
 
 const sameOrigin=url=>url.origin===self.location.origin;
+/* Cloudflare Pages reindirizza /crediti.html → /crediti e /index.html → /: una risposta «reindirizzata» non può
+   servire una navigazione dalla cache, quindi se ne salva una copia pulita. */
+async function clean(res){
+  if(!res.redirected)return res;
+  return new Response(await res.blob(),{status:res.status,statusText:res.statusText,headers:res.headers});
+}
+/* le due pagine del sito, con o senza .html (GitHub Pages / Cloudflare Pages) */
+const pageKey=url=>/\/crediti(\.html)?$/.test(url.pathname)?"./crediti.html":"./";
 const scopePath=new URL(self.registration.scope).pathname;
 
 async function fromShell(request,opts){
@@ -74,16 +89,16 @@ async function fromShell(request,opts){
 /* Pagine: rete con limite di attesa; se la rete manca o è troppo lenta, la copia salvata. */
 async function navigate(event){
   const request=event.request,url=new URL(request.url);
-  const page=url.pathname.endsWith("crediti.html")?"./crediti.html":"./index.html";
+  const page=pageKey(url);
   const network=fetch(request).then(async res=>{
     if(res&&res.ok&&res.type==="basic"&&!res.redirected){
       const cache=await caches.open(SHELL);
-      await cache.put(url.pathname===scopePath?"./":page,res.clone());
+      await cache.put(page,res.clone());
     }
     return res;
   });
   event.waitUntil(network.catch(()=>{}));
-  const cached=async()=>(await fromShell(request,{ignoreSearch:true}))||(await fromShell(page))||(await fromShell("./"));
+  const cached=async()=>(await fromShell(page))||(await fromShell("./"));
   const timeout=new Promise(resolve=>setTimeout(()=>resolve(null),NAV_TIMEOUT));
   try{
     const first=await Promise.race([network,timeout]);
@@ -102,7 +117,7 @@ async function image(event){
   const cache=await caches.open(IMAGES);
   const cached=await cache.match(request);
   const update=fetch(request).then(async res=>{
-    if(res&&res.ok){
+    if(res&&res.ok&&/^image\//.test(res.headers.get("content-type")||"")){   /* mai una pagina HTML al posto di una foto */
       await cache.put(request,res.clone());
       const keys=await cache.keys();
       for(let i=0;i<keys.length-IMG_MAX;i++)await cache.delete(keys[i]);

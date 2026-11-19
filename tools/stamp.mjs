@@ -43,7 +43,7 @@ export function stampHtml(html,{imports,css,main}){
 export function precacheList({imports,css}){
   const files=fs.readdirSync(path.join(ROOT,"fonts")).filter(f=>f.endsWith(".woff2")).map(f=>"./fonts/"+f).sort();
   const icons=fs.readdirSync(path.join(ROOT,"img/icons")).filter(f=>f.endsWith(".png")).map(f=>"./img/icons/"+f).sort();
-  return ["./","./index.html","./crediti.html","./manifest.webmanifest","./icon.svg","./css/style.css?v="+css,
+  return ["./","./crediti.html","./manifest.webmanifest","./icon.svg","./css/style.css?v="+css,
     ...Object.values(imports).sort(),...files,...icons,"./js/vendor/leaflet/leaflet.css","./js/vendor/leaflet/leaflet.js"];
 }
 export function stampSW(sw,list){

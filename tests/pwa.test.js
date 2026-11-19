@@ -45,3 +45,17 @@ test("le due pagine registrano il service worker",()=>{
   assert.match(R("crediti.html"),/registerSW\(\);/);
   assert.match(R("js/pwa.js"),/register\("\.\/sw\.js",\{scope:"\.\/"\}\)/);
 });
+
+test("Cloudflare Pages: 404.html autonoma, _headers con sw.js sempre ricontrollato",()=>{
+  const h=R("404.html");
+  assert.ok(!/<link[^>]+stylesheet|<script[^>]+src=/.test(h),"la pagina 404 non deve dipendere da altri file");
+  const hd=R("_headers");
+  assert.match(hd,/\/sw\.js\n\s+Cache-Control: no-cache/);
+  assert.ok(!/immutable/.test(hd),"niente cache «immutable»: i file senza impronta resterebbero vecchi");
+});
+test("service worker: pagine con e senza .html e risposte reindirizzate",()=>{
+  const sw=R("sw.js");
+  assert.match(sw,/\\\/crediti\(\\\.html\)\?\$/);
+  assert.match(sw,/res\.redirected/);
+  assert.ok(!JSON.parse(sw.match(/PRECACHE=(\[[\s\S]*?\]);/)[1]).includes("./index.html"),"index.html: Cloudflare lo reindirizza a /");
+});

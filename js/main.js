@@ -66,7 +66,7 @@ function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"au
 /* ==========================================================================
    QUIZ: 6 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
-const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
+const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tiles:null,tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
@@ -531,7 +531,10 @@ function initMap(){
   if(touch)initTouchMap(mapEl);
   /* Tasselli pubblici di OpenStreetMap: adatti alla beta, non a un'app commerciale (vedi docs/mappa.md). */
   const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
+  state.tiles=tiles;
   tiles.on("tileload",()=>{state.tileOk=true;});
+  /* connessione tornata dopo un periodo offline: si richiedono di nuovo i tasselli mancanti */
+  window.addEventListener("online",()=>{if(!state.tiles)return;state.tileWarned=false;$("#mapNotice").hidden=true;state.tiles.redraw();});
   tiles.on("tileerror",()=>{
     if(state.tileOk||state.tileWarned)return;
     state.tileWarned=true;setTimeout(()=>{if(!state.tileOk)$("#mapNotice").hidden=false;},4000);
