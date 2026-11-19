@@ -880,7 +880,7 @@ function initCategories(){
   $$(".cat-card").forEach(card=>{
     card.addEventListener("click",()=>{
       const k=card.dataset.interest,list=state.answers.interests;
-      const label=t("cat."+k+".label");
+      const label=interestLabel(k);
       if(list.includes(k))toast(t("cat.already",{label}));
       else{list.push(k);syncOptions();toast(t("cat.added",{label}));}
     });

@@ -47,7 +47,7 @@ const QUIZ=[
   ["night","moon","Roma di sera","Luci e atmosfera",null,"castel"]],
   legacy:[
   ["local","pin","Vita locale","Quartieri e tradizioni"],
-  ["family","smile","Esperienze per tutti","Idee adatte alle famiglie"]]},
+  ["family","smile","Adatto ai bambini","Idee adatte alle famiglie"]]},
  {key:"mood",multi:true,title:"Che atmosfera preferisci?",err:"Scegli almeno un'atmosfera.",opts:[
   ["iconic","star","Meraviglia","I luoghi che tolgono il fiato",null,"trevi"],
   ["local","pin","Autenticità","Quartieri e tradizioni romane",null,"cat-local"],
