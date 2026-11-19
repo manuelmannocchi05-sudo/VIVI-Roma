@@ -1,0 +1,31 @@
+# Foto da Wikimedia Commons per il branch del restyling (stesso script di photos.yml).
+# Gira solo su restyling-premium e fa il commit dei file generati soltanto su restyling-premium:
+# non può modificare main né altri branch.
+name: Foto da Wikimedia Commons (restyling)
+on:
+  push:
+    branches: [restyling-premium]
+    paths: [tools/photos/selection.json, tools/photos/build.py, .github/workflows/photos-restyling.yml]
+permissions:
+  contents: write
+concurrency: photos-restyling
+jobs:
+  build:
+    # Doppia sicurezza: anche se il file finisse su un altro branch, il job gira solo su restyling-premium.
+    if: github.ref == 'refs/heads/restyling-premium'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install pillow==11.*
+      - run: python3 -u tools/photos/build.py 2>&1 | tee tools/photos/build.log
+      - name: Aggiorna la versione dei file (cache del browser)
+        run: node tools/stamp.mjs
+      - name: Commit delle foto generate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- img js/data/photos.js tools/photos index.html crediti.html
+          git diff --cached --quiet || git commit -m "Foto: WebP e fogli di revisione da Wikimedia Commons (automatico)"
+          git push origin HEAD:refs/heads/restyling-premium

@@ -441,5 +441,28 @@
    "file": "Rome Scala Santa 2020 P01.jpg"
   }
  ],
- "review": {}
+ "review": {
+  "pigneto-categoria": [
+   "Pigneto - edificio.jpg",
+   "PONTEPIGNETO04042025 011A.jpg",
+   "Raffaele Melis Pigneto.JPG",
+   "Statua Enrico Toti.jpg",
+   "Ponte sulla ferrovia via del Pigneto.JPG",
+   "Guerrilla gardening in Pigneto (Rome).JPG",
+   "Parco delle Energie.JPG",
+   "Francesco Vitaminas 24 (64978423).jpeg",
+   "Condominio Via Ugolino Cavalcabò (Roma).jpg",
+   "AQUILA2100912A.jpg",
+   "Vallo Ferroviario Pigneto.JPG",
+   "Pinus pinea in Rome.JPG"
+  ],
+  "pigneto-via": "\"Via del Pigneto\"",
+  "pigneto-streetart": "Pigneto street art Roma",
+  "sanlorenzo-volsci": "\"San Lorenzo\" Roma \"via dei Volsci\"",
+  "sanlorenzo-immacolata": "\"Piazza dell'Immacolata\" Roma",
+  "sanlorenzo-quartiere": "quartiere \"San Lorenzo\" Roma strada",
+  "trionfale-mercato": "\"Mercato Trionfale\"",
+  "trionfale-doria": "mercato \"via Andrea Doria\" Roma",
+  "trionfale-market": "Trionfale market Rome"
+ }
 }
