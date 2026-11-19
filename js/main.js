@@ -5,6 +5,7 @@ import {activeSteps,STEPS,QUIZ,moodsOf,engineAnswers} from "./quiz-data.js";
 import {loadLang,t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,qText,optText,stepText,moodLabels,answerLabel,durationLabel,paceLabel,placeText,placeGloss,areaText,foodTip,applyStatic} from "./i18n.js";
 import {PHOTOS} from "./data/photos.js";
 import {registerSW} from "./pwa.js";
+import {mapRules,tileSource,canDecompress,TILE_AREA,TILE_URL,TILE_MAX_DATA_ZOOM,ATTRIBUTION} from "./map-style.js";
 
 /* ==========================================================================
    UTILITÀ
@@ -503,7 +504,13 @@ function loadLeaflet(){
     const css=el("link",{rel:"stylesheet",href:"js/vendor/leaflet/leaflet.css"});
     document.head.insertBefore(css,document.querySelector('link[rel="stylesheet"]'));   /* prima di style.css: i nostri stili restano prioritari */
     const sc=el("script",{src:"js/vendor/leaflet/leaflet.js"});
-    sc.onload=()=>res(!!window.L);
+    /* prototipo Protomaps: dopo Leaflet si carica il motore dei tasselli vettoriali (se manca, si torna a OSM) */
+    sc.onload=()=>{
+      if(!window.L)return res(false);
+      const pm=el("script",{src:"js/vendor/protomaps-leaflet/protomaps-leaflet.js"});
+      pm.onload=pm.onerror=()=>res(true);
+      document.head.append(pm);
+    };
     sc.onerror=()=>{leafletP=null;sc.remove();res(false);};
     document.head.append(sc);
   });
@@ -529,8 +536,15 @@ function initMap(){
     zoomAnimation:!reduceMotion(),fadeAnimation:!reduceMotion(),markerZoomAnimation:!reduceMotion()}).setView([41.9028,12.4964],12);
   state.map.attributionControl.setPrefix(false);
   if(touch)initTouchMap(mapEl);
-  /* Tasselli pubblici di OpenStreetMap: adatti alla beta, non a un'app commerciale (vedi docs/mappa.md). */
-  const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
+  /* Prototipo: tasselli vettoriali Protomaps ospitati con il sito (tiles/, solo il centro storico, zoom 0–15;
+     oltre il 15 si ingrandiscono i vettori). Se il motore non è disponibile o il browser non sa decomprimere
+     (DecompressionStream: Safari 16.4+, Chrome 80+, Firefox 113+): tasselli pubblici OSM come prima. */
+  const area=L.latLngBounds([TILE_AREA.south,TILE_AREA.west],[TILE_AREA.north,TILE_AREA.east]);
+  const tiles=(window.protomapsL&&canDecompress()
+    ?protomapsL.leafletLayer({url:tileSource(TILE_URL),maxDataZoom:TILE_MAX_DATA_ZOOM,maxZoom:19,bounds:area,
+        ...mapRules(protomapsL,"it"),attribution:ATTRIBUTION})
+    :L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'})
+  ).addTo(state.map);
   state.tiles=tiles;
   tiles.on("tileload",()=>{state.tileOk=true;});
   /* connessione tornata dopo un periodo offline: si richiedono di nuovo i tasselli mancanti */

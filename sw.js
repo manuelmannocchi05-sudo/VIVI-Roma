@@ -12,7 +12,8 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="0a2b1c6e8571";
+const VERSION="dc69008795f3";
+const TILES_VERSION="2026-11-19-4347caff";
 const PRECACHE=["./",
  "./crediti.html",
  "./manifest.webmanifest",
@@ -24,7 +25,8 @@ const PRECACHE=["./",
  "./js/i18n.js?v=111c7df471",
  "./js/i18n/en.js?v=35e9562508",
  "./js/i18n/it.js?v=fb224e855f",
- "./js/main.js?v=dc6af4a203",
+ "./js/main.js?v=591c248c76",
+ "./js/map-style.js?v=388d0d6503",
  "./js/planner.js?v=6a1e73a8a9",
  "./js/pwa.js?v=8fac90f78a",
  "./js/quiz-data.js?v=351776df14",
@@ -37,11 +39,15 @@ const PRECACHE=["./",
  "./img/icons/icon-512.png",
  "./img/icons/icon-maskable-512.png",
  "./js/vendor/leaflet/leaflet.css",
- "./js/vendor/leaflet/leaflet.js"];
+ "./js/vendor/leaflet/leaflet.js",
+ "./js/vendor/protomaps-leaflet/protomaps-leaflet.js"];
 /* precache:end */
 const SHELL="vivi-roma-shell-"+VERSION;
 const IMAGES="vivi-roma-img-v1";
 const IMG_MAX=160;
+/* prototipo Protomaps: tasselli vettoriali (tiles/). Salvati mentre si guarda la mappa e poi disponibili offline.
+   Il nome della cache cambia quando cambiano i dati (TILES_VERSION, data di estrazione scritta da stamp). */
+const TILES="vivi-roma-tiles-"+(typeof TILES_VERSION==="string"?TILES_VERSION:"0");
 const NAV_TIMEOUT=4000;
 
 self.addEventListener("install",event=>{
@@ -65,7 +71,7 @@ self.addEventListener("install",event=>{
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{
     const keys=await caches.keys();
-    await Promise.all(keys.filter(k=>k.startsWith("vivi-roma-shell-")&&k!==SHELL).map(k=>caches.delete(k)));
+    await Promise.all(keys.filter(k=>(k.startsWith("vivi-roma-shell-")&&k!==SHELL)||(k.startsWith("vivi-roma-tiles-")&&k!==TILES)).map(k=>caches.delete(k)));
     await self.clients.claim();
   })());
 });
@@ -128,12 +134,23 @@ async function image(event){
   return update;
 }
 
+/* Tasselli: dalla copia salvata, altrimenti dalla rete (e si salvano). Mai una pagina HTML al posto di un tassello. */
+async function tile(request){
+  const cache=await caches.open(TILES);
+  const hit=await cache.match(request);
+  if(hit)return hit;
+  const res=await fetch(request);
+  if(res.ok&&!/text\/html/.test(res.headers.get("content-type")||""))await cache.put(request,res.clone());
+  return res;
+}
+
 self.addEventListener("fetch",event=>{
   const request=event.request;
   if(request.method!=="GET")return;
   const url=new URL(request.url);
   if(!sameOrigin(url))return;                      /* tasselli OSM e siti esterni: solo rete */
   if(request.mode==="navigate"){event.respondWith(navigate(event));return;}
+  if(url.pathname.startsWith(scopePath+"tiles/")){event.respondWith(tile(request));return;}
   if(url.pathname.startsWith(scopePath+"img/")&&!url.pathname.startsWith(scopePath+"img/icons/")){event.respondWith(image(event));return;}
   event.respondWith((async()=>{
     const hit=await fromShell(request);
