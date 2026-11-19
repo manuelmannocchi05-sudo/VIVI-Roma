@@ -48,7 +48,9 @@ const NAV_TIMEOUT=4000;
 self.addEventListener("install",event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(SHELL);
-    await cache.addAll(PRECACHE.map(u=>new Request(u,{cache:"reload"})));
+    /* file con impronta ?v=: vanno bene anche dalla cache HTTP (già scaricati con la pagina);
+       gli altri vengono riconvalidati col server (risposta 304 se invariati) */
+    await cache.addAll(PRECACHE.map(u=>u.includes("?v=")?u:new Request(u,{cache:"no-cache"})));
     await self.skipWaiting();
   })());
 });

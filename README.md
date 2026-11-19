@@ -1,6 +1,6 @@
 # VIVI Roma
 
-*Non visitare Roma. Vivila.* — itinerari personalizzati a Roma creati da un quiz di sette domande, con schede, mappa e versione stampabile.
+*Non visitare Roma. Vivila.* — itinerari personalizzati a Roma creati da un quiz di sei domande (sette per chi viaggia in famiglia), con schede, mappa e versione stampabile.
 
 ## Struttura
 
@@ -13,10 +13,16 @@ js/planner.js         motore degli itinerari (puro, senza DOM)
 js/data/places.js     catalogo dei luoghi
 tests/                test automatici e report di qualità
 manifest.webmanifest  manifest PWA
+sw.js                 service worker (sito apribile senza rete)
+js/pwa.js             registrazione del service worker
+img/icons/            icone PNG per Android e iPhone
 icon.svg              icona
+tools/stamp.mjs       impronte ?v= dei file e elenco del service worker
 ```
 
 Il sito è statico e usa moduli JavaScript nativi: nessuna build, GitHub Pages lo pubblica così com'è.
+
+**Dopo ogni modifica a CSS, JavaScript, pagine, font o icone** esegui `node tools/stamp.mjs`: aggiorna le impronte dei file e l'elenco/versione di `sw.js`. Un test (`tests/pwa.test.js`) fallisce se te ne dimentichi. Il service worker si attiva solo su HTTPS o `localhost`.
 
 ## Provarlo in locale
 

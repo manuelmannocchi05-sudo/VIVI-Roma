@@ -57,18 +57,28 @@ Per ogni riga, segna ✅ / ❌ e annota modello, sistema e browser.
 
 ## 5. Installazione come app (PWA)
 
-- [ ] Android, Chrome: menu ⋮ → «Installa app» o «Aggiungi a schermata Home». Verifica nome, icona e apertura a schermo intero.
-- [ ] iPhone, Safari: Condividi → «Aggiungi alla schermata Home». Verifica icona e nome.
-- ⚠ Il manifest ha solo un'icona SVG e il sito **non ha un service worker**:
-  - su iPhone l'icona potrebbe essere uno screenshot;
-  - l'app installata **non funziona offline**.
-  - Vedi «Problemi aperti».
+- [ ] Android, Chrome: menu ⋮ → «Installa app» o «Aggiungi a schermata Home».
+  - [ ] Verifica l'icona (sfondo avorio e V verde, non ritagliata male) e il nome «VIVI Roma».
+  - [ ] Verifica l'apertura a schermo intero.
+- [ ] iPhone, Safari: Condividi → «Aggiungi alla schermata Home».
+  - [ ] Verifica che l'icona sia quella di VIVI, non uno screenshot.
+  - [ ] Verifica che il nome sia «VIVI Roma».
+- [ ] Dall'icona installata:
+  - [ ] il quiz funziona;
+  - [ ] i viaggi salvati nel browser **potrebbero non comparire** nell'app installata (su iPhone la memoria dell'app è separata da quella di Safari): annota cosa succede.
 
 ## 6. Connessione lenta o assente
 
 - [ ] Strumenti di Chrome → rete «3G lento»: la home mostra il testo in pochi secondi e il resto arriva dopo.
-- [ ] Modalità aereo dopo aver aperto i risultati: le schede restano leggibili e la mappa mostra l'avviso.
-- [ ] Modalità aereo a sito chiuso: senza service worker l'apertura non è garantita (può riuscire solo grazie alla cache del browser). Annota cosa succede.
+- [ ] Apri il sito una volta online, poi attiva la modalità aereo e riaprilo:
+  - [ ] la home si apre;
+  - [ ] il quiz crea un itinerario;
+  - [ ] i viaggi salvati si riaprono;
+  - [ ] il passaggio IT/EN funziona;
+  - [ ] la pagina dei crediti si apre.
+- [ ] Offline, la mappa mostra marcatori e linea; lo sfondo compare solo per le zone già viste (cache del browser), altrimenti compare l'avviso. È voluto: la politica OSM vieta la mappa offline.
+- [ ] Offline, le foto compaiono solo se già viste: le altre mostrano lo sfondo colorato.
+- [ ] Aggiornamento: dopo un nuovo deploy, la pagina aperta non si ricarica da sola. Chiudi e riapri il sito: deve comparire la versione nuova.
 
 ## 7. Accessibilità
 
