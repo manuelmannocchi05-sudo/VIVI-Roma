@@ -1,136 +1,153 @@
 # VIVI Roma — Prototipo Protomaps (ramo `prototipo-protomaps`)
 
-**Stato: prototipo, non integrato.** Il ramo parte da `restyling-premium` (commit `a9f4985`). `main` e `restyling-premium` non contengono nulla di questo prototipo.
+**Stato: prototipo, non integrato.** Il ramo parte da `restyling-premium` (`a9f4985`).
+Seconda versione, che sostituisce la prima (`ee70765`, solo centro storico). `main` e `restyling-premium` non contengono nulla di questo prototipo.
 
-## 1. Cosa cambia
+## 1. Cosa cambia rispetto alla mappa approvata
 
 | | `restyling-premium` | Prototipo |
 |---|---|---|
-| Libreria della mappa | Leaflet 1.9.4 | **Leaflet 1.9.4, invariato** + protomaps-leaflet 5.1.0 (disegna i tasselli vettoriali su canvas, come livello Leaflet) |
-| Sfondo | Immagini PNG da tile.openstreetmap.org | Tasselli vettoriali Protomaps ospitati con il sito (`tiles/`) |
-| Marcatori, numeri, linea puntinata, controlli, pannello della tappa, «Vai alla scheda», frecce, declutter | — | **Invariati**: è cambiato solo il livello di sfondo |
-| Richieste a terzi per la mappa | Sì (OSMF) | **Nessuna** nell'area del prototipo |
-| Offline | Vietato dalla politica OSM | Sì, per le zone già viste |
+| Libreria | Leaflet 1.9.4 | **Leaflet 1.9.4, invariato** + protomaps-leaflet 5.1.0, che disegna i tasselli vettoriali come livello Leaflet |
+| Sfondo | Immagini PNG da tile.openstreetmap.org | Tasselli vettoriali Protomaps ospitati con il sito (`tiles/`), stile VIVI |
+| Marcatori numerati, linea puntinata, controlli, «Sposta la mappa», pannello della tappa, «Vai alla scheda», frecce, declutter, schede | — | **Invariati** |
+| Area | Tutto il mondo (servizio esterno) | **Tutti i 77 luoghi del catalogo**, con almeno 1,5 km di margine |
+| Richieste a terzi per la mappa | Sì (OSMF) | **Nessuna** |
+| Offline | Vietato dalla politica OSM | Sì, per le zone già consultate |
 
-Leaflet resta la scelta giusta: protomaps-leaflet è pensato proprio per sostituire uno sfondo raster in Leaflet. Passare a MapLibre GL avrebbe richiesto di riscrivere marcatori, controlli e test, oltre a una libreria molto più pesante.
+Se protomaps-leaflet non si carica, o il browser non ha `DecompressionStream` (Safari < 16.4), la mappa torna da sola ai tasselli OSM come oggi.
 
-### File modificati o aggiunti
-- `js/map-style.js` (nuovo):
-  - colori della mappa: tema «light» di Protomaps ritoccato verso i toni di OpenStreetMap, così il filtro CSS già approvato dà lo stesso aspetto;
-  - regole delle etichette: nomi delle vie da zoom 15, nomi di parchi, monumenti e piazze principali;
-  - riquadro dei dati;
-  - sorgente dei tasselli con decompressione nel browser.
-- `js/main.js`:
-  - `loadLeaflet()` carica anche protomaps-leaflet;
-  - `initMap()` usa il livello vettoriale. Se manca il motore o il browser non ha `DecompressionStream`, torna ai tasselli OSM come prima.
-- `js/vendor/protomaps-leaflet/`: libreria (copia invariata del pacchetto npm), `LICENSE`, `NOTICE.md` con le librerie incluse.
-- `tiles/`: 95 tasselli `z/x/y.mvt.gz` + `meta.json` (fonte, data, riquadro, dimensioni).
-- `sw.js`:
-  - cache separata per i tasselli (`vivi-roma-tiles-<data>`), riempita mentre si guarda la mappa;
-  - il motore vettoriale è salvato in anticipo con il resto del sito.
-- `tools/stamp.mjs`: versione dei tasselli nel service worker. `tools/cf-dist.mjs`: include `tiles/`.
-- `tools/maps/estrai-tasselli.mjs`: estrazione di un riquadro dall'archivio pubblico.
-- `tests/protomaps.test.js`: 6 test nuovi.
+## 2. Copertura dei 77 luoghi
 
-### Perché `.mvt.gz` e non un unico `.pmtiles`
-Cloudflare Pages non gestisce le richieste Range (risponde con il file intero), e GitHub Pages e Cloudflare Pages non comprimono i file `.mvt`.
-I tasselli sono quindi file statici già compressi (gzip), decompressi dal browser con `DecompressionStream` (Chrome 80+, Safari 16.4+, Firefox 113+).
-Se un hosting li decomprimesse già, la sorgente se ne accorge dai primi byte e li usa così come sono.
-Provato con un server statico semplice (come GitHub Pages) e con l'emulatore di Cloudflare Pages, che li serve come `application/gzip`.
+L'area è definita in `tools/maps/area-roma.json`:
 
-## 2. Dati cartografici effettivi
+| Dati (zoom) | Zoom della mappa | Riquadro (ovest, sud, est, nord) | Perché |
+|---|---|---|---|
+| 12–15 | 13–16 (oltre il 16 si ingrandiscono i vettori) | 12,427 · 41,821 · 12,583 · 41,934 | I 77 luoghi con almeno 1,5 km di margine: da Monte Mario a EUR, dal Gianicolo ad Acquedotti e Pigneto |
+| 11 | 12 | 12,33 · 41,76 · 12,67 · 41,99 | Riquadro più ampio, perché a zoom 12 lo schermo mostra più dell'area di dettaglio |
 
-Archivio: `https://build.protomaps.com/20261118.pmtiles` (build del 18/11/2026). Riquadro: centro storico, ovest 12,445 · sud 41,875 · est 12,52 · nord 41,92, zoom 0–15.
+- protomaps-leaflet disegna allo zoom N della mappa i dati dello zoom N-1 (tasselli vettoriali da 512 px). Per questo lo zoom 12 della mappa usa i dati dell'11.
+- Nella prima versione questo dettaglio era sfuggito: i giorni con tappe lontane, a zoom 12, avevano lo sfondo vuoto.
+- La mappa vettoriale **non scende sotto lo zoom 12** e **non esce dall'area di dettaglio** (`maxBounds`): un turista non vede mai uno sfondo vuoto.
+
+**Verifiche:**
+- `tests/protomaps.test.js` controlla che, per ognuno dei 77 luoghi, esistano tutti i tasselli dei dati 12–15 in un riquadro di ±1,5 km e quello del dato 11.
+- `protocover.mjs`, nel browser, centra la mappa su ciascuno dei 77 luoghi a zoom 13 e 15 e controlla che sotto il luogo lo sfondo sia disegnato: **154 casi su 154**.
+- Controprova sulla versione precedente: 20 casi falliti, i 10 luoghi fuori dal centro. La prova distingue davvero.
+
+## 3. Dimensioni effettive della cartografia
+
+Archivio: `https://build.protomaps.com/20261118.pmtiles` (build del 18/11/2026).
 
 | | Valore |
 |---|---|
-| Tasselli | **95** |
-| Dimensione su disco, compressi gzip (quanto si scarica) | **6,19 MB** (6.486.535 byte) |
-| Dimensione decompressa | 9,76 MB |
-| Zoom 0–10 (1 tassello per livello, coprono aree vaste) | 1,11 MB |
-| Zoom 11 / 12 / 13 | 419 / 442 / 428 KB (4 tasselli ciascuno) |
-| Zoom 14 | 1,06 MB (16 tasselli) |
-| Zoom 15 | 2,75 MB (56 tasselli; il più pesante 228 KB, centro di Roma) |
-| Motore protomaps-leaflet | 128 KB (37,7 KB compresso), caricato all'inizio del quiz come Leaflet |
-| Luoghi del catalogo dentro il riquadro | **66 su 77** |
-| Luoghi fuori dal riquadro | 11: Appia Antica, Garbatella, Ostiense, EUR, San Paolo, Catacombe di San Callisto, Parco degli Acquedotti, Porta San Sebastiano, Centrale Montemartini, Pigneto, Caffarella |
+| Tasselli | **304** |
+| Dimensione su disco, compressi gzip (quanto si scaricherebbe vedendo tutto) | **11,33 MB** (11.881.920 byte) |
+| Dimensione decompressa | 18,0 MB (18.871.006 byte) |
+| Dati 11 (riquadro ampio) | 9 tasselli, 635 KB |
+| Dati 12 / 13 / 14 | 9 / 20 / 56 tasselli, 769 KB / 1,33 MB / 2,52 MB |
+| Dati 15 | 210 tasselli, 6,11 MB |
+| Tassello più pesante | 130 KB |
+| Motore protomaps-leaflet | 128 KB (37,7 KB compresso) |
+| Stile della mappa (`js/map-style.js`) | 8,6 KB (3,7 KB compresso) |
+| Cartella da pubblicare su Cloudflare Pages (`dist/`) | 586 file, 30,8 MB, il più grande 373 KB: dentro i limiti (20.000 file, 25 MiB per file) |
 
-Come richiesto, l'area completa dei 77 luoghi non è stata scaricata.
+Prima versione: 95 tasselli, 6,19 MB, solo il centro.
 
-## 3. Prestazioni misurate
+## 4. Caricamento progressivo
 
-Condizioni:
-- Chrome automatizzato, smartphone 390×844 a densità 3;
-- service worker disattivato, per misurare la rete;
-- itinerario «un giorno» Colosseo → Foro Romano → Fori Imperiali → Campidoglio, zoom 15;
-- una misura per condizione.
+| Requisito | Come |
+|---|---|
+| Solo i tasselli della zona visibile | Leaflet chiede solo i tasselli dentro lo schermo (`keepBuffer: 1`). Fuori dall'area non chiede nulla (`bounds`) |
+| Niente download durante le animazioni | `updateWhenZooming: false`: niente tasselli degli zoom intermedi |
+| Niente tasselli per una mappa che non si guarda | Il livello entra in mappa solo quando la mappa arriva a circa mezzo schermo di distanza ed è già inquadrata sulla giornata. Prima si scaricavano anche i tasselli della vista iniziale (zoom 12 su tutta Roma), poi subito abbandonati |
+| Spostamenti veloci | Ogni richiesta è annullabile: le richieste di zone già lasciate si interrompono |
+| Cambio di giornata | Inquadratura diretta, senza animazione, sulla nuova giornata. Le zone già viste non si riscaricano: copia in memoria di protomaps-leaflet e cache del service worker |
+| Conservati offline i tasselli consultati | Cache `vivi-roma-tiles-<data>` del service worker, cancellata e sostituita solo quando cambiano i dati |
+| Home e quiz non rallentati | La home non carica nulla della mappa. Leaflet e protomaps-leaflet si scaricano dopo l'inizio del quiz, quando il browser è libero (`requestIdleCallback`). Lo stile della mappa è un modulo caricato solo con la mappa, non all'avvio |
+| Connessione assente | Avviso dedicato sotto la mappa: «Sei offline: la mappa mostra solo le zone già consultate. Le schede delle tappe e i tuoi viaggi restano disponibili.». Sparisce al ritorno della rete, quando le zone mancanti si scaricano da sole |
+| Nessun download di tutta Roma | Nessun pulsante, nessuno scaricamento automatico dell'area completa |
 
-| | OSM (attuale) | Protomaps (prototipo) |
+### Misure (Chrome automatizzato, smartphone 390×844, una misura per condizione)
+
+**Home, primo caricamento** (server con compressione, confronto con `restyling-premium`):
+
+| | `restyling-premium` | Prototipo |
 |---|---|---|
-| Prima vista della mappa: richieste / dati | 6 tasselli / 229 KB | **2 tasselli / 169 KB** |
-| Dopo due ingrandimenti (zoom 17) | 21 tasselli / 683 KB | **6 tasselli / 542 KB** |
-| Sfondo visibile dopo «Crea il mio itinerario», rete senza limiti | 0,88 s | **0,49 s** |
-| Idem, rete «3G veloce» simulata | 1,91 s | **1,38 s** |
+| Rete normale: primo contenuto / contenuto principale | 0,15 / 0,20 s | 0,14 / 0,20 s |
+| 3G veloce: contenuto principale / caricamento completo | 2,55 / 4,03 s | 2,56 / 4,06 s |
+| 3G lenta: contenuto principale / caricamento completo | 6,51 / 13,17 s | 6,55 / 13,20 s |
+| Peso e richieste | 278 KB, 15 | 280 KB, 15 |
 
-- I tasselli OSM arrivano da internet, quelli Protomaps dal server locale: il confronto dei tempi favorisce il prototipo e va ripetuto con l'hosting reale.
-- Il numero di richieste e i byte invece non dipendono dal server.
-- Oltre lo zoom 15 il prototipo non scarica nulla: ingrandisce i vettori già scaricati.
+Nessuna richiesta della mappa sulla home in entrambi i casi.
 
-## 4. Zoom massimo 15
+**Prima vista della mappa** (itinerario Colosseo → Campidoglio):
 
-- I dati arrivano fino a 15 (`maxDataZoom: 15`); la mappa si può ingrandire fino a 19, con i vettori del 15 ridisegnati nitidi.
-- Verificato a zoom 15 e 17 sul Colosseo: schermate `*-zoom15.png` e `*-zoom17.png`.
-- Il riquadro limita le richieste (`bounds`): fuori dal centro non si chiedono tasselli inesistenti.
-
-## 5. Senza connessione
-
-Prova automatica `protooffline.mjs`, 8 controlli superati sia sul server semplice sia sull'emulatore Cloudflare:
-1. Si apre la mappa online, si salva il viaggio, si passa offline e si ricarica.
-2. Il viaggio si riapre: motore vettoriale dalla cache, sfondo disegnato (non vuoto) allo stesso zoom, marcatori presenti, nessun avviso.
-3. Offline si ingrandisce fino a 17 con i dati del 15 già salvati.
-4. Tornati online, uno zoom mai visto (13) si scarica normalmente.
-
-**Limite:** offline si vedono solo le zone e gli zoom già guardati. Si potrebbe scaricare tutta l'area (6,2 MB) alla prima apertura della mappa: è una scelta che consuma dati mobili, quindi da decidere (vedi sotto).
-
-## 6. Attribuzioni e licenze
-
-| Elemento | Licenza | Obbligo | Stato nel prototipo |
+| | OSM | Prototipo 1 | Prototipo 2 |
 |---|---|---|---|
-| Dati della mappa (archivio Protomaps) | ODbL, «Produced Work» di OpenStreetMap | Attribuzione visibile «© OpenStreetMap» con link | ✓ «Protomaps © OpenStreetMap» nell'angolo della mappa, con link a openstreetmap.org/copyright |
-| Stili della mappa di base (@protomaps/basemaps) | BSD-3 (codice); il disegno della mappa è CC0 | Conservare l'avviso | ✓ incluso nel file della libreria; elencato in `NOTICE.md` |
-| protomaps-leaflet 5.1.0 | BSD-3, Protomaps LLC | Conservare l'avviso | ✓ `js/vendor/protomaps-leaflet/LICENSE` |
-| Librerie incluse (pmtiles, vector-tile, pbf: BSD-3; point-geometry, quickselect, potpack: ISC; color2k, rbush: MIT) | Libere, anche per uso commerciale | Conservare gli avvisi | ⚠ elencate in `NOTICE.md`; prima di un rilascio vanno aggiunti i testi completi |
+| Tasselli / dati | 6 / 229 KB | 2 / 169 KB | 2 / 169 KB |
+| Dopo due ingrandimenti | 21 / 683 KB | 6 / 542 KB | 6 / 541 KB |
+| Sfondo visibile, 3G veloce | — | 1,36 s | 1,36 s |
+| Sfondo visibile, 3G veloce + CPU rallentata 4 volte (telefono medio) | 2,13 s | 1,72 s | 1,70 s |
 
-Da aggiornare in caso di integrazione:
-- il piè di pagina (oggi dice «Mappa © contributori di OpenStreetMap»);
-- `docs/legale-privacy.md` e la bozza di informativa: sparirebbero le richieste ai server OSMF per l'area coperta.
+Il nuovo stile, con bordi delle strade ed edifici, non rallenta il disegno rispetto al primo prototipo. Il dato OSM viene da internet, quindi il confronto non è alla pari.
 
-## 7. Aggiornamento delle mappe
+**Cambio di giornata** (4 giorni: centro, Appia, Garbatella–EUR, Pigneto–San Pietro; service worker spento, per contare la rete):
 
-- Le strade del centro cambiano poco. Proposta: **aggiornamento trimestrale, manuale**.
-- Ogni aggiornamento aggiunge circa 6,5 MB alla cronologia del repository: con un aggiornamento al trimestre, circa 26 MB all'anno, sotto il limite consigliato di 1 GB.
+| Giorno | Zoom | Tasselli scaricati |
+|---|---|---|
+| 1 (prima apertura) | 15 | 2 (169 KB) |
+| 2 | 12 | 4 (410 KB) |
+| 3 | 13 | 4 (380 KB) |
+| 4 | 12 | **0** (stessi tasselli del giorno 2) |
+| di nuovo 1 e 2 | — | **0** |
 
-Procedura (si può trasformare in un workflow GitHub Actions da avviare a mano):
-```
-npm i pmtiles@4                                   # fuori dal sito
-curl -s https://build-metadata.protomaps.dev/builds.json   # ultima build
-node tools/maps/estrai-tasselli.mjs https://build.protomaps.com/AAAAMMGG.pmtiles 12.445 41.875 12.52 41.92 15 tiles
-node tools/stamp.mjs        # nuova TILES_VERSION: il service worker sostituisce la cache dei tasselli
-npm test                    # controlla numero, dimensioni, formato e riquadro
-```
+Totale per vedere tutte e quattro le giornate: circa 1 MB.
 
-## 8. Limitazioni note
+## 5. Stile grafico
 
-1. **Area**: 11 luoghi su 77 sono fuori dal riquadro. Un itinerario che li comprende mostra i marcatori su sfondo vuoto in quella zona. Per l'integrazione serve l'area del catalogo (≈ 13,6 MB stimati) oppure un ritorno a OSM fuori dal riquadro.
-2. **Aspetto**:
-   - le strade minori sono meno contrastate che su OSM;
-   - mancano icone e simboli dei luoghi (croci degli ospedali, metro);
-   - alcuni nomi sono in latino o nella forma OSM («Forum Romanum», «Basilica Iulia»);
-   - le etichette possono passare sotto la linea puntinata, come già accade con OSM.
+Nessun tema di serie: le regole di disegno sono scritte per VIVI (`js/map-style.js`). Il filtro CSS resta solo per l'eventuale ritorno a OSM.
 
-   Da tarare con te sulle schermate.
-3. **Tasselli pesanti al centro**: a zoom 15 alcuni superano i 200 KB.
-4. **Browser vecchi** (Safari < 16.4): niente `DecompressionStream`, quindi la mappa torna a OSM. Funziona, ma senza offline.
-5. **Offline** solo per le zone già viste (vedi §5).
-6. **Prove** solo con Chrome automatizzato e con l'emulatore di Cloudflare: nessun iPhone o Android reale, nessun Safari.
-7. **Peso del repository**: +6,6 MB di tasselli nel ramo del prototipo.
+| Indicazione | Realizzazione |
+|---|---|
+| Sfondo avorio caldo | `#F3EDE2`, scuole, ospedali e simili appena distinti (`#EFE8DB`) |
+| Parchi verde tenue | `#DCE5C9` parchi, giardini e ville; boschi `#CFDCB9` |
+| Tevere riconoscibile | Acqua `#A8C8D2`, linea del fiume visibile anche a zoom 12, nome «Tevere» in corsivo blu |
+| Strade principali più visibili | Riempimento sabbia chiara con bordo dorato (`#FBF1DA` / `#CDAE74`); grandi arterie ambra (`#F3DDAA`) |
+| Strade secondarie distinguibili | Bianche con bordo beige (`#DDD1BC`) dallo zoom 14, più larghe a zoom alto |
+| Nomi delle vie leggibili | Inter 600 su alone avorio, principali dallo zoom 13, secondarie dal 15 |
+| Meno etichette | Restano solo vie, Tevere, quartieri (in maiuscolo, fino allo zoom 15) e nomi dei grandi parchi. Tolti negozi, alberghi, fermate, monumenti e ruderi: i luoghi della visita li nominano già marcatori e schede |
+| Nomi italiani | Sempre `name:it` prima del nome locale. Le denominazioni latine dei ruderi («Basilica Iulia», «Curia Iulia», «Meta Sudans») non compaiono più, perché le etichette dei monumenti non si disegnano |
+
+## 6. Senza connessione
+
+Prova `protooffline.mjs`, 11 controlli superati. Sequenza:
+1. Online: si apre la mappa e si salva il viaggio. Poi si passa offline e si ricarica.
+2. Offline: il viaggio si riapre con il motore della mappa dalla cache, lo sfondo disegnato, i marcatori e nessun avviso. Ingrandendo fino a 17 la mappa funziona con i dati già salvati.
+3. Offline, spostandosi su una zona mai vista (EUR): compare l'avviso «Sei offline…».
+4. Di nuovo online: l'avviso sparisce, EUR e lo zoom 13 si scaricano da soli. Nessun errore JavaScript.
+
+## 7. Attribuzioni, licenze, aggiornamento
+
+- **Attribuzioni e licenze** invariate rispetto alla prima versione:
+  - nella mappa compare «Protomaps © OpenStreetMap» con link;
+  - i dati sono sotto licenza ODbL;
+  - protomaps-leaflet è BSD-3, e le librerie che include sono elencate in `js/vendor/protomaps-leaflet/NOTICE.md`.
+- **Aggiornamento**:
+  ```
+  node tools/maps/estrai-tasselli.mjs tools/maps/area-roma.json tiles [https://build.protomaps.com/AAAAMMGG.pmtiles]
+  node tools/stamp.mjs && npm test
+  ```
+  - Lo script sostituisce `tiles/` solo a estrazione completa.
+  - Lo stamp cambia la versione dei tasselli nel service worker, e la cache vecchia viene sostituita.
+  - I test ricontrollano la copertura dei 77 luoghi: se si aggiunge un luogo fuori area, falliscono finché non si allarga `area-roma.json`.
+  - Ogni aggiornamento aggiunge circa 11,3 MB alla cronologia del repository. Proposta: un aggiornamento ogni sei mesi.
+
+## 8. Problemi aperti
+
+1. **Nomi delle vie secondarie**: protomaps-leaflet scrive il nome solo dove un tratto di via è abbastanza dritto e lungo. Nelle zone a vie curve e corte (Garbatella, centro storico) molti vicoli restano senza nome anche a zoom 16. Le vie principali hanno il nome.
+2. **Etichette sotto i marcatori**: i nomi dei quartieri (es. «Colle Palatino», «Campidoglio») possono passare sotto un numero o sotto la linea puntinata, come già con OSM.
+3. **Peso del repository**: +11,3 MB di tasselli, che si ripetono a ogni aggiornamento.
+4. **Browser senza `DecompressionStream`** (Safari < 16.4): ritorno a OSM, senza offline.
+5. **Offline** solo per le zone già consultate. Il download di tutta Roma (11,3 MB) non c'è, come richiesto.
+6. **Prove** solo con Chrome automatizzato e con l'emulatore di Cloudflare Pages: nessun iPhone o Android reale, nessun Safari.
+7. **Da aggiornare all'integrazione**: piè di pagina e crediti (oggi «Mappa © contributori di OpenStreetMap»), `docs/legale-privacy.md` e informativa (sparisce la richiesta ai server OSMF), `docs/cloudflare-pages.md` (la cartella `tiles/`).

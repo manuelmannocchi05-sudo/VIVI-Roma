@@ -161,6 +161,7 @@ export default {
   "map.capStrong":"La mappa mostra le tappe del giorno selezionato.",
   "map.capText":" La linea puntinata indica solo l'ordine di visita in linea d'aria, non un percorso pedonale verificato.",
   "map.notice":"Alcune parti della mappa non si sono caricate. Le schede restano complete e ogni tappa ha il link alle indicazioni.",
+  "map.offline":"Sei offline: la mappa mostra solo le zone già consultate. Le schede delle tappe e i tuoi viaggi restano disponibili.",
   "map.failed":"La mappa non si è caricata (servizio esterno non raggiungibile). Puoi comunque aprire le indicazioni da ogni scheda.",
   "map.unavailable":"La mappa non è disponibile: usa i link alle indicazioni.",
   "map.selected":p=>"Tappa "+p.n+" di "+p.total,

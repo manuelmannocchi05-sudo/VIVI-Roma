@@ -216,6 +216,7 @@ export default {
   "map.capStrong":"The map shows the stops for the selected day.",
   "map.capText":" The dotted line only shows the order of visits as the crow flies, not a verified walking route.",
   "map.notice":"Parts of the map didn't load. The cards are still complete and every stop has a link to directions.",
+  "map.offline":"You're offline: the map only shows areas you've already viewed. Stop cards and your saved trips are still available.",
   "map.failed":"The map didn't load (external service unavailable). You can still open directions from each card.",
   "map.unavailable":"The map isn't available: use the directions links.",
   "map.selected":p=>"Stop "+p.n+" of "+p.total,
