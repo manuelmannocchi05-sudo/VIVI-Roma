@@ -58,9 +58,9 @@ const QUIZ=[
   ["balanced","sliders","Equilibrato","Scoperte e pause","Ritmo equilibrato"],
   ["full","bolt","Intenso","Giornate piene","Ritmo intenso"]]},
  {key:"walking",title:"Quanto vuoi camminare?",err:"Scegli quanto vuoi camminare.",compact:true,opts:[
-  ["low","pin","Poco","Tratti brevi","Cammina poco"],
-  ["medium","pin","Il giusto","Mi piace camminare","Camminata media"],
-  ["high","pin","Molto","Esplorare a piedi","Cammina molto"]]},
+  ["low","pin","Poco","Tratti brevi","Camminate brevi"],
+  ["medium","pin","Il giusto","Mi piace camminare","Camminate medie"],
+  ["high","pin","Molto","Esplorare a piedi","Camminate lunghe"]]},
  {key:"budget",title:"Budget",err:"Scegli il tuo budget.",compact:true,opts:[
   ["low","coin","Contenuto","Spendere poco","Budget contenuto"],
   ["mid","sliders","Medio","Qualche ingresso","Budget medio"],
