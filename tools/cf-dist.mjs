@@ -6,7 +6,7 @@ import path from "node:path";
 const ROOT=path.resolve(path.dirname(new URL(import.meta.url).pathname),"..");
 const OUT=path.join(ROOT,"dist");
 const FILES=["index.html","crediti.html","404.html","sw.js","manifest.webmanifest","icon.svg","_headers"];
-const DIRS=["css","js","fonts","img"];
+const DIRS=["css","js","fonts","img"].concat(fs.existsSync(path.join(ROOT,"tiles"))?["tiles"]:[]);
 const MAX_FILES=20000,MAX_SIZE=25*1024*1024;
 fs.rmSync(OUT,{recursive:true,force:true});
 let n=0,bytes=0,biggest=["",0];

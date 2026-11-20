@@ -16,7 +16,7 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 ### 2. Il servizio
 7. Nome pubblico e indirizzo definitivo del sito: dominio tuo oppure indirizzo dell'hosting.
 8. Hosting scelto per la beta: GitHub Pages oppure Cloudflare Pages (vedi `docs/hosting-confronto.md`). Cambiano il fornitore citato e le condizioni sui trasferimenti di dati.
-9. Mappa: OpenStreetMap pubblica, cioè con richieste ai server della OSMF nel Regno Unito, oppure Protomaps ospitata con il sito, cioè senza richieste a terzi.
+9. ~~Mappa~~ — deciso: Protomaps ospitata con il sito, senza richieste a terzi. Resta da decidere se mantenere la riserva OSM per i browser più vecchi (Safari < 16.4): se sì, va citata nell'informativa.
 10. Se il servizio sarà **gratuito**, con **ricavi** (sponsor, pubblicità, app a pagamento) o di **promozione** della tua attività. Incide su informativa, hosting e immagini dei beni culturali.
 11. A chi è rivolto: tutti, oppure anche minori di 14 anni come utenti diretti.
 12. Da quale data l'informativa entra in vigore, e dove vuoi il link: piè di pagina, menu, pagina dedicata.
@@ -27,16 +27,16 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 15. App su App Store o Google Play: richiedono schede privacy proprie e, per Apple, un'informativa raggiungibile da un URL.
 16. Newsletter, account, sincronizzazione: oggi esclusi, ma vanno indicati se previsti.
 
-## B. Cosa il sito fa oggi (verificato nel codice, commit di questa consegna)
+## B. Cosa il sito fa oggi (verificato nel codice, aggiornato il 20/11/2026)
 
 - Nessun cookie, nessuna analisi del traffico, nessuna pubblicità, nessun account.
 - `localStorage` del browser:
   - `vivi-roma:viaggi:v1`: viaggi salvati, solo su azione dell'utente;
   - `vivi-roma:lingua`: lingua scelta, solo quando l'utente la cambia.
-- Service worker e Cache Storage: copia dei file del sito e delle foto viste, per l'uso senza rete. Nessun dato personale.
+- Service worker e Cache Storage: copia dei file del sito, delle foto viste e delle zone della mappa già guardate, per l'uso senza rete. Nessun dato personale.
 - Richieste a terzi:
   - hosting, a ogni visita;
-  - tasselli della mappa OSM, solo quando la mappa è visibile;
+  - mappa: nessuna (tasselli ospitati con il sito); ai server OSM solo come riserva, nei browser che non supportano la mappa vettoriale;
   - link esterni (Google Maps, Wikipedia, OpenStreetMap, Wikimedia Commons, siti ufficiali), solo se l'utente li apre.
 - Font, foto e librerie sono ospitati sul sito.
 
@@ -45,13 +45,13 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 | # | Tema | Perché | Priorità |
 |---|---|---|---|
 | 1 | Informativa privacy completa | Basi giuridiche, tempi di conservazione dei log dell'hosting, diritti, reclamo al Garante | Prima della beta pubblica |
-| 2 | Ruolo dell'hosting e della OSMF | Titolari autonomi o responsabili del trattamento; trasferimenti verso USA e Regno Unito | Prima della beta pubblica |
+| 2 | Ruolo dell'hosting (e della OSMF, solo se resta la riserva) | Titolari autonomi o responsabili del trattamento; trasferimenti verso USA e Regno Unito | Prima della beta pubblica |
 | 3 | `localStorage` e service worker come strumenti tecnici | Confermare che basti l'informativa senza banner (linee guida del Garante del 10/06/2021 sui cookie e altri strumenti di tracciamento) | Prima della beta pubblica |
 | 4 | Foto CC BY-SA ridimensionate o ritagliate | Adeguatezza dell'attribuzione e dell'indicazione della licenza per le opere adattate | Prima della beta pubblica |
 | 5 | Immagini di beni culturali (artt. 107–108 del Codice dei beni culturali, D.M. 161/2023 e D.M. 108/2024) | Probabilmente libere senza scopo di lucro; con ricavi possono servire autorizzazioni e canoni | Prima di qualsiasi uso commerciale |
 | 6 | Persone riconoscibili nelle foto | Diritto all'immagine per usi promozionali | Prima di usi promozionali |
 | 7 | Responsabilità su prezzi, orari e indicazioni | Il sito invita già a verificare le fonti ufficiali: valutare un testo di esclusione di responsabilità | Prima della beta pubblica |
-| 8 | Hosting e mappa in uso commerciale | GitHub Pages e i tasselli OSM pubblici non sono pensati per usi commerciali | Prima di qualsiasi uso commerciale |
+| 8 | Hosting in uso commerciale; attribuzione ODbL della mappa | GitHub Pages non è pensato per usi commerciali; la mappa ora è ospitata con il sito (dati ODbL, da confermare l'attribuzione per un uso commerciale) | Prima di qualsiasi uso commerciale |
 | 9 | Marchio «VIVI Roma» | Verificare che il nome non sia già registrato o usato da altri nel turismo | Prima del lancio pubblico |
 | 10 | Pubblicazione in app store | Termini Apple e Google, schede privacy, eventuale età minima | Prima dell'app |
 

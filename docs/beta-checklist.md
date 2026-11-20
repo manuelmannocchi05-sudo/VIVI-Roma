@@ -32,7 +32,7 @@ Per ogni riga, segna ✅ / ❌ e annota modello, sistema e browser.
 - [ ] Su smartphone una sola dita scorre la pagina, non la mappa; «Sposta la mappa» la sblocca.
 - [ ] Tocca un numero: si apre il pannello con «Tappa X di Y», «Vai alla scheda» e le frecce.
 - [ ] Pulsanti + / − / «mostra tutte»: funzionano e sono abbastanza grandi.
-- [ ] Attribuzione «© OpenStreetMap» visibile e non coperta.
+- [ ] Attribuzione «Protomaps © OpenStreetMap» visibile e non coperta.
 - [ ] Rete lenta o assente: compare l'avviso e i link «Indicazioni» funzionano lo stesso.
 
 ## 3. Salvataggio, condivisione, riapertura
@@ -76,7 +76,7 @@ Per ogni riga, segna ✅ / ❌ e annota modello, sistema e browser.
   - [ ] i viaggi salvati si riaprono;
   - [ ] il passaggio IT/EN funziona;
   - [ ] la pagina dei crediti si apre.
-- [ ] Offline, la mappa mostra marcatori e linea; lo sfondo compare solo per le zone già viste (cache del browser), altrimenti compare l'avviso. È voluto: la politica OSM vieta la mappa offline.
+- [ ] Offline, la mappa mostra marcatori e linea; lo sfondo compare per le zone già guardate. Su una zona mai vista compare l'avviso «Sei offline: la mappa mostra solo le zone già consultate…».
 - [ ] Offline, le foto compaiono solo se già viste: le altre mostrano lo sfondo colorato.
 - [ ] Aggiornamento: dopo un nuovo deploy, la pagina aperta non si ricarica da sola. Chiudi e riapri il sito: deve comparire la versione nuova.
 
@@ -101,6 +101,6 @@ Per ogni riga, segna ✅ / ❌ e annota modello, sistema e browser.
 
 ## 9. Dopo la pubblicazione della beta
 
-- [ ] Aggiungi un contatto per le segnalazioni, che è un'indicazione della politica OSM. **Non** usare un'email personale senza deciderlo.
-- [ ] Controlla periodicamente che la mappa OSM risponda.
+- [ ] Aggiungi un contatto per le segnalazioni. **Non** usare un'email personale senza deciderlo.
+- [ ] Aggiorna i dati della mappa ogni sei mesi (procedura in `docs/mappa-protomaps.md`).
 - [ ] Ricontrolla prezzi e orari con data di verifica più vecchia di 6 mesi.

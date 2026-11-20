@@ -14,7 +14,7 @@ Le verifiche sono state fatte in locale con l'emulatore ufficiale `wrangler page
 | `sw.js` | Deve essere sempre ricontrollato | `_headers`: `Cache-Control: no-cache` |
 | Manifest | Servito come `application/manifest+json`, `start_url` e `scope` relativi (`./`) | Nessuno |
 | Sicurezza di base | — | `_headers`: `X-Content-Type-Options: nosniff`. `Referrer-Policy: strict-origin-when-cross-origin` è il valore predefinito dei browser e invia comunque il Referer richiesto dalla politica OSM |
-| File da pubblicare | Pages pubblica la cartella indicata | `tools/cf-dist.mjs` copia in `dist/` solo il sito (277 file, 19,3 MB), senza `docs/`, `tests/`, `tools/` e `.github/`. Controlla i limiti di Pages (20.000 file, 25 MiB per file) e che ogni file del service worker esista |
+| File da pubblicare | Pages pubblica la cartella indicata | `tools/cf-dist.mjs` copia in `dist/` solo il sito (587 file, 30,8 MB, di cui `tiles/` con 304 tasselli), senza `docs/`, `tests/`, `tools/` e `.github/`. Controlla i limiti di Pages (20.000 file, 25 MiB per file) e che ogni file del service worker esista |
 
 ## 2. Cache e aggiornamenti: come funziona
 
@@ -69,3 +69,11 @@ Rimuove il service worker e le sue copie, ma **non** i viaggi salvati, e ricaric
 node tools/stamp.mjs && node tools/cf-dist.mjs
 npx wrangler pages dev dist      # emulatore locale, non richiede account
 ```
+
+## 4. Mappa (tasselli in `tiles/`)
+
+- I tasselli sono file statici `tiles/z/x/y.mvt.gz` (304 file, 11,3 MB, il più grande 130 KB): nessuna richiesta Range, quindi nessun bisogno di Cloudflare R2.
+- Pages li serve come `application/gzip` senza ricomprimerli; li decomprime il browser. Se un giorno l'hosting li servisse già decompressi, la mappa se ne accorge e li usa così come sono.
+- Un tassello inesistente risponde 404 grazie a `404.html`: la mappa lascia vuota solo quella zona, senza errori. Non succede dentro l'area, perché la mappa non può uscirne.
+- Verificato con `wrangler pages dev dist`: tasselli 200, tassello inesistente 404, mappa online e offline, cambio di giornata, aggiornamenti del service worker.
+- Dopo il primo deploy controlla: `https://<nome>.pages.dev/tiles/15/17521/12176.mvt.gz` deve scaricare un file (non una pagina HTML).

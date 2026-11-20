@@ -44,13 +44,16 @@ export function precacheList({imports,css}){
   const files=fs.readdirSync(path.join(ROOT,"fonts")).filter(f=>f.endsWith(".woff2")).map(f=>"./fonts/"+f).sort();
   const icons=fs.readdirSync(path.join(ROOT,"img/icons")).filter(f=>f.endsWith(".png")).map(f=>"./img/icons/"+f).sort();
   return ["./","./crediti.html","./manifest.webmanifest","./icon.svg","./css/style.css?v="+css,
-    ...Object.values(imports).sort(),...files,...icons,"./js/vendor/leaflet/leaflet.css","./js/vendor/leaflet/leaflet.js"];
+    ...Object.values(imports).sort(),...files,...icons,"./js/vendor/leaflet/leaflet.css","./js/vendor/leaflet/leaflet.js",
+    ...(fs.existsSync(path.join(ROOT,"js/vendor/protomaps-leaflet/protomaps-leaflet.js"))?["./js/vendor/protomaps-leaflet/protomaps-leaflet.js"]:[])];
 }
 export function stampSW(sw,list){
   /* la versione dipende dal contenuto di tutti i file dell'elenco (pagine comprese) */
   const h=crypto.createHash("sha256");
   for(const u of list){const f=u.replace(/^\.\//,"").replace(/\?.*$/,"")||"index.html";h.update(u);h.update(fs.readFileSync(path.join(ROOT,f)));}
-  const block="/* precache:start */\nconst VERSION="+JSON.stringify(h.digest("hex").slice(0,12))+";\nconst PRECACHE="+JSON.stringify(list,null,0).replace(/","/g,'",\n "')+";\n/* precache:end */";
+  const tm=path.join(ROOT,"tiles/meta.json");
+  const tiles=fs.existsSync(tm)?"\nconst TILES_VERSION="+JSON.stringify(JSON.parse(fs.readFileSync(tm,"utf8")).estratto+"-"+crypto.createHash("sha256").update(fs.readFileSync(tm)).digest("hex").slice(0,8))+";":"";
+  const block="/* precache:start */\nconst VERSION="+JSON.stringify(h.digest("hex").slice(0,12))+";"+tiles+"\nconst PRECACHE="+JSON.stringify(list,null,0).replace(/","/g,'",\n "')+";\n/* precache:end */";
   if(!/\/\* precache:start \*\/[\s\S]*?\/\* precache:end \*\//.test(sw))throw new Error("sw.js: manca il segnaposto precache");
   return sw.replace(/\/\* precache:start \*\/[\s\S]*?\/\* precache:end \*\//,block);
 }

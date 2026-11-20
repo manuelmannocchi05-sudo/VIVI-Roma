@@ -403,6 +403,8 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 #map{height:min(560px,calc(100vh - 290px));min-height:360px;width:100%;background:#ECE6D8;z-index:1;font-family:var(--sans)}
 /* tasselli in tonalità calde e meno sature, coerenti con la palette (solo un filtro visivo, nessun servizio in più) */
 #map .leaflet-tile-pane{filter:saturate(.62) sepia(.14) brightness(1.03) contrast(.96)}
+#map.map-vector .leaflet-tile-pane{filter:none}   /* mappa vettoriale: i colori sono già quelli finali */
+#map.map-vector{background:#F3EDE2}
 .map-ctrl{position:absolute;z-index:600;top:12px;right:12px;display:flex;flex-direction:column;border-radius:16px;overflow:hidden;background:rgba(251,249,244,.96);box-shadow:0 6px 18px rgba(19,33,27,.18);border:1px solid rgba(220,211,192,.9)}
 .map-btn{display:grid;place-items:center;width:46px;height:46px;padding:0;background:none;border:0;color:var(--green);transition:background .2s}
 .map-btn+.map-btn{border-top:1px solid var(--line)}

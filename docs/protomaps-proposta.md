@@ -1,5 +1,7 @@
 # VIVI Roma — Proposta tecnica: mappa con Protomaps
 
+> **Aggiornamento (20/11/2026):** proposta realizzata e integrata in `restyling-premium`, con un'area più ampia (tutti i 77 luoghi). Dati e misure effettive in `docs/mappa-protomaps.md`; le stime qui sotto sono quelle iniziali.
+
 **Stato: proposta.** Leaflet e i tasselli OpenStreetMap restano in uso. Non è stato scaricato nessun file cartografico.
 Per le stime sono stati letti **solo l'intestazione e gli indici** dell'archivio pubblico Protomaps (circa 1 MB in tutto, nessun tassello) con lo script `tools/maps/stima-pmtiles.mjs`.
 

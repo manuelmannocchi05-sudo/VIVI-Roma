@@ -1,0 +1,59 @@
+{
+ "fonte": "https://build.protomaps.com/20261118.pmtiles",
+ "versione_pmtiles": 3,
+ "livelli": [
+  {
+   "zoom": [
+    11,
+    11
+   ],
+   "riquadro": [
+    12.33,
+    41.76,
+    12.67,
+    41.99
+   ]
+  },
+  {
+   "zoom": [
+    12,
+    15
+   ],
+   "riquadro": [
+    12.427,
+    41.821,
+    12.583,
+    41.934
+   ]
+  }
+ ],
+ "tasselli": 304,
+ "byte_decompressi": 18871006,
+ "byte_gzip": 11881920,
+ "estratto": "2026-11-19",
+ "formato": "z/x/y.mvt.gz (MVT compresso gzip, decompresso nel browser)",
+ "attribuzione": "Protomaps © OpenStreetMap (ODbL)",
+ "perZoom": {
+  "11": [
+   9,
+   635
+  ],
+  "12": [
+   9,
+   769
+  ],
+  "13": [
+   20,
+   1357
+  ],
+  "14": [
+   56,
+   2583
+  ],
+  "15": [
+   210,
+   6260
+  ]
+ },
+ "nota_perZoom": "[tasselli, KB compressi gzip]"
+}

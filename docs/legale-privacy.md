@@ -4,7 +4,7 @@
 È un inventario tecnico di ciò che il sito usa e trasmette, preparato per un consulente (avvocato o DPO) che dovrà confermarlo prima di un lancio commerciale.
 Ogni voce indica se è **verificata nel codice** o se **richiede una verifica professionale**.
 
-## 1. Cosa fa il sito (verificato nel codice, commit del Blocco D)
+## 1. Cosa fa il sito (verificato nel codice; aggiornato il 20/11/2026 con la mappa Protomaps)
 
 | Elemento | Situazione | Stato |
 |---|---|---|
@@ -13,10 +13,10 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 | Account, login, database, server propri | Nessuno | Verificato |
 | Memoria del browser | `localStorage`, chiave `vivi-roma:viaggi:v1`: solo i viaggi salvati dall'utente (risposte al quiz e tappe). Resta sul dispositivo, non viene inviata a nessuno | Verificato |
 | Lingua scelta | `localStorage`, chiave `vivi-roma:lingua` (valore «it» o «en»), solo quando l'utente cambia lingua. Resta sul dispositivo. *(Correzione: nel Blocco D era indicato per errore che la lingua non veniva memorizzata.)* | Verificato |
-| Service worker (dalla beta) | Copia sul dispositivo dei file del sito (pagine, stili, codice, font, icone, foto viste) per l'apertura senza rete. Nessun dato personale, nessuna richiesta a terzi | Verificato |
+| Service worker (dalla beta) | Copia sul dispositivo dei file del sito (pagine, stili, codice, font, icone, foto viste, zone della mappa già guardate) per l'apertura senza rete. Nessun dato personale, nessuna richiesta a terzi | Verificato |
 | Font | Ospitati sul sito (nessuna richiesta a Google Fonts) | Verificato |
 | Foto | Ospitate sul sito come WebP (nessuna richiesta a Wikimedia durante la navigazione) | Verificato |
-| Leaflet (mappa) | Copiato nel progetto, nessun CDN | Verificato |
+| Mappa | Leaflet e protomaps-leaflet copiati nel progetto; tasselli vettoriali Protomaps (dati OpenStreetMap) ospitati con il sito in `tiles/`. Nessuna richiesta a server di mappe esterni nel funzionamento normale | Verificato |
 | Link di condivisione | L'itinerario è codificato nella parte dopo `#` dell'indirizzo: il browser non la invia al server | Verificato |
 
 ### Richieste verso servizi esterni
@@ -24,14 +24,14 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 | Servizio | Quando | Cosa riceve | Stato |
 |---|---|---|---|
 | **GitHub Pages** (hosting) | Ogni visita | Indirizzo IP, User-Agent, pagine richieste (log del server gestiti da GitHub) | Comportamento noto dell'hosting; termini e ruolo di GitHub (titolare o responsabile) **da verificare con un professionista** |
-| **tile.openstreetmap.org** (OSMF, Regno Unito) | Solo quando si apre la mappa dei risultati | IP, User-Agent, Referer (indirizzo del sito senza l'itinerario), zona di Roma visualizzata | Verificato nel codice; trasferimento verso il Regno Unito e informativa **da valutare** |
+| **tile.openstreetmap.org** (OSMF, Regno Unito) — **solo riserva** | Solo se il browser non può usare la mappa vettoriale (manca `DecompressionStream`, ad esempio Safari precedente alla 16.4) o se il motore della mappa non si carica | IP, User-Agent, Referer (indirizzo del sito senza l'itinerario), zona di Roma visualizzata | Verificato nel codice; nei browser attuali non avviene. Se si mantiene la riserva, va citata nell'informativa (trasferimento verso il Regno Unito **da valutare**) |
 | Google Maps, OpenStreetMap, Wikipedia, Wikimedia Commons, siti ufficiali dei luoghi | Solo se l'utente tocca un link | Ciò che ogni sito raccoglie normalmente; i link hanno `rel="noopener noreferrer"` | Verificato |
 
 ## 2. Fotografie
 
 - 84 immagini da Wikimedia Commons: CC BY-SA 4.0 (39), CC BY-SA 3.0 (13), CC BY 4.0 (11), CC BY 2.0 (8), Pubblico dominio (6), CC BY 3.0 (4), CC0 (2), CC BY-SA 2.0 (1).
 - Lo script `tools/photos/build.py` accetta solo CC0, pubblico dominio, CC BY e CC BY-SA, e salva autore, licenza e pagina d'origine. **Verificato.**
-- Attribuzione: autore e licenza sotto ogni foto e nella pagina «Crediti fotografici», che dichiara che le immagini sono state ridimensionate e in parte ritagliate. **Verificato.**
+- Attribuzione: autore e licenza sotto ogni foto e nella pagina «Crediti e licenze», che dichiara che le immagini sono state ridimensionate e in parte ritagliate. **Verificato.**
 - **Da verificare con un professionista:**
   - Le immagini CC BY-SA ridimensionate o ritagliate sono adattamenti: vanno rese disponibili con la stessa licenza. Va confermato che la pagina dei crediti basti.
   - La licenza di Commons riguarda il diritto d'autore del fotografo. Non copre i diritti su opere riprodotte nella foto, come murales o opere d'arte recenti. In Italia non c'è libertà di panorama per le opere protette. Per questo nel Blocco D sono state escluse le foto di murales.
@@ -51,8 +51,13 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 |---|---|---|---|
 | Cormorant Garamond (variabile, da Fontsource) | SIL Open Font License 1.1 | Includere la licenza; non vendere il font da solo | Verificato: `fonts/OFL-Cormorant-Garamond.txt` |
 | Inter (variabile, da Fontsource) | SIL Open Font License 1.1 | Come sopra | Verificato: `fonts/OFL-Inter.txt` |
-| Leaflet 1.9.4 | BSD 2-Clause | Mantenere l'avviso di copyright | Verificato: `js/vendor/leaflet/LICENSE` |
-| Dati OpenStreetMap | ODbL 1.0 | Attribuzione «© OpenStreetMap» visibile | Verificato: sulla mappa e nel piè di pagina |
+| Leaflet 1.9.4 | BSD 2-Clause | Mantenere l'avviso di copyright | Verificato: `js/vendor/leaflet/LICENSE`, citato nei crediti |
+| protomaps-leaflet 5.1.0 | BSD 3-Clause | Mantenere l'avviso di copyright | Verificato: `js/vendor/protomaps-leaflet/LICENSE`, citato nei crediti |
+| Librerie incluse in protomaps-leaflet (@protomaps/basemaps, pmtiles, vector-tile, pbf: BSD-3; point-geometry, quickselect, potpack: ISC; color2k, rbush: MIT) | Licenze libere, anche commerciali | Mantenere gli avvisi | Verificato: testi completi in `js/vendor/protomaps-leaflet/THIRD-PARTY-LICENSES.txt`, collegato dai crediti |
+| Dati OpenStreetMap (tasselli Protomaps, opera derivata) | ODbL 1.0 | Attribuzione «© OpenStreetMap» visibile, con link | Verificato: «Protomaps © OpenStreetMap» sulla mappa, piè di pagina, sezione «Mappa, caratteri e software» dei crediti |
+| Stile della mappa | Disegnato per VIVI Roma (`js/map-style.js`) | — | — |
+
+**Da verificare con un professionista (ODbL):** i tasselli sono un «Produced Work» ricavato dal database OpenStreetMap. Per un Produced Work la ODbL chiede l'attribuzione, non la condivisione dei tasselli con la stessa licenza; i tasselli sono comunque pubblici nel sito. Va confermato che l'attribuzione attuale sia sufficiente anche per un uso commerciale e per un'eventuale app.
 
 I file dei font variabili sono stati ridotti ai pesi 400–600: la licenza OFL lo consente. Il nome del font non è stato cambiato, perché lo richiede solo la «Reserved Font Name» e queste famiglie non la dichiarano. **Da ricontrollare** nei file OFL se si modificano ancora i font.
 
@@ -63,7 +68,7 @@ I file dei font variabili sono stati ridotti ai pesi 400–600: la licenza OFL l
 
 ## 5. Bozza di informativa privacy
 
-Testo di partenza da far rivedere a un professionista. **Non è stato pubblicato sul sito.**
+Testo di partenza da far rivedere a un professionista. **Non è stato pubblicato sul sito.** Aggiornato il 20/11/2026 ai servizi effettivamente usati da `restyling-premium` (mappa ospitata con il sito, service worker, lingua memorizzata). Hosting: oggi GitHub Pages; se si passa a Cloudflare Pages va sostituito il paragrafo «Hosting».
 
 > **Informativa sulla privacy — VIVI Roma (versione beta)**
 >
@@ -73,9 +78,11 @@ Testo di partenza da far rivedere a un professionista. **Non è stato pubblicato
 >
 > **Viaggi salvati**: se salvi un itinerario, le tue risposte al quiz e le tappe vengono conservate solo nel browser del tuo dispositivo (memoria locale). Non le riceviamo e non le possiamo vedere. Puoi cancellarle eliminando i viaggi da «I miei viaggi» o cancellando i dati del sito nel browser.
 >
+> **Lingua e uso senza connessione**: se cambi lingua, la scelta («it» o «en») viene ricordata nel browser. Per funzionare anche senza connessione, il sito conserva nel browser una copia dei propri file (pagine, stili, codice, caratteri, icone) e delle foto e zone della mappa che hai già visto. Sono file del sito, non dati su di te; puoi eliminarli cancellando i dati del sito nel browser.
+>
 > **Hosting**: il sito è ospitato da GitHub Pages (GitHub, Inc.). Come ogni server, registra dati tecnici della connessione (ad esempio indirizzo IP e tipo di browser) per far funzionare e proteggere il servizio. [Base giuridica, conservazione e trasferimento extra UE — da completare].
 >
-> **Mappa**: quando apri la mappa dell'itinerario, il tuo browser scarica le immagini della mappa dai server della OpenStreetMap Foundation (Regno Unito), che ricevono l'indirizzo IP, il tipo di browser e l'indirizzo del sito. Si applica l'informativa della OpenStreetMap Foundation. [Base giuridica — da completare].
+> **Mappa**: la mappa è ospitata insieme al sito e non comporta richieste a fornitori di mappe esterni. Le zone della mappa che guardi vengono conservate nel browser del tuo dispositivo per l'uso senza connessione. [Solo se si mantiene la riserva per i browser più vecchi: in quei browser la mappa viene scaricata dai server della OpenStreetMap Foundation (Regno Unito), che ricevono l'indirizzo IP, il tipo di browser e l'indirizzo del sito. Si applica l'informativa della OpenStreetMap Foundation. Base giuridica — da completare.]
 >
 > **Link esterni**: i link a Google Maps, Wikipedia, OpenStreetMap, Wikimedia Commons e ai siti ufficiali dei luoghi portano a servizi di terzi con proprie informative.
 >

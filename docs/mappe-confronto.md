@@ -1,5 +1,7 @@
 # VIVI Roma — Confronto dei fornitori di mappe (Blocco D)
 
+> **Aggiornamento (20/11/2026):** scelta fatta. In `restyling-premium` la mappa usa Protomaps ospitato con il sito, area dei 77 luoghi, con ritorno ai tasselli OSM solo come riserva. Dettagli in `docs/mappa-protomaps.md`. Il resto del documento descrive la situazione al momento del confronto.
+
 Documento di valutazione: **non è stato attivato nessun servizio, non è stata richiesta nessuna chiave API**.
 Prezzi e limiti verificati sulle pagine ufficiali o su fonti che le citano il 19 novembre 2026; cambiano spesso, vanno ricontrollati prima di decidere.
 

@@ -131,7 +131,8 @@ function renderBar(){
 }
 const ORDER=k=>Q[k].opts.map(o=>o[0]);
 function onOption(q,value,btn){
-  if(!window.L)loadLeaflet();   /* il quiz è iniziato: la mappa si prepara in sottofondo */
+  /* il quiz è iniziato: la mappa si prepara in sottofondo, quando il browser è libero (non rallenta il quiz) */
+  if(!window.L)(window.requestIdleCallback||(f=>setTimeout(f,1200)))(()=>loadLeaflet(),{timeout:4000});
   if(q.multi){
     const list=state.answers[q.key];
     const next=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
@@ -495,7 +496,7 @@ function showDay(i,{scroll}={}){
    MAPPA (Leaflet, tasselli OpenStreetMap)
    La libreria (≈150 KB) si scarica solo quando serve: all'inizio del quiz o all'apertura di un itinerario.
    ========================================================================== */
-let leafletP=null;
+let leafletP=null,mapStyle=null;
 function loadLeaflet(){
   if(window.L)return Promise.resolve(true);
   if(leafletP)return leafletP;
@@ -503,7 +504,15 @@ function loadLeaflet(){
     const css=el("link",{rel:"stylesheet",href:"js/vendor/leaflet/leaflet.css"});
     document.head.insertBefore(css,document.querySelector('link[rel="stylesheet"]'));   /* prima di style.css: i nostri stili restano prioritari */
     const sc=el("script",{src:"js/vendor/leaflet/leaflet.js"});
-    sc.onload=()=>res(!!window.L);
+    /* prototipo Protomaps: dopo Leaflet si carica il motore dei tasselli vettoriali (se manca, si torna a OSM) */
+    sc.onload=()=>{
+      if(!window.L)return res(false);
+      /* stile e sorgente della mappa vettoriale: modulo caricato solo qui (non pesa su home e quiz) */
+      const pm=el("script",{src:"js/vendor/protomaps-leaflet/protomaps-leaflet.js"});
+      pm.onload=()=>import("./map-style.js").then(m=>{mapStyle=m;},()=>{}).then(()=>res(true));
+      pm.onerror=()=>res(true);
+      document.head.append(pm);
+    };
     sc.onerror=()=>{leafletP=null;sc.remove();res(false);};
     document.head.append(sc);
   });
@@ -525,20 +534,37 @@ function initMap(){
   /* Su touch: con un dito si scorre la pagina, con due dita si sposta e si ingrandisce la mappa;
      il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Su computer: trascinamento normale. */
   const touch=isTouch();
-  state.map=L.map(mapEl,{scrollWheelZoom:false,dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false,
+  const S=mapStyle;
+  const vector=!!(window.protomapsL&&S&&S.canDecompress());
+  const bb=a=>L.latLngBounds([a.south,a.west],[a.north,a.east]);
+  state.map=L.map(mapEl,{scrollWheelZoom:false,
+    /* mappa vettoriale: si resta dentro l'area dei dati (niente sfondo vuoto) */
+    ...(vector?{minZoom:S.MAP_MIN_ZOOM,maxBounds:bb(S.TILE_AREA_DETAIL),maxBoundsViscosity:1}:{}),dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false,
     zoomAnimation:!reduceMotion(),fadeAnimation:!reduceMotion(),markerZoomAnimation:!reduceMotion()}).setView([41.9028,12.4964],12);
   state.map.attributionControl.setPrefix(false);
   if(touch)initTouchMap(mapEl);
-  /* Tasselli pubblici di OpenStreetMap: adatti alla beta, non a un'app commerciale (vedi docs/mappa.md). */
-  const tiles=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(state.map);
+  /* Prototipo: tasselli vettoriali Protomaps ospitati con il sito (tiles/: tutta l'area dei 77 luoghi, zoom 12–15;
+     oltre il 15 si ingrandiscono i vettori). Se il motore non è disponibile o il browser non sa decomprimere
+     (DecompressionStream: Safari 16.4+, Chrome 80+, Firefox 113+): tasselli pubblici OSM come prima.
+     Caricamento progressivo: solo i tasselli della zona visibile, nessun tassello durante le animazioni di zoom,
+     e il livello si aggiunge solo quando la mappa è vicina allo schermo e già inquadrata sulla giornata. */
+  const tileFailed=()=>{
+    /* senza connessione: avviso chiaro, la mappa mostra solo le zone già consultate */
+    if(!navigator.onLine){mapNotice("map.offline");return;}
+    if(state.tileOk||state.tileWarned)return;
+    state.tileWarned=true;setTimeout(()=>{if(!state.tileOk)mapNotice("map.notice");},4000);
+  };
+  const tiles=vector
+    ?protomapsL.leafletLayer({url:S.tileSource(S.TILE_URL,{onError:tileFailed}),maxDataZoom:S.TILE_MAX_DATA_ZOOM,minZoom:S.MAP_MIN_ZOOM,maxZoom:19,bounds:bb(S.TILE_AREA_WIDE),
+        updateWhenZooming:false,keepBuffer:1,...S.mapRules(protomapsL),attribution:S.ATTRIBUTION})
+    :L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'});
+  mapEl.classList.toggle("map-vector",vector);
   state.tiles=tiles;
+  if(!vector)tiles.addTo(state.map);
   tiles.on("tileload",()=>{state.tileOk=true;});
   /* connessione tornata dopo un periodo offline: si richiedono di nuovo i tasselli mancanti */
-  window.addEventListener("online",()=>{if(!state.tiles)return;state.tileWarned=false;$("#mapNotice").hidden=true;state.tiles.redraw();});
-  tiles.on("tileerror",()=>{
-    if(state.tileOk||state.tileWarned)return;
-    state.tileWarned=true;setTimeout(()=>{if(!state.tileOk)$("#mapNotice").hidden=false;},4000);
-  });
+  window.addEventListener("online",()=>{if(!state.tiles)return;state.tileWarned=false;mapNotice(null);if(state.map.hasLayer(state.tiles))state.tiles.redraw();});
+  tiles.on("tileerror",tileFailed);
   $("#mapCtrl").hidden=false;
   $("#mapZoomIn").onclick=()=>state.map.zoomIn();
   $("#mapZoomOut").onclick=()=>state.map.zoomOut();
@@ -618,6 +644,23 @@ function fitDay(animate){
   else state.map.fitBounds(l.pts,opt);
   declutter();
 }
+/* avviso sotto la mappa: testo secondo il caso (rete assente / tasselli non caricati); null = nascosto */
+function mapNotice(key){
+  const n=$("#mapNotice");if(!n)return;
+  if(!key){n.hidden=true;return;}
+  const p=n.querySelector("[data-i18n]")||n;p.setAttribute("data-i18n",key);p.textContent=t(key);n.hidden=false;
+}
+/* il livello dei tasselli entra in mappa solo quando la mappa è vicina allo schermo (600 px, circa mezzo schermo
+   prima che appaia) ed è già inquadrata sulla giornata: nessun tassello per una mappa che non si guarda */
+let tileIO=null;
+function attachTiles(){
+  if(!state.tiles||state.map.hasLayer(state.tiles))return;
+  const mapEl=$("#map");
+  if(!("IntersectionObserver" in window)){state.tiles.addTo(state.map);return;}
+  if(tileIO)return;
+  tileIO=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){tileIO.disconnect();tileIO=null;state.tiles.addTo(state.map);}},{rootMargin:"600px 0px"});
+  tileIO.observe(mapEl);
+}
 let shownLayer=null;
 function updateMap(){
   if(!state.map)return;
@@ -627,6 +670,7 @@ function updateMap(){
   l.group.addTo(state.map);shownLayer=l.group;
   state.map.invalidateSize();
   fitDay(false);
+  attachTiles();
   $("#mapDayLabel").textContent=state.plan.days.length>1?t("res.day",{n:state.active+1})+" · "+t("res.stops",{n:state.plan.days[state.active].stops.length}):t("res.stops",{n:state.plan.days[state.active].stops.length});
 }
 /* Tappa selezionata: numero evidenziato sulla mappa, scheda evidenziata e riquadro sotto la mappa

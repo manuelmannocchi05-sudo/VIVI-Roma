@@ -1,0 +1,30 @@
+{
+  "descrizione": "Area dei tasselli di VIVI Roma: tutti i 77 luoghi del catalogo con almeno 1,6 km di margine. Nota: protomaps-leaflet disegna allo zoom N della mappa i dati dello zoom N-1 (tasselli vettoriali da 512 px), quindi lo zoom 12 della mappa usa i dati dello zoom 11. Dati zoom 11 su un riquadro più ampio (a quello zoom la mappa può mostrare più dell'area), zoom 12-15 sul riquadro di dettaglio; la mappa non scende sotto lo zoom 12 e non esce dal riquadro di dettaglio.",
+  "build": "https://build.protomaps.com/20261118.pmtiles",
+  "livelli": [
+    {
+      "zoom": [
+        11,
+        11
+      ],
+      "riquadro": [
+        12.33,
+        41.76,
+        12.67,
+        41.99
+      ]
+    },
+    {
+      "zoom": [
+        12,
+        15
+      ],
+      "riquadro": [
+        12.427,
+        41.821,
+        12.583,
+        41.934
+      ]
+    }
+  ]
+}

@@ -6,10 +6,10 @@ Dati raccolti il 19/11/2026 da documentazione ufficiale e da guide di confronto 
 ## Requisiti di VIVI Roma
 
 - Sito statico: HTML, CSS, JS e immagini, nessuna compilazione obbligatoria. Il deploy pubblica il repository così com'è.
-- Circa 20 MB in tutto, 278 file pubblicati. La foto più grande pesa 0,4 MB.
+- Circa 31 MB in tutto, 587 file pubblicati (di cui 304 tasselli della mappa, 11,3 MB). Il file più grande pesa 0,4 MB. *(Aggiornato il 20/11/2026 dopo l'integrazione della mappa Protomaps.)*
 - Service worker: `sw.js` deve essere servito dalla radice del sito con una cache HTTP breve.
 - Possibile uso commerciale futuro (app, sponsor, versione a pagamento).
-- Mappa Protomaps futura: con la strada «cartella di tasselli» serve solo hosting statico. Con un file `.pmtiles` unico servono le richieste Range (vedi `docs/protomaps-proposta.md`).
+- Mappa Protomaps (integrata): cartella di tasselli statici `.mvt.gz`, nessuna richiesta Range necessaria (vedi `docs/mappa-protomaps.md`).
 
 ## Confronto
 
@@ -29,7 +29,7 @@ Dati raccolti il 19/11/2026 da documentazione ufficiale e da guide di confronto 
 **Cloudflare Pages**, collegato al repository GitHub:
 1. Consente l'uso commerciale nel piano gratuito e non ha limiti di traffico: niente sospensioni se la beta va bene.
 2. Supporta le intestazioni personalizzate per controllare la cache di `sw.js` e delle pagine.
-3. È compatibile con la strada B della mappa: Protomaps come cartella di tasselli statici, circa 370 file, ben sotto i 20.000.
+3. È compatibile con la mappa integrata: 304 tasselli statici, 587 file in tutto, ben sotto i 20.000; verificato con l'emulatore locale di Pages.
 
 Limiti da conoscere:
 - se un giorno servisse un file `.pmtiles` unico, va messo su Cloudflare R2 (gratuito fino a 10 GB, traffico gratuito), perché Pages non gestisce le richieste Range;
