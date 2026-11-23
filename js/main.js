@@ -6,6 +6,18 @@ import {loadLang,t,getLang,setLang,detectLang,onLangChange,locale,num1,numHalf,q
 import {PHOTOS} from "./data/photos.js";
 import {registerSW} from "./pwa.js";
 
+/* Misurazione anonima (js/metrics.js): caricata solo quando il browser è libero o al primo evento,
+   così non pesa sul primo caricamento. Gli eventi precedenti restano in coda, nell'ordine. */
+let metricsMod=null,metricsP=null;const metricsQueue=[];
+function loadMetrics(){
+  if(!metricsP)metricsP=import("./metrics.js").then(m=>{metricsMod=m;metricsQueue.splice(0).forEach(a=>m.track(...a));return m;},()=>null);
+  return metricsP;
+}
+function track(name,fields){
+  if(metricsMod){metricsMod.track(name,fields);return;}
+  metricsQueue.push([name,fields]);loadMetrics();
+}
+
 /* ==========================================================================
    UTILITÀ
    ========================================================================== */
@@ -133,6 +145,7 @@ const ORDER=k=>Q[k].opts.map(o=>o[0]);
 function onOption(q,value,btn){
   /* il quiz è iniziato: la mappa si prepara in sottofondo, quando il browser è libero (non rallenta il quiz) */
   if(!window.L)(window.requestIdleCallback||(f=>setTimeout(f,1200)))(()=>loadLeaflet(),{timeout:4000});
+  track("quiz_start",{lang:getLang()});   /* una sola volta per pagina */
   if(q.multi){
     const list=state.answers[q.key];
     const next=list.includes(value)?list.filter(v=>v!==value):list.concat(value);
@@ -194,7 +207,9 @@ function setStep(n,focus){
 function goNext(){
   const err=stepError(state.step);
   if(err){$("#quizError").textContent=err;return;}
-  const v=visible();setStep(v[v.indexOf(state.step)+1],true);
+  const v=visible(),next=v[v.indexOf(state.step)+1];
+  setStep(next,true);
+  track("quiz_step",{step:STEPS[next].id});
 }
 function goBack(){const v=visible(),i=v.indexOf(state.step);if(i>0)setStep(v[i-1],true);}
 function submitQuiz(){
@@ -202,7 +217,13 @@ function submitQuiz(){
     const err=stepError(i);
     if(err){setStep(i,true);$("#quizError").textContent=err;return;}
   }
+  trackComplete(state.answers);
   createItinerary();
+}
+/* Risposte del quiz: solo valori fissi delle opzioni (niente bambini: non serve alle decisioni di prodotto). */
+function trackComplete(a){
+  track("quiz_complete",{company:a.company,familiarity:a.familiarity,duration:a.duration,days:a.duration==="multi"?Number(a.days)||0:0,
+    interests:a.interests,mood:moodsOf(a),pace:a.pace,walking:a.walking,budget:a.budget,lang:getLang()});
 }
 /* Cambio lingua: aggiorna i testi del quiz senza toccare risposte, passo corrente o selezioni. */
 function relabelQuiz(){
@@ -275,11 +296,12 @@ const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
 const fmtKm=k=>k<0.1?t("res.legLess"):t("res.legKm",{km:num1(k)});
 
 function createItinerary(){
-  showPlan(buildItinerary(engineAnswers(state.answers)),{savedId:null});
+  showPlan(buildItinerary(engineAnswers(state.answers)),{savedId:null,source:"quiz"});
 }
 /* Mostra un itinerario: appena creato, riaperto da «I miei viaggi» o ricevuto da un link. */
-function showPlan(plan,{savedId=null,status=null}={}){
+function showPlan(plan,{savedId=null,status=null,source="quiz"}={}){
   state.plan=plan;state.active=0;state.savedId=savedId;
+  track("result_view",{source,days:plan.days.length,stops:plan.days.reduce((n,d)=>n+d.stops.length,0)});
   renderResults();
   const r=$("#results");r.classList.add("visible");
   state.selected=null;$("#mapSelected").hidden=true;
@@ -452,7 +474,7 @@ function renderStop(p,di,i){
       el("p",{class:"stop-desc",text:placeText(p.desc)}),
       why.length?el("div",{class:"chips"},why.map(w=>el("span",{class:"chip",text:w}))):null,
       el("div",{class:"links primary"},
-        el("a",{class:"btn btn-wine btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
+        el("a",{class:"btn btn-wine btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"directions",place:p.id}),text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
         el("button",{type:"button",class:"btn btn-line btn-sm",text:t("stop.onMap"),"aria-label":t("stop.onMapAria",{name:p.name}),onclick:()=>focusMarker(di,i)})),
       /* Approfondimento: orari, costi verificati, chicca, consiglio e link. Chiuso di base per non allungare la scheda; aperto in stampa. */
       el("details",{class:"more"},
@@ -463,8 +485,8 @@ function renderStop(p,di,i){
           el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
           budgetBox(p),
           el("div",{class:"links"},
-            el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.osm")}),
-            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",hreflang:"it",text:t("stop.wiki")}))))));
+            el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"osm",place:p.id}),text:t("stop.osm")}),
+            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"wiki",place:p.id}),hreflang:"it",text:t("stop.wiki")}))))));
   const ph=PHOTOS[p.id];
   if(ph){
     photo.append(creditNode(ph,"photo-credit"));
@@ -559,6 +581,7 @@ function initMap(){
         updateWhenZooming:false,keepBuffer:1,...S.mapRules(protomapsL),attribution:S.ATTRIBUTION})
     :L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'});
   mapEl.classList.toggle("map-vector",vector);
+  track("map_view",{kind:vector?"vector":"raster"});
   state.tiles=tiles;
   if(!vector)tiles.addTo(state.map);
   tiles.on("tileload",()=>{state.tileOk=true;});
@@ -649,6 +672,7 @@ function mapNotice(key){
   const n=$("#mapNotice");if(!n)return;
   if(!key){n.hidden=true;return;}
   const p=n.querySelector("[data-i18n]")||n;p.setAttribute("data-i18n",key);p.textContent=t(key);n.hidden=false;
+  if(key==="map.offline")track("map_offline");
 }
 /* il livello dei tasselli entra in mappa solo quando la mappa è vicina allo schermo (600 px, circa mezzo schermo
    prima che appaia) ed è già inquadrata sulla giornata: nessun tassello per una mappa che non si guarda */
@@ -756,6 +780,7 @@ function saveCurrent(){
   const r=getStore().save(tripFromPlan(state.answers,state.plan));
   if(!r.ok){toast(errText(r.error));setTripStatus([["err."+(["quota","full"].includes(r.error)?r.error:"unavailable"),{max:MAX_TRIPS}]]);return;}
   state.savedId=r.trip.id;syncSaveBtn();
+  if(!r.existing)track("trip_save");
   setTripStatus([[r.existing?"status.already":"status.saved"]]);
   renderTrips();
 }
@@ -808,7 +833,7 @@ function openTrip(id){
   if(!trip){toast(t("toast.tripGone"));renderTrips();return;}
   loadAnswers(trip.answers);
   const plan=restoreItinerary(engineAnswers(state.answers),trip.days);
-  showPlan(plan,{savedId:trip.id,status:[["status.reopened"]].concat(plan.missing.length?[["status.missing",{n:plan.missing.length}]]:[])});
+  showPlan(plan,{savedId:trip.id,source:"saved",status:[["status.reopened"]].concat(plan.missing.length?[["status.missing",{n:plan.missing.length}]]:[])});
 }
 function confirmDialog(text){
   const d=$("#confirmDlg");
@@ -834,12 +859,12 @@ async function shareCurrent(){
 async function shareContent(a,plan,url){
   const text=shareText(a,plan,url);
   if(navigator.share){
-    try{await navigator.share({title:t("share.title",{title:tripTitle(a)}),text});return;}
+    try{await navigator.share({title:t("share.title",{title:tripTitle(a)}),text});track("share",{method:"native"});return;}
     catch(e){if(e&&e.name==="AbortError")return;}   /* annullato dall'utente: nessun messaggio */
   }
   const d=$("#shareDlg");$("#shareText").value=text;$("#shareStatus").textContent="";
-  if(typeof d.showModal==="function"){d.showModal();$("#shareText").focus();$("#shareText").select();}
-  else copyText(text);
+  if(typeof d.showModal==="function"){d.showModal();$("#shareText").focus();$("#shareText").select();track("share",{method:"manual"});}
+  else if(await copyText(text))track("share",{method:"copy"});
 }
 async function copyText(text){
   try{await navigator.clipboard.writeText(text);$("#shareStatus").textContent=t("dlg.copied");toast(t("toast.copied"));return true;}
@@ -860,7 +885,8 @@ function openFromLink(){
   const plan=restoreItinerary(engineAnswers(state.answers),data.days);
   if(!plan.days.length){toast(t("toast.linkEmpty"));return false;}
   const saved=getStore().find(tripFromPlan(state.answers,plan));
-  showPlan(plan,{savedId:saved?saved.id:null,status:[["status.fromLink"],[saved?"status.linkSaved":"status.linkCanSave"]]});
+  track("share_open");
+  showPlan(plan,{savedId:saved?saved.id:null,source:"link",status:[["status.fromLink"],[saved?"status.linkSaved":"status.linkCanSave"]]});
   return true;
 }
 
@@ -904,6 +930,7 @@ async function toggleLang(){
   if(!await loadLang(next)){toast(t("lang.loadFailed"));return;}   /* senza connessione l'inglese può non arrivare: si resta in italiano */
   setLang(next,storageOrNull());
   applyLang();
+  track("lang_switch",{to:next});
   toast(t("lang.changed"));
 }
 
@@ -1028,7 +1055,7 @@ async function init(){
     if(state.step!==visible()[visible().length-1])goNext();else submitQuiz();
   });
   $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
-  $("#printBtn").addEventListener("click",()=>window.print());
+  $("#printBtn").addEventListener("click",()=>{track("print");window.print();});
   $("#tripsMore").addEventListener("click",()=>{const k=tripsShown;tripsShown=Infinity;renderTrips();const c=$$("#tripList .tc-open")[k];if(c)c.focus();});
   $("#saveBtn").addEventListener("click",saveCurrent);
   $("#shareBtn").addEventListener("click",shareCurrent);
@@ -1045,3 +1072,7 @@ async function init(){
 }
 init();
 registerSW();
+/* Cloudflare Web Analytics: solo se configurato (js/metrics-config.js), a pagina caricata e con il browser libero. */
+const whenIdle=f=>(window.requestIdleCallback||(g=>setTimeout(g,1500)))(f,{timeout:5000});
+const startMetrics=()=>whenIdle(()=>loadMetrics().then(m=>{if(m)m.startWebAnalytics();}));
+if(document.readyState==="complete")startMetrics();else window.addEventListener("load",startMetrics,{once:true});

@@ -22,14 +22,15 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 12. Da quale data l'informativa entra in vigore, e dove vuoi il link: piè di pagina, menu, pagina dedicata.
 
 ### 3. Piani futuri che cambierebbero l'informativa
-13. Analisi del traffico. Oggi non ce n'è: se la vuoi, quale strumento (ad esempio una soluzione senza cookie) e da quando.
+13. Analisi del traffico. **Deciso il 23/11/2026:** Cloudflare Web Analytics con snippet manuale + eventi anonimi del quiz su Workers Analytics Engine (`docs/misurazione.md`). Il codice è pronto ma spento. Da indicare: data di accensione e conferma del professionista sul fatto che non serve un banner.
 14. Modulo di contatto o di segnalazione errori: oggi non c'è.
 15. App su App Store o Google Play: richiedono schede privacy proprie e, per Apple, un'informativa raggiungibile da un URL.
 16. Newsletter, account, sincronizzazione: oggi esclusi, ma vanno indicati se previsti.
 
 ## B. Cosa il sito fa oggi (verificato nel codice, aggiornato il 20/11/2026)
 
-- Nessun cookie, nessuna analisi del traffico, nessuna pubblicità, nessun account.
+- Nessun cookie, nessuna analisi del traffico attiva, nessuna pubblicità, nessun account.
+- Misurazione anonima pronta ma spenta (ramo `startup-fase1`): si accende solo dopo la configurazione su Cloudflare e l'aggiornamento dell'informativa.
 - `localStorage` del browser:
   - `vivi-roma:viaggi:v1`: viaggi salvati, solo su azione dell'utente;
   - `vivi-roma:lingua`: lingua scelta, solo quando l'utente la cambia.
@@ -46,6 +47,7 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 |---|---|---|---|
 | 1 | Informativa privacy completa | Basi giuridiche, tempi di conservazione dei log dell'hosting, diritti, reclamo al Garante | Prima della beta pubblica |
 | 2 | Ruolo dell'hosting (e della OSMF, solo se resta la riserva) | Titolari autonomi o responsabili del trattamento; trasferimenti verso USA e Regno Unito | Prima della beta pubblica |
+| 3b | Misurazione anonima (Cloudflare Web Analytics + contatore eventi) | Confermare che rientri tra gli strumenti di analisi assimilabili a quelli tecnici, quindi senza consenso; ruolo di Cloudflare e trasferimenti | Prima di accendere la misurazione |
 | 3 | `localStorage` e service worker come strumenti tecnici | Confermare che basti l'informativa senza banner (linee guida del Garante del 10/06/2021 sui cookie e altri strumenti di tracciamento) | Prima della beta pubblica |
 | 4 | Foto CC BY-SA ridimensionate o ritagliate | Adeguatezza dell'attribuzione e dell'indicazione della licenza per le opere adattate | Prima della beta pubblica |
 | 5 | Immagini di beni culturali (artt. 107–108 del Codice dei beni culturali, D.M. 161/2023 e D.M. 108/2024) | Probabilmente libere senza scopo di lucro; con ricavi possono servire autorizzazioni e canoni | Prima di qualsiasi uso commerciale |

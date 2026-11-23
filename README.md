@@ -18,6 +18,9 @@ js/pwa.js             registrazione del service worker
 img/icons/            icone PNG per Android e iPhone
 icon.svg              icona
 tools/stamp.mjs       impronte ?v= dei file e elenco del service worker
+js/metrics*.js        misurazione anonima (spenta finché non configurata)
+functions/api/e.js    contatore degli eventi su Cloudflare Pages Functions
+tools/analytics/      report degli eventi (Workers Analytics Engine)
 ```
 
 Il sito è statico e usa moduli JavaScript nativi: nessuna build, GitHub Pages lo pubblica così com'è.
@@ -44,6 +47,10 @@ npm run report       # misure di qualità degli itinerari, da confrontare dopo o
 ```
 
 Aggiungendo un luogo in `js/data/places.js`, `npm test` verifica campi obbligatori, categorie, costo e coordinate.
+
+## Misurazione anonima
+
+Visite (Cloudflare Web Analytics) ed eventi anonimi del quiz (Workers Analytics Engine), senza cookie né identificativi. **Spenta** finché non si completano i passaggi su Cloudflare e non si accende in `js/metrics-config.js`. Eventi, regole e passaggi manuali: `docs/misurazione.md`.
 
 ## Catalogo dei luoghi
 

@@ -9,7 +9,7 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 | Elemento | Situazione | Stato |
 |---|---|---|
 | Cookie | Nessun cookie impostato dal sito | Verificato |
-| Analisi del traffico, pixel, pubblicità | Nessuno | Verificato |
+| Analisi del traffico, pixel, pubblicità | Nessuno attivo. Dal ramo `startup-fase1` c'è una misurazione anonima **pronta ma spenta** (Cloudflare Web Analytics + eventi anonimi del quiz, vedi `docs/misurazione.md`): senza cookie, senza identificativi, rispetta Global Privacy Control | Verificato (23/11/2026) |
 | Account, login, database, server propri | Nessuno | Verificato |
 | Memoria del browser | `localStorage`, chiave `vivi-roma:viaggi:v1`: solo i viaggi salvati dall'utente (risposte al quiz e tappe). Resta sul dispositivo, non viene inviata a nessuno | Verificato |
 | Lingua scelta | `localStorage`, chiave `vivi-roma:lingua` (valore «it» o «en»), solo quando l'utente cambia lingua. Resta sul dispositivo. *(Correzione: nel Blocco D era indicato per errore che la lingua non veniva memorizzata.)* | Verificato |
@@ -25,6 +25,8 @@ Ogni voce indica se è **verificata nel codice** o se **richiede una verifica pr
 |---|---|---|---|
 | **GitHub Pages** (hosting) | Ogni visita | Indirizzo IP, User-Agent, pagine richieste (log del server gestiti da GitHub) | Comportamento noto dell'hosting; termini e ruolo di GitHub (titolare o responsabile) **da verificare con un professionista** |
 | **tile.openstreetmap.org** (OSMF, Regno Unito) — **solo riserva** | Solo se il browser non può usare la mappa vettoriale (manca `DecompressionStream`, ad esempio Safari precedente alla 16.4) o se il motore della mappa non si carica | IP, User-Agent, Referer (indirizzo del sito senza l'itinerario), zona di Roma visualizzata | Verificato nel codice; nei browser attuali non avviene. Se si mantiene la riserva, va citata nell'informativa (trasferimento verso il Regno Unito **da valutare**) |
+| **Cloudflare Web Analytics** — solo quando sarà acceso | A ogni visita in produzione, dopo il caricamento | Script da `static.cloudflareinsights.com`; Cloudflare riceve IP e user agent della richiesta e misure di prestazione e navigazione, senza cookie | Spento nel codice; ruolo di Cloudflare e trasferimenti **da verificare con un professionista** |
+| **Contatore eventi** `/api/e` (Cloudflare Pages Functions + Workers Analytics Engine) — solo quando sarà acceso | Durante il quiz e l'uso dell'itinerario | Solo i valori dello schema (`js/metrics-schema.js`): risposte chiuse del quiz, conteggi, id dei luoghi. Il contatore non legge né salva IP, user agent o cookie; la connessione passa comunque dall'infrastruttura di Cloudflare | Spento nel codice; verificato con test |
 | Google Maps, OpenStreetMap, Wikipedia, Wikimedia Commons, siti ufficiali dei luoghi | Solo se l'utente tocca un link | Ciò che ogni sito raccoglie normalmente; i link hanno `rel="noopener noreferrer"` | Verificato |
 
 ## 2. Fotografie
@@ -74,7 +76,9 @@ Testo di partenza da far rivedere a un professionista. **Non è stato pubblicato
 >
 > **Titolare**: [nome, indirizzo e contatto del titolare — da completare].
 >
-> **Dati raccolti dal sito**: VIVI Roma non usa cookie, non ha sistemi di analisi del traffico né pubblicità, non richiede registrazione.
+> **Dati raccolti dal sito**: VIVI Roma non usa cookie, non ha pubblicità e non richiede registrazione.
+>
+> [Solo quando la misurazione sarà accesa — testo da revisionare:] **Statistiche anonime**: per capire come viene usato il sito usiamo Cloudflare Web Analytics, che misura visite e prestazioni senza cookie, e un contatore di eventi che registra in forma anonima alcune azioni (ad esempio avvio e completamento del quiz, le opzioni scelte tra quelle proposte, salvataggi, condivisioni, clic sui link delle tappe). Non registriamo identificativi, non colleghiamo gli eventi tra loro né a una persona, e non conserviamo l'indirizzo IP. Se il tuo browser invia il segnale Global Privacy Control, non viene misurato nulla. Fornitore: Cloudflare, Inc. [ruolo, sede, trasferimenti extra UE e tempi di conservazione — da completare].
 >
 > **Viaggi salvati**: se salvi un itinerario, le tue risposte al quiz e le tappe vengono conservate solo nel browser del tuo dispositivo (memoria locale). Non le riceviamo e non le possiamo vedere. Puoi cancellarle eliminando i viaggi da «I miei viaggi» o cancellando i dati del sito nel browser.
 >
@@ -88,12 +92,12 @@ Testo di partenza da far rivedere a un professionista. **Non è stato pubblicato
 >
 > **Diritti**: [diritti degli interessati e reclamo al Garante — da completare].
 
-Le linee guida del Garante sui cookie (10 giugno 2021) prevedono, per i soli strumenti tecnici, un'informativa e nessun banner di consenso. Va confermato da un professionista se `localStorage`, usato solo su azione dell'utente, rientra tra gli strumenti tecnici e se basta questa informativa.
+Le linee guida del Garante sui cookie (10 giugno 2021) prevedono, per i soli strumenti tecnici, un'informativa e nessun banner di consenso. Gli strumenti di analisi possono essere assimilati a quelli tecnici solo a condizioni precise (statistiche aggregate su un solo sito, senza incroci con altri dati): la misurazione di `startup-fase1` è progettata per restare in questo perimetro, ma la conclusione va confermata da un professionista prima di accenderla. Va confermato da un professionista se `localStorage`, usato solo su azione dell'utente, rientra tra gli strumenti tecnici e se basta questa informativa.
 
 ## 6. Riepilogo
 
 **Verificato (tecnico):**
-- nessun cookie e nessun tracciamento;
+- nessun cookie e nessun tracciamento attivo (misurazione anonima pronta ma spenta, vedi `docs/misurazione.md`);
 - dati dei viaggi solo sul dispositivo;
 - font e foto ospitati sul sito;
 - attribuzioni di foto, OSM, font e Leaflet presenti;
