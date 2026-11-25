@@ -486,7 +486,8 @@ function renderStop(p,di,i){
           budgetBox(p),
           el("div",{class:"links"},
             el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"osm",place:p.id}),text:t("stop.osm")}),
-            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"wiki",place:p.id}),hreflang:"it",text:t("stop.wiki")}))))));
+            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"wiki",place:p.id}),hreflang:"it",text:t("stop.wiki")})),
+          reportLine(p)))));
   const ph=PHOTOS[p.id];
   if(ph){
     photo.append(creditNode(ph,"photo-credit"));
@@ -496,6 +497,33 @@ function renderStop(p,di,i){
     });
   }
   return card;
+}
+/* Contatti (js/contact.js): modulo caricato quando il browser è libero, fuori dal primo caricamento.
+   Se un link viene usato prima che il modulo sia pronto, il clic attende il modulo e poi apre l'email. */
+let contactMod=null,contactP=null;
+function loadContact(){
+  if(!contactP)contactP=import("./contact.js").then(m=>(contactMod=m),()=>{contactP=null;return null;});
+  return contactP;
+}
+function armMail(a,build,onUse){
+  const arm=()=>{ if(contactMod)a.href=contactMod.mailtoUrl(build()); else loadContact(); };
+  a.addEventListener("pointerenter",arm);a.addEventListener("focus",arm);
+  a.addEventListener("touchstart",arm,{passive:true});
+  a.addEventListener("click",e=>{
+    if(onUse)onUse();
+    if(contactMod){a.href=contactMod.mailtoUrl(build());return;}
+    e.preventDefault();
+    loadContact().then(m=>{if(m)location.href=m.mailtoUrl(build());});
+  });
+  return a;
+}
+/* «Segnala un errore»: email precompilata con nome e ID del luogo (js/contact.js).
+   Si misura solo il clic (error_report_click, con il solo ID del luogo): l'invio dell'email non è osservabile. */
+function reportLine(p){
+  const a=el("a",{class:"report-link",href:"crediti.html#contatti","aria-label":t("stop.reportAria",{name:p.name}),text:t("stop.report")});
+  armMail(a,()=>({subject:t("report.subject",{name:p.name,id:p.id}),body:t("report.body",{name:p.name,id:p.id})}),
+    ()=>track("error_report_click",{place:p.id}));
+  return el("p",{class:"report"},el("span",{text:t("stop.reportQ")}),a);
 }
 function showDay(i,{scroll}={}){
   state.active=i;
@@ -1063,6 +1091,7 @@ async function init(){
   /* In stampa servono tutte le informazioni: si aprono le parti a scomparsa. */
   window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
   $("#langToggle").addEventListener("click",toggleLang);
+  $$("[data-contact]").forEach(a=>armMail(a,()=>({subject:t("contact.subject")})));
   initMenu();initCategories();initHero();renderPreview();initReveal();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
@@ -1074,5 +1103,5 @@ init();
 registerSW();
 /* Cloudflare Web Analytics: solo se configurato (js/metrics-config.js), a pagina caricata e con il browser libero. */
 const whenIdle=f=>(window.requestIdleCallback||(g=>setTimeout(g,1500)))(f,{timeout:5000});
-const startMetrics=()=>whenIdle(()=>loadMetrics().then(m=>{if(m)m.startWebAnalytics();}));
+const startMetrics=()=>whenIdle(()=>{loadContact();loadMetrics().then(m=>{if(m)m.startWebAnalytics();});});
 if(document.readyState==="complete")startMetrics();else window.addEventListener("load",startMetrics,{once:true});

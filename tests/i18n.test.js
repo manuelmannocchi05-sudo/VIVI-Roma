@@ -58,7 +58,7 @@ test("lingua: note del motore e messaggi con parametri", ()=>{
       assert.ok(s&&!s.startsWith("note.")&&!/undefined|NaN/.test(s),l+" note."+k);
     }
     for(const k of Object.keys(IT)){
-      const v=t(k,{n:2,total:7,title:"X",label:"X",name:"X",area:"X",time:"X",km:"1",min:"1",max:"2",days:2,stops:3,date:"1",dist:"X",food:"X",url:"X",author:"X",license:"X",ints:["A","B"],list:"A · B",first:"X",last:"Y",areas:"Z",dur:"X",themes:"X",span:"X",who:"X",moods:"X",stops:3,used:1,planned:2,max:30});
+      const v=t(k,{n:2,total:7,title:"X",label:"X",name:"X",area:"X",time:"X",km:"1",min:"1",max:"2",days:2,stops:3,date:"1",dist:"X",food:"X",url:"X",author:"X",license:"X",ints:["A","B"],list:"A · B",first:"X",last:"Y",areas:"Z",dur:"X",themes:"X",span:"X",who:"X",moods:"X",id:"x",stops:3,used:1,planned:2,max:30});
       assert.ok(typeof v==="string"&&!/undefined|NaN|\[object/.test(v),l+" "+k+": "+v);
     }
   }

@@ -44,6 +44,7 @@ export const EVENTS={
   share:        {text:{method:["one",["native","copy","manual"]]},num:{}},
   share_open:   {text:{},num:{}},
   ext_click:    {text:{kind:["one",["directions","osm","wiki"]],place:["id"]},num:{}},
+  error_report_click:{text:{place:["id"]},num:{}},   /* clic su «Segnala un errore»: l'invio dell'email non è misurabile */
   map_view:     {text:{kind:["one",["vector","raster"]]},num:{}},
   map_offline:  {text:{},num:{}},
   lang_switch:  {text:{to:["one",LANG]},num:{}}

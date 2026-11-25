@@ -31,6 +31,7 @@ La misurazione ha due parti:
 | `functions/api/e.js` | Contatore su Cloudflare Pages Functions: `POST /api/e` → 204 |
 | `tools/analytics/report.mjs` | Report in Markdown dalla API SQL di Analytics Engine |
 | `tests/metrics.test.js` | 22 test unitari su schema, modulo, contatore e report |
+| `tests/contact.test.js` | 7 test su contatti e «Segnala un errore», compreso `error_report_click` |
 
 `functions/` non viene copiata in `dist/` (`tools/cf-dist.mjs` copia solo i file del sito): Cloudflare Pages la legge dalla radice del repository quando costruisce il progetto da Git.
 
@@ -47,6 +48,7 @@ La misurazione ha due parti:
 | `share` | Condivisione nativa riuscita, oppure apertura della finestra di copia | `method` (native, manual, copy) |
 | `share_open` | Itinerario aperto da un link condiviso (il contenuto del link non viene inviato) | — |
 | `ext_click` | Clic su «Indicazioni», OpenStreetMap o Wikipedia di una tappa | `kind`, `place` (id del luogo) |
+| `error_report_click` | Clic su «Segnala un errore» di una tappa. Si misura il clic, **non** l'invio dell'email, che non è osservabile | `place` (id del luogo) |
 | `map_view` | Mappa creata | `kind` (vector, raster) |
 | `map_offline` | Avviso «sei offline» sulla mappa | — |
 | `lang_switch` | Cambio di lingua | `to` |

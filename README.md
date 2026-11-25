@@ -52,6 +52,10 @@ Aggiungendo un luogo in `js/data/places.js`, `npm test` verifica campi obbligato
 
 Visite (Cloudflare Web Analytics) ed eventi anonimi del quiz (Workers Analytics Engine), senza cookie né identificativi. **Spenta** finché non si completano i passaggi su Cloudflare e non si accende in `js/metrics-config.js`. Eventi, regole e passaggi manuali: `docs/misurazione.md`.
 
+## Contatti e segnalazioni
+
+«Segnala un errore» in ogni scheda luogo e «Contattaci» nel piè di pagina e nei crediti: link email precompilati, senza moduli né servizi esterni, con una protezione antispam leggera. Dettagli e limiti: `docs/contatti.md`.
+
 ## Catalogo dei luoghi
 
 `js/data/places.js` contiene 77 luoghi. Regole per aggiungerne o modificarne uno:

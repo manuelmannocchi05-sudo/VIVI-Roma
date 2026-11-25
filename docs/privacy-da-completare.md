@@ -23,7 +23,7 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 
 ### 3. Piani futuri che cambierebbero l'informativa
 13. Analisi del traffico. **Deciso il 23/11/2026:** Cloudflare Web Analytics con snippet manuale + eventi anonimi del quiz su Workers Analytics Engine (`docs/misurazione.md`). Il codice è pronto ma spento. Da indicare: data di accensione e conferma del professionista sul fatto che non serve un banner.
-14. Modulo di contatto o di segnalazione errori: oggi non c'è.
+14. Contatti e segnalazione errori. **Deciso il 25/11/2026:** nessun modulo; link email (mailto) a `viviroma.contact [at] gmail.com` da «Segnala un errore» nelle schede e da «Contattaci» nel piè di pagina e nei crediti (`docs/contatti.md`). Da indicare: per quanto tempo conservi le email ricevute e chi le legge.
 15. App su App Store o Google Play: richiedono schede privacy proprie e, per Apple, un'informativa raggiungibile da un URL.
 16. Newsletter, account, sincronizzazione: oggi esclusi, ma vanno indicati se previsti.
 
@@ -48,6 +48,7 @@ Questo elenco serve a completare la bozza in `docs/legale-privacy.md`, sezione 5
 | 1 | Informativa privacy completa | Basi giuridiche, tempi di conservazione dei log dell'hosting, diritti, reclamo al Garante | Prima della beta pubblica |
 | 2 | Ruolo dell'hosting (e della OSMF, solo se resta la riserva) | Titolari autonomi o responsabili del trattamento; trasferimenti verso USA e Regno Unito | Prima della beta pubblica |
 | 3b | Misurazione anonima (Cloudflare Web Analytics + contatore eventi) | Confermare che rientri tra gli strumenti di analisi assimilabili a quelli tecnici, quindi senza consenso; ruolo di Cloudflare e trasferimenti | Prima di accendere la misurazione |
+| 3c | Email ricevute (Gmail) | Base giuridica, conservazione, ruolo di Google come fornitore della casella e trasferimenti extra UE; testo «Contatti e segnalazioni» della bozza di informativa | Prima della beta pubblica |
 | 3 | `localStorage` e service worker come strumenti tecnici | Confermare che basti l'informativa senza banner (linee guida del Garante del 10/06/2021 sui cookie e altri strumenti di tracciamento) | Prima della beta pubblica |
 | 4 | Foto CC BY-SA ridimensionate o ritagliate | Adeguatezza dell'attribuzione e dell'indicazione della licenza per le opere adattate | Prima della beta pubblica |
 | 5 | Immagini di beni culturali (artt. 107–108 del Codice dei beni culturali, D.M. 161/2023 e D.M. 108/2024) | Probabilmente libere senza scopo di lucro; con ricavi possono servire autorizzazioni e canoni | Prima di qualsiasi uso commerciale |

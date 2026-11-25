@@ -38,7 +38,8 @@ export function buildQueries({days,dataset}){
     {id:"condivisioni",title:"Condivisioni per metodo",sql:by("share","method")},
     {id:"link",title:"Clic esterni per tipo",sql:by("ext_click","kind")},
     {id:"luoghi",title:"Clic su «Indicazioni» per luogo",sql:`SELECT ${columnOf("ext_click","place")} AS valore, SUM(_sample_interval) AS n FROM ${dataset} WHERE ${where} AND index1 = 'ext_click' AND ${columnOf("ext_click","kind")} = 'directions' GROUP BY valore ORDER BY n DESC LIMIT 20`},
-    {id:"mappa",title:"Tipo di mappa mostrata",sql:by("map_view","kind")}
+    {id:"mappa",title:"Tipo di mappa mostrata",sql:by("map_view","kind")},
+    {id:"segnalazioni",title:"Clic su «Segnala un errore» per luogo (clic, non email inviate)",sql:by("error_report_click","place")}
   ];
 }
 
@@ -66,7 +67,8 @@ export function formatReport(results,{days}){
     `| Stampati | ${int(get("print"))} | ${pct(get("print"),views)} |`,
     `| Condivisi | ${int(get("share"))} | ${pct(get("share"),views)} |`,
     `| Aperti da un link condiviso | ${int(get("share_open"))} | — |`,
-    `| Clic esterni (indicazioni, mappa, Wikipedia) | ${int(get("ext_click"))} | ${pct(get("ext_click"),views)} |`,"");
+    `| Clic esterni (indicazioni, mappa, Wikipedia) | ${int(get("ext_click"))} | ${pct(get("ext_click"),views)} |`,
+    `| Clic su «Segnala un errore» | ${int(get("error_report_click"))} | — |`,"");
   for(const q of buildQueries({days,dataset:"x"}).filter(q=>!["eventi","passaggi"].includes(q.id))){
     const rows=results[q.id]||[];
     out.push(`## ${q.title}`,"");
@@ -96,7 +98,7 @@ export async function main(argv=process.argv.slice(2),env=process.env,fetchFn=gl
 }
 
 /* Controllo di coerenza: ogni campo usato dai report esiste nello schema. */
-for(const name of ["quiz_step","quiz_start","quiz_complete","result_view","share","ext_click","map_view"])if(!EVENT_NAMES.includes(name)||!EVENTS[name])throw new Error("evento mancante nello schema: "+name);
+for(const name of ["quiz_step","quiz_start","quiz_complete","result_view","share","ext_click","map_view","error_report_click"])if(!EVENT_NAMES.includes(name)||!EVENTS[name])throw new Error("evento mancante nello schema: "+name);
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
   main().catch(e=>{console.error("Errore: "+e.message);process.exit(1);});

@@ -369,6 +369,10 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 .links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;align-items:center}
 .links a:not(.btn),.links button:not(.btn){display:inline-flex;align-items:center;background:none;border:0;padding:6px 0;min-height:44px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 .links.primary{gap:8px;margin:4px 0 6px}
+/* «Segnala un errore»: in fondo all'approfondimento, discreto ma raggiungibile (44px) */
+.report{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:.84rem;color:var(--grey-d)}
+.report-link{display:inline-flex;align-items:center;min-height:44px;font-weight:600;color:var(--green);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold)}
+.report-link:hover{text-decoration-thickness:2px}
 .leg{display:flex;align-items:center;gap:12px;padding:12px 0 12px 30px;font-size:.8rem;color:var(--grey-d)}
 .leg::before{content:"";width:1px;height:26px;background:repeating-linear-gradient(var(--gold) 0 3px,transparent 3px 6px);flex-shrink:0}
 .leg-transit{color:#7A2F28}
@@ -645,7 +649,7 @@ noscript .nojs{background:var(--cream);padding:16px;margin:0 0 20px;font-size:.9
 @page{margin:16mm}
 @media print{
   body{background:#fff;color:#000;font-size:11pt;line-height:1.45}
-  .site-header,.hero,#esplora,#anteprima,#come-funziona,.quiz-section,.footer,.results-actions,.day-tabs,.map-col,.toast,.skip,.links,.photo,.eyebrow,.res-cover-media,.hero-credit,.stop-index{display:none!important}
+  .site-header,.hero,#esplora,#anteprima,#come-funziona,.quiz-section,.footer,.results-actions,.day-tabs,.map-col,.toast,.skip,.links,.report,.photo,.eyebrow,.res-cover-media,.hero-credit,.stop-index{display:none!important}
   .res-cover{display:block;min-height:0;color:#000;background:none}
   .res-cover::before{display:none}
   .res-cover-inner{padding:0}
