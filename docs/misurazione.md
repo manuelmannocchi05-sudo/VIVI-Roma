@@ -1,6 +1,6 @@
 # VIVI Roma — Misurazione anonima dell'uso
 
-Ramo `startup-fase1`, modifica n. 1 della roadmap. **Tutto è spento** finché non viene configurato su Cloudflare (sezione 5).
+Ramo `startup-fase1`, modifica n. 1 della roadmap. **Stato al 25/11/2026:** collegamento Cloudflare configurato e verificato nell'anteprima (sezione 7). La misurazione resta **spenta per i visitatori reali** fino alla revisione della privacy (`events:false`, token di Web Analytics vuoto).
 
 La misurazione ha due parti:
 
@@ -68,7 +68,17 @@ node tools/analytics/report.mjs --dry-run  # mostra le query dei report, senza r
 
 ## 5. Passaggi manuali su Cloudflare
 
-Da fare dall'account Cloudflare del progetto. Nessuno di questi passaggi è stato fatto.
+Da fare dall'account Cloudflare del progetto.
+
+| Passaggio | Stato al 25/11/2026 |
+| --- | --- |
+| 1. Web Analytics | Da fare |
+| 2. Collegamento Analytics Engine | Fatto: Production `VIVI_EVENTS → vivi_roma_events`; Preview `VIVI_EVENTS → vivi_roma_events_preview` (dataset separato per le prove) |
+| 3. Dominio definitivo | Da fare |
+| 4. Token per i report | Da creare quando servono i report (token temporanei usati per le verifiche già eliminati o in scadenza) |
+| 5. Informativa privacy | Da completare e revisionare: **condizione per accendere la misurazione** |
+
+Nella dashboard del progetto `vivi-roma` non compare il selettore Production/Preview: il binding Preview è stato aggiunto con l'API Cloudflare (PATCH su `deployment_configs.preview`, token temporaneo «Cloudflare Pages: Edit»), con controllo prima e dopo che la configurazione Production fosse identica.
 
 1. **Web Analytics, snippet manuale.**
     - Dashboard → Web Analytics → Add a site → `vivi-roma.pages.dev`, poi il dominio definitivo quando ci sarà.
@@ -77,7 +87,8 @@ Da fare dall'account Cloudflare del progetto. Nessuno di questi passaggi è stat
     - Mettere il token in `js/metrics-config.js` (`webAnalyticsToken`). Il token non è segreto: compare comunque nell'HTML.
 2. **Collegamento Analytics Engine.**
     - Workers & Pages → progetto → Settings → Bindings → Add → Analytics Engine.
-    - Nome della variabile `VIVI_EVENTS`, dataset `vivi_roma_events`, sia per Production sia per Preview.
+    - Production: variabile `VIVI_EVENTS`, dataset `vivi_roma_events`. Preview: variabile `VIVI_EVENTS`, dataset **`vivi_roma_events_preview`**, così le prove non si mescolano ai dati reali.
+    - Il binding vale solo dai deployment successivi alla sua creazione.
     - Poi mettere `events:true` in `js/metrics-config.js`.
 3. **Dominio definitivo.** Quando ci sarà, aggiungerlo a `hosts` in `js/metrics-config.js` e come sito in Web Analytics.
 4. **Token API per i report** (solo quando servono): My Profile → API Tokens → Create Token con il permesso «Account → Account Analytics → Read». Usarlo solo come variabile d'ambiente:
@@ -95,3 +106,20 @@ Da fare dall'account Cloudflare del progetto. Nessuno di questi passaggi è stat
 - Piano gratuito: le Pages Functions condividono 100.000 richieste al giorno con i Workers; Analytics Engine include 100.000 punti dati scritti e 10.000 query di lettura al giorno. Un quiz completo genera circa 10 eventi. Oltre il limite il contatore può non rispondere, ma il sito statico continua a funzionare.
 - Senza identificativi non si possono contare gli utenti unici né seguire un percorso tra visite diverse: si misurano rapporti tra eventi (ad esempio quiz completati su quiz avviati).
 - Analytics Engine può campionare i dati: i report usano `SUM(_sample_interval)`, quindi i totali sono stime corrette, non conteggi esatti.
+
+## 7. Verifiche su Cloudflare (25/11/2026)
+
+Esito: **superate**. Anteprima `https://62e6fe0c.vivi-roma.pages.dev` (ramo `startup-fase1`, commit `1b3174a`, primo deployment dopo il binding Preview).
+
+| Verifica | Risultato |
+| --- | --- |
+| Configurazione via API (sola lettura) | Production `VIVI_EVENTS → vivi_roma_events` invariata; Preview `VIVI_EVENTS → vivi_roma_events_preview` |
+| Interruttori sull'anteprima | `events:false`, token Web Analytics vuoto, `x-robots-tag: noindex` |
+| Eventi di prova inviati al contatore alle 08:47:29 UTC | 3 × `map_offline` e 1 × `quiz_complete` → 204; 1 evento non valido → 400 |
+| Lettura del dataset Preview (API SQL, token «Account Analytics: Read») | `map_offline` = 3, `quiz_complete` = 1 |
+| Colonne di `quiz_complete` | `blob2…blob10` = solo, often, half, night, peaceful, full, high, high, en; `double1` = 1 (versione schema); `double2` = 0 (giorni): corrispondono allo schema |
+| Dataset Production negli ultimi 2 giorni | 0 eventi |
+| Sito ufficiale | Invariato (`restyling-premium` a `f9fc776`); nessun merge |
+
+Prima di accendere la misurazione in produzione restano: revisione e pubblicazione dell'informativa, token di Web Analytics, `events:true` in `js/metrics-config.js`, merge autorizzato in `restyling-premium`.
+
