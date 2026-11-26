@@ -31,7 +31,7 @@ export function stampHtml(html,{imports,css,main}){
   const map='<!-- importmap:start -->\n<script type="importmap">'+JSON.stringify({imports},null,0)+'</script>\n<!-- importmap:end -->';
   /* precaricamento parallelo dei moduli che la pagina importa all'avvio (import statici: l'inglese, caricato
      con import() solo se serve, resta fuori). Su reti lente evita di scaricarli uno dopo l'altro. */
-  const pre=startModules(html).filter(k=>imports[k]).map(k=>'<link rel="modulepreload" href="'+imports[k]+'" fetchpriority="low">').join("\n");
+  const pre=startModules(html).filter(k=>imports[k]).map(k=>'<link rel="modulepreload" href="'+imports[k]+'">').join("\n");
   html=html.replace(/\n<!-- modulepreload:start -->[\s\S]*?<!-- modulepreload:end -->/g,"");
   html=html.replace(/<!-- importmap:start -->[\s\S]*?<!-- importmap:end -->/,map+"\n<!-- modulepreload:start -->\n"+pre+"\n<!-- modulepreload:end -->");
   html=html.replace(/href="css\/style\.css(\?v=[0-9a-f]+)?"/,'href="css/style.css?v='+css+'"');
