@@ -302,8 +302,9 @@ const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
 const fmtKm=k=>k<0.1?t("res.legLess"):t("res.legKm",{km:num1(k)});
 
 /* Schermata di generazione: il sole sorge nell'arco mentre il motore compone le giornate.
-   L'itinerario è calcolato davvero dal motore con le risposte date (buildItinerary); l'animazione dura il minimo
-   indispensabile per essere letta (più breve con «riduci movimento»). */
+   L'itinerario è calcolato davvero dal motore con le risposte date (buildItinerary). Nessuna attesa artificiale:
+   la schermata resta solo finché la foto di copertina dell'itinerario non è pronta (al massimo 1,2 s),
+   così l'itinerario non si apre su un riquadro vuoto; con la foto già in memoria si passa subito. */
 let genBusy=false;
 function generateItinerary(){
   if(genBusy)return;
@@ -315,22 +316,24 @@ function generateItinerary(){
     try{plan=buildItinerary(engineAnswers(state.answers));}catch(e){plan=null;}
     if(!plan||!plan.days.length){genBusy=false;gs.hidden=true;toast(t("toast.linkEmpty"));return;}
     showPlan(plan,{savedId:null,source:"quiz"});
-    const wait=Math.max(0,(reduceMotion()?250:1400)-(performance.now()-t0));
-    setTimeout(()=>leaveQuizTo("itinerario",()=>{
+    const img=$("#resCoverMedia img");
+    const ready=Promise.race([img&&img.decode?img.decode().catch(()=>{}):Promise.resolve(),new Promise(r=>setTimeout(r,1200))]);
+    ready.then(()=>leaveQuizTo("itinerario",()=>{
       $(".gen-text",gs).textContent=t("gen.done");
       gs.classList.add("out");
-      setTimeout(()=>{gs.hidden=true;gs.classList.remove("out");$(".gen-text",gs).textContent=t("gen.text");genBusy=false;},reduceMotion()?0:380);
-    }),wait);
+      setTimeout(()=>{gs.hidden=true;gs.classList.remove("out");$(".gen-text",gs).textContent=t("gen.text");genBusy=false;},reduceMotion()?0:260);
+    }));
   },40));
 }
 /* Mostra un itinerario: appena creato, riaperto da «I miei viaggi», ricevuto da un link o ripreso dopo una ricarica.
    Prepara la schermata «itinerario» senza aprirla: la apre chi chiama (openItinerary / il quiz). */
-function showPlan(plan,{savedId=null,status=null,source="quiz"}={}){
-  state.plan=plan;state.active=0;state.savedId=savedId;state.source=source;
+function showPlan(plan,{savedId=null,status=null,source="quiz",cur=null}={}){
+  state.plan=plan;state.active=0;state.savedId=savedId;state.source=source;state.cur=cur;
+  closeSheetUI();
   if(["quiz","saved","link"].includes(source))track("result_view",{source,days:plan.days.length,stops:plan.days.reduce((n,d)=>n+d.stops.length,0)});
   renderResults();
   const r=$("#results");r.classList.add("visible");
-  state.selected=null;$("#mapSelected").hidden=true;
+  state.selected=null;
   scrollMem.itinerario=0;
   showDay(0);mountMap();
   setTripStatus(status);syncSaveBtn();
@@ -392,11 +395,13 @@ function renderResults(){
     stat(String(free),t("res.stat.free")),
     stat(String(toCheck),t("res.stat.check")));
   const notes=$("#notes");notes.replaceChildren();
-  plan.notes.map(n=>t("note."+n.k,n)).concat([t("res.noteData",{km:num1(walk)})]).forEach(x=>notes.append(el("li",{text:x})));
-  $("#dayTabs").setAttribute("aria-label",t("res.tabsAria"));
-
+  const nl=plan.notes.map(n=>t("note."+n.k,n)).concat([t("res.noteData",{km:num1(walk)})]);
+  nl.forEach(x=>notes.append(el("li",{text:x})));
+  $("#notesCount").textContent=String(nl.length);
+  /* selettore delle giornate: nell'elenco (linguette) e sulla mappa a schermo intero (pulsanti) */
   const tabs=$("#dayTabs");tabs.replaceChildren();
-  tabs.hidden=plan.days.length<2;
+  $("#dayBar").hidden=plan.days.length<2;
+  const md=$("#mapDays");md.replaceChildren();md.hidden=plan.days.length<2;
   plan.days.forEach((d,i)=>{
     tabs.append(el("button",{type:"button",class:"day-tab",role:"tab",id:"tab-"+i,"aria-controls":"day-"+i,"aria-selected":"false",tabindex:"-1",
       onclick:()=>showDay(i,{scroll:true}),
@@ -405,7 +410,10 @@ function renderResults(){
         if(e.key==="ArrowRight")k=(i+1)%n;else if(e.key==="ArrowLeft")k=(i-1+n)%n;else if(e.key==="Home")k=0;else if(e.key==="End")k=n-1;
         if(k!==null){e.preventDefault();showDay(k);$("#tab-"+k).focus();}
       }},el("span",{class:"tab-day",text:t("res.day",{n:i+1})}),el("span",{class:"tab-area",text:areaText(d.areas[0]||"")})));
+    md.append(el("button",{type:"button",class:"md-btn","aria-pressed":"false",onclick:()=>{showDay(i);fitDay(true);}},t("res.day",{n:i+1})));
   });
+  if(!state.cur||state.cur.length!==plan.days.length)state.cur=plan.days.map(()=>0);
+  state.cur=state.cur.map((c,i)=>Math.min(Math.max(0,c|0),plan.days[i].stops.length-1));
   const host=$("#days");host.replaceChildren();
   plan.days.forEach((d,i)=>host.append(renderDay(d,i,plan.days.length)));
 }
@@ -421,24 +429,21 @@ function renderDay(day,di,total){
       el("li",{text:t("res.stops",{n:day.stops.length})}),
       el("li",{text:t("res.visits",{min:numHalf(day.minMins),max:numHalf(day.maxMins)})}),
       el("li",{text:t("res.distance",{km:num1(day.walkKm)})})));
-  const index=el("ol",{class:"stop-index","aria-label":t("res.indexAria")},
-    day.stops.map((p,i)=>el("li",null,el("button",{type:"button",onclick:()=>goToCard(di,i)},
-      el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),el("span",{lang:"it",text:p.name})))));
-  head.append(index);
-  const list=el("div",{class:"stops"});
+  const list=el("ol",{class:"stops","aria-label":t("res.indexAria")});
   const breakAfter=day.stops.length>=3?Math.floor(day.stops.length/2):-1;
   const bt=state.answers.budget==="low"?t("res.break.low"):state.answers.budget==="high"?t("res.break.high"):"";
   day.stops.forEach((p,i)=>{
-    if(i>0)list.append(el("div",{class:"leg"+(p.transit?" leg-transit":"")},
-      el("span",null,t("res.leg",{dist:fmtKm(p.legKm)}),
-        p.transit?el("strong",{text:t("res.transit")}):null)));
-    list.append(renderStop(p,di,i));
+    const li=el("li",{class:"stop-item"});
+    /* distanza in linea d'aria calcolata dalle coordinate: nessun tempo o percorso stradale inventato */
+    if(i>0)li.append(el("p",{class:"leg"+(p.transit?" leg-transit":"")},
+      el("span",null,t("res.leg",{dist:fmtKm(p.legKm)}),p.transit?el("strong",{text:t("res.transit")}):null)));
+    li.append(renderStop(p,di,i));
     if(i+1===breakAfter&&i<day.stops.length-1){
-      list.append(el("div",{class:"leg leg-plain"},el("span",{text:""})));
-      list.append(el("div",{class:"break"},icon("coffee"),el("div",null,
+      li.append(el("div",{class:"break"},icon("coffee"),el("div",null,
         el("strong",{text:t("res.break.title")}),
         t("res.break.text",{name:p.name,food:foodTip(day,day.foodTip)})+bt+t("res.break.note"))));
     }
+    list.append(li);
   });
   const nav=total>1?el("div",{class:"day-nav"},
     di>0?el("button",{type:"button",class:"btn btn-line",text:t("res.dayPrev",{n:di}),onclick:()=>showDay(di-1,{scroll:true})}):el("span"),
@@ -474,54 +479,64 @@ function practicalInfo(p){
   }
   return box;
 }
-function renderStop(p,di,i){
-  const n=i+1;
-  const main=p.cats.find(c=>CAT_ICON[c])||"star";
-  const photo=el("div",{class:"photo"},icon(CAT_ICON[main]),el("span",{class:"photo-n","aria-hidden":"true",text:String(n)}));
+/* motivi della scelta: solo dalle risposte e dalle categorie del luogo */
+function whyOf(p){
   const why=p.matches.map(interestLabel);
   if(state.answers.familiarity==="first"&&p.cats.includes("iconic"))why.push(t("why.must"));
   if(state.answers.budget==="low"&&p.fee==="free")why.push(t("why.budget"));
   if(state.answers.familiarity==="often"&&p.cats.includes("hidden"))why.push(t("why.hidden"));
-  const gloss=placeGloss(p),bk=bookingLabel(p.booking);
-  /* Informazioni essenziali sempre visibili: durata, costo, prenotazione, giorno di chiusura. I dettagli verificati sono nell'approfondimento. */
-  const ess=el("ul",{class:"essentials"},
+  return why;
+}
+function essentials(p){
+  const bk=bookingLabel(p.booking);
+  return el("ul",{class:"essentials"},
     el("li",{class:"ess"},icon("clock"),t("stop.visit",{time:p.time})),
     el("li",{class:"ess fee-"+p.fee},icon("coin"),t("fee."+p.fee)),
     bk?el("li",{class:"ess ess-book"},icon("ticket"),bk):null,
     p.closed?el("li",{class:"ess ess-closed"},icon("closed"),t("info.closed")+": "+placeText(p.closed)):null);
+}
+/* Approfondimento della tappa: nella scheda (dal basso o di lato) e, in stampa, sotto ogni tappa. */
+function stopDetail(p){
+  return [
+    el("div",{class:"box box-gem"},el("b",{text:t("stop.chicca")}),placeText(p.chicca)),
+    el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
+    budgetBox(p),
+    el("h3",{class:"sh-sub",text:t("sheet.practical")}),
+    practicalInfo(p),
+    el("div",{class:"links"},
+      el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"osm",place:p.id}),text:t("stop.osm")}),
+      el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"wiki",place:p.id}),hreflang:"it",text:t("stop.wiki")})),
+    reportLine(p)];
+}
+function renderStop(p,di,i){
+  const n=i+1;
+  const main=p.cats.find(c=>CAT_ICON[c])||"star";
+  const photo=el("div",{class:"photo"},icon(CAT_ICON[main]),el("span",{class:"photo-n","aria-hidden":"true",text:String(n)}),el("span",{class:"cur-tag",text:t("cur.tag")}));
+  const why=whyOf(p),gloss=placeGloss(p);
   /* i nomi dei luoghi restano in italiano; in inglese, sotto il nome, una breve spiegazione */
   const card=el("article",{class:"stop",id:"stop-"+di+"-"+n,tabindex:"-1","aria-label":t("stop.aria",{n,name:p.name+(gloss?" ("+gloss+")":"")})},
     photo,
     el("div",{class:"stop-body"},
       el("p",{class:"stop-top"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),el("span",{text:t("stop.top",{n,area:areaText(p.area)})})),
-      el("h4",{lang:"it",text:p.name}),
+      /* tutta la scheda apre l'approfondimento: il nome è il pulsante, esteso a tutta la scheda */
+      el("h4",null,el("button",{type:"button",class:"stop-open",lang:"it",onclick:()=>openStop(di,i)},p.name)),
       gloss?el("p",{class:"gloss",text:gloss}):null,
-      ess,
+      essentials(p),
       el("p",{class:"stop-desc",text:placeText(p.desc)}),
       why.length?el("div",{class:"chips"},why.map(w=>el("span",{class:"chip",text:w}))):null,
-      el("div",{class:"links primary"},
-        el("a",{class:"btn btn-wine btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"directions",place:p.id}),text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
-        el("button",{type:"button",class:"btn btn-line btn-sm",text:t("stop.onMap"),"aria-label":t("stop.onMapAria",{name:p.name}),onclick:()=>focusMarker(di,i)})),
-      /* Approfondimento: orari, costi verificati, chicca, consiglio e link. Chiuso di base per non allungare la scheda; aperto in stampa. */
-      el("details",{class:"more"},
-        el("summary",null,t("stop.more")),
-        el("div",{class:"more-body"},
-          practicalInfo(p),
-          el("div",{class:"box"},el("b",{text:t("stop.chicca")}),placeText(p.chicca)),
-          el("div",{class:"box"},el("b",{text:t("stop.consiglio")}),placeText(p.consiglio)),
-          budgetBox(p),
-          el("div",{class:"links"},
-            el("a",{href:osmUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"osm",place:p.id}),text:t("stop.osm")}),
-            el("a",{href:wikiUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"wiki",place:p.id}),hreflang:"it",text:t("stop.wiki")})),
-          reportLine(p)))));
+      el("div",{class:"stop-actions"},
+        el("a",{class:"btn btn-line btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"directions",place:p.id}),text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})}),
+        el("span",{class:"stop-more","aria-hidden":"true"},t("stop.openCard"),el("span",{class:"arrow",text:"→"})))),
+    el("div",{class:"stop-print"},stopDetail(p)));
   const ph=PHOTOS[p.id];
   if(ph){
     photo.append(creditNode(ph,"photo-credit"));
     lazyLoad(card,()=>{
-      const box=photo.getBoundingClientRect(),bw=box.width||320,bh=box.height||200;
+      const box=photo.getBoundingClientRect(),bw=box.width||360,bh=box.height||220;
       placePhoto(photo,ph,p.name+", Roma",Math.max(bw,bh*ph.ratio));   /* larghezza necessaria per coprire il riquadro */
     });
   }
+  if(state.cur&&state.cur[di]===i)card.classList.add("is-current");
   return card;
 }
 /* Contatti (js/contact.js): modulo caricato quando il browser è libero, fuori dal primo caricamento.
@@ -551,9 +566,13 @@ function reportLine(p){
     ()=>track("error_report_click",{place:p.id}));
   return el("p",{class:"report"},el("span",{text:t("stop.reportQ")}),a);
 }
+/* ==========================================================================
+   GIORNATE, TAPPA CORRENTE, SCHEDA DELLA TAPPA
+   ========================================================================== */
+const isDesk=()=>window.matchMedia("(min-width:1024px)").matches;
 function showDay(i,{scroll}={}){
   state.active=i;
-  if(state.selected&&state.selected[0]!==i){state.selected=null;$("#mapSelected").hidden=true;}
+  if(state.selected&&state.selected[0]!==i)state.selected=null;
   $$(".day").forEach((d,k)=>{
     const was=d.hidden;d.hidden=k!==i;
     if(k===i&&was&&!reduceMotion()){d.classList.remove("enter");void d.offsetWidth;d.classList.add("enter");}
@@ -562,10 +581,178 @@ function showDay(i,{scroll}={}){
     const on=k===i;
     t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;t.classList.toggle("active",on);
   });
-  updateMap();
-  /* Cambiando giornata più in basso nella pagina, si riparte dall'inizio della giornata (o dalla mappa su smartphone). */
+  $$("#mapDays .md-btn").forEach((b,k)=>b.setAttribute("aria-pressed",String(k===i)));
+  updateMap();renderCarousel();renderCurBar();
   const tb=$("#tab-"+i);if(tb&&tb.scrollIntoView)tb.scrollIntoView({block:"nearest",inline:"center",behavior:reduceMotion()?"auto":"smooth"});
-  if(scroll){const target=isNarrow()&&state.map?$(".map-col"):$("#day-"+i);if(target.getBoundingClientRect().top<0)scrollToEl(target,"start");}
+  /* cambiando giornata più in basso nella pagina, si riparte dall'inizio della giornata */
+  if(scroll){const target=$("#day-"+i);if(target&&target.getBoundingClientRect().top<appBarH())scrollToEl(target,"start");}
+}
+/* Tappa corrente: quella a cui si è arrivati camminando. «Successiva» la fa avanzare e apre la scheda della nuova tappa.
+   Non registra nulla di definitivo: vale per questa sessione dell'itinerario. */
+function setCurrent(di,i){
+  if(!state.cur)return;
+  state.cur[di]=i;
+  $$(".stop.is-current").forEach(c=>c.classList.remove("is-current"));
+  const c=$("#stop-"+di+"-"+(i+1));if(c)c.classList.add("is-current");
+  markMarkers();renderCurBar();saveSession();
+}
+function renderCurBar(){
+  const bar=$("#curBar");if(!bar||!state.plan)return;
+  const di=state.active,day=state.plan.days[di],i=state.cur?state.cur[di]:0,p=day.stops[i],n=day.stops.length;
+  $("#curN").textContent=String(i+1);
+  $("#curLabel").textContent=t("cur.label",{n:i+1,total:n});
+  $("#curName").textContent=p.name;
+  const last=i>=n-1,nextDay=di<state.plan.days.length-1,nx=$("#curNext");
+  $("#curNextLabel").textContent=last?(nextDay?t("cur.nextDay",{n:di+2}):t("cur.done")):t("cur.next");
+  nx.disabled=last&&!nextDay;
+  nx.setAttribute("aria-label",last?(nextDay?t("cur.nextDayAria",{n:di+2}):t("cur.done")):t("cur.nextAria",{name:day.stops[i+1].name}));
+}
+function goNextStop(){
+  const di=state.active,day=state.plan.days[di],i=state.cur[di];
+  if(i<day.stops.length-1){setCurrent(di,i+1);openStop(di,i+1);}
+  else if(di<state.plan.days.length-1){showDay(di+1,{scroll:true});setCurrent(di+1,state.cur[di+1]||0);openStop(di+1,state.cur[di+1]||0);}
+}
+function sheetContent(di,i){
+  const day=state.plan.days[di],p=day.stops[i],n=i+1,total=day.stops.length,ph=PHOTOS[p.id],gloss=placeGloss(p),why=whyOf(p);
+  const main=p.cats.find(c=>CAT_ICON[c])||"star";
+  const photo=el("div",{class:"sh-photo"},icon(CAT_ICON[main]));
+  if(ph){placePhoto(photo,ph,p.name+", Roma",Math.min(window.innerWidth,isDesk()?460:window.innerWidth));photo.append(creditNode(ph,"photo-credit"));}
+  const last=i===total-1,nextDay=di<state.plan.days.length-1;
+  const nextLabel=last?(nextDay?t("sheet.nextDay",{n:di+2}):t("sheet.lastStop")):t("map.next");
+  const navBtn=(k,txt,aria)=>el("button",{type:"button",class:"sh-nav-btn","aria-label":aria,disabled:k<0||k>=total,onclick:()=>{openStop(di,k,{replace:true});}},txt);
+  return [
+    photo,
+    el("div",{class:"sh-main"},
+      el("p",{class:"sh-kicker"},el("span",{class:"badge-n","aria-hidden":"true",text:String(n)}),
+        el("span",{text:t("sheet.kicker",{n,total,area:areaText(p.area)})+(state.plan.days.length>1?" · "+t("res.day",{n:di+1}):"")})),
+      el("h2",{id:"sheetTitle",lang:"it",tabindex:"-1",text:p.name}),
+      gloss?el("p",{class:"gloss",text:gloss}):null,
+      essentials(p),
+      el("div",{class:"sh-actions"},
+        el("a",{class:"btn btn-terra",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",onclick:()=>track("ext_click",{kind:"directions",place:p.id}),"aria-label":t("stop.directionsAria",{name:p.name})},icon("pin"),t("stop.directions")),
+        el("button",{type:"button",class:"btn btn-line",id:"sheetNext",disabled:last&&!nextDay,onclick:sheetNext},nextLabel,last?null:el("span",{class:"arrow","aria-hidden":"true",text:"→"}))),
+      el("button",{type:"button",class:"sh-link",onclick:()=>showOnMap(di,i),"aria-label":t("stop.onMapAria",{name:p.name})},icon("pin"),t("stop.onMap")),
+      el("p",{class:"sh-desc",text:placeText(p.desc)}),
+      why.length?el("div",{class:"chips"},why.map(w=>el("span",{class:"chip",text:w}))):null,
+      ...stopDetail(p),
+      el("div",{class:"sh-nav"},
+        i>0?navBtn(i-1,"← "+t("sheet.stopN",{n:i}),t("map.prev")):el("span"),
+        i<total-1?navBtn(i+1,t("sheet.stopN",{n:i+2})+" →",t("map.next")):el("span")))];
+}
+/* «Tappa successiva» nella scheda: la tappa dopo diventa la tappa corrente (fine giornata: giorno dopo). */
+function sheetNext(){
+  const [di,i]=state.sheet||[state.active,state.cur[state.active]];
+  const total=state.plan.days[di].stops.length;
+  if(i<total-1){setCurrent(di,i+1);openStop(di,i+1,{replace:true});}
+  else if(di<state.plan.days.length-1){showDay(di+1);setCurrent(di+1,0);openStop(di+1,0,{replace:true});}
+}
+let sheetReturn=null;
+function openStop(di,i,{replace=false,fromPop=false}={}){
+  if(!state.plan||!state.plan.days[di]||!state.plan.days[di].stops[i])return;
+  if(di!==state.active)showDay(di);
+  const sh=$("#stopSheet"),body=$("#sheetBody"),wasOpen=!sh.hidden;
+  if(!wasOpen)sheetReturn=document.activeElement;
+  body.replaceChildren(...sheetContent(di,i).filter(Boolean));body.scrollTop=0;
+  state.sheet=[di,i];
+  selectStop(di,i,{pan:true,from:"sheet"});
+  const desk=isDesk();
+  if(!wasOpen){
+    sh.hidden=false;sh.classList.toggle("side",desk);
+    sh.setAttribute("aria-modal",String(!desk));
+    if(!desk){$("#sheetScrim").hidden=false;$("#app").inert=true;document.documentElement.classList.add("sheet-open");}
+    if(!reduceMotion()){sh.classList.remove("sh-in");void sh.offsetWidth;sh.classList.add("sh-in");}
+  }
+  if(!fromPop){
+    const st=histState(),r=st?st.r:"itinerario",keep=st&&st.from?{from:st.from}:{};
+    pushState(r,{...keep,sheet:[di,i]},replace||wasOpen&&!!(st&&st.sheet));   /* aprire una scheda è un passo indietro-abile; cambiarla no */
+  }
+  ($("#sheetTitle")||sh).focus({preventScroll:true});
+}
+function closeSheetUI(){
+  const sh=$("#stopSheet");if(sh.hidden)return;
+  sh.hidden=true;sh.style.transform="";$("#sheetScrim").hidden=true;
+  $("#app").inert=!$("#crea").hidden;document.documentElement.classList.remove("sheet-open");
+  const sel=state.sheet;state.sheet=null;
+  const back=sheetReturn;sheetReturn=null;
+  if(back&&document.contains(back)&&back.offsetParent)back.focus({preventScroll:true});
+  else if(sel){const c=$("#stop-"+sel[0]+"-"+(sel[1]+1));if(c&&c.offsetParent)c.focus({preventScroll:true});}
+}
+/* chiusura: X, tocco sullo sfondo, gesto verso il basso, Esc o tasto Indietro (la scheda è una voce della cronologia) */
+function closeStop(){const st=histState();if(st&&st.sheet)history.back();else closeSheetUI();}
+function initSheet(){
+  const sh=$("#stopSheet");
+  $("#sheetClose").addEventListener("click",closeStop);
+  $("#sheetScrim").addEventListener("click",closeStop);
+  sh.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();closeStop();}});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!sh.hidden&&!sh.contains(document.activeElement)&&$("#crea").hidden)closeStop();});
+  /* gesto: trascinando verso il basso dalla maniglia, dalla foto o dall'inizio della scheda */
+  let y0=null,dy=0,drag=false;
+  sh.addEventListener("touchstart",e=>{
+    if(sh.classList.contains("side")||e.touches.length>1){y0=null;return;}
+    const body=$("#sheetBody");
+    if(body.scrollTop>2&&!e.target.closest(".sh-grab,.sh-photo")){y0=null;return;}
+    y0=e.touches[0].clientY;dy=0;drag=false;
+  },{passive:true});
+  sh.addEventListener("touchmove",e=>{
+    if(y0===null)return;
+    dy=e.touches[0].clientY-y0;
+    if(!drag&&dy<-4){y0=null;return;}
+    if(dy>8)drag=true;
+    if(drag){e.preventDefault();sh.style.transition="none";sh.style.transform="translateY("+Math.max(0,dy)+"px)";}
+  },{passive:false});
+  sh.addEventListener("touchend",()=>{
+    if(y0===null)return;
+    sh.style.transition="";
+    if(drag&&dy>110)closeStop();
+    sh.style.transform="";y0=null;drag=false;
+  });
+}
+/* «Vedi sulla mappa»: su computer la mappa è già accanto; su smartphone si apre la mappa a schermo intero */
+function showOnMap(di,i){
+  if(isDesk()){selectStop(di,i,{pan:true,from:"sheet"});return;}
+  const go=()=>{openMapView();requestAnimationFrame(()=>selectStop(di,i,{pan:true,from:"sheet"}));};
+  const st=histState();
+  if(st&&st.sheet){pendingNav=go;history.back();}else{closeSheetUI();go();}
+}
+function openMapView(){
+  if(isDesk()){navigate("mappa");return;}
+  const st=histState();
+  pushState("mappa",{from:st&&st.r==="itinerario"?"itinerario":null});
+  render("mappa",histState());
+}
+function setMapMode(on){
+  const r=$("#results");r.classList.toggle("map-mode",on);
+  document.documentElement.classList.toggle("map-open",on&&!isDesk());
+  if(state.map)requestAnimationFrame(()=>{state.map.invalidateSize();if(on||state.mapNeedsFit){state.mapNeedsFit=false;fitDay(false);}else declutter();attachTiles();
+    if(on&&state.selected&&state.selected[0]===state.active)selectStop(state.selected[0],state.selected[1],{from:"mapmode"});});
+}
+
+/* Carosello delle tappe sulla mappa: scorrendolo si seleziona la tappa al centro (e la mappa la inquadra);
+   toccando un numero sulla mappa il carosello porta in vista la sua tappa. */
+let carouselSilent=0,carouselTimer=null;
+function renderCarousel(){
+  const box=$("#mapCarousel");if(!box||!state.plan)return;
+  const di=state.active,day=state.plan.days[di];
+  box.replaceChildren(...day.stops.map((p,i)=>{
+    const th=el("span",{class:"mc-thumb","aria-hidden":"true"});
+    const ph=PHOTOS[p.id];if(ph)lazyLoad(th,()=>placePhoto(th,ph,"",88));
+    return el("button",{type:"button",class:"mc-item","data-i":i,onclick:()=>openStop(di,i)},
+      th,el("span",{class:"mc-text"},el("small",null,el("span",{class:"badge-n","aria-hidden":"true",text:String(i+1)}),areaText(p.area)),el("strong",{lang:"it",text:p.name}),el("em",{text:t("stop.visit",{time:p.time})})));
+  }));
+  box.scrollLeft=0;
+}
+function initCarousel(){
+  const box=$("#mapCarousel");
+  box.addEventListener("scroll",()=>{
+    if(Date.now()<carouselSilent)return;
+    clearTimeout(carouselTimer);
+    carouselTimer=setTimeout(()=>{
+      const r=box.getBoundingClientRect(),mid=r.left+r.width/2;
+      let best=null,bd=1e9;
+      $$(".mc-item",box).forEach(it=>{const b=it.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-mid);if(d<bd){bd=d;best=it;}});
+      if(best)selectStop(state.active,+best.dataset.i,{pan:true,from:"carousel"});
+    },120);
+  },{passive:true});
 }
 
 /* ==========================================================================
@@ -595,7 +782,7 @@ function loadLeaflet(){
   return leafletP;
 }
 /* margini interni per non coprire le tappe con i controlli (in alto a destra) e con «Sposta la mappa» (in alto a sinistra) */
-const fitPad=()=>({paddingTopLeft:[28,isTouch()?72:36],paddingBottomRight:[70,40],maxZoom:16});
+const fitPad=()=>isDesk()?{paddingTopLeft:[40,40],paddingBottomRight:[80,48],maxZoom:16}:{paddingTopLeft:[28,84],paddingBottomRight:[72,150],maxZoom:16};   /* margini per pulsanti, giornate e carosello */
 function initMap(){
   const mapEl=$("#map");
   if(state.map)return;
@@ -607,18 +794,15 @@ function initMap(){
     mapEl.style.height="auto";mapEl.style.minHeight="0";
     return;
   }
-  /* Su touch: con un dito si scorre la pagina, con due dita si sposta e si ingrandisce la mappa;
-     il pulsante «Sposta la mappa» attiva anche il trascinamento con un dito. Su computer: trascinamento normale. */
-  const touch=isTouch();
+  /* La mappa ha una schermata tutta sua (smartphone) o una colonna fissa (computer): si trascina sempre con un dito. */
   const S=mapStyle;
   const vector=!!(window.protomapsL&&S&&S.canDecompress());
   const bb=a=>L.latLngBounds([a.south,a.west],[a.north,a.east]);
   state.map=L.map(mapEl,{scrollWheelZoom:false,
     /* mappa vettoriale: si resta dentro l'area dei dati (niente sfondo vuoto) */
-    ...(vector?{minZoom:S.MAP_MIN_ZOOM,maxBounds:bb(S.TILE_AREA_DETAIL),maxBoundsViscosity:1}:{}),dragging:!touch,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false,
+    ...(vector?{minZoom:S.MAP_MIN_ZOOM,maxBounds:bb(S.TILE_AREA_DETAIL),maxBoundsViscosity:1}:{}),dragging:true,touchZoom:true,tap:false,zoomControl:false,bounceAtZoomLimits:false,
     zoomAnimation:!reduceMotion(),fadeAnimation:!reduceMotion(),markerZoomAnimation:!reduceMotion()}).setView([41.9028,12.4964],12);
   state.map.attributionControl.setPrefix(false);
-  if(touch)initTouchMap(mapEl);
   /* Prototipo: tasselli vettoriali Protomaps ospitati con il sito (tiles/: tutta l'area dei 77 luoghi, zoom 12–15;
      oltre il 15 si ingrandiscono i vettori). Se il motore non è disponibile o il browser non sa decomprimere
      (DecompressionStream: Safari 16.4+, Chrome 80+, Firefox 113+): tasselli pubblici OSM come prima.
@@ -648,47 +832,6 @@ function initMap(){
   $("#mapFit").onclick=()=>fitDay(true);
   state.map.on("zoomend",declutter);
   window.addEventListener("resize",()=>{if(state.map){state.map.invalidateSize();declutter();}},{passive:true});
-}
-function initTouchMap(mapEl){
-  const btn=$("#mapMove"),hint=$("#mapHint");
-  btn.hidden=false;
-  let hintTimer=null;
-  const set=on=>{
-    if(on)state.map.dragging.enable();else state.map.dragging.disable();
-    btn.setAttribute("aria-pressed",String(on));
-    $("span:last-child",btn).textContent=on?t("map.lock"):t("map.move");
-    mapEl.classList.toggle("map-free",on);
-  };
-  btn.addEventListener("click",()=>set(!state.map.dragging.enabled()));
-  mapEl.addEventListener("touchstart",e=>{
-    if(e.touches.length!==1||state.map.dragging.enabled())return;
-    hint.classList.add("show");clearTimeout(hintTimer);hintTimer=setTimeout(()=>hint.classList.remove("show"),1600);
-  },{passive:true});
-  mapEl.addEventListener("touchstart",e=>{if(e.touches.length>1)hint.classList.remove("show");},{passive:true});
-  set(false);
-}
-function buildMapLayers(){
-  state.mapLayers=[];
-  if(!state.map)return;
-  state.plan.days.forEach((day,di)=>{
-    const group=L.layerGroup(),markers=[],pts=[];
-    if(day.stops.length>1){
-      const line=day.stops.map(p=>[p.lat,p.lng]);
-      group.addLayer(L.polyline(line,{color:"#FBF9F4",weight:6,opacity:.75,interactive:false}));
-      group.addLayer(L.polyline(line,{color:"#8C6F3A",weight:2.5,opacity:.95,dashArray:"1 8",lineCap:"round",interactive:false}));
-    }
-    day.stops.forEach((p,i)=>{
-      const m=L.marker([p.lat,p.lng],{keyboard:true,riseOnHover:true,
-        icon:L.divIcon({className:"vm",html:'<span class="vm-pin"><span class="vm-n">'+(i+1)+'</span></span>',iconSize:[40,40],iconAnchor:[20,20]})});
-      /* marker come pulsante accessibile: nome letto dagli screen reader, Invio o clic per selezionare */
-      m.on("add",()=>{const e=m.getElement();if(!e)return;e.setAttribute("role","button");
-        if(!e.dataset.keys){e.dataset.keys="1";e.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectStop(di,i,{pan:false});}});}e.setAttribute("aria-label",t("map.markerAria",{n:i+1,name:p.name}));e.removeAttribute("title");
-        if(state.selected&&state.selected[0]===di&&state.selected[1]===i)e.classList.add("is-active");});
-      m.on("click",()=>selectStop(di,i,{pan:false}));
-      group.addLayer(m);markers.push(m);pts.push([p.lat,p.lng]);
-    });
-    state.mapLayers.push({group,markers,pts});
-  });
 }
 /* Tappe molto vicine (es. Vittoriano e Campidoglio): i numeri vengono allontanati quanto basta per non sovrapporsi
    (rilassamento a coppie, partendo dalle posizioni vere); un punto sottile resta sulla posizione vera.
@@ -739,6 +882,35 @@ function attachTiles(){
   tileIO=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){tileIO.disconnect();tileIO=null;state.tiles.addTo(state.map);}},{rootMargin:"600px 0px"});
   tileIO.observe(mapEl);
 }
+function buildMapLayers(){
+  state.mapLayers=[];
+  if(!state.map)return;
+  /* solo i punti delle tappe, numerati: nessuna linea tra le tappe, che sembrerebbe un percorso a piedi verificato */
+  state.plan.days.forEach((day,di)=>{
+    const group=L.layerGroup(),markers=[],pts=[];
+    day.stops.forEach((p,i)=>{
+      const m=L.marker([p.lat,p.lng],{keyboard:true,riseOnHover:true,
+        icon:L.divIcon({className:"vm",html:'<span class="vm-pin"><span class="vm-n">'+(i+1)+'</span></span>',iconSize:[44,44],iconAnchor:[22,22]})});
+      /* marker come pulsante accessibile: nome letto dagli screen reader, Invio o clic per selezionare */
+      m.on("add",()=>{const e=m.getElement();if(!e)return;e.setAttribute("role","button");
+        if(!e.dataset.keys){e.dataset.keys="1";e.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();markerTap(di,i);}});}e.setAttribute("aria-label",t("map.markerAria",{n:i+1,name:p.name}));e.removeAttribute("title");
+        markMarkers();});
+      m.on("click",()=>markerTap(di,i));
+      group.addLayer(m);markers.push(m);pts.push([p.lat,p.lng]);
+    });
+    state.mapLayers.push({group,markers,pts});
+  });
+}
+/* tocco su un numero: su smartphone la tappa va in primo piano nel carosello; su computer si apre la scheda di lato */
+function markerTap(di,i){
+  if(isDesk()||!$("#results").classList.contains("map-mode"))openStop(di,i);
+  else selectStop(di,i,{pan:false,from:"marker"});
+}
+function markMarkers(){
+  const l=state.mapLayers[state.active];if(!l)return;
+  const cur=state.cur?state.cur[state.active]:-1,sel=state.selected&&state.selected[0]===state.active?state.selected[1]:-1;
+  l.markers.forEach((m,k)=>{const e=m.getElement();if(!e)return;e.classList.toggle("is-active",k===sel);e.classList.toggle("is-current",k===cur);m.setZIndexOffset(k===sel?1000:k===cur?500:0);});
+}
 let shownLayer=null;
 function updateMap(){
   if(!state.map)return;
@@ -747,61 +919,34 @@ function updateMap(){
   if(!l)return;
   l.group.addTo(state.map);shownLayer=l.group;
   state.map.invalidateSize();
-  if(!$("#map").offsetWidth)state.mapNeedsFit=true;   /* schermata nascosta: si inquadra quando diventa visibile */
+  if(!$("#map").offsetWidth)state.mapNeedsFit=true;   /* mappa nascosta: si inquadra quando diventa visibile */
   fitDay(false);
-  attachTiles();
-  $("#mapDayLabel").textContent=state.plan.days.length>1?t("res.day",{n:state.active+1})+" · "+t("res.stops",{n:state.plan.days[state.active].stops.length}):t("res.stops",{n:state.plan.days[state.active].stops.length});
+  attachTiles();markMarkers();
 }
-/* Tappa selezionata: numero evidenziato sulla mappa, scheda evidenziata e riquadro sotto la mappa
-   con «Vai alla scheda», indicazioni e tappa precedente/successiva (comodo mentre si cammina). */
-function selectStop(di,i,{pan}={}){
-  highlightCard(di,i);
-  const day=state.plan.days[di],p=day.stops[i],box=$("#mapSelected"),n=day.stops.length;
-  const th=el("span",{class:"ms-thumb","aria-hidden":"true"});
-  const ph=PHOTOS[p.id];if(ph)placePhoto(th,ph,"",80);
-  const nav=(k,cls,label,txt)=>el("button",{type:"button",class:"ms-nav "+cls,"aria-label":label,disabled:k<0||k>=n,onclick:()=>selectStop(di,k,{pan:true})},txt);
-  box.replaceChildren(
-    el("div",{class:"ms-main"},th,
-      el("span",{class:"ms-text"},el("small",{text:t("map.selected",{n:i+1,total:n})}),el("strong",{lang:"it",text:p.name}),el("em",{text:areaText(p.area)+" · "+t("stop.visit",{time:p.time})})),
-      el("span",{class:"ms-navs"},nav(i-1,"ms-prev",t("map.prev"),"←"),nav(i+1,"ms-next",t("map.next"),"→"))),
-    el("div",{class:"ms-actions"},
-      el("button",{type:"button",class:"btn btn-wine btn-sm",text:t("map.toCard"),onclick:()=>goToCard(di,i)}),
-      el("a",{class:"btn btn-line btn-sm",href:dirUrl(p),target:"_blank",rel:"noopener noreferrer",text:t("stop.directions"),"aria-label":t("stop.directionsAria",{name:p.name})})));
-  box.hidden=false;state.selected=[di,i];
-  if(pan&&state.map&&state.mapLayers[di]){
+/* Tappa selezionata: numero evidenziato sulla mappa, scheda dell'elenco e voce del carosello allineate. */
+function selectStop(di,i,{pan,from}={}){
+  if(di!==state.active)showDay(di);
+  state.selected=[di,i];
+  markMarkers();
+  $$(".stop.is-active").forEach(c=>c.classList.remove("is-active"));
+  const c=$("#stop-"+di+"-"+(i+1));if(c)c.classList.add("is-active");
+  $$("#mapCarousel .mc-item").forEach(it=>{const on=+it.dataset.i===i;it.classList.toggle("is-active",on);if(on)it.setAttribute("aria-current","true");else it.removeAttribute("aria-current");});
+  if(from!=="carousel"){
+    const it=$('#mapCarousel .mc-item[data-i="'+i+'"]');
+    if(it&&it.offsetParent){carouselSilent=Date.now()+700;const box=$("#mapCarousel");box.scrollTo({left:it.offsetLeft-(box.clientWidth-it.offsetWidth)/2,behavior:reduceMotion()?"auto":"smooth"});}
+  }
+  if(from==="marker"&&isDesk()&&c)scrollToEl(c,"center");
+  if(pan&&state.map&&state.mapLayers[di]&&$("#map").offsetWidth){
     const ll=state.mapLayers[di].markers[i].getLatLng();
-    if(!state.map.getBounds().pad(-0.15).contains(ll))state.map.panTo(ll,{animate:!reduceMotion()});
+    if(!state.map.getBounds().pad(-0.2).contains(ll))state.map.panTo(ll,{animate:!reduceMotion()});
   }
 }
-function highlightCard(di,i,focus){
-  $$(".stop.is-active").forEach(c=>c.classList.remove("is-active"));
-  $$(".vm.is-active").forEach(m=>m.classList.remove("is-active"));
-  const l=state.mapLayers[di];
-  if(l&&l.markers[i]&&l.markers[i].getElement()){l.markers[i].getElement().classList.add("is-active");l.markers[i].setZIndexOffset(1000);}
-  if(l)l.markers.forEach((m,k)=>{if(k!==i)m.setZIndexOffset(0);});
-  const c=$("#stop-"+di+"-"+(i+1));
-  if(!c)return null;
-  c.classList.add("is-active");
-  if(focus){scrollToEl(c,"center");c.focus({preventScroll:true});}
-  return c;
-}
-function goToCard(di,i){if(di!==state.active)showDay(di);highlightCard(di,i,true);}
-/* Dalla scheda alla mappa: porta in vista la mappa, centra il numero e lo seleziona. */
-function focusMarker(di,i){
-  if(!state.map){highlightCard(di,i);toast(t("map.unavailable"));return;}
-  const l=state.mapLayers[di];if(!l)return;
-  if(di!==state.active)showDay(di);
-  scrollToEl($(".map-card"),"center");
-  state.map.setView(l.pts[i],Math.max(state.map.getZoom(),16),{animate:!reduceMotion()});
-  selectStop(di,i,{pan:false});
-  setTimeout(()=>{const e=l.markers[i].getElement();if(e)e.focus({preventScroll:true});},reduceMotion()?0:400);
-}
+function goToCard(di,i){if(di!==state.active)showDay(di);const c=$("#stop-"+di+"-"+(i+1));if(c){scrollToEl(c,"center");c.focus({preventScroll:true});}}
 /* Mappa pronta (libreria scaricata): costruisce i livelli dell'itinerario mostrato. */
 function mountMap(){
   return loadLeaflet().then(()=>{
     if(!state.plan)return;
     initMap();buildMapLayers();updateMap();
-    if(state.selected)selectStop(state.selected[0],state.selected[1]);
   });
 }
 
@@ -827,7 +972,9 @@ function setTripStatus(parts){
 function syncSaveBtn(){
   const b=$("#saveBtn");
   const saved=!!state.savedId;
-  b.textContent=saved?t("res.saved"):t("res.save");
+  $("#saveLabel").textContent=saved?t("res.savedShort"):t("res.saveShort");
+  b.setAttribute("aria-label",saved?t("res.savedAria"):t("res.save"));
+  b.classList.toggle("is-saved",saved);
   b.disabled=saved;
 }
 function saveCurrent(){
@@ -979,11 +1126,13 @@ function rerenderResults(){
     buildMapLayers();updateMap();
     if(view)state.map.setView(view.c,view.z,{animate:false});
     declutter();
-    const mv=$("#mapMove");if(!mv.hidden)$("span:last-child",mv).textContent=state.map.dragging.enabled()?t("map.lock"):t("map.move");
   }
   $$(".day").forEach((d,k)=>{d.hidden=k!==state.active;});
   $$(".day-tab").forEach((tb,k)=>{const on=k===state.active;tb.setAttribute("aria-selected",String(on));tb.tabIndex=on?0:-1;tb.classList.toggle("active",on);});
-  if(sel&&sel[0]===state.active)selectStop(sel[0],sel[1]);else $("#mapSelected").hidden=true;
+  $$("#mapDays .md-btn").forEach((b,k)=>b.setAttribute("aria-pressed",String(k===state.active)));
+  renderCarousel();renderCurBar();
+  if(sel&&sel[0]===state.active)selectStop(sel[0],sel[1],{from:"lang"});
+  if(state.sheet){const [di,i]=state.sheet;$("#sheetBody").replaceChildren(...sheetContent(di,i).filter(Boolean));}
   syncSaveBtn();setTripStatus(state.status);
   window.scrollTo({top:y,behavior:"instant"});
 }
@@ -1122,9 +1271,12 @@ function render(route,st,{initial=false}={}){
   closeQuizUI();
   if(route==="itinerario"){
     if(!state.plan&&!restoreSession()){navigate("scopri",{replace:true});return;}
-    showScreen("itinerario",{focus:!initial});return;
+    setMapMode(false);
+    showScreen("itinerario",{focus:!initial&&!(st&&st.sheet)});
+    syncSheet(st);return;
   }
-  if(route==="mappa"){openMapRoute(initial);return;}
+  if(route==="mappa"){openMapRoute(initial,st);return;}
+  closeSheetUI();setMapMode(false);
   showScreen(route,{focus:!initial});
 }
 function showScreen(name,{focus=true,nav=null}={}){
@@ -1147,20 +1299,23 @@ function showScreen(name,{focus=true,nav=null}={}){
   if(focus){const h=$("#"+(name==="itinerario"?"resultTitle":name==="scopri"?"main":({viaggi:"tripsTitle",mappa:"mapEmptyTitle",impostazioni:"settingsTitle"})[name]));if(h)h.focus({preventScroll:true});}
 }
 function openItinerary(){navigate("itinerario");}
-/* «Mappa»: la mappa del viaggio aperto; senza un viaggio aperto, l'ultimo viaggio (aperto o salvato); altrimenti un invito a crearne uno. */
-function openMapRoute(initial){
+/* «Mappa»: la mappa del viaggio aperto (a schermo intero su smartphone, accanto all'elenco su computer);
+   senza un viaggio aperto, l'ultimo viaggio aperto o salvato; altrimenti un invito a crearne uno. */
+function openMapRoute(initial,st){
   if(!state.plan&&!restoreSession()){
     const tg=resumeTarget();
     if(tg&&tg.trip)openTrip(tg.trip.id,{open:false});
   }
-  if(!state.plan){showScreen("mappa",{focus:!initial});return;}
+  if(!state.plan){closeSheetUI();setMapMode(false);showScreen("mappa",{focus:!initial});return;}
   showScreen("itinerario",{focus:false,nav:"mappa"});
-  requestAnimationFrame(()=>{
-    const m=$("#mapCol");if(!m)return;
-    const tabs=$("#dayTabs"),sticky=!tabs.hidden&&getComputedStyle(tabs).position==="sticky"?tabs.offsetHeight+12:0;   /* linguette dei giorni fisse sopra la mappa su smartphone */
-    window.scrollTo({top:Math.max(0,m.getBoundingClientRect().top+window.scrollY-appBarH()-sticky-8),behavior:"auto"});
-    if(!initial){m.setAttribute("tabindex","-1");m.focus({preventScroll:true});}
-  });
+  setMapMode(true);
+  if(isDesk()&&!initial){const m=$("#mapCol");m.setAttribute("tabindex","-1");m.focus({preventScroll:true});}
+  syncSheet(st);
+}
+/* la scheda segue la cronologia: aperta se la voce la prevede, chiusa altrimenti */
+function syncSheet(st){
+  if(st&&Array.isArray(st.sheet))openStop(st.sheet[0],st.sheet[1],{fromPop:true});
+  else closeSheetUI();
 }
 const appBarH=()=>{const b=$("#resBar");return b?b.offsetHeight:0;};
 function syncResBar(){
@@ -1235,7 +1390,7 @@ function setLast(id){try{if(id)localStorage.setItem(LAST_KEY,id);else localStora
 /* L'itinerario aperto resta nella sessione della scheda: se il telefono ricarica la pagina, si riprende da lì. */
 function saveSession(){
   if(!state.plan)return;
-  try{const tr=tripFromPlan(state.answers,state.plan);sessionStorage.setItem(SESSION_KEY,JSON.stringify({answers:tr.answers,days:tr.days,savedId:state.savedId||null}));}catch(e){}
+  try{const tr=tripFromPlan(state.answers,state.plan);sessionStorage.setItem(SESSION_KEY,JSON.stringify({answers:tr.answers,days:tr.days,savedId:state.savedId||null,cur:state.cur||null}));}catch(e){}
 }
 function readSession(){try{const x=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");return x&&x.answers&&Array.isArray(x.days)?x:null;}catch(e){return null;}}
 function restoreSession(){
@@ -1245,7 +1400,7 @@ function restoreSession(){
     const plan=restoreItinerary(engineAnswers(state.answers),x.days);
     if(!plan.days.length)return false;
     const saved=x.savedId&&getStore().get(x.savedId)?x.savedId:null;
-    showPlan(plan,{savedId:saved,source:"session"});
+    showPlan(plan,{savedId:saved,source:"session",cur:Array.isArray(x.cur)?x.cur:null});
     return true;
   }catch(e){return false;}
 }
@@ -1330,6 +1485,11 @@ function initApp(){
   $("#qzBack").addEventListener("click",goBack);
   $("#crea").addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#genScreen").hidden){e.preventDefault();closeQuiz();}});
   $("#resBack").addEventListener("click",appBack);
+  $("#curOpen").addEventListener("click",()=>openStop(state.active,state.cur[state.active]));
+  $("#curNext").addEventListener("click",goNextStop);
+  $("#curMap").addEventListener("click",openMapView);
+  $("#mapList").addEventListener("click",()=>{const st=histState();if(st&&st.from==="itinerario")history.back();else navigate("itinerario");});
+  initSheet();initCarousel();
   $("#heroSample").addEventListener("click",openSample);
   $("#resumeCard").addEventListener("click",onResume);
   $("#setLangIt").addEventListener("click",()=>setLangTo("it"));

@@ -12,21 +12,21 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="1ecfefc08973";
+const VERSION="1d148ec1c021";
 const TILES_VERSION="2026-11-19-dd5a2f8a";
 const PRECACHE=["./",
  "./crediti.html",
  "./manifest.webmanifest",
  "./icon.svg",
- "./css/style.css?v=1836336fbf",
+ "./css/style.css?v=cb17d3578d",
  "./js/contact.js?v=c592acc8b5",
  "./js/data/photos.js?v=adbbfc5590",
  "./js/data/places-en.js?v=c6172c315d",
  "./js/data/places.js?v=afa54f0421",
  "./js/i18n.js?v=111c7df471",
- "./js/i18n/en.js?v=e3d2a45290",
- "./js/i18n/it.js?v=01148df3be",
- "./js/main.js?v=f011dee734",
+ "./js/i18n/en.js?v=9d07b03f96",
+ "./js/i18n/it.js?v=ca6e3c7dc9",
+ "./js/main.js?v=0a9070ff05",
  "./js/map-style.js?v=bf3dc62ad2",
  "./js/metrics-config.js?v=53ebc59861",
  "./js/metrics-schema.js?v=798c00bf1e",
