@@ -55,7 +55,7 @@ test("segnalazione per ogni luogo, in italiano e in inglese: nome e ID presenti,
 });
 test("testi del contatto presenti in entrambe le lingue", ()=>{
   const keys=Object.keys(IT).filter(k=>/^(stop\.report|report\.|contact\.|footer\.contact|credits\.contact\.)/.test(k));
-  assert.equal(keys.length,15);
+  assert.equal(keys.length,17);   /* + segnalazione generica dalle Impostazioni */
   for(const k of keys)assert.ok(k in EN,"manca in inglese: "+k);
   assert.match(EN["stop.report"],/Report an error/);
 });

@@ -92,7 +92,8 @@ function optionButton(q,o){
   if(photo){
     const media=el("span",{class:"opt-media","aria-hidden":"true"});
     media.style.backgroundColor=photo.color;
-    media.append(photoImg(photo,"",isNarrow()?200:260));
+    /* foto della scelta scaricata solo quando il quiz è aperto e la scheda sta per apparire (non al primo caricamento) */
+    lazyLoad(media,()=>media.append(photoImg(photo,"",isNarrow()?200:260)));
     btn=el("button",{type:"button",class:"option opt-photo","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
       media,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),check);
   }else{
@@ -193,32 +194,36 @@ function setStep(n,focus){
   $("#qName").textContent=stepText(STEPS[state.step],"name");
   renderBar();
   $("#quizError").textContent="";
+  quizPhoto();
   if(focus){
-    /* Su smartphone la nuova domanda può iniziare sopra lo schermo: riportiamo in vista l'inizio del pannello. */
-    const lg=$("legend",stepEls[state.step]);
-    const check=()=>{
-      const top=lg.getBoundingClientRect().top,head=$("#siteHeader").offsetHeight;
-      if(top<head||top>window.innerHeight*0.5)scrollToEl($(".quiz-panel"),"start");
-    };
-    requestAnimationFrame(check);setTimeout(check,450);
-    lg.focus({preventScroll:true});
+    /* ogni domanda riparte dall'inizio del pannello, con il titolo come punto di partenza per la lettura */
+    const sc=$("#qzScroll");if(sc)sc.scrollTop=0;
+    $("legend",stepEls[state.step]).focus({preventScroll:true});
   }
 }
 function goNext(){
   const err=stepError(state.step);
   if(err){$("#quizError").textContent=err;return;}
   const v=visible(),next=v[v.indexOf(state.step)+1];
+  const st=histState();
+  pushState("crea",{qs:next,q0:st&&st.r==="crea"?st.q0:0});   /* ogni domanda è un passo della cronologia: il tasto Indietro torna alla precedente */
   setStep(next,true);
   track("quiz_step",{step:STEPS[next].id});
 }
-function goBack(){const v=visible(),i=v.indexOf(state.step);if(i>0)setStep(v[i-1],true);}
+function goBack(){
+  const v=visible(),i=v.indexOf(state.step);
+  if(i<=0){closeQuiz();return;}
+  const st=histState();
+  if(st&&st.r==="crea"&&st.d>st.q0)history.back();   /* la domanda precedente è nella cronologia */
+  else{pushState("crea",{qs:v[i-1],q0:st?st.q0:0},true);setStep(v[i-1],true);}
+}
 function submitQuiz(){
   for(const i of visible()){
     const err=stepError(i);
     if(err){setStep(i,true);$("#quizError").textContent=err;return;}
   }
   trackComplete(state.answers);
-  createItinerary();
+  generateItinerary();
 }
 /* Risposte del quiz: solo valori fissi delle opzioni (niente bambini: non serve alle decisioni di prodotto). */
 function trackComplete(a){
@@ -279,6 +284,7 @@ function placePhoto(container,ph,alt,width){
   container.append(photoImg(ph,alt,width));
   container.classList.add("has-photo");
 }
+function afterLoad(fn){if(document.readyState==="complete")fn();else window.addEventListener("load",()=>fn(),{once:true});}
 function lazyLoad(node,fn){
   if(!("IntersectionObserver"in window)){fn();return;}
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();fn();}},{rootMargin:"300px"});
@@ -295,20 +301,40 @@ const osmUrl=p=>"https://www.openstreetmap.org/?mlat="+p.lat+"&mlon="+p.lng+"#ma
 const wikiUrl=p=>"https://it.wikipedia.org/wiki/"+encodeURIComponent(p.wiki);
 const fmtKm=k=>k<0.1?t("res.legLess"):t("res.legKm",{km:num1(k)});
 
-function createItinerary(){
-  showPlan(buildItinerary(engineAnswers(state.answers)),{savedId:null,source:"quiz"});
+/* Schermata di generazione: il sole sorge nell'arco mentre il motore compone le giornate.
+   L'itinerario è calcolato davvero dal motore con le risposte date (buildItinerary); l'animazione dura il minimo
+   indispensabile per essere letta (più breve con «riduci movimento»). */
+let genBusy=false;
+function generateItinerary(){
+  if(genBusy)return;
+  genBusy=true;
+  const gs=$("#genScreen"),t0=performance.now();
+  gs.hidden=false;gs.classList.remove("out");
+  requestAnimationFrame(()=>setTimeout(()=>{
+    let plan=null;
+    try{plan=buildItinerary(engineAnswers(state.answers));}catch(e){plan=null;}
+    if(!plan||!plan.days.length){genBusy=false;gs.hidden=true;toast(t("toast.linkEmpty"));return;}
+    showPlan(plan,{savedId:null,source:"quiz"});
+    const wait=Math.max(0,(reduceMotion()?250:1400)-(performance.now()-t0));
+    setTimeout(()=>leaveQuizTo("itinerario",()=>{
+      $(".gen-text",gs).textContent=t("gen.done");
+      gs.classList.add("out");
+      setTimeout(()=>{gs.hidden=true;gs.classList.remove("out");$(".gen-text",gs).textContent=t("gen.text");genBusy=false;},reduceMotion()?0:380);
+    }),wait);
+  },40));
 }
-/* Mostra un itinerario: appena creato, riaperto da «I miei viaggi» o ricevuto da un link. */
+/* Mostra un itinerario: appena creato, riaperto da «I miei viaggi», ricevuto da un link o ripreso dopo una ricarica.
+   Prepara la schermata «itinerario» senza aprirla: la apre chi chiama (openItinerary / il quiz). */
 function showPlan(plan,{savedId=null,status=null,source="quiz"}={}){
-  state.plan=plan;state.active=0;state.savedId=savedId;
-  track("result_view",{source,days:plan.days.length,stops:plan.days.reduce((n,d)=>n+d.stops.length,0)});
+  state.plan=plan;state.active=0;state.savedId=savedId;state.source=source;
+  if(["quiz","saved","link"].includes(source))track("result_view",{source,days:plan.days.length,stops:plan.days.reduce((n,d)=>n+d.stops.length,0)});
   renderResults();
   const r=$("#results");r.classList.add("visible");
   state.selected=null;$("#mapSelected").hidden=true;
+  scrollMem.itinerario=0;
   showDay(0);mountMap();
   setTripStatus(status);syncSaveBtn();
-  scrollToEl(r);
-  setTimeout(()=>{$("#resultTitle").focus({preventScroll:true});if(state.map)state.map.invalidateSize();},reduceMotion()?0:600);
+  saveSession();renderResume();
 }
 /* Elenco leggibile: "a, b e c" / "a, b and c"; oltre max voci: "a, b, c e molto altro". */
 function listText(items,max){
@@ -721,6 +747,7 @@ function updateMap(){
   if(!l)return;
   l.group.addTo(state.map);shownLayer=l.group;
   state.map.invalidateSize();
+  if(!$("#map").offsetWidth)state.mapNeedsFit=true;   /* schermata nascosta: si inquadra quando diventa visibile */
   fitDay(false);
   attachTiles();
   $("#mapDayLabel").textContent=state.plan.days.length>1?t("res.day",{n:state.active+1})+" · "+t("res.stops",{n:state.plan.days[state.active].stops.length}):t("res.stops",{n:state.plan.days[state.active].stops.length});
@@ -807,7 +834,7 @@ function saveCurrent(){
   if(!state.plan)return;
   const r=getStore().save(tripFromPlan(state.answers,state.plan));
   if(!r.ok){toast(errText(r.error));setTripStatus([["err."+(["quota","full"].includes(r.error)?r.error:"unavailable"),{max:MAX_TRIPS}]]);return;}
-  state.savedId=r.trip.id;syncSaveBtn();
+  state.savedId=r.trip.id;syncSaveBtn();setLast(r.trip.id);saveSession();
   if(!r.existing)track("trip_save");
   setTripStatus([[r.existing?"status.already":"status.saved"]]);
   renderTrips();
@@ -841,8 +868,8 @@ function tripCard(trip){
 function renderTrips(){
   const r=getStore().list(),list=$("#tripList"),err=$("#tripsError"),n=r.trips.length;
   err.hidden=r.ok;err.textContent=r.ok?"":errText(r.error);
-  $("#heroTrips").hidden=!n;
-  $("#navTrips").textContent=n?t("nav.tripsCount",{n}):t("nav.trips");
+  const badge=$("#navTripsCount");badge.hidden=!n;badge.textContent=n?String(n):"";
+  $("#navTripsSr").textContent=n?" ("+t("trips.count",{n})+")":"";
   $("#tripsCount").textContent=n?t("trips.count",{n}):"";
   $("#tripsEmpty").hidden=!!n||!r.ok;
   $("#tripsNote").hidden=!n;
@@ -851,17 +878,20 @@ function renderTrips(){
   const more=$("#tripsMore");
   more.hidden=n<=tripsShown;
   if(n>tripsShown)more.textContent=t("trips.more",{n:n-tripsShown});
+  renderResume();
 }
 async function shareTrip(trip){
   const plan=tripPlan(trip),url=shareUrl(location.href,trip.answers,plan);
   shareContent(trip.answers,plan,url);
 }
-function openTrip(id){
+function openTrip(id,opts){
   const trip=getStore().get(id);
   if(!trip){toast(t("toast.tripGone"));renderTrips();return;}
   loadAnswers(trip.answers);
   const plan=restoreItinerary(engineAnswers(state.answers),trip.days);
   showPlan(plan,{savedId:trip.id,source:"saved",status:[["status.reopened"]].concat(plan.missing.length?[["status.missing",{n:plan.missing.length}]]:[])});
+  setLast(trip.id);
+  if(!opts||opts.open!==false)openItinerary();
 }
 function confirmDialog(text){
   const d=$("#confirmDlg");
@@ -876,7 +906,8 @@ async function deleteTrip(trip){
   if(!await confirmDialog(t("dlg.delete.text",{title:tripTitle(trip.answers)})))return;
   const r=getStore().remove(trip.id);
   if(!r.ok){toast(r.error?errText(r.error):t("toast.deleteFailed"));return;}
-  if(state.savedId===trip.id){state.savedId=null;syncSaveBtn();setTripStatus(null);}
+  if(state.savedId===trip.id){state.savedId=null;syncSaveBtn();setTripStatus(null);saveSession();}
+  if(getLast()===trip.id)setLast(null);
   renderTrips();toast(t("toast.deleted"));
   const first=$("#tripList .tc-open")||$("#tripsEmpty a");if(first)first.focus();else $("#tripsTitle").setAttribute("tabindex","-1"),$("#tripsTitle").focus();
 }
@@ -915,6 +946,9 @@ function openFromLink(){
   const saved=getStore().find(tripFromPlan(state.answers,plan));
   track("share_open");
   showPlan(plan,{savedId:saved?saved.id:null,source:"link",status:[["status.fromLink"],[saved?"status.linkSaved":"status.linkCanSave"]]});
+  /* la voce della cronologia resta quella del link: ricaricando, l'itinerario si riapre */
+  history.replaceState({vivi:1,r:"itinerario",d:0},"",location.href);
+  render("itinerario",histState(),{initial:true});
   return true;
 }
 
@@ -928,7 +962,7 @@ function applyLang(){
   document.title=t("meta.title");
   applyStatic(document);
   $("#langToggle").setAttribute("lang",l==="it"?"en":"it");
-  $("#menuLabel").textContent=$("#navLinks").classList.contains("open")?t("menu.close"):t("menu.open");
+  syncSettings();
   relabelQuiz();
   $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
   heroCredit();
@@ -965,20 +999,6 @@ async function toggleLang(){
 /* ==========================================================================
    NAVIGAZIONE, CATEGORIE, EVENTI GLOBALI
    ========================================================================== */
-function initMenu(){
-  const btn=$("#menuToggle"),nav=$("#navLinks"),header=$("#siteHeader");
-  const set=open=>{
-    nav.classList.toggle("open",open);header.classList.toggle("menu-open",open);
-    btn.setAttribute("aria-expanded",String(open));$("#menuLabel").textContent=open?t("menu.close"):t("menu.open");
-  };
-  btn.addEventListener("click",()=>set(!nav.classList.contains("open")));
-  $$("a",nav).forEach(a=>a.addEventListener("click",()=>set(false)));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("open")){set(false);btn.focus();}});
-  document.addEventListener("click",e=>{if(nav.classList.contains("open")&&!header.contains(e.target))set(false);});
-  const onScroll=()=>header.classList.toggle("scrolled",window.scrollY>40);
-  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
-  window.matchMedia("(min-width:761px)").addEventListener("change",()=>set(false));
-}
 function initCategories(){
   $$(".cat-card").forEach(card=>{
     card.addEventListener("click",()=>{
@@ -988,17 +1008,10 @@ function initCategories(){
       else{list.push(k);syncOptions();toast(t("cat.added",{label}));}
     });
     const ph=PHOTOS[card.dataset.photo];
-    if(ph)lazyLoad(card,()=>placePhoto(card,ph,t("cat."+card.dataset.interest+".alt"),card.getBoundingClientRect().width||300));
+    /* dopo il caricamento della pagina: le categorie non competono con la copertina sulle reti lente */
+    if(ph)afterLoad(()=>lazyLoad(card,()=>placePhoto(card,ph,t("cat."+card.dataset.interest+".alt"),card.getBoundingClientRect().width||300)));
   });
 }
-/* Foto decorativa di «Come funziona»: si scarica solo quando la sezione si avvicina,
-   così non compete con la copertina sulle reti lente. */
-function initProcessArt(){
-  const fig=$(".process-art"),img=fig&&$("img[data-src]",fig);
-  if(!img)return;
-  lazyLoad(fig,()=>{img.srcset=img.dataset.srcset;img.src=img.dataset.src;});
-}
-
 function initHero(){
   /* la copertina è già nell'HTML (index.html), così il browser la scarica prima del JavaScript:
      qui si aggiungono solo il colore medio di riserva e il credito della foto */
@@ -1037,7 +1050,9 @@ function renderPreview(){
       el("span",{class:"pv-info"},el("strong",{lang:"it",text:p.name}),el("small",{text:areaText(p.area)+(p.matches.length?" · "+p.matches.map(interestLabel).join(", "):"")})));
   }));
   const foot=el("p",{class:"pv-foot"},t("res.stops",{n:day.stops.length})+" · "+t("res.distance",{km:num1(day.walkKm)})+(day.stops.length>shown.length?" · "+t("pv.more",{n:day.stops.length-shown.length}):""));
-  host.replaceChildren(el("article",{class:"pv-card"},cover,ol,foot));
+  host.replaceChildren(el("article",{class:"pv-card"},cover,ol,foot,
+    el("div",{class:"pv-actions"},el("button",{type:"button",class:"btn btn-wine",text:t("home.sample.open"),onclick:openSample}),
+      el("a",{class:"btn btn-line",href:"#crea",text:t("nav.create")}))));
 }
 function initReveal(){
   const items=$$(".reveal");
@@ -1072,6 +1087,268 @@ async function runPhotoAudit(){
   sum.textContent=ok+" foto locali caricate su "+rows.length+(ok===rows.length?": tutte ok.":". Le altre usano il segnaposto.");
 }
 
+/* ==========================================================================
+   APP: schermate, cronologia (tasto Indietro), transizioni
+   Ogni schermata è una voce della cronologia (#scopri, #viaggi, #mappa, #impostazioni, #itinerario, #crea),
+   così il tasto Indietro del telefono e del browser torna davvero alla schermata precedente.
+   Le domande del quiz sono passi della cronologia: Indietro torna alla domanda precedente.
+   ========================================================================== */
+const SCREENS=["scopri","viaggi","mappa","impostazioni","itinerario"];
+const OLD_HASH={home:"scopri",esplora:"scopri",anteprima:"scopri","come-funziona":"scopri",results:"itinerario"};
+let screen=null,pendingNav=null;
+const scrollMem={};
+function routeOf(hash){
+  const h=String(hash||"").replace(/^#/,"");
+  if(/^itinerario=/.test(h))return "link";
+  if(h==="crea"||SCREENS.includes(h))return h;
+  return OLD_HASH[h]||"scopri";
+}
+function histState(){const s=history.state;return s&&typeof s==="object"&&s.vivi?s:null;}
+const urlFor=r=>r==="scopri"?location.pathname+location.search:"#"+r;
+function pushState(route,extra,replace){
+  const cur=histState(),d=replace?(cur?cur.d:0):(cur?cur.d+1:1);
+  history[replace?"replaceState":"pushState"]({vivi:1,r:route,d,...(extra||{})},"",urlFor(route));
+}
+function navigate(route,{replace=false}={}){
+  if(route===screen&&route!=="crea"&&!replace){window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});return;}   /* tocco sulla scheda già aperta: si torna all'inizio */
+  if(route==="crea"){const cur=histState();pushState("crea",{qs:firstOpenStep(),q0:replace?(cur?cur.d:0):(cur?cur.d+1:1)},replace);}
+  else pushState(route,null,replace);
+  render(route,histState());
+}
+/* Indietro dentro l'app (frecce in alto): se c'è una schermata precedente si torna lì, altrimenti a «Scopri». */
+function appBack(){const st=histState();if(st&&st.d>0)history.back();else navigate("scopri",{replace:true});}
+function render(route,st,{initial=false}={}){
+  if(route==="crea"){openQuiz(st,initial);return;}
+  closeQuizUI();
+  if(route==="itinerario"){
+    if(!state.plan&&!restoreSession()){navigate("scopri",{replace:true});return;}
+    showScreen("itinerario",{focus:!initial});return;
+  }
+  if(route==="mappa"){openMapRoute(initial);return;}
+  showScreen(route,{focus:!initial});
+}
+function showScreen(name,{focus=true,nav=null}={}){
+  const prev=screen;
+  if(prev&&prev!==name)scrollMem[prev]=window.scrollY;
+  screen=name;
+  $$("#main [data-screen]").forEach(s=>{
+    const on=s.dataset.screen===name;
+    if(on&&s.hidden){s.hidden=false;if(prev&&!reduceMotion()){s.classList.remove("screen-in");void s.offsetWidth;s.classList.add("screen-in");}}
+    else if(!on&&!s.hidden)s.hidden=true;
+  });
+  const navKey=nav||(name==="itinerario"?(state.savedId?"viaggi":null):name);
+  $$("#appNav [data-route]").forEach(a=>{if(a.dataset.route===navKey&&!a.classList.contains("an-brand"))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  document.documentElement.dataset.screen=name;
+  window.scrollTo(0,prev===name?window.scrollY:(scrollMem[name]||0));
+  if(name==="itinerario"){
+    syncResBar();
+    if(state.map)requestAnimationFrame(()=>{state.map.invalidateSize();if(state.mapNeedsFit){state.mapNeedsFit=false;fitDay(false);}else declutter();});
+  }
+  if(focus){const h=$("#"+(name==="itinerario"?"resultTitle":name==="scopri"?"main":({viaggi:"tripsTitle",mappa:"mapEmptyTitle",impostazioni:"settingsTitle"})[name]));if(h)h.focus({preventScroll:true});}
+}
+function openItinerary(){navigate("itinerario");}
+/* «Mappa»: la mappa del viaggio aperto; senza un viaggio aperto, l'ultimo viaggio (aperto o salvato); altrimenti un invito a crearne uno. */
+function openMapRoute(initial){
+  if(!state.plan&&!restoreSession()){
+    const tg=resumeTarget();
+    if(tg&&tg.trip)openTrip(tg.trip.id,{open:false});
+  }
+  if(!state.plan){showScreen("mappa",{focus:!initial});return;}
+  showScreen("itinerario",{focus:false,nav:"mappa"});
+  requestAnimationFrame(()=>{
+    const m=$("#mapCol");if(!m)return;
+    const tabs=$("#dayTabs"),sticky=!tabs.hidden&&getComputedStyle(tabs).position==="sticky"?tabs.offsetHeight+12:0;   /* linguette dei giorni fisse sopra la mappa su smartphone */
+    window.scrollTo({top:Math.max(0,m.getBoundingClientRect().top+window.scrollY-appBarH()-sticky-8),behavior:"auto"});
+    if(!initial){m.setAttribute("tabindex","-1");m.focus({preventScroll:true});}
+  });
+}
+const appBarH=()=>{const b=$("#resBar");return b?b.offsetHeight:0;};
+function syncResBar(){
+  const bar=$("#resBar"),h=$("#resultTitle");if(!bar||!h)return;
+  $("#resBarTitle").textContent=h.textContent;
+  bar.classList.toggle("solid",screen==="itinerario"&&h.getBoundingClientRect().bottom<bar.offsetHeight);
+}
+
+/* ---------- Quiz a schermo intero ---------- */
+const STEP_PHOTO={who:"hero-portrait",kids:"cat-nature",know:"colosseo",time:"castel",interests:"cat-art",mood:"trevi",practical:"aranci"};
+/* primo passo da mostrare aprendo il quiz: il primo senza risposta; con tutte le risposte già date
+   (nuovo viaggio dopo uno appena creato) si riparte dall'inizio, con le scelte precedenti già segnate */
+function firstOpenStep(){const v=visible();return v.find(i=>stepError(i))??v[0];}
+function openQuizAt(step){
+  const cur=histState();
+  pushState("crea",{qs:step,q0:cur?cur.d+1:1});
+  render("crea",histState());
+}
+function openQuiz(st,initial){
+  const qz=$("#crea");
+  if(!screen)showScreen("scopri",{focus:false});   /* sotto il quiz resta una schermata (arrivo diretto su #crea) */
+  if(qz.hidden){
+    qz.hidden=false;document.documentElement.classList.add("quiz-open");
+    $("#app").inert=true;
+    if(!reduceMotion()&&!initial){qz.classList.remove("qz-in");void qz.offsetWidth;qz.classList.add("qz-in");}
+    if(!window.L)(window.requestIdleCallback||(f=>setTimeout(f,1200)))(()=>loadLeaflet(),{timeout:4000});
+  }
+  const v=visible();let step=st&&Number.isInteger(st.qs)?st.qs:firstOpenStep();
+  if(!v.includes(step))step=v.filter(i=>i<=step).pop()??v[0];
+  setStep(step,true);
+}
+function closeQuizUI(){
+  const qz=$("#crea");if(qz.hidden)return;
+  qz.hidden=true;document.documentElement.classList.remove("quiz-open");
+  $("#app").inert=false;
+}
+/* Chiudi (X o Esc): si torna alla schermata da cui si è aperto il quiz, saltando le domande già viste. */
+function closeQuiz(){
+  const st=histState();
+  if(st&&st.r==="crea"&&st.q0>0)history.go(-(st.d-st.q0+1));
+  else navigate(screen&&screen!=="crea"?screen:"scopri",{replace:true});
+}
+/* Dal quiz a un'altra schermata: le voci del quiz escono dalla cronologia, così Indietro dall'itinerario porta
+   alla schermata da cui era partito il quiz e non all'ultima domanda. */
+function leaveQuizTo(route,done){
+  const st=histState();
+  const finish=()=>{pushState(route);render(route,histState());if(done)done();};
+  if(st&&st.r==="crea"&&st.q0>0){pendingNav=finish;history.go(-(st.d-st.q0+1));}
+  else{pushState(route,null,true);render(route,histState());if(done)done();}
+}
+function quizPhoto(){
+  const box=$("#qzPhoto");if(!box||!stepEls.length)return;
+  const sid=STEPS[state.step].id;
+  let key=STEP_PHOTO[sid];
+  if(sid==="interests"&&state.answers.interests.length){const o=Q.interests.opts.find(x=>x[0]===state.answers.interests[state.answers.interests.length-1]);if(o&&o[5])key=o[5];}
+  const ph=PHOTOS[key];
+  if(!ph||box.dataset.photo===key)return;
+  box.dataset.photo=key;
+  if(!window.matchMedia("(min-width:1024px)").matches)return;   /* la foto laterale c'è solo su computer */
+  box.style.backgroundColor=ph.color;
+  const img=photoImg(ph,"",Math.round(window.innerWidth*0.42));
+  img.classList.add("qz-img");
+  const old=$$(".qz-img",box);
+  box.prepend(img);
+  setTimeout(()=>old.forEach(o=>o.remove()),reduceMotion()?0:700);
+}
+
+/* ---------- Riprendi il viaggio e sessione ---------- */
+const LAST_KEY="vivi-roma:ultimo",SESSION_KEY="vivi-roma:corrente";
+function getLast(){try{return localStorage.getItem(LAST_KEY);}catch(e){return null;}}
+function setLast(id){try{if(id)localStorage.setItem(LAST_KEY,id);else localStorage.removeItem(LAST_KEY);}catch(e){}}
+/* L'itinerario aperto resta nella sessione della scheda: se il telefono ricarica la pagina, si riprende da lì. */
+function saveSession(){
+  if(!state.plan)return;
+  try{const tr=tripFromPlan(state.answers,state.plan);sessionStorage.setItem(SESSION_KEY,JSON.stringify({answers:tr.answers,days:tr.days,savedId:state.savedId||null}));}catch(e){}
+}
+function readSession(){try{const x=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");return x&&x.answers&&Array.isArray(x.days)?x:null;}catch(e){return null;}}
+function restoreSession(){
+  const x=readSession();if(!x)return false;
+  try{
+    loadAnswers({interests:[],mood:[],...x.answers});
+    const plan=restoreItinerary(engineAnswers(state.answers),x.days);
+    if(!plan.days.length)return false;
+    const saved=x.savedId&&getStore().get(x.savedId)?x.savedId:null;
+    showPlan(plan,{savedId:saved,source:"session"});
+    return true;
+  }catch(e){return false;}
+}
+function resumeTarget(){
+  if(state.plan)return {kind:"current",answers:state.answers,plan:state.plan};
+  const x=readSession();
+  if(x){try{const a={interests:[],mood:[],...x.answers};const plan=restoreItinerary(engineAnswers(a),x.days);if(plan.days.length)return {kind:"current",answers:a,plan};}catch(e){}}
+  const r=getStore().list();if(!r.trips.length)return null;
+  const last=getLast(),trip=r.trips.find(x=>x.id===last);
+  return trip?{kind:"last",trip}:{kind:"recent",trip:r.trips[0]};
+}
+function renderResume(){
+  const card=$("#resumeCard");if(!card)return;
+  const tg=resumeTarget();
+  if(!tg){card.hidden=true;return;}
+  const a=tg.trip?tg.trip.answers:tg.answers,plan=tg.trip?tripPlan(tg.trip):tg.plan;
+  const stops=plan.days.reduce((n,d)=>n+d.stops.length,0),title=t("res.cover.title."+a.company);
+  $("#resumeKicker").textContent=t(tg.kind==="current"?"home.resume.current":tg.kind==="last"?"home.resume.last":"home.resume.recent");
+  $("#resumeTitle").textContent=title;
+  $("#resumeMeta").textContent=t("home.resume.meta",{dur:durationLabel(a),stops});
+  const cover=$("#resumeCover"),p=coverPlace(plan),key=p?p.id:"";
+  if(cover.dataset.place!==key){cover.replaceChildren();cover.dataset.place=key;if(p){const ph=PHOTOS[p.id];placePhoto(cover,ph,"",96);}}
+  card.dataset.kind=tg.kind;card.dataset.trip=tg.trip?tg.trip.id:"";
+  card.hidden=false;
+}
+function onResume(){
+  const card=$("#resumeCard");
+  if(card.dataset.trip){openTrip(card.dataset.trip);return;}
+  if(state.plan||restoreSession())openItinerary();else renderResume();
+}
+
+/* ---------- Esempio, scelte rapide, impostazioni ---------- */
+function openSample(){
+  loadAnswers(SAMPLE);
+  if(!samplePlan)samplePlan=buildItinerary(engineAnswers(SAMPLE));
+  showPlan(restoreItinerary(engineAnswers(state.answers),tripFromPlan(state.answers,samplePlan).days),{savedId:null,source:"sample",status:[["status.sample"]]});
+  openItinerary();
+}
+function initQuick(){
+  $$(".quick-chip").forEach(b=>b.addEventListener("click",()=>{
+    state.answers.duration=b.dataset.duration;state.answers.days=b.dataset.days||null;
+    syncOptions();renderBar();
+    navigate("crea");
+    toast(t("quick.toast",{label:$("strong",b).textContent}));
+  }));
+}
+async function setLangTo(l){if(l!==getLang())await toggleLang();}
+function offlineInfo(){
+  if(!("serviceWorker" in navigator))return "none";
+  return navigator.serviceWorker.controller?"ready":"pending";
+}
+function syncSettings(){
+  const l=getLang();
+  $("#setLangIt").setAttribute("aria-pressed",String(l==="it"));
+  $("#setLangEn").setAttribute("aria-pressed",String(l==="en"));
+  const o=offlineInfo();
+  $("#offlineState").textContent=t("settings.offline."+o);$("#offlineState").dataset.state=o;
+  $("#offlineText").textContent=t("settings.offline."+o+"Text");
+  $("#privacyMetrics").textContent=t(metricsActive?"settings.privacy.metricsOn":"settings.privacy.metricsOff");
+}
+let metricsActive=false;
+function initApp(){
+  history.scrollRestoration="manual";
+  /* link interni (#crea, #viaggi…): navigazione tra schermate invece del salto nella pagina */
+  document.addEventListener("click",e=>{
+    const a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.classList.contains("skip"))return;
+    const r=routeOf(a.getAttribute("href"));if(r==="link")return;
+    e.preventDefault();navigate(r);
+  });
+  window.addEventListener("popstate",()=>{
+    if(pendingNav){const f=pendingNav;pendingNav=null;f();return;}
+    let st=histState();
+    if(!st){   /* indirizzo scritto o link esterno con #…: diventa una voce dell'app, con una schermata precedente a cui tornare */
+      const r=routeOf(location.hash);if(r==="link"){location.reload();return;}
+      st={vivi:1,r,d:1,...(r==="crea"?{q0:1,qs:firstOpenStep()}:{})};
+      history.replaceState(st,"",location.href);
+    }
+    render(st.r,st);
+  });
+  $("#qzClose").addEventListener("click",closeQuiz);
+  $("#qzBack").addEventListener("click",goBack);
+  $("#crea").addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#genScreen").hidden){e.preventDefault();closeQuiz();}});
+  $("#resBack").addEventListener("click",appBack);
+  $("#heroSample").addEventListener("click",openSample);
+  $("#resumeCard").addEventListener("click",onResume);
+  $("#setLangIt").addEventListener("click",()=>setLangTo("it"));
+  $("#setLangEn").addEventListener("click",()=>setLangTo("en"));
+  $$("[data-contact=report]").forEach(a=>armMail(a,()=>({subject:t("contact.reportSubject"),body:t("contact.reportBody")})));
+  $("#year").textContent=new Date().getFullYear();
+  window.addEventListener("scroll",()=>{if(screen==="itinerario")syncResBar();},{passive:true});
+  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",syncSettings);
+  whenIdle(()=>import("./metrics-config.js").then(({METRICS_CONFIG:c})=>{metricsActive=!!(c&&(c.events||c.webAnalyticsToken)&&(c.hosts||[]).includes(location.hostname));syncSettings();},()=>{}));
+  initQuick();syncSettings();
+}
+function startRoute(){
+  const r=routeOf(location.hash);
+  const st={vivi:1,r:r==="link"?"scopri":r,d:0};
+  if(st.r==="crea"){st.q0=0;st.qs=firstOpenStep();}
+  history.replaceState(st,"",st.r==="crea"||st.r!=="scopri"?location.href:urlFor("scopri"));
+  render(st.r,st,{initial:true});
+}
+
 async function init(){
   /* lingua iniziale: scelta salvata → lingua del dispositivo → italiano (la scelta automatica non viene salvata) */
   let l=detectLang(storageOrNull(),navigator.languages||[navigator.language]);
@@ -1085,7 +1362,7 @@ async function init(){
     e.preventDefault();
     if(state.step!==visible()[visible().length-1])goNext();else submitQuiz();
   });
-  $("#editBtn").addEventListener("click",()=>{scrollToEl($("#crea"));setStep(0,false);});
+  $("#editBtn").addEventListener("click",()=>openQuizAt(visible()[0]));
   $("#printBtn").addEventListener("click",()=>{track("print");window.print();});
   $("#tripsMore").addEventListener("click",()=>{const k=tripsShown;tripsShown=Infinity;renderTrips();const c=$$("#tripList .tc-open")[k];if(c)c.focus();});
   $("#saveBtn").addEventListener("click",saveCurrent);
@@ -1095,16 +1372,16 @@ async function init(){
   window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
   $("#langToggle").addEventListener("click",toggleLang);
   $$("[data-contact]").forEach(a=>armMail(a,()=>({subject:t("contact.subject")})));
-  initMenu();initCategories();initHero();initProcessArt();renderPreview();initReveal();
+  initCategories();initHero();renderPreview();initReveal();initApp();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */
   if(/[?&]photocheck/.test(location.search))runPhotoAudit();
-  else openFromLink();
+  if(!openFromLink())startRoute();
 }
 init();
 registerSW();
 /* Cloudflare Web Analytics: solo se configurato (js/metrics-config.js), a pagina caricata e con il browser libero. */
-const whenIdle=f=>(window.requestIdleCallback||(g=>setTimeout(g,1500)))(f,{timeout:5000});
+function whenIdle(f){(window.requestIdleCallback||(g=>setTimeout(g,1500)))(f,{timeout:5000});}
 const startMetrics=()=>whenIdle(()=>{loadContact();loadMetrics().then(m=>{if(m)m.startWebAnalytics();});});
 if(document.readyState==="complete")startMetrics();else window.addEventListener("load",startMetrics,{once:true});

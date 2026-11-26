@@ -23,16 +23,16 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 
 <link rel="preload" href="fonts/playfair-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=6ea388ec3b">
+<link rel="stylesheet" href="css/style.css?v=1836336fbf">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=0f1f2e7945","./js/i18n/it.js":"./js/i18n/it.js?v=d2d83af7f8","./js/main.js":"./js/main.js?v=deda264dfc","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=e3d2a45290","./js/i18n/it.js":"./js/i18n/it.js?v=01148df3be","./js/main.js":"./js/main.js?v=f011dee734","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
 <!-- modulepreload:start -->
 <link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
 <link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
 <link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
-<link rel="modulepreload" href="./js/i18n/it.js?v=d2d83af7f8">
-<link rel="modulepreload" href="./js/main.js?v=deda264dfc">
+<link rel="modulepreload" href="./js/i18n/it.js?v=01148df3be">
+<link rel="modulepreload" href="./js/main.js?v=f011dee734">
 <link rel="modulepreload" href="./js/planner.js?v=6a1e73a8a9">
 <link rel="modulepreload" href="./js/pwa.js?v=8fac90f78a">
 <link rel="modulepreload" href="./js/quiz-data.js?v=351776df14">
@@ -44,170 +44,208 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 <body>
 <a class="skip" href="#main" data-i18n="skip">Vai ai contenuti</a>
 
-<header class="site-header on-dark" id="siteHeader">
-  <div class="wrap nav">
-    <a class="brand" href="#home" data-i18n-attr="aria-label:brand.aria" aria-label="VIVI Roma, torna all'inizio">
-      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg>
-      <span class="brand-name"><b>VIVI</b> <i>Roma</i></span>
-    </a>
-    <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
-    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks"><span class="burger" aria-hidden="true"><i></i><i></i></span><span id="menuLabel">Menu</span></button>
-    <nav class="nav-links" id="navLinks" data-i18n-attr="aria-label:nav.aria" aria-label="Navigazione principale">
-      <a href="#esplora" data-i18n="nav.explore">Esplora</a>
-      <a href="#come-funziona" data-i18n="nav.how">Come funziona</a>
-      <a href="#viaggi" id="navTrips">I miei viaggi</a>
-      <a class="btn btn-terra" href="#crea" data-i18n="nav.create">Crea il tuo viaggio</a>
-    </nav>
-  </div>
-</header>
+<div class="app" id="app">
+<!-- NAVIGAZIONE: barra inferiore su smartphone e tablet, barra laterale su computer -->
+<nav class="app-nav" id="appNav" data-i18n-attr="aria-label:nav.aria" aria-label="Navigazione principale">
+  <a class="an-brand" href="#scopri" data-route="scopri" data-i18n-attr="aria-label:brand.aria" aria-label="VIVI Roma, torna all'inizio">
+    <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg>
+    <span class="brand-name"><b>VIVI</b> <i>Roma</i></span>
+  </a>
+  <a class="an-item" href="#scopri" data-route="scopri"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span class="an-l" data-i18n="nav.discover">Scopri</span></a>
+  <a class="an-item" href="#viaggi" data-route="viaggi" id="navTrips"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h12v16l-6-4-6 4z"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.trips">I miei viaggi</span><span class="an-short" data-i18n="nav.tripsShort">Viaggi</span></span><span class="an-badge" id="navTripsCount" aria-hidden="true" hidden></span><span class="sr-only" id="navTripsSr"></span></a>
+  <a class="an-create" href="#crea" data-route="crea"><span class="an-plus" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span><span class="an-l"><span class="an-long" data-i18n="nav.create">Crea il tuo viaggio</span><span class="an-short" data-i18n="nav.createShort">Crea</span></span></a>
+  <a class="an-item" href="#mappa" data-route="mappa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span class="an-l" data-i18n="nav.map">Mappa</span></a>
+  <a class="an-item" href="#impostazioni" data-route="impostazioni"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.settings">Impostazioni</span><span class="an-short" data-i18n="nav.settingsShort">Altro</span></span></a>
+</nav>
 
-<main id="main">
-  <!-- HERO -->
-  <section class="hero on-dark" id="home" aria-labelledby="heroTitle">
-    <!-- copertina nell'HTML: il browser la scarica subito, senza aspettare il JavaScript (LCP) -->
-    <div class="hero-media" id="heroMedia"><picture>
-      <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="img/hero/hero-portrait-720.webp 720w, img/hero/hero-portrait-1080.webp 1080w" sizes="60vw">
-      <img src="img/hero/hero-1600.webp" srcset="img/hero/hero-960.webp 960w, img/hero/hero-1600.webp 1600w, img/hero/hero-2400.webp 2400w" sizes="100vw" width="1600" height="1067" alt="" fetchpriority="high" decoding="async">
-    </picture></div>
-    <div class="wrap hero-inner">
-      <p class="kicker hero-in" style="--d:1"><span class="kicker-mark" aria-hidden="true"></span><span data-i18n="hero.kicker">Itinerari su misura a Roma</span></p>
-      <h1 id="heroTitle"><span class="h1a hero-in" style="--d:2" data-i18n="hero.h1a">Non visitare Roma.</span> <em class="h1b hero-in" style="--d:3" data-i18n="hero.h1b">Vivila.</em></h1>
-      <p class="hero-lead hero-in" style="--d:4" data-i18n="hero.lead">Sei domande, un minuto. Scegliamo i luoghi giusti per te e li uniamo in giornate che hanno senso sulla mappa: non un elenco di monumenti, ma la tua Roma.</p>
-      <div class="hero-actions hero-in" style="--d:5">
-        <a class="btn btn-terra btn-lg" href="#crea"><span data-i18n="hero.cta">Crea il tuo viaggio</span><span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="#anteprima" data-i18n="hero.inspire">Guarda un esempio</a>
-        <a class="btn btn-ghost" href="#viaggi" id="heroTrips" hidden data-i18n="hero.trips">I miei viaggi</a>
+<main id="main" tabindex="-1">
+
+  <!-- SCOPRI -->
+  <section class="screen scr-scopri" id="scopri" data-screen="scopri" aria-labelledby="heroTitle">
+    <div class="hero on-dark" id="home">
+      <!-- copertina nell'HTML: il browser la scarica subito, senza aspettare il JavaScript (LCP) -->
+      <div class="hero-media" id="heroMedia"><picture>
+        <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="img/hero/hero-portrait-720.webp 720w, img/hero/hero-portrait-1080.webp 1080w" sizes="60vw">
+        <img src="img/hero/hero-1600.webp" srcset="img/hero/hero-960.webp 960w, img/hero/hero-1600.webp 1600w, img/hero/hero-2400.webp 2400w" sizes="100vw" width="1600" height="1067" alt="" fetchpriority="high" decoding="async">
+      </picture></div>
+      <div class="hero-top">
+        <span class="hero-brand" aria-hidden="true"><svg class="brand-mark" viewBox="0 0 48 48" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg><span class="brand-name"><b>VIVI</b> <i>Roma</i></span></span>
+        <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
       </div>
-      <ul class="hero-facts hero-in" style="--d:6">
-        <li data-i18n="hero.fact1">77 luoghi selezionati</li>
-        <li data-i18n="hero.fact2">Da mezza giornata a 7 giorni</li>
-        <li data-i18n="hero.fact3">Italiano e inglese</li>
-      </ul>
+      <!-- Riprendi il viaggio: itinerario aperto o ultimo viaggio salvato -->
+      <button class="resume" id="resumeCard" type="button" hidden>
+        <span class="resume-cover" id="resumeCover" aria-hidden="true"></span>
+        <span class="resume-text">
+          <small class="resume-kicker" id="resumeKicker"></small>
+          <strong id="resumeTitle"></strong>
+          <span class="resume-meta" id="resumeMeta"></span>
+        </span>
+        <span class="resume-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>
+      <div class="hero-inner">
+        <p class="kicker hero-in" style="--d:1"><span class="kicker-mark" aria-hidden="true"></span><span data-i18n="hero.kicker">Itinerari su misura a Roma</span></p>
+        <h1 id="heroTitle"><span class="h1a hero-in" style="--d:2" data-i18n="hero.h1a">Non visitare Roma.</span> <em class="h1b hero-in" style="--d:3" data-i18n="hero.h1b">Vivila.</em></h1>
+        <p class="hero-lead hero-in" style="--d:4" data-i18n="hero.lead">Sei domande, un minuto. Scegliamo i luoghi giusti per te e li uniamo in giornate che hanno senso sulla mappa: non un elenco di monumenti, ma la tua Roma.</p>
+        <div class="hero-actions hero-in" style="--d:5">
+          <a class="btn btn-terra btn-lg" href="#crea" data-route="crea"><span data-i18n="hero.cta">Crea il tuo viaggio</span><span class="arrow" aria-hidden="true">→</span></a>
+          <button class="btn btn-ghost btn-lg" type="button" id="heroSample" data-i18n="hero.inspire">Guarda un esempio</button>
+        </div>
+      </div>
+      <p class="hero-credit" id="heroCredit" hidden></p>
     </div>
-    <a class="hero-scroll" href="#esplora"><span data-i18n="hero.scroll">Scopri di più</span><i aria-hidden="true"></i></a>
-    <p class="hero-credit" id="heroCredit" hidden></p>
-  </section>
 
-  <!-- ESPLORA -->
-  <section class="section explore" id="esplora" aria-labelledby="exploreTitle">
-    <div class="wrap">
-      <div class="explore-head reveal">
-        <div>
+    <div class="home-body">
+
+      <section class="home-sec" aria-labelledby="quickTitle">
+        <div class="home-head">
+          <p class="eyebrow" data-i18n="home.quick.eyebrow">Parti da qui</p>
+          <h2 id="quickTitle" data-i18n="home.quick.title">Quanto tempo hai?</h2>
+        </div>
+        <div class="quick" role="group" aria-labelledby="quickTitle">
+          <button class="quick-chip" type="button" data-duration="half"><strong data-i18n="quick.half">Mezza giornata</strong><small data-i18n="quick.half.sub">Qualche ora</small></button>
+          <button class="quick-chip" type="button" data-duration="one"><strong data-i18n="quick.one">Un giorno</strong><small data-i18n="quick.one.sub">Il meglio in una giornata</small></button>
+          <button class="quick-chip" type="button" data-duration="multi" data-days="2"><strong data-i18n="quick.weekend">Un weekend</strong><small data-i18n="quick.weekend.sub">2 giorni</small></button>
+          <button class="quick-chip" type="button" data-duration="multi" data-days="7"><strong data-i18n="quick.week">Una settimana</strong><small data-i18n="quick.week.sub">7 giorni</small></button>
+        </div>
+      </section>
+
+      <section class="home-sec" id="esplora" aria-labelledby="exploreTitle">
+        <div class="home-head">
           <p class="eyebrow" data-i18n="explore.eyebrow">Otto modi di vivere Roma</p>
           <h2 id="exploreTitle" data-i18n="explore.title">Quale Roma vuoi incontrare?</h2>
+          <p class="home-hint" data-i18n="home.cats.hint">Tocca una categoria: la aggiungiamo ai tuoi interessi e apriamo il quiz.</p>
         </div>
-        <p data-i18n="explore.text">Grandi capolavori, giardini, tavole romane, angoli che pochi conoscono. Tocca una categoria: la aggiungiamo ai tuoi interessi nel quiz.</p>
-      </div>
-    </div>
-    <div class="cat-rail">
-      <div class="cat-grid">
-        <a class="cat-card reveal" href="#crea" data-interest="history" data-photo="cat-history" data-label="Roma antica" data-alt="Il Colosseo a Roma">
-          <span class="cat-info"><small data-i18n="cat.history.small">Le origini</small><strong data-i18n="cat.history.label">Roma antica</strong><em data-i18n="cat.history.text">Colosseo, Fori e le tracce dell'impero.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="art" data-photo="cat-art" data-label="Arte e meraviglia" data-alt="La scala elicoidale dei Musei Vaticani">
-          <span class="cat-info"><small data-i18n="cat.art.small">La bellezza</small><strong data-i18n="cat.art.label">Arte e meraviglia</strong><em data-i18n="cat.art.text">Musei, capolavori e architetture barocche.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="food" data-photo="cat-food" data-label="Sapori romani" data-alt="Un piatto di spaghetti alla carbonara">
-          <span class="cat-info"><small data-i18n="cat.food.small">A tavola</small><strong data-i18n="cat.food.label">Sapori romani</strong><em data-i18n="cat.food.text">Mercati, trattorie e piatti della tradizione.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="hidden" data-photo="cat-hidden" data-label="Roma segreta" data-alt="L'arco del quartiere Coppedè">
-          <span class="cat-info"><small data-i18n="cat.hidden.small">Fuori rotta</small><strong data-i18n="cat.hidden.label">Roma segreta</strong><em data-i18n="cat.hidden.text">Architetture particolari e luoghi insoliti.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="nature" data-photo="cat-nature" data-label="Verde e quiete" data-alt="Il tempio di Esculapio sul laghetto di Villa Borghese">
-          <span class="cat-info"><small data-i18n="cat.nature.small">Respira</small><strong data-i18n="cat.nature.label">Verde e quiete</strong><em data-i18n="cat.nature.text">Villa Borghese, il suo laghetto e i giardini.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="religious" data-photo="cat-religious" data-label="Roma sacra" data-alt="La basilica di San Pietro in Vaticano">
-          <span class="cat-info"><small data-i18n="cat.religious.small">Spiritualità</small><strong data-i18n="cat.religious.label">Roma sacra</strong><em data-i18n="cat.religious.text">San Pietro, il Vaticano e le grandi basiliche.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="night" data-photo="castel" data-label="Roma di sera" data-alt="Castel Sant'Angelo illuminato di notte">
-          <span class="cat-info"><small data-i18n="cat.night.small">Dopo il tramonto</small><strong data-i18n="cat.night.label">Roma di sera</strong><em data-i18n="cat.night.text">Ponti illuminati, piazze e passeggiate serali.</em></span></a>
-        <a class="cat-card reveal" href="#crea" data-interest="romantic" data-photo="cat-romantic" data-label="Roma romantica" data-alt="Ponte Sant'Angelo e San Pietro al tramonto">
-          <span class="cat-info"><small data-i18n="cat.romantic.small">In due</small><strong data-i18n="cat.romantic.label">Roma romantica</strong><em data-i18n="cat.romantic.text">Panorami, terrazze e scorci suggestivi.</em></span></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ANTEPRIMA: esempio reale calcolato dal motore -->
-  <section class="section preview on-dark" id="anteprima" aria-labelledby="previewTitle">
-    <div class="wrap preview-layout">
-      <div class="preview-copy reveal">
-        <p class="eyebrow" data-i18n="pv.eyebrow">Anteprima</p>
-        <h2 id="previewTitle" data-i18n="pv.title">Un itinerario vero, non una brochure.</h2>
-        <p id="previewText"></p>
-        <a class="btn btn-gold" href="#crea" data-i18n="pv.cta">Crea il tuo viaggio</a>
-      </div>
-      <div class="preview-host reveal" id="previewHost"></div>
-    </div>
-  </section>
-
-  <!-- COME FUNZIONA -->
-  <section class="section process" id="come-funziona" aria-labelledby="processTitle">
-    <div class="wrap process-layout">
-      <div>
-      <p class="eyebrow" data-i18n="how.eyebrow">Come funziona</p>
-      <h2 id="processTitle" data-i18n="how.title">Dalle tue preferenze a un itinerario.</h2>
-      <div class="process-grid">
-        <article class="process-item reveal"><div class="num" aria-hidden="true">01</div><h3 data-i18n="how.1.title">Ci racconti chi sei</h3><p data-i18n="how.1.text">Sei scelte rapide: compagnia, prima volta o ritorno, tempo, interessi, atmosfera e preferenze pratiche. Puoi scegliere più interessi e più atmosfere insieme.</p></article>
-        <article class="process-item reveal"><div class="num" aria-hidden="true">02</div><h3 data-i18n="how.2.title">Componiamo le giornate</h3><p data-i18n="how.2.text">Scegliamo i luoghi che combaciano con le tue risposte e li raggruppiamo per vicinanza, così ogni giornata ha un senso geografico.</p></article>
-        <article class="process-item reveal"><div class="num" aria-hidden="true">03</div><h3 data-i18n="how.3.title">Salvi, condividi, parti</h3><p data-i18n="how.3.text">Leggi le schede, guarda la mappa e apri le indicazioni. Salva l'itinerario nei tuoi viaggi su questo dispositivo, condividilo o stampalo in PDF.</p></article>
-      </div>
-      </div>
-      <figure class="process-art reveal">
-        <img data-src="img/categories/cat-romantic-840.webp" data-srcset="img/categories/cat-romantic-420.webp 420w, img/categories/cat-romantic-840.webp 840w" sizes="(max-width:980px) 90vw, 460px" width="840" height="1120" alt="" loading="lazy" decoding="async">
-      </figure>
-    </div>
-  </section>
-
-  <!-- QUIZ -->
-  <section class="section quiz-section on-dark" id="crea" aria-labelledby="quizTitle">
-    <div class="wrap quiz-layout">
-      <div class="quiz-intro">
-        <p class="eyebrow" data-i18n="quiz.eyebrow">Il tuo itinerario</p>
-        <h2 id="quizTitle" data-i18n="quiz.title">Creiamo un viaggio che ti somiglia.</h2>
-        <p data-i18n="quiz.intro">Sei passaggi, un minuto. Scegli tutto ciò che ti emoziona, anche più risposte insieme: a tempi di visita e distanze pensiamo noi.</p>
-        <p class="quiz-note" data-i18n="quiz.note">Puoi tornare indietro in qualsiasi momento: le risposte restano salvate finché non chiudi la pagina.</p>
-      </div>
-      <div class="quiz-panel">
-        <noscript><p class="nojs" data-i18n="quiz.nojs">Per creare l'itinerario serve JavaScript attivo nel browser.</p></noscript>
-        <form id="quizForm" novalidate>
-          <div class="quiz-top"><span id="qCounter" aria-live="polite">Passo 1 di 6</span><span id="qName"></span></div>
-          <div class="steps-bar" id="stepsBar" role="progressbar" data-i18n-attr="aria-label:quiz.progress" aria-label="Avanzamento del quiz" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
-          <div id="quizSteps"></div>
-          <p class="quiz-error" id="quizError" role="alert"></p>
-          <div class="quiz-actions">
-            <button class="quiz-back" type="button" id="prevBtn" disabled><span aria-hidden="true">←</span> <span data-i18n="quiz.back">Indietro</span></button>
-            <button class="btn btn-wine" type="button" id="nextBtn"><span data-i18n="quiz.next">Continua</span> <span aria-hidden="true">→</span></button>
-            <button class="btn btn-gold" type="submit" id="createBtn" hidden data-i18n="quiz.create">Crea il mio itinerario</button>
+        <div class="cat-rail">
+          <div class="cat-grid">
+            <a class="cat-card" href="#crea" data-interest="history" data-photo="cat-history" data-label="Roma antica" data-alt="Il Colosseo a Roma">
+              <span class="cat-info"><small data-i18n="cat.history.small">Le origini</small><strong data-i18n="cat.history.label">Roma antica</strong><em data-i18n="cat.history.text">Colosseo, Fori e le tracce dell'impero.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="art" data-photo="cat-art" data-label="Arte e meraviglia" data-alt="La scala elicoidale dei Musei Vaticani">
+              <span class="cat-info"><small data-i18n="cat.art.small">La bellezza</small><strong data-i18n="cat.art.label">Arte e meraviglia</strong><em data-i18n="cat.art.text">Musei, capolavori e architetture barocche.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="food" data-photo="cat-food" data-label="Sapori romani" data-alt="Un piatto di spaghetti alla carbonara">
+              <span class="cat-info"><small data-i18n="cat.food.small">A tavola</small><strong data-i18n="cat.food.label">Sapori romani</strong><em data-i18n="cat.food.text">Mercati, trattorie e piatti della tradizione.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="hidden" data-photo="cat-hidden" data-label="Roma segreta" data-alt="L'arco del quartiere Coppedè">
+              <span class="cat-info"><small data-i18n="cat.hidden.small">Fuori rotta</small><strong data-i18n="cat.hidden.label">Roma segreta</strong><em data-i18n="cat.hidden.text">Architetture particolari e luoghi insoliti.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="nature" data-photo="cat-nature" data-label="Verde e quiete" data-alt="Il tempio di Esculapio sul laghetto di Villa Borghese">
+              <span class="cat-info"><small data-i18n="cat.nature.small">Respira</small><strong data-i18n="cat.nature.label">Verde e quiete</strong><em data-i18n="cat.nature.text">Villa Borghese, il suo laghetto e i giardini.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="religious" data-photo="cat-religious" data-label="Roma sacra" data-alt="La basilica di San Pietro in Vaticano">
+              <span class="cat-info"><small data-i18n="cat.religious.small">Spiritualità</small><strong data-i18n="cat.religious.label">Roma sacra</strong><em data-i18n="cat.religious.text">San Pietro, il Vaticano e le grandi basiliche.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="night" data-photo="castel" data-label="Roma di sera" data-alt="Castel Sant'Angelo illuminato di notte">
+              <span class="cat-info"><small data-i18n="cat.night.small">Dopo il tramonto</small><strong data-i18n="cat.night.label">Roma di sera</strong><em data-i18n="cat.night.text">Ponti illuminati, piazze e passeggiate serali.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+            <a class="cat-card" href="#crea" data-interest="romantic" data-photo="cat-romantic" data-label="Roma romantica" data-alt="Ponte Sant'Angelo e San Pietro al tramonto">
+              <span class="cat-info"><small data-i18n="cat.romantic.small">In due</small><strong data-i18n="cat.romantic.label">Roma romantica</strong><em data-i18n="cat.romantic.text">Panorami, terrazze e scorci suggestivi.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
           </div>
-        </form>
-      </div>
+        </div>
+      </section>
+
+      <!-- ANTEPRIMA: esempio reale calcolato dal motore -->
+      <section class="home-sec" id="anteprima" aria-labelledby="previewTitle">
+        <div class="home-head">
+          <p class="eyebrow" data-i18n="pv.eyebrow">Anteprima</p>
+          <h2 id="previewTitle" data-i18n="home.sample.title">Un itinerario vero</h2>
+          <p class="home-hint" id="previewText"></p>
+        </div>
+        <div class="preview-host" id="previewHost"></div>
+      </section>
     </div>
   </section>
 
   <!-- I MIEI VIAGGI -->
-  <section class="section trips" id="viaggi" aria-labelledby="tripsTitle">
-    <div class="wrap">
-      <div class="trips-head">
-        <div>
-          <p class="eyebrow" data-i18n="trips.eyebrow">Salvati su questo dispositivo</p>
-          <h2 id="tripsTitle" data-i18n="trips.title">I miei viaggi</h2>
-        </div>
-        <p class="trips-count" id="tripsCount" aria-live="polite"></p>
-      </div>
+  <section class="screen trips" id="viaggi" data-screen="viaggi" aria-labelledby="tripsTitle" hidden>
+    <header class="page-head">
+      <p class="eyebrow" data-i18n="trips.eyebrow">Salvati su questo dispositivo</p>
+      <h1 id="tripsTitle" tabindex="-1" data-i18n="trips.title">I miei viaggi</h1>
+      <p class="trips-count" id="tripsCount" aria-live="polite"></p>
+    </header>
+    <div class="page-body">
       <div class="trips-empty" id="tripsEmpty" hidden>
-        <span class="te-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
-        <h3 data-i18n="trips.emptyTitle">Il tuo primo viaggio ti aspetta</h3>
+        <span class="te-mark" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="te-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg></span>
+        <h2 data-i18n="trips.emptyTitle">Il tuo primo viaggio ti aspetta</h2>
         <p data-i18n="trips.emptyText">Rispondi al quiz e salva l'itinerario: lo ritroverai qui, con la sua copertina, pronto da riaprire anche durante la visita.</p>
-        <a class="btn btn-wine" href="#crea" data-i18n="trips.emptyCta">Crea il tuo primo viaggio</a>
+        <a class="btn btn-wine" href="#crea" data-route="crea" data-i18n="trips.emptyCta">Crea il tuo primo viaggio</a>
       </div>
-      <p class="trips-note" id="tripsNote" hidden data-i18n="trips.note">Gli itinerari restano in questo browser, su questo dispositivo: non sono sincronizzati con altri dispositivi e possono andare persi se cancelli i dati di navigazione. Per conservarli altrove, usa «Condividi» o la stampa in PDF.</p>
       <p class="trips-error" id="tripsError" role="alert" hidden></p>
       <ul class="trip-list" id="tripList"></ul>
       <button class="btn btn-line trips-more" id="tripsMore" type="button" hidden data-i18n="trips.moreAll">Mostra altri viaggi</button>
+      <p class="trips-note" id="tripsNote" hidden data-i18n="trips.note">Gli itinerari restano in questo browser, su questo dispositivo: non sono sincronizzati con altri dispositivi e possono andare persi se cancelli i dati di navigazione. Per conservarli altrove, usa «Condividi» o la stampa in PDF.</p>
     </div>
   </section>
 
-  <!-- RISULTATI: guida personalizzata -->
-  <section class="results" id="results" aria-labelledby="resultTitle">
+  <!-- MAPPA senza un viaggio aperto -->
+  <section class="screen" id="mappa" data-screen="mappa" aria-labelledby="mapEmptyTitle" hidden>
+    <div class="empty-screen">
+      <span class="te-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="none"/><path d="M9 4v14M15 6v14" fill="none"/></svg></span>
+      <h1 id="mapEmptyTitle" tabindex="-1" data-i18n="mapEmpty.title">Nessun viaggio sulla mappa</h1>
+      <p data-i18n="mapEmpty.text">Crea un viaggio o aprine uno salvato: qui vedrai le sue tappe, giorno per giorno.</p>
+      <a class="btn btn-wine" href="#crea" data-route="crea" data-i18n="nav.create">Crea il tuo viaggio</a>
+    </div>
+  </section>
+
+  <!-- IMPOSTAZIONI -->
+  <section class="screen settings" id="impostazioni" data-screen="impostazioni" aria-labelledby="settingsTitle" hidden>
+    <header class="page-head">
+      <p class="eyebrow">VIVI Roma</p>
+      <h1 id="settingsTitle" tabindex="-1" data-i18n="settings.title">Impostazioni</h1>
+    </header>
+    <div class="page-body set-body">
+      <h2 class="set-group" id="setPrefs" data-i18n="settings.prefs">Preferenze</h2>
+      <div class="set-card" role="group" aria-labelledby="setPrefs">
+        <div class="set-row">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></span>
+          <span class="set-label" id="setLangLabel" data-i18n="settings.lang">Lingua</span>
+          <span class="seg" role="group" aria-labelledby="setLangLabel"><button type="button" class="seg-btn" id="setLangIt" lang="it" aria-pressed="true">Italiano</button><button type="button" class="seg-btn" id="setLangEn" lang="en" aria-pressed="false">English</button></span>
+        </div>
+        <div class="set-row">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14"/></svg></span>
+          <span class="set-label"><span class="set-line"><span data-i18n="settings.offline">Uso senza connessione</span> <span class="set-tag" id="offlineState"></span></span><small id="offlineText"></small></span>
+        </div>
+      </div>
+
+      <h2 class="set-group" id="setHelp" data-i18n="settings.help">Aiuto</h2>
+      <div class="set-card" role="group" aria-labelledby="setHelp">
+        <a class="set-row set-link" href="crediti.html#contatti" data-contact="general" data-i18n-attr="aria-label:footer.contactAria" aria-label="Contattaci via email (apre la tua app di posta)">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <span class="set-label" data-i18n="footer.contact">Contattaci</span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span></a>
+        <a class="set-row set-link" href="crediti.html#contatti" data-contact="report" data-i18n-attr="aria-label:settings.reportAria" aria-label="Segnala un errore via email (apre la tua app di posta)">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 21V4h11l-1.5 4L16 12H5"/></svg></span>
+          <span class="set-label" data-i18n="stop.report">Segnala un errore</span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span></a>
+      </div>
+
+      <h2 class="set-group" id="setInfo" data-i18n="settings.info">Informazioni</h2>
+      <div class="set-card" role="group" aria-labelledby="setInfo">
+        <a class="set-row set-link" href="crediti.html">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg></span>
+          <span class="set-label" data-i18n="footer.creditsPage">Crediti e licenze</span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span></a>
+        <details class="set-more">
+          <summary class="set-row">
+            <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6z"/></svg></span>
+            <span class="set-label" data-i18n="settings.privacy">Privacy e dati</span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+          </summary>
+          <ul class="set-list">
+            <li data-i18n="settings.privacy.local">I viaggi salvati restano in questo browser, su questo dispositivo: nessun account e nessuna sincronizzazione.</li>
+            <li id="privacyMetrics"></li>
+            <li data-i18n="settings.privacy.contact">Se ci scrivi, il tuo indirizzo email e il messaggio servono solo a risponderti e a correggere la guida.</li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="set-legal">
+        <p>© <span id="year"></span> <span data-i18n="footer.legal">VIVI Roma. Mappa: Protomaps, dati © contributori di OpenStreetMap. Fotografie da Wikimedia Commons, con licenze libere che ne consentono il riuso: autori e licenze nei </span><a href="crediti.html" data-i18n="footer.credits">crediti fotografici</a>.</p>
+        <p data-i18n="footer.data">Prezzi e orari con fonte e data di verifica possono cambiare nel tempo; quelli senza fonte non sono verificati. Controlla sempre i siti ufficiali prima di partire.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ITINERARIO -->
+  <section class="screen results" id="results" data-screen="itinerario" aria-labelledby="resultTitle" hidden>
+    <div class="app-bar" id="resBar">
+      <button class="ab-btn" type="button" id="resBack" data-i18n-attr="aria-label:app.back" aria-label="Indietro"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6"/></svg></button>
+      <p class="ab-title" id="resBarTitle" aria-hidden="true"></p>
+    </div>
     <header class="res-cover on-dark">
       <div class="res-cover-media" id="resCoverMedia"></div>
       <div class="wrap res-cover-inner">
         <p class="eyebrow" data-i18n="res.eyebrow">Il tuo viaggio</p>
-        <h2 id="resultTitle" tabindex="-1" data-i18n="res.cover.title.solo">La tua Roma, a modo tuo</h2>
+        <h1 id="resultTitle" tabindex="-1" data-i18n="res.cover.title.solo">La tua Roma, a modo tuo</h1>
         <p class="res-theme" id="resultTheme"></p>
         <p class="res-intro" id="resultSubtitle"></p>
         <div class="pills" id="pills"></div>
@@ -231,7 +269,7 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
       <div class="day-tabs" id="dayTabs" role="tablist" data-i18n-attr="aria-label:res.tabsAria" aria-label="Giornate dell'itinerario"></div>
       <div class="it-layout">
         <div id="days"></div>
-        <aside class="map-col" data-i18n-attr="aria-label:map.region" aria-label="Mappa">
+        <aside class="map-col" id="mapCol" data-i18n-attr="aria-label:map.region" aria-label="Mappa">
           <div class="map-card">
             <div class="map-head"><span class="map-dot" aria-hidden="true"></span><span id="mapDayLabel"></span></div>
             <div class="map-wrap">
@@ -254,26 +292,48 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
     </div>
   </section>
 </main>
+</div>
 
-<footer class="footer on-dark">
-  <div class="wrap">
-    <div class="footer-main">
-      <div class="footer-cta">
-        <p class="footer-brand"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg><span class="brand-name"><b>VIVI</b> <i>Roma</i></span></p>
-        <p class="footer-slogan"><span data-i18n="hero.h1a">Non visitare Roma.</span> <em data-i18n="hero.h1b">Vivila.</em></p>
-        <p data-i18n="footer.tagline">Non una lista di cose da vedere: un invito a incontrare Roma, a modo tuo.</p>
-        <a class="btn btn-gold btn-lg" href="#crea"><span data-i18n="nav.create">Crea il tuo viaggio</span><span class="arrow" aria-hidden="true">→</span></a>
-      </div>
-      <nav class="footer-links" data-i18n-attr="aria-label:footer.aria" aria-label="Link del piè di pagina">
-        <a href="#home" data-i18n="footer.home">Inizio</a><a href="#esplora" data-i18n="nav.explore">Esplora</a><a href="#come-funziona" data-i18n="nav.how">Come funziona</a><a href="#viaggi" data-i18n="trips.title">I miei viaggi</a><a href="crediti.html" data-i18n="footer.creditsPage">Crediti e licenze</a><a href="crediti.html#contatti" data-contact="general" data-i18n="footer.contact" data-i18n-attr="aria-label:footer.contactAria" aria-label="Contattaci via email (apre la tua app di posta)">Contattaci</a>
-      </nav>
-    </div>
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> <span data-i18n="footer.legal">VIVI Roma. Mappa: Protomaps, dati © contributori di OpenStreetMap. Fotografie da Wikimedia Commons, con licenze libere che ne consentono il riuso: autori e licenze nei </span><a href="crediti.html" data-i18n="footer.credits">crediti fotografici</a>.</p>
-      <p data-i18n="footer.data">Prezzi e orari con fonte e data di verifica possono cambiare nel tempo; quelli senza fonte non sono verificati. Controlla sempre i siti ufficiali prima di partire.</p>
-    </div>
+<!-- QUIZ A SCHERMO INTERO -->
+<section class="quiz-screen" id="crea" data-screen="crea" role="dialog" aria-modal="true" aria-labelledby="quizTitle" hidden>
+  <div class="qz-photo" id="qzPhoto" aria-hidden="true">
+    <div class="qz-photo-text"><p class="qz-photo-kicker">VIVI Roma</p><p class="qz-photo-slogan"><span data-i18n="hero.h1a">Non visitare Roma.</span> <em data-i18n="hero.h1b">Vivila.</em></p></div>
   </div>
-</footer>
+  <div class="qz-main">
+    <h2 class="sr-only" id="quizTitle" data-i18n="quiz.title">Creiamo un viaggio che ti somiglia.</h2>
+    <noscript><p class="nojs" data-i18n="quiz.nojs">Per creare l'itinerario serve JavaScript attivo nel browser.</p></noscript>
+    <form id="quizForm" class="quiz-panel" novalidate>
+      <div class="qz-top">
+        <button class="ab-btn" type="button" id="qzBack" data-i18n-attr="aria-label:quiz.backAria" aria-label="Domanda precedente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6"/></svg></button>
+        <div class="steps-bar" id="stepsBar" role="progressbar" data-i18n-attr="aria-label:quiz.progress" aria-label="Avanzamento del quiz" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+        <button class="ab-btn" type="button" id="qzClose" data-i18n-attr="aria-label:quiz.close" aria-label="Chiudi il quiz"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="qz-scroll" id="qzScroll">
+        <div class="quiz-top"><span id="qCounter" aria-live="polite">Passo 1 di 6</span><span id="qName"></span></div>
+        <div id="quizSteps"></div>
+        <p class="quiz-error" id="quizError" role="alert"></p>
+      </div>
+      <div class="quiz-actions">
+        <button class="quiz-back" type="button" id="prevBtn" disabled><span aria-hidden="true">←</span> <span data-i18n="quiz.back">Indietro</span></button>
+        <button class="btn btn-wine" type="button" id="nextBtn"><span data-i18n="quiz.next">Continua</span> <span aria-hidden="true">→</span></button>
+        <button class="btn btn-terra" type="submit" id="createBtn" hidden data-i18n="quiz.create">Crea il mio itinerario</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- GENERAZIONE DELL'ITINERARIO -->
+<div class="gen-screen" id="genScreen" role="status" aria-live="polite" hidden>
+  <svg class="gen-mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+    <defs><clipPath id="genClip"><path d="M22 108V58a38 38 0 0 1 76 0v50z"/></clipPath></defs>
+    <g clip-path="url(#genClip)"><circle class="gen-sun" cx="60" cy="96" r="22"/></g>
+    <path class="gen-arch" d="M22 108V58a38 38 0 0 1 76 0v50" fill="none"/>
+    <path class="gen-base" d="M8 108h104" fill="none"/>
+  </svg>
+  <p class="gen-title" data-i18n="gen.title">Componiamo le tue giornate</p>
+  <p class="gen-text" data-i18n="gen.text">Scegliamo i luoghi giusti per te e li raggruppiamo per zona.</p>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <dialog class="dlg" id="confirmDlg" aria-labelledby="confirmTitle">
@@ -300,6 +360,6 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=deda264dfc"></script>
+<script type="module" src="js/main.js?v=f011dee734"></script>
 </body>
 </html>
