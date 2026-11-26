@@ -21,18 +21,20 @@ try{s=localStorage.getItem("vivi-roma:lingua");}catch(e){}
 if(s==="it"||s==="en")l=s;else{var n=navigator.languages||[navigator.language||""];for(var i=0;i<n.length&&!l;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(c==="it"||c==="en")l=c;}}
 l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function(){d.classList.remove("i18n-wait");},2500);}})();</script>
 
+<!-- copertina su smartphone: richiesta per prima, insieme al CSS (i browser senza AVIF la ignorano e usano <picture>) -->
+<link rel="preload" as="image" type="image/avif" imagesrcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-900.avif 900w" imagesizes="60vw" media="(max-aspect-ratio: 4/5) and (max-width: 500px)" fetchpriority="high">
 <link rel="preload" href="fonts/playfair-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=cb17d3578d">
+<link rel="stylesheet" href="css/style.css?v=06d8e660ec">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=9d07b03f96","./js/i18n/it.js":"./js/i18n/it.js?v=ca6e3c7dc9","./js/main.js":"./js/main.js?v=0a9070ff05","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=c0ea4b515c","./js/i18n/it.js":"./js/i18n/it.js?v=5a41537241","./js/main.js":"./js/main.js?v=f19567212a","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
 <!-- modulepreload:start -->
 <link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
 <link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
 <link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
-<link rel="modulepreload" href="./js/i18n/it.js?v=ca6e3c7dc9">
-<link rel="modulepreload" href="./js/main.js?v=0a9070ff05">
+<link rel="modulepreload" href="./js/i18n/it.js?v=5a41537241">
+<link rel="modulepreload" href="./js/main.js?v=f19567212a">
 <link rel="modulepreload" href="./js/planner.js?v=6a1e73a8a9">
 <link rel="modulepreload" href="./js/pwa.js?v=8fac90f78a">
 <link rel="modulepreload" href="./js/quiz-data.js?v=351776df14">
@@ -65,7 +67,9 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
     <div class="hero on-dark" id="home">
       <!-- copertina nell'HTML: il browser la scarica subito, senza aspettare il JavaScript (LCP) -->
       <div class="hero-media" id="heroMedia"><picture>
+        <source media="(max-aspect-ratio: 4/5) and (max-width: 500px)" type="image/avif" srcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-900.avif 900w" sizes="60vw">
         <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="img/hero/hero-portrait-720.webp 720w, img/hero/hero-portrait-1080.webp 1080w" sizes="60vw">
+        <source media="(max-width: 1600px) and (max-resolution: 1.5dppx)" type="image/avif" srcset="img/hero/hero-960.avif 960w, img/hero/hero-1600.avif 1600w" sizes="100vw">
         <img src="img/hero/hero-1600.webp" srcset="img/hero/hero-960.webp 960w, img/hero/hero-1600.webp 1600w, img/hero/hero-2400.webp 2400w" sizes="100vw" width="1600" height="1067" alt="" fetchpriority="high" decoding="async">
       </picture></div>
       <div class="hero-top">
@@ -200,6 +204,24 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
         </div>
       </div>
 
+      <h2 class="set-group" id="setData" data-i18n="settings.data">Dati su questo dispositivo</h2>
+      <div class="set-card" role="group" aria-labelledby="setData">
+        <div class="set-row">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span>
+          <span class="set-label"><span data-i18n="settings.data.trips">Viaggi salvati</span><small id="dataTrips"></small></span>
+          <button class="set-btn" type="button" id="delTrips" data-i18n="settings.data.delTripsBtn">Elimina</button>
+        </div>
+        <div class="set-row">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg></span>
+          <span class="set-label"><span data-i18n="settings.data.offline">Copie per l'uso offline</span><small id="dataPhotos"></small></span>
+        </div>
+        <div class="set-row set-danger">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></span>
+          <span class="set-label"><span data-i18n="settings.data.all">Cancella tutti i dati</span><small data-i18n="settings.data.allText">Viaggi, preferenze e copie offline. La guida resta installata.</small></span>
+          <button class="set-btn set-btn-danger" type="button" id="delAll" data-i18n="settings.data.allBtn">Cancella</button>
+        </div>
+      </div>
+
       <h2 class="set-group" id="setHelp" data-i18n="settings.help">Aiuto</h2>
       <div class="set-card" role="group" aria-labelledby="setHelp">
         <a class="set-row set-link" href="crediti.html#contatti" data-contact="general" data-i18n-attr="aria-label:footer.contactAria" aria-label="Contattaci via email (apre la tua app di posta)">
@@ -218,14 +240,19 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
         <details class="set-more">
           <summary class="set-row">
             <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6z"/></svg></span>
-            <span class="set-label" data-i18n="settings.privacy">Privacy e dati</span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            <span class="set-label"><span class="set-line"><span data-i18n="settings.privacy">Privacy e dati</span> <span class="set-tag" data-state="draft" data-i18n="settings.privacy.draftTag">Bozza</span></span></span><span class="set-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
           </summary>
+          <p class="set-draft" data-i18n="settings.privacy.draft">Testo provvisorio: riassume come funziona oggi la guida, ma non è un'informativa sulla privacy definitiva e non è stato verificato da un legale.</p>
           <ul class="set-list">
             <li data-i18n="settings.privacy.local">I viaggi salvati restano in questo browser, su questo dispositivo: nessun account e nessuna sincronizzazione.</li>
             <li id="privacyMetrics"></li>
             <li data-i18n="settings.privacy.contact">Se ci scrivi, il tuo indirizzo email e il messaggio servono solo a risponderti e a correggere la guida.</li>
           </ul>
         </details>
+        <div class="set-row">
+          <span class="set-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></span>
+          <span class="set-label"><span data-i18n="settings.version">Versione</span><small id="appVersion"></small></span>
+        </div>
       </div>
 
       <div class="set-legal">
@@ -375,6 +402,6 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=0a9070ff05"></script>
+<script type="module" src="js/main.js?v=f19567212a"></script>
 </body>
 </html>

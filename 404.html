@@ -2,29 +2,60 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Pagina non trovata — VIVI Roma</title>
-<meta name="theme-color" content="#292622">
+<meta name="theme-color" content="#F5EFE4">
 <style>
-/* Pagina d'errore autonoma (nessun file esterno): serve anche a Cloudflare Pages per non restituire la home
-   al posto di un file mancante. Colori e caratteri del sito. */
-html,body{margin:0;height:100%}
-body{display:grid;place-items:center;background:#292622;color:#F5EFE4;font:16px/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:24px;box-sizing:border-box}
-h1{font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:clamp(2.2rem,8vw,3.4rem);line-height:1.1;margin:0 0 12px}
-p{margin:0 0 6px;color:rgba(245,241,232,.82)}
-a{display:inline-block;margin-top:22px;padding:13px 26px;border-radius:999px;background:#D9A66F;color:#292622;font-weight:600;text-decoration:none}
-a:focus-visible{outline:2px solid #F5EFE4;outline-offset:3px}
+/* Pagina d'errore autonoma (nessun file esterno obbligatorio): serve anche a Cloudflare Pages per non restituire
+   la home al posto di un file mancante. Colori, segno e caratteri dell'app; i caratteri si caricano dalla
+   cartella del sito se disponibili, altrimenti restano quelli di sistema. */
+html,body{margin:0;min-height:100%}
+body{display:grid;place-items:center;min-height:100vh;min-height:100dvh;background:#F5EFE4;color:#292622;font:16px/1.55 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:max(24px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));box-sizing:border-box}
+main{max-width:420px}
+.mark{display:block;width:88px;height:88px;margin:0 auto 22px}
+.mark .arch{fill:none;stroke:#A64B35;stroke-width:2.4;stroke-linejoin:round}
+.mark .base{fill:none;stroke:#292622;stroke-width:1.6}
+.mark .sun{fill:#D9A66F}
+.kicker{margin:0 0 10px;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#825B2C}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:clamp(2.2rem,9vw,3rem);line-height:1.08;margin:0 0 12px}
+p{margin:0 0 6px;color:#4F4A44}
+.actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:26px}
+a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;border-radius:999px;font-weight:600;text-decoration:none}
+.primary{background:#A64B35;color:#FFFFFF;box-shadow:0 10px 24px rgba(166,75,53,.25)}
+.primary:hover{background:#8E3D2A}
+.secondary{color:#8E3D2A}
+a:focus-visible{outline:3px solid #D9A66F;outline-offset:3px}
 </style>
 </head>
 <body>
 <main>
-  <h1>Pagina non trovata</h1>
-  <p>L'indirizzo non esiste o è cambiato.</p>
-  <p lang="en">This page doesn't exist or has moved.</p>
-  <a id="home" href="/">Torna a VIVI Roma</a>
+  <svg class="mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="base" d="M4 44h40"/><path class="arch" d="M9 44V22a15 15 0 0 1 30 0v22"/><path class="sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg>
+  <p class="kicker" id="k">Errore 404</p>
+  <h1 id="t">Pagina non trovata</h1>
+  <p id="d">L'indirizzo non esiste o è cambiato. Il tuo viaggio, però, può ripartire da qui.</p>
+  <div class="actions">
+    <a class="primary" id="home" href="/">Torna a VIVI Roma</a>
+    <a class="secondary" id="quiz" href="/#crea">Crea un nuovo itinerario</a>
+  </div>
 </main>
-<script>/* su GitHub Pages il sito vive in /VIVI-Roma/, su Cloudflare Pages nella radice */
-(function(){var m=location.pathname.match(/^\/VIVI-Roma\//i);if(m)document.getElementById("home").href=m[0];})();</script>
+<script>/* su GitHub Pages il sito vive in /VIVI-Roma/, su Cloudflare Pages nella radice; lingua come nell'app */
+(function(){
+  var m=location.pathname.match(/^\/VIVI-Roma\//i),base=m?m[0]:"/";
+  document.getElementById("home").href=base;document.getElementById("quiz").href=base+"#crea";
+  var css="";[["Playfair Display","playfair-display-latin-wght-normal"],["DM Sans","dm-sans-latin-wght-normal"]].forEach(function(f){
+    css+="@font-face{font-family:'"+f[0]+"';src:url('"+base+"fonts/"+f[1]+".woff2') format('woff2');font-weight:100 900;font-display:swap}";});
+  var s=document.createElement("style");s.textContent=css;document.head.appendChild(s);
+  var l=null;try{l=localStorage.getItem("vivi-roma:lingua");}catch(e){}
+  if(l!=="it"&&l!=="en"){l="it";var ls=navigator.languages||[navigator.language||""];for(var i=0;i<ls.length;i++){var c=String(ls[i]).toLowerCase().slice(0,2);if(c==="it"||c==="en"){l=c;break;}}}
+  if(l==="en"){
+    document.documentElement.lang="en";document.title="Page not found — VIVI Roma";
+    document.getElementById("k").textContent="Error 404";
+    document.getElementById("t").textContent="Page not found";
+    document.getElementById("d").textContent="This address doesn't exist or has moved. Your trip can start again from here.";
+    document.getElementById("home").textContent="Back to VIVI Roma";
+    document.getElementById("quiz").textContent="Create a new itinerary";
+  }
+})();</script>
 </body>
 </html>

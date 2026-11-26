@@ -61,7 +61,8 @@ const ICON_PATHS={
   coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>',
   clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   ticket:'<path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
-  closed:'<circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/>'
+  closed:'<circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/>',
+  cloudok:'<path d="M7 18a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5z"/><path d="m9.5 13.5 2 2 3.5-3.5"/>'
 };
 function icon(name){
   const s=el("span",{class:"ico","aria-hidden":"true"});
@@ -79,7 +80,6 @@ function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"au
    QUIZ: 6 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
 const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tiles:null,tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
-const isTouch=()=>window.matchMedia("(pointer: coarse)").matches;
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
 const Q=Object.fromEntries(QUIZ.map(q=>[q.key,q]));
@@ -941,7 +941,6 @@ function selectStop(di,i,{pan,from}={}){
     if(!state.map.getBounds().pad(-0.2).contains(ll))state.map.panTo(ll,{animate:!reduceMotion()});
   }
 }
-function goToCard(di,i){if(di!==state.active)showDay(di);const c=$("#stop-"+di+"-"+(i+1));if(c){scrollToEl(c,"center");c.focus({preventScroll:true});}}
 /* Mappa pronta (libreria scaricata): costruisce i livelli dell'itinerario mostrato. */
 function mountMap(){
   return loadLeaflet().then(()=>{
@@ -991,26 +990,62 @@ function saveCurrent(){
 const TRIPS_PAGE=6;
 let tripsShown=TRIPS_PAGE;
 const tripPlan=trip=>restoreItinerary(engineAnswers(trip.answers),trip.days);
-function tripCard(trip){
+function tripCard(trip,last){
   const a=trip.answers,plan=tripPlan(trip),stops=plan.days.reduce((n,d)=>n+d.stops.length,0);
   const title=t("res.cover.title."+a.company),full=tripTitle(a);
   const cover=el("div",{class:"tc-cover"});
   const p=coverPlace(plan);
-  if(p){const ph=PHOTOS[p.id];lazyLoad(cover,()=>placePhoto(cover,ph,"",isNarrow()?window.innerWidth:420));}
+  if(p){const ph=PHOTOS[p.id];lazyLoad(cover,()=>placePhoto(cover,ph,"",isNarrow()?window.innerWidth:480));}
   const ints=a.interests.map(interestLabel);
-  return el("li",{class:"trip-card"},
+  /* contrassegni sulla copertina: «Ultimo aperto» e, solo dopo la verifica della cache, «Offline» */
+  const flags=el("div",{class:"tc-flags"},
+    last?el("span",{class:"tc-last",text:t("trips.last")}):null,
+    el("span",{class:"tc-off",hidden:true},icon("cloudok"),el("span",{text:t("trips.offlineFlag")})));
+  return el("li",{class:"trip-card"+(last?" is-last":""),"data-trip":trip.id},
     el("article",{class:"tc","aria-label":full},
-      cover,
-      el("div",{class:"tc-badge"},el("span",{text:durationLabel(a)}),el("span",{text:t("res.stops",{n:stops})})),
-      el("div",{class:"tc-body"},
+      cover,flags,
+      el("div",{class:"tc-over"},
         el("h3",null,el("button",{type:"button",class:"tc-open",onclick:()=>openTrip(trip.id)},title)),
-        el("p",{class:"tc-theme",text:coverTheme(a)}),
+        el("p",{class:"tc-theme",text:coverTheme(a)})),
+      el("div",{class:"tc-body"},
+        el("p",{class:"tc-badge"},el("span",{text:durationLabel(a)}),el("span",{text:t("res.stops",{n:stops})})),
         el("ul",{class:"tc-tags","aria-label":t("trips.interests")},ints.slice(0,3).map(x=>el("li",{text:x})),ints.length>3?el("li",{class:"more",text:"+"+(ints.length-3)}):null),
-        el("p",{class:"tc-date",text:trip.savedAt?t("trips.savedOn",{date:fmtSaved(trip.savedAt)}):""}),
-        el("div",{class:"tc-actions"},
-          el("button",{type:"button",class:"btn btn-wine btn-sm",text:t("trips.open"),"aria-label":t("trips.openAria",{title:full}),onclick:()=>openTrip(trip.id)}),
-          el("button",{type:"button",class:"tc-icon",title:t("trips.share"),"aria-label":t("trips.shareAria",{title:full}),onclick:()=>shareTrip(trip)},icon("share")),
-          el("button",{type:"button",class:"tc-icon tc-del",title:t("trips.delete"),"aria-label":t("trips.deleteAria",{title:full}),onclick:()=>deleteTrip(trip)},icon("trash"))))));
+        el("p",{class:"tc-offline",hidden:true}),
+        el("div",{class:"tc-foot"},
+          el("p",{class:"tc-date",text:trip.savedAt?t("trips.savedOn",{date:fmtSaved(trip.savedAt)}):""}),
+          el("div",{class:"tc-actions"},
+            el("button",{type:"button",class:"btn btn-wine btn-sm",text:t("trips.open"),"aria-label":t("trips.openAria",{title:full}),onclick:()=>openTrip(trip.id)}),
+            el("button",{type:"button",class:"tc-icon",title:t("trips.share"),"aria-label":t("trips.shareAria",{title:full}),onclick:()=>shareTrip(trip)},icon("share")),
+            el("button",{type:"button",class:"tc-icon tc-del",title:t("trips.delete"),"aria-label":t("trips.deleteAria",{title:full}),onclick:()=>deleteTrip(trip)},icon("trash")))))));
+}
+/* Disponibilità offline, verificata davvero: il service worker controlla la pagina e nella Cache Storage
+   ci sono la pagina e tutti i file con cui l'app si avvia (CSS, moduli). Le foto di ogni viaggio si contano
+   una per una nella cache delle immagini (il service worker le salva quando vengono mostrate). */
+async function offlineCheck(){
+  if(!("serviceWorker" in navigator)||!navigator.serviceWorker.controller||!("caches" in window))return null;
+  try{
+    const urls=[new URL("./",document.baseURI).href,import.meta.url,
+      ...$$('link[rel="stylesheet"][href*="?v="],link[rel="modulepreload"]').map(l=>l.href)];
+    const hits=await Promise.all(urls.map(u=>caches.match(u)));
+    if(hits.some(h=>!h))return {shell:false};
+    const keys=await caches.has(IMG_CACHE)?(await (await caches.open(IMG_CACHE)).keys()).map(r=>new URL(r.url).pathname):[];
+    return {shell:true,imgs:keys};
+  }catch(e){return null;}
+}
+const IMG_CACHE="vivi-roma-img-v1";
+let offlineState=null;
+async function refreshOffline(){
+  offlineState=await offlineCheck();
+  syncSettings();
+  const ok=offlineState&&offlineState.shell;
+  $$("#tripList .trip-card").forEach(li=>{
+    const trip=getStore().get(li.dataset.trip),flag=$(".tc-off",li),line=$(".tc-offline",li);
+    if(!trip||!ok){flag.hidden=true;line.hidden=true;return;}
+    const ids=[...new Set(trip.days.flat())].filter(id=>PHOTOS[id]);
+    const saved=ids.filter(id=>offlineState.imgs.some(k=>k.includes("/"+PHOTOS[id].base+"-"))).length;
+    flag.hidden=false;line.hidden=false;
+    line.textContent=t(saved===ids.length?"trips.offlineAll":"trips.offlineSome",{n:saved,total:ids.length});
+  });
 }
 function renderTrips(){
   const r=getStore().list(),list=$("#tripList"),err=$("#tripsError"),n=r.trips.length;
@@ -1021,7 +1056,9 @@ function renderTrips(){
   $("#tripsEmpty").hidden=!!n||!r.ok;
   $("#tripsNote").hidden=!n;
   list.replaceChildren();
-  r.trips.slice(0,tripsShown).forEach(trip=>list.append(tripCard(trip)));
+  const last=getLast();
+  r.trips.slice(0,tripsShown).forEach(trip=>list.append(tripCard(trip,trip.id===last)));
+  if(n)refreshOffline();
   const more=$("#tripsMore");
   more.hidden=n<=tripsShown;
   if(n>tripsShown)more.textContent=t("trips.more",{n:n-tripsShown});
@@ -1040,9 +1077,10 @@ function openTrip(id,opts){
   setLast(trip.id);
   if(!opts||opts.open!==false)openItinerary();
 }
-function confirmDialog(text){
+function confirmDialog(text,{title="dlg.delete.title",ok="dlg.delete"}={}){
   const d=$("#confirmDlg");
   if(typeof d.showModal!=="function")return Promise.resolve(window.confirm(text));
+  $("#confirmTitle").textContent=t(title);$("#confirmOk").textContent=t(ok);
   $("#confirmText").textContent=text;
   return new Promise(res=>{
     d.addEventListener("close",()=>res(d.returnValue==="ok"),{once:true});
@@ -1291,7 +1329,10 @@ function showScreen(name,{focus=true,nav=null}={}){
   const navKey=nav||(name==="itinerario"?(state.savedId?"viaggi":null):name);
   $$("#appNav [data-route]").forEach(a=>{if(a.dataset.route===navKey&&!a.classList.contains("an-brand"))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   document.documentElement.dataset.screen=name;
+  if(name==="viaggi"&&prev!==name)renderTrips();   /* «Ultimo aperto» e disponibilità offline sempre aggiornati */
   window.scrollTo(0,prev===name?window.scrollY:(scrollMem[name]||0));
+  if(name==="impostazioni")refreshOffline();
+  if(name==="impostazioni")syncData();
   if(name==="itinerario"){
     syncResBar();
     if(state.map)requestAnimationFrame(()=>{state.map.invalidateSize();if(state.mapNeedsFit){state.mapNeedsFit=false;fitDay(false);}else declutter();});
@@ -1448,9 +1489,10 @@ function initQuick(){
   }));
 }
 async function setLangTo(l){if(l!==getLang())await toggleLang();}
+/* «Pronto» solo quando la verifica della Cache Storage è andata a buon fine (vedi offlineCheck). */
 function offlineInfo(){
-  if(!("serviceWorker" in navigator))return "none";
-  return navigator.serviceWorker.controller?"ready":"pending";
+  if(!("serviceWorker" in navigator)||!("caches" in window))return "none";
+  return offlineState&&offlineState.shell?"ready":"pending";
 }
 function syncSettings(){
   const l=getLang();
@@ -1460,6 +1502,50 @@ function syncSettings(){
   $("#offlineState").textContent=t("settings.offline."+o);$("#offlineState").dataset.state=o;
   $("#offlineText").textContent=t("settings.offline."+o+"Text");
   $("#privacyMetrics").textContent=t(metricsActive?"settings.privacy.metricsOn":"settings.privacy.metricsOff");
+  syncVersion();
+}
+/* Versione: quella dell'app (APP_VERSION) e l'impronta dei file installati, chiesta al service worker. */
+const APP_VERSION="0.1.0";
+let buildId=null;
+function syncVersion(){
+  const v=$("#appVersion");if(!v)return;
+  v.textContent=t("settings.versionValue",{id:APP_VERSION})+(buildId?" · "+t("settings.build",{id:buildId.slice(0,7)}):"");
+}
+function askBuild(){
+  const c=navigator.serviceWorker&&navigator.serviceWorker.controller;if(!c||typeof MessageChannel!=="function")return;
+  const ch=new MessageChannel();
+  ch.port1.onmessage=e=>{if(e.data&&typeof e.data.version==="string"){buildId=e.data.version;syncVersion();}};
+  try{c.postMessage({type:"vivi:version"},[ch.port2]);}catch(e){}
+}
+/* Dati salvati su questo dispositivo: viaggi, ultimo viaggio aperto, lingua, viaggio in corso, copie offline di foto e mappa. */
+async function syncData(){
+  const n=getStore().list().trips.length;
+  $("#dataTrips").textContent=n?t("trips.count",{n}):t("settings.data.noTrips");
+  $("#delTrips").disabled=!n;
+  let photos=0;
+  try{if("caches" in window&&await caches.has(IMG_CACHE))photos=(await (await caches.open(IMG_CACHE)).keys()).length;}catch(e){}
+  $("#dataPhotos").textContent=photos?t("settings.data.photos",{n:photos}):t("settings.data.noPhotos");
+}
+async function deleteAllTrips(){
+  const n=getStore().list().trips.length;if(!n)return;
+  if(!await confirmDialog(t("settings.data.delTripsConfirm",{n}),{title:"settings.data.delTripsTitle",ok:"settings.data.delTripsOk"}))return;
+  let ok=true;
+  try{localStorage.removeItem("vivi-roma:viaggi:v1");}catch(e){ok=false;}
+  setLast(null);
+  if(state.savedId){state.savedId=null;syncSaveBtn();setTripStatus(null);saveSession();}
+  renderTrips();syncData();
+  toast(t(ok?"settings.data.tripsDeleted":"toast.deleteFailed"));
+  $("#settingsTitle").focus();
+}
+async function deleteAllData(){
+  if(!await confirmDialog(t("settings.data.delAllConfirm"),{title:"settings.data.delAllTitle",ok:"settings.data.delAllOk"}))return;
+  try{Object.keys(localStorage).filter(k=>k.startsWith("vivi-roma:")).forEach(k=>localStorage.removeItem(k));}catch(e){}
+  try{Object.keys(sessionStorage).filter(k=>k.startsWith("vivi-roma:")).forEach(k=>sessionStorage.removeItem(k));}catch(e){}
+  try{if("caches" in window)for(const k of await caches.keys())if(k===IMG_CACHE||k.startsWith("vivi-roma-tiles-"))await caches.delete(k);}catch(e){}
+  /* si riparte da zero, senza ricaricare dalla rete: la guida resta utilizzabile anche offline */
+  try{sessionStorage.setItem("vivi-roma:cancellato","1");}catch(e){}
+  history.replaceState(null,"",location.pathname+location.search+"#impostazioni");
+  location.reload();
 }
 let metricsActive=false;
 function initApp(){
@@ -1497,7 +1583,11 @@ function initApp(){
   $$("[data-contact=report]").forEach(a=>armMail(a,()=>({subject:t("contact.reportSubject"),body:t("contact.reportBody")})));
   $("#year").textContent=new Date().getFullYear();
   window.addEventListener("scroll",()=>{if(screen==="itinerario")syncResBar();},{passive:true});
-  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",syncSettings);
+  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",()=>{askBuild();refreshOffline();});
+  askBuild();whenIdle(refreshOffline);
+  $("#delTrips").addEventListener("click",deleteAllTrips);
+  $("#delAll").addEventListener("click",deleteAllData);
+  try{if(sessionStorage.getItem("vivi-roma:cancellato")){sessionStorage.removeItem("vivi-roma:cancellato");setTimeout(()=>toast(t("settings.data.allDeleted")),300);}}catch(e){}
   whenIdle(()=>import("./metrics-config.js").then(({METRICS_CONFIG:c})=>{metricsActive=!!(c&&(c.events||c.webAnalyticsToken)&&(c.hosts||[]).includes(location.hostname));syncSettings();},()=>{}));
   initQuick();syncSettings();
 }
