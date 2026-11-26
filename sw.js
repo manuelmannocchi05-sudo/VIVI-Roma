@@ -12,7 +12,7 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="8ef55d437f11";
+const VERSION="dda05d6f8a6e";
 const TILES_VERSION="2026-11-19-dd5a2f8a";
 const PRECACHE=["./",
  "./crediti.html",
@@ -26,7 +26,7 @@ const PRECACHE=["./",
  "./js/i18n.js?v=111c7df471",
  "./js/i18n/en.js?v=c0ea4b515c",
  "./js/i18n/it.js?v=5a41537241",
- "./js/main.js?v=f19567212a",
+ "./js/main.js?v=82df44f0f3",
  "./js/map-style.js?v=bf3dc62ad2",
  "./js/metrics-config.js?v=53ebc59861",
  "./js/metrics-schema.js?v=798c00bf1e",

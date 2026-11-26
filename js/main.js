@@ -1619,7 +1619,10 @@ async function init(){
   $("#shareBtn").addEventListener("click",shareCurrent);
   $("#copyBtn").addEventListener("click",()=>copyText($("#shareText").value));
   /* In stampa servono tutte le informazioni: si aprono le parti a scomparsa. */
-  window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
+  /* in stampa (PDF) si aprono le sezioni richiudibili, compreso «Da sapere»; dopo, «Da sapere» torna com'era */
+  let notesWasOpen=null;
+  window.addEventListener("beforeprint",()=>{$$("details.more").forEach(d=>{d.open=true;});const n=$("details.res-notes");if(n){notesWasOpen=n.open;n.open=true;}});
+  window.addEventListener("afterprint",()=>{const n=$("details.res-notes");if(n&&notesWasOpen===false)n.open=false;notesWasOpen=null;});
   $("#langToggle").addEventListener("click",toggleLang);
   $$("[data-contact]").forEach(a=>armMail(a,()=>({subject:t("contact.subject")})));
   initCategories();initHero();renderPreview();initReveal();initApp();
