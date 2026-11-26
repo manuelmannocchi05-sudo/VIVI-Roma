@@ -991,17 +991,20 @@ function initCategories(){
     if(ph)lazyLoad(card,()=>placePhoto(card,ph,t("cat."+card.dataset.interest+".alt"),card.getBoundingClientRect().width||300));
   });
 }
+/* Foto decorativa di «Come funziona»: si scarica solo quando la sezione si avvicina,
+   così non compete con la copertina sulle reti lente. */
+function initProcessArt(){
+  const fig=$(".process-art"),img=fig&&$("img[data-src]",fig);
+  if(!img)return;
+  lazyLoad(fig,()=>{img.srcset=img.dataset.srcset;img.src=img.dataset.src;});
+}
+
 function initHero(){
-  const media=$("#heroMedia"),land=PHOTOS.hero,port=PHOTOS["hero-portrait"];
+  /* la copertina è già nell'HTML (index.html), così il browser la scarica prima del JavaScript:
+     qui si aggiungono solo il colore medio di riserva e il credito della foto */
+  const media=$("#heroMedia"),land=PHOTOS.hero;
   if(!land)return;
-  /* copertina sotto velatura scura: densità massima 1,8× (su smartphone scarica 720 px invece di 1080, ~80 KB in meno) */
-  const dpr=window.devicePixelRatio||1,heroSizes=Math.ceil(window.innerWidth*Math.min(dpr,1.8)/dpr)+"px";
-  const pic=el("picture",null,
-    port?el("source",{media:"(max-aspect-ratio: 4/5)",type:"image/webp",srcset:srcsetOf(port),sizes:heroSizes}):null,
-    photoImg(land,"",window.innerWidth,{eager:true}));
-  const heroImg=pic.querySelector("img");heroImg.sizes=heroSizes;heroImg.fetchPriority="high";
   media.style.backgroundColor=land.color;
-  media.append(pic);
   heroCredit();
 }
 function heroCredit(){
@@ -1092,7 +1095,7 @@ async function init(){
   window.addEventListener("beforeprint",()=>$$("details.more").forEach(d=>{d.open=true;}));
   $("#langToggle").addEventListener("click",toggleLang);
   $$("[data-contact]").forEach(a=>armMail(a,()=>({subject:t("contact.subject")})));
-  initMenu();initCategories();initHero();renderPreview();initReveal();
+  initMenu();initCategories();initHero();initProcessArt();renderPreview();initReveal();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */

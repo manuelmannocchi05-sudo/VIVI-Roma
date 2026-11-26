@@ -100,7 +100,7 @@ export function mapRules(pm){
     Ln("roads",{color:C.major,width:W.major},(z,f)=>notTunnel(z,f)&&f.props.kind==="major_road",12),
     Ln("roads",{color:C.highway,width:W.highway},(z,f)=>notTunnel(z,f)&&f.props.kind==="highway",12)
   ];
-  const T=(opts)=>({labelProps:NAME,stroke:C.halo,width:3,fontFamily:"Inter, system-ui, sans-serif",...opts});
+  const T=(opts)=>({labelProps:NAME,stroke:C.halo,width:3,fontFamily:"DM Sans, system-ui, sans-serif",...opts});
   const labelRules=[
     /* Tevere */
     {dataLayer:"water",minzoom:12,filter:(z,f)=>f.props.kind==="river"&&f.geomType===2,

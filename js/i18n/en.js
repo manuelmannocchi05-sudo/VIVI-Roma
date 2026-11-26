@@ -292,6 +292,7 @@ export default {
   "footer.credits":"photo credits",
   "footer.data":"Prices and opening hours with a source and check date can change over time; those without a source are not verified. Always check the official websites before you go.",
   "footer.contact":"Contact us",
+  "footer.creditsPage":"Credits and licences",
   "footer.contactAria":"Contact us by email (opens your email app)",
   "contact.subject":"VIVI Roma — Contact",
 

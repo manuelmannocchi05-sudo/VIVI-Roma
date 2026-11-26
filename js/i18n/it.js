@@ -237,6 +237,7 @@ export default {
   "footer.credits":"crediti fotografici",
   "footer.data":"Prezzi e orari con fonte e data di verifica possono cambiare nel tempo; quelli senza fonte non sono verificati. Controlla sempre i siti ufficiali prima di partire.",
   "footer.contact":"Contattaci",
+  "footer.creditsPage":"Crediti e licenze",
   "footer.contactAria":"Contattaci via email (apre la tua app di posta)",
   "contact.subject":"VIVI Roma — Contatto",
 
