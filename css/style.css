@@ -1223,11 +1223,12 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
   .cat-card{width:calc((100% - 4 * 16px) / 5);aspect-ratio:4/4.6}
   .home-duo{gap:20px}
   .quiz-card{min-height:270px;padding:28px 34px}
-  .qc-text{max-width:430px}
-  .quick{flex-wrap:nowrap}
-  .quick-chip{padding:0 12px;white-space:nowrap}
+  .qc-text{max-width:none}
+  .qc-lead{max-width:min(46ch,60%)}
+  .quick{max-width:min(420px,58%)}
+  .quick-chip{padding:0 13px;white-space:nowrap}
   .quiz-card h2{font-size:1.75rem}
-  .qc-art{width:min(52%,420px);right:-10px}
+  .qc-art{width:min(44%,380px);right:-10px}
   .map-card{min-height:270px}
   .toast{bottom:28px;left:calc(50% + var(--side-w) / 2)}
   html.quiz-open .toast{left:50%}

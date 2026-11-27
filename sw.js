@@ -12,13 +12,13 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="934842774f83";
+const VERSION="a9c8a78356c6";
 const TILES_VERSION="2026-11-19-dd5a2f8a";
 const PRECACHE=["./",
  "./crediti.html",
  "./manifest.webmanifest",
  "./icon.svg",
- "./css/style.css?v=8b13fde78f",
+ "./css/style.css?v=4e92f89c2b",
  "./js/contact.js?v=c592acc8b5",
  "./js/data/photos.js?v=0ec07e4b1f",
  "./js/data/places-en.js?v=c6172c315d",
