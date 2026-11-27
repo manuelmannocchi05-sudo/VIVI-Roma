@@ -1360,7 +1360,11 @@ function openMapRoute(initial,st){
   if(!state.plan){closeSheetUI();setMapMode(false);showScreen("mappa",{focus:!initial});return;}
   showScreen("itinerario",{focus:false,nav:"mappa"});
   setMapMode(true);
-  if(isDesk()&&!initial){const m=$("#mapCol");m.setAttribute("tabindex","-1");m.focus({preventScroll:true});}
+  if(isDesk()&&!initial){const m=$("#mapCol");m.setAttribute("tabindex","-1");m.focus({preventScroll:true});
+    /* computer: la colonna della mappa (fissa sotto la barra) parte sotto la copertina; si scorre fin dove è tutta
+       visibile, così le tappe inquadrate sono tutte sullo schermo */
+    const y=m.getBoundingClientRect().top+window.scrollY-appBarH();
+    if(m.getBoundingClientRect().bottom>window.innerHeight+1)window.scrollTo({top:Math.max(0,y),behavior:"instant"});}
   syncSheet(st);
 }
 /* la scheda segue la cronologia: aperta se la voce la prevede, chiusa altrimenti */
