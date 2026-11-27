@@ -40,3 +40,19 @@ test("copertina: nuova foto del Colosseo con autore e licenza",async()=>{
   assert.equal(PHOTOS.hero.author,"Yana Drabyshchak");assert.equal(PHOTOS.hero.license,"CC BY-SA 4.0");
   assert.equal(PHOTOS["hero-portrait"].file,PHOTOS.hero.file);
 });
+test("offline: copertina della Home salvata in una cache propria e richiesta per «Pronto»",()=>{
+  const sw=R("sw.js"),js=R("js/main.js");
+  assert.match(sw,/const HOME="vivi-roma-home-v1"/);
+  assert.match(sw,/const home=await caches\.open\(HOME\);\s*const kept=await home\.match\(request\)/);
+  /* l'attivazione non cancella la cache della Home */
+  assert.doesNotMatch(sw.slice(sw.indexOf('addEventListener("activate"'),sw.indexOf("const sameOrigin")),/HOME/);
+  assert.match(js,/HOME_CACHE="vivi-roma-home-v1"/);
+  assert.match(js,/\.\.\.\(heroUrl\?\[heroUrl\]:\[\]\)/);
+  assert.match(js,/controllerchange",\(\)=>\{askBuild\(\);refreshOffline\(\);keepHomeImages\(\);\}/);
+});
+test("mappa: a fine ingresso animato della schermata si rimisura e si inquadra la giornata",()=>{
+  const js=R("js/main.js"),f=js.slice(js.indexOf("function setMapMode("),js.indexOf("/* Carosello delle tappe"));
+  assert.match(f,/getAnimations\(\)\.length/);
+  assert.match(f,/addEventListener\("animationend",done\)/);
+  assert.match(f,/state\.map\.invalidateSize\(\);fitDay\(false\)/);
+});

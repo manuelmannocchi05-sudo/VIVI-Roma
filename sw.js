@@ -12,7 +12,7 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="a9c8a78356c6";
+const VERSION="bab40b708c24";
 const TILES_VERSION="2026-11-19-dd5a2f8a";
 const PRECACHE=["./",
  "./crediti.html",
@@ -26,7 +26,7 @@ const PRECACHE=["./",
  "./js/i18n.js?v=111c7df471",
  "./js/i18n/en.js?v=22f2cee87f",
  "./js/i18n/it.js?v=98f44b7235",
- "./js/main.js?v=a9186e0066",
+ "./js/main.js?v=207d6797cc",
  "./js/map-style.js?v=bf3dc62ad2",
  "./js/metrics-config.js?v=53ebc59861",
  "./js/metrics-schema.js?v=798c00bf1e",
@@ -48,6 +48,10 @@ const PRECACHE=["./",
 /* precache:end */
 const SHELL="vivi-roma-shell-"+VERSION;
 const IMAGES="vivi-roma-img-v1";
+/* Immagini della Home (copertina nella misura usata da questo dispositivo, illustrazione e mappa del riquadro):
+   le salva la pagina appena il service worker la controlla, così sono disponibili offline già dopo il primo
+   accesso completo. Cache separata, non soggetta al limite IMG_MAX: la copertina non viene mai scartata. */
+const HOME="vivi-roma-home-v1";
 const IMG_MAX=160;
 /* prototipo Protomaps: tasselli vettoriali (tiles/). Salvati mentre si guarda la mappa e poi disponibili offline.
    Il nome della cache cambia quando cambiano i dati (TILES_VERSION, data di estrazione scritta da stamp). */
@@ -124,6 +128,12 @@ async function navigate(event){
 /* Foto: copia salvata subito, aggiornamento in background; elenco limitato alle ultime IMG_MAX. */
 async function image(event){
   const request=event.request;
+  const home=await caches.open(HOME);
+  const kept=await home.match(request);
+  if(kept){   /* immagine della Home: dalla copia salvata, aggiornata in background */
+    event.waitUntil(fetch(request).then(res=>{if(res&&res.ok&&/^image\//.test(res.headers.get("content-type")||""))return home.put(request,res);}).catch(()=>{}));
+    return kept;
+  }
   const cache=await caches.open(IMAGES);
   const cached=await cache.match(request);
   const update=fetch(request).then(async res=>{

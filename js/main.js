@@ -725,6 +725,19 @@ function setMapMode(on){
   document.documentElement.classList.toggle("map-open",on&&!isDesk());
   if(state.map)requestAnimationFrame(()=>{state.map.invalidateSize();if(on||state.mapNeedsFit){state.mapNeedsFit=false;fitDay(false);}else declutter();attachTiles();
     if(on&&state.selected&&state.selected[0]===state.active)selectStop(state.selected[0],state.selected[1],{from:"mapmode"});});
+  /* Ingresso animato della schermata (es. «Mappa» dalla barra di navigazione): finché dura l'animazione (transform)
+     la mappa a schermo intero ha ancora le misure della pagina e la giornata verrebbe inquadrata su un riquadro
+     sbagliato. A fine animazione si rimisura la mappa e si inquadrano di nuovo le tappe (o la tappa selezionata). */
+  if(on&&!isDesk()&&r.getAnimations&&r.getAnimations().length){
+    const done=e=>{
+      if(e.target!==r)return;
+      r.removeEventListener("animationend",done);r.removeEventListener("animationcancel",done);
+      if(!state.map||!r.classList.contains("map-mode"))return;
+      state.map.invalidateSize();fitDay(false);
+      if(state.selected&&state.selected[0]===state.active)selectStop(state.selected[0],state.selected[1],{from:"mapmode"});
+    };
+    r.addEventListener("animationend",done);r.addEventListener("animationcancel",done);
+  }
 }
 
 /* Carosello delle tappe sulla mappa: scorrendolo si seleziona la tappa al centro (e la mappa la inquadra);
@@ -1024,15 +1037,31 @@ function tripCard(trip,last){
 async function offlineCheck(){
   if(!("serviceWorker" in navigator)||!navigator.serviceWorker.controller||!("caches" in window))return null;
   try{
+    const hero=$("#heroMedia img"),heroUrl=hero&&(hero.currentSrc||hero.src);
     const urls=[new URL("./",document.baseURI).href,import.meta.url,
-      ...$$('link[rel="stylesheet"][href*="?v="],link[rel="modulepreload"]').map(l=>l.href)];
+      ...$$('link[rel="stylesheet"][href*="?v="],link[rel="modulepreload"]').map(l=>l.href),
+      ...(heroUrl?[heroUrl]:[])];   /* la copertina della Home è una risorsa essenziale: senza, niente «Pronto» */
     const hits=await Promise.all(urls.map(u=>caches.match(u)));
     if(hits.some(h=>!h))return {shell:false};
     const keys=await caches.has(IMG_CACHE)?(await (await caches.open(IMG_CACHE)).keys()).map(r=>new URL(r.url).pathname):[];
     return {shell:true,imgs:keys};
   }catch(e){return null;}
 }
-const IMG_CACHE="vivi-roma-img-v1";
+const IMG_CACHE="vivi-roma-img-v1",HOME_CACHE="vivi-roma-home-v1";
+/* Salva per l'uso offline le immagini della Home nella misura scelta da questo browser (la copertina subito,
+   illustrazione e mappa quando vengono mostrate). Serve il service worker attivo: al primo accesso si aspetta
+   che prenda il controllo della pagina. Poi si ricontrolla lo stato offline. */
+async function keepHomeImage(img){
+  if(!img||!("caches" in window)||!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
+  if(!img.complete)await new Promise(res=>img.addEventListener("load",res,{once:true}));
+  const url=img.currentSrc||img.src;if(!url||!img.naturalWidth)return;
+  try{const c=await caches.open(HOME_CACHE);if(!(await c.match(url)))await c.add(url);}catch(e){}
+}
+async function keepHomeImages(){
+  await keepHomeImage($("#heroMedia img"));
+  refreshOffline();
+  for(const img of $$(".qc-art,.mc-img")){if(img.complete&&img.naturalWidth)keepHomeImage(img);else img.addEventListener("load",()=>keepHomeImage(img),{once:true});}
+}
 let offlineState=null;
 async function refreshOffline(){
   offlineState=await offlineCheck();
@@ -1565,7 +1594,8 @@ function initApp(){
   $$("[data-contact=report]").forEach(a=>armMail(a,()=>({subject:t("contact.reportSubject"),body:t("contact.reportBody")})));
   $("#year").textContent=new Date().getFullYear();
   window.addEventListener("scroll",()=>{if(screen==="itinerario")syncResBar();},{passive:true});
-  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",()=>{askBuild();refreshOffline();});
+  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",()=>{askBuild();refreshOffline();keepHomeImages();});
+  afterLoad(keepHomeImages);
   askBuild();whenIdle(refreshOffline);
   $("#delTrips").addEventListener("click",deleteAllTrips);
   $("#delAll").addEventListener("click",deleteAllData);
