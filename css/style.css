@@ -1068,10 +1068,10 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
 .hb-brand .brand-name{font-size:1.4rem}
 .home-wrap{display:flex;flex-direction:column;gap:22px;padding:0 0 28px}
 
-.hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(440px,62svh,540px);color:#FFFFFF;background:#7c6355;isolation:isolate;overflow:hidden}
+.hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(440px,62svh,540px);color:#FFFFFF;background:#53463d;isolation:isolate;overflow:hidden}
 .hero-media{position:absolute;inset:0;z-index:-2;overflow:hidden}
-.hero-media::before{content:"";position:absolute;inset:-30px;background:center/cover no-repeat url(data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAADwBACdASoUABkAPtFeqE+oJKOiKAgBABoJaDuCDMDAOwHf/gLUL7W9fuG7+IdYeJAA/tJ90wxtPxy+bpFJ8ziQFkaqu1DHpCOhmhzZqWnXUnIJTjafcA9UYusgVmE7YOnoCTrl/jrm3uqq1p5bIrkXCzDKn91yGlN1BnXFDWirBQmC2oE4z6Fq/Cb5h+EfnijDyXctscz+dj9fIX27DWKnevOzXrWBf7iBsgwgGhDUXlsJrhmbIk6kdTzlIrIi7Wm1HT4XtQJKSNJtycnJXMQOH9dT7P3JJcqRaMAA);filter:blur(16px)}
-@media (min-width:761px){.hero-media::before{background-image:url(data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAAAQBQCdASoeABQAPtFWpU2oJCMiMBgIAQAaCWgAnTNkAMBYuUH44bKjD/n9nWOv7bjgAPtGD7iwNSr5EIpc4SY8AkXDPBKf3NdICSFiztbS3ZEGfbQGIMqVNa8ZkdkQnhGVOw1cAitKXXX+PS4R8yv8aHZgfmdU3U6+eiH2UekFEIo6Y9fKzjM1O+8dEOWIeDuMv+mQ0FcA3qsHLJlO+WrvhaQ51CZJvd1yuLnAJdP7fZCzWl1FJTEFFjGCseFP4l1eAA==)}}
+.hero-media::before{content:"";position:absolute;inset:-30px;background:center/cover no-repeat url(data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAACQBQCdASoUABkAPu1qr1CppaQiqAqpMB2JZACdMoMkmYAAFvk4LFLUVOrnu8qM6sUDh5TPAAD2PVdaPBjrMCjFVp5daHIXe/D1wV7aqX9yVPGOzEkESeQVTFjsOFRnCWsiDrZYtuY+XAlMwJjaSGLNc9pE08hLH+qHSAMkV17B9vmKSJMRxS/bc6sdH6KgMPK0ZoWOm6UaT2i0THNm+r1uUWtZG1H4Dnog8OKZeS1j4uuOoipI2NLTjMn/9DvjpwfU1MbBFk1XvCe4i9cYgSAA);filter:blur(16px)}
+@media (min-width:761px){.hero-media::before{background-image:url(data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAACwBACdASoeABAAPu1iqU2ppaQiMAgBMB2JagCw8agBt5gxMRwet3Rdecwla8OAAP7aS+bdO7St9w47ikGkFyAj0sYG6LZ2aKule+PA0j5Bg72lfsCQXygkAg+LSPCmI3zcXv7Jmv8z+bjmv8IYjbHlJu7AwafSkzmT+fm0nLIk5vWp5qUwNFlaI7MijMDYVo3nm3bIXVAnh5FqK/Zkq0NqBA0V39jmO+QogAAA)}}
 .hero-media picture{display:contents}
 .hero-media img{position:relative;width:100%;height:100%;object-fit:cover;object-position:30% 40%}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,10,10,0) 30%,rgba(12,10,10,.45) 55%,rgba(12,10,10,.86) 100%)}
@@ -1263,6 +1263,72 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .cat-card,.cat-card img,.map-card,.resume,.an-plus{transition:none}
   .dur-days{animation:none}
+}
+
+/* 14b. RIFINITURE HOME — copertina al tramonto, categorie più luminose, titoli contemporanei, microanimazioni */
+/* copertina: la sfumatura scura resta solo dove c'è il testo */
+.hero-media img{object-position:40% 50%}
+.hero::before{background:linear-gradient(180deg,rgba(12,10,10,.24) 0%,rgba(12,10,10,0) 16%,rgba(12,10,10,0) 26%,rgba(12,10,10,.56) 48%,rgba(12,10,10,.86) 72%,rgba(12,10,10,.92) 100%)}
+.hero h1{text-shadow:0 2px 4px rgba(0,0,0,.35),0 4px 24px rgba(0,0,0,.45)}
+.hero-inner>*{animation:heroIn .5s var(--ease) both}
+.hero-inner>:nth-child(2){animation-delay:.06s}
+.hero-inner>:nth-child(3){animation-delay:.12s}
+@keyframes heroIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero .h1b{color:#FF5A6E}
+/* pulsanti: risposta immediata al tocco */
+.btn-red,.btn-white{transition:transform .16s var(--ease),box-shadow .2s,background-color .2s}
+.btn-red{box-shadow:0 8px 20px rgba(200,16,46,.28)}
+.btn-red:active,.btn-white:active{transform:scale(.97)}
+@media (hover:hover){
+  .btn-red:hover,.btn-white:hover{transform:translateY(-1px)}
+  .btn-red:hover{box-shadow:0 12px 26px rgba(200,16,46,.34)}
+  .cat-card:hover{transform:translateY(-4px)}
+  .map-card:hover{transform:translateY(-3px)}
+  .map-card:hover .mc-img{transform:scale(1.03)}
+  .map-card:hover .mc-go,.resume:hover .resume-go{transform:translateX(3px)}
+}
+.mc-img{transition:transform .6s var(--ease)}
+.mc-go,.resume-go{transition:transform .2s var(--ease)}
+/* titoli di sezione: sans compatto, con l'accento corsivo dello slogan */
+.sec-head h2,.quiz-card h2{font-family:var(--sans);font-weight:800;letter-spacing:-.035em;line-height:1.04}
+.sec-head h2{padding-top:0;font-size:clamp(1.65rem,6.6vw,2.3rem)}
+.sec-head h2::before{content:none}
+.sec-head h2 em,.quiz-card h2 em{font-family:var(--serif);font-style:italic;font-weight:700;letter-spacing:-.01em;color:var(--red);padding-right:.04em}
+.sec-hint{margin-top:8px;font-size:.92rem;line-height:1.45}
+.sec-head{margin-bottom:16px}
+/* categorie: foto luminose, ombra solo in basso per il titolo */
+.cat-card::after{background:linear-gradient(180deg,rgba(10,10,12,0) 48%,rgba(10,10,12,.18) 66%,rgba(10,10,12,.68) 100%)}
+.cat-card img{filter:saturate(1.06) contrast(1.02)}
+.cat-name strong{font-weight:700;letter-spacing:-.005em;text-shadow:0 1px 2px rgba(0,0,0,.5),0 2px 14px rgba(0,0,0,.4)}
+.cat-ico svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+/* La tua Roma, su misura: ritaglio fotografico su un alone rosa caldo */
+.quiz-card{background:radial-gradient(110% 85% at 100% 100%,#F8CFD6 0%,rgba(248,207,214,0) 62%),var(--pink);box-shadow:inset 0 0 0 1px rgba(200,16,46,.06)}
+.quiz-card h2{font-size:1.5rem}
+.quiz-card h2 .qc-h{display:block}
+.qc-pic{display:contents}
+.qc-art{right:-6px;bottom:0;width:min(60%,300px);opacity:1;filter:drop-shadow(0 10px 18px rgba(122,32,48,.12))}
+@media (max-width:760px){
+  .quiz-card{padding-bottom:186px}
+  .qc-art{right:50%;transform:translateX(50%);width:min(86%,320px)}
+}
+@media (min-width:761px){
+  .hero::before{background:linear-gradient(90deg,rgba(12,10,10,.74) 0%,rgba(12,10,10,.46) 38%,rgba(12,10,10,.06) 66%,rgba(12,10,10,0) 80%),linear-gradient(0deg,rgba(12,10,10,.3) 0%,rgba(12,10,10,0) 30%)}
+  .hero-media img{object-position:50% 42%}
+  .home-wrap{gap:32px}
+  .qc-art{width:min(46%,400px);right:-4px}
+}
+@media (min-width:1024px){
+  .home-wrap{gap:36px}
+  .sec-head h2{font-size:clamp(2rem,2.4vw,2.5rem)}
+  .quiz-card h2{font-size:clamp(1.75rem,2.1vw,2.1rem)}
+  .qc-art{width:min(50%,440px);right:12px}
+  .dur{max-width:min(400px,50%)}
+  .qc-lead{max-width:min(46ch,52%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-inner>*{animation:none}
+  .btn-red,.btn-white,.mc-img,.mc-go,.resume-go{transition:none}
+  .cat-card:hover,.map-card:hover,.map-card:hover .mc-img{transform:none}
 }
 
 /* 11. STAMPA — tutte le giornate, senza menu, pulsanti, mappa e decorazioni */

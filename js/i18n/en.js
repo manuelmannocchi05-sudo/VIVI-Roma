@@ -370,7 +370,7 @@ export default {
   "credits.loading":"Loading credits…",
   "credits.group.main":"Cover and categories",
   "credits.group.places":"Places",
-  "credits.hero":"Cover","credits.heroPortrait":"Cover (smartphone)",
+  "credits.homeCard":"«Your Rome, made to measure» card","credits.modified":"Changes: subject cut out and cropped, bottom edge faded, combined with a dashed route and a pin. The modified image is shared under the same licence, CC BY-SA 4.0.","explore.t1":"Choose your","explore.t2":"Rome","home.quiz.t1":"Your Rome,","home.quiz.t2":"made to measure","credits.hero":"Cover","credits.heroPortrait":"Cover (smartphone)",
   "credits.category":p=>"Category · "+p.label,
   "credits.author":p=>"Author: "+p.author,
   "credits.license":"Licence: ",

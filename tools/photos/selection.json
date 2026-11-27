@@ -420,19 +420,19 @@
   {
    "key": "hero",
    "kind": "hero",
-   "file": "Beautiful Colosseum in Rome .jpg",
+   "file": "Colosseum of Rome, Italy.jpg",
    "focus": [
     0.5,
-    0.5
+    0.0
    ]
   },
   {
    "key": "hero-portrait",
    "kind": "hero-portrait",
-   "file": "Beautiful Colosseum in Rome .jpg",
+   "file": "Colosseum of Rome, Italy.jpg",
    "focus": [
-    0.0,
-    0.5
+    0.45,
+    0.0
    ]
   },
   {

@@ -713,15 +713,15 @@ export const PHOTOS={
 ]
 },
 "hero": {
-"author": "Yana Drabyshchak",
+"author": "Wilfredo Rafael Rodriguez Hernandez",
 "base": "img/hero/hero",
-"color": "#908579",
-"file": "Beautiful Colosseum in Rome .jpg",
+"color": "#645d56",
+"file": "Colosseum of Rome, Italy.jpg",
 "kind": "hero",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 1.4977,
-"source": "https://commons.wikimedia.org/wiki/File:Beautiful_Colosseum_in_Rome_.jpg",
+"license": "CC0",
+"licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+"ratio": 1.92,
+"source": "https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome,_Italy.jpg",
 "w": [
 960,
 1440,
@@ -729,18 +729,34 @@ export const PHOTOS={
 ]
 },
 "hero-portrait": {
-"author": "Yana Drabyshchak",
+"author": "Wilfredo Rafael Rodriguez Hernandez",
 "base": "img/hero/hero-portrait",
-"color": "#7c6355",
-"file": "Beautiful Colosseum in Rome .jpg",
+"color": "#70655a",
+"file": "Colosseum of Rome, Italy.jpg",
 "kind": "hero-portrait",
-"license": "CC BY-SA 4.0",
-"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-"ratio": 0.8003,
-"source": "https://commons.wikimedia.org/wiki/File:Beautiful_Colosseum_in_Rome_.jpg",
+"license": "CC0",
+"licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+"ratio": 0.8,
+"source": "https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome,_Italy.jpg",
 "w": [
 720,
 860
+]
+},
+"home-su-misura": {
+"author": "Andreas Tille",
+"base": "img/home/su-misura",
+"color": "#d9a75a",
+"file": "ColosseumAtEvening.jpg",
+"kind": "home",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"modified": true,
+"ratio": 1.8182,
+"source": "https://commons.wikimedia.org/wiki/File:ColosseumAtEvening.jpg",
+"w": [
+600,
+1200
 ]
 },
 "isola": {

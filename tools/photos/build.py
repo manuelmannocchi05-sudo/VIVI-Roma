@@ -21,7 +21,7 @@ OK_LICENSE = re.compile(r"^(CC0|Public domain|PD\b|PD-|CC BY(-SA)? \d(\.\d)?( \w
 KINDS = {
     "place": {"widths": [480, 800, 1280], "ratio": (16/9, 4/5), "q": 62},
     "cat":   {"widths": [420, 840],       "ratio": (3/4, 3/4),  "q": 68},
-    "hero":  {"widths": [960, 1440, 1920], "ratio": (3/2, 3/2), "q": 72},
+    "hero":  {"widths": [960, 1440, 1920], "ratio": (1.92, 1.92), "q": 72},
     "hero-portrait": {"widths": [720, 860], "ratio": (4/5, 4/5), "q": 72},
 }
 

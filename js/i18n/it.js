@@ -315,7 +315,7 @@ export default {
   "credits.loading":"Caricamento dei crediti…",
   "credits.group.main":"Copertina e categorie",
   "credits.group.places":"Luoghi",
-  "credits.hero":"Copertina","credits.heroPortrait":"Copertina (smartphone)",
+  "credits.homeCard":"Riquadro «La tua Roma, su misura»","credits.modified":"Modifiche: soggetto scontornato e ritagliato, bordo inferiore sfumato, composto con percorso tratteggiato e segnaposto. L'immagine modificata è distribuita con la stessa licenza, CC BY-SA 4.0.","explore.t1":"Scegli la tua","explore.t2":"Roma","home.quiz.t1":"La tua Roma,","home.quiz.t2":"su misura","credits.hero":"Copertina","credits.heroPortrait":"Copertina (smartphone)",
   "credits.category":p=>"Categoria · "+p.label,
   "credits.author":p=>"Autore: "+p.author,
   "credits.license":"Licenza: ",

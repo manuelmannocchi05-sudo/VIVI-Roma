@@ -23,10 +23,10 @@ test("marchio: Colosseo stilizzato nella barra laterale, nella barra della Home 
 test("Home: copertina, «Scegli la tua Roma» con 8 categorie, quiz su misura e mappa",()=>{
   assert.match(html,/id="heroTitle"/);assert.match(html,/id="heroSample"/);
   assert.equal((html.match(/class="cat-card"/g)||[]).length,8);
-  assert.match(html,/class="quiz-card"/);assert.match(html,/img\/home\/su-misura\.svg/);
+  assert.match(html,/class="quiz-card"/);assert.match(html,/img\/home\/su-misura-600\.webp/);
   assert.match(html,/<a class="map-card" href="#mappa" data-route="mappa"/);
   assert.match(html,/© OpenStreetMap/);
-  for(const f of ["img/home/su-misura.svg","img/home/mappa-900.webp","img/home/mappa-1800.webp","img/home/mappa-900.avif"])assert.ok(fs.existsSync(path.join(ROOT,f)),f);
+  for(const f of ["img/home/su-misura-600.webp","img/home/su-misura-1200.avif","img/home/mappa-900.webp","img/home/mappa-1800.webp","img/home/mappa-900.avif"])assert.ok(fs.existsSync(path.join(ROOT,f)),f);
   /* l'anteprima promozionale è stata tolta dalla Home */
   assert.doesNotMatch(html,/id="previewHost"/);
 });
@@ -37,7 +37,7 @@ test("testi della Home in italiano e in inglese",async()=>{
 });
 test("copertina: nuova foto del Colosseo con autore e licenza",async()=>{
   const {PHOTOS}=await import("../js/data/photos.js");
-  assert.equal(PHOTOS.hero.author,"Yana Drabyshchak");assert.equal(PHOTOS.hero.license,"CC BY-SA 4.0");
+  assert.equal(PHOTOS.hero.author,"Wilfredo Rafael Rodriguez Hernandez");assert.equal(PHOTOS.hero.license,"CC0");
   assert.equal(PHOTOS["hero-portrait"].file,PHOTOS.hero.file);
 });
 test("offline: copertina della Home salvata in una cache propria e richiesta per «Pronto»",()=>{
