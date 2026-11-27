@@ -20,13 +20,12 @@ test("crediti: ogni foto di categoria ha il nome della categoria in italiano e i
 });
 test("copertina: AVIF più leggere delle WebP corrispondenti, WebP sempre disponibili come alternativa",()=>{
   const h=R("index.html");
-  for(const n of ["hero-portrait-720","hero-960","hero-1600"]){
+  for(const n of ["hero-portrait-720","hero-portrait-860","hero-960","hero-1440","hero-1920"]){
     const a=fs.statSync(path.join(ROOT,"img/hero/"+n+".avif")).size,w=fs.statSync(path.join(ROOT,"img/hero/"+n+".webp")).size;
     assert.ok(a<w*.85,n+": "+a+" vs "+w);
   }
-  assert.ok(fs.existsSync(path.join(ROOT,"img/hero/hero-portrait-900.avif")));
   assert.match(h,/type="image\/avif" srcset="img\/hero\/hero-portrait-720\.avif 720w/);
-  assert.match(h,/<img src="img\/hero\/hero-1600\.webp"[^>]+fetchpriority="high"/);
+  assert.match(h,/<img src="img\/hero\/hero-1440\.webp"[^>]+fetchpriority="high"/);
   assert.match(R("css/style.css"),/\.hero-media::before\{[^}]*data:image\/webp;base64,/);
 });
 test("404: autonoma, bilingue, collegamenti alla guida e al quiz",()=>{

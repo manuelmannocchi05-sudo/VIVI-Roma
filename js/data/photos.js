@@ -713,34 +713,34 @@ export const PHOTOS={
 ]
 },
 "hero": {
-"author": "Radek Kucharski from Warsaw, Poland",
+"author": "Yana Drabyshchak",
 "base": "img/hero/hero",
-"color": "#53484b",
-"file": "Rome Street - Flickr - radkuch.13.jpg",
+"color": "#908579",
+"file": "Beautiful Colosseum in Rome .jpg",
 "kind": "hero",
-"license": "CC BY 2.0",
-"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-"ratio": 1.5,
-"source": "https://commons.wikimedia.org/wiki/File:Rome_Street_-_Flickr_-_radkuch.13.jpg",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 1.4977,
+"source": "https://commons.wikimedia.org/wiki/File:Beautiful_Colosseum_in_Rome_.jpg",
 "w": [
 960,
-1600,
-2400
+1440,
+1920
 ]
 },
 "hero-portrait": {
-"author": "Radek Kucharski from Warsaw, Poland",
+"author": "Yana Drabyshchak",
 "base": "img/hero/hero-portrait",
-"color": "#4d4957",
-"file": "Rome Street - Flickr - radkuch.13.jpg",
+"color": "#7c6355",
+"file": "Beautiful Colosseum in Rome .jpg",
 "kind": "hero-portrait",
-"license": "CC BY 2.0",
-"licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-"ratio": 0.5625,
-"source": "https://commons.wikimedia.org/wiki/File:Rome_Street_-_Flickr_-_radkuch.13.jpg",
+"license": "CC BY-SA 4.0",
+"licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+"ratio": 0.8003,
+"source": "https://commons.wikimedia.org/wiki/File:Beautiful_Colosseum_in_Rome_.jpg",
 "w": [
 720,
-1080
+860
 ]
 },
 "isola": {

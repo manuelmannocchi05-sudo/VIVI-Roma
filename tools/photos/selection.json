@@ -420,7 +420,7 @@
   {
    "key": "hero",
    "kind": "hero",
-   "file": "Rome Street - Flickr - radkuch.13.jpg",
+   "file": "Beautiful Colosseum in Rome .jpg",
    "focus": [
     0.5,
     0.5
@@ -429,9 +429,9 @@
   {
    "key": "hero-portrait",
    "kind": "hero-portrait",
-   "file": "Rome Street - Flickr - radkuch.13.jpg",
+   "file": "Beautiful Colosseum in Rome .jpg",
    "focus": [
-    0.55,
+    0.0,
     0.5
    ]
   },

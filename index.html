@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title data-i18n="meta.title">VIVI Roma — Non visitare Roma. Vivila.</title>
 <meta name="description" data-i18n-attr="content:meta.desc" content="VIVI Roma crea itinerari personalizzati a Roma in base a compagnia, durata, interessi e ritmo: monumenti, quartieri autentici, arte, verde e sapori romani, con mappa e versione stampabile.">
-<meta name="theme-color" content="#292622">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="VIVI Roma">
@@ -14,7 +14,7 @@
 <meta property="og:title" data-i18n-attr="content:meta.title" content="VIVI Roma — Non visitare Roma. Vivila.">
 <meta property="og:description" data-i18n-attr="content:meta.ogDesc" content="Rispondi a sei domande e ottieni un itinerario a Roma su misura, con mappa e versione stampabile.">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23A64B35'/%3E%3Cpath d='M17 52V30a15 15 0 0 1 30 0v22' fill='none' stroke='%23F5EFE4' stroke-width='4.5'/%3E%3Cpath d='M23 52a9 9 0 0 1 18 0z' fill='%23D9A66F'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C8102E'/%3E%3Cg transform='translate%286 13%29 scale%28.8125%29'%3E%3Cpath fill='%23fff' fill-rule='evenodd' d='M2 40V17Q32 1 62 17V40ZM4 38.2V31.55A2.6 2.6 0 0 1 9.2 31.55V38.2ZM4 26.8V21.95A2.6 2.6 0 0 1 9.2 21.95V26.8ZM12.47 38.2V30.91A2.6 2.6 0 0 1 17.67 30.91V38.2ZM12.47 26.8V20.2A2.6 2.6 0 0 1 17.67 20.2V26.8ZM13.37 13.95H16.77V15.4H13.37ZM20.93 38.2V30.53A2.6 2.6 0 0 1 26.13 30.53V38.2ZM20.93 26.8V19.15A2.6 2.6 0 0 1 26.13 19.15V26.8ZM21.83 12.04H25.23V14.35H21.83ZM29.4 38.2V30.4A2.6 2.6 0 0 1 34.6 30.4V38.2ZM29.4 26.8V18.8A2.6 2.6 0 0 1 34.6 18.8V26.8ZM30.3 11.4H33.7V14H30.3ZM37.87 38.2V30.53A2.6 2.6 0 0 1 43.07 30.53V38.2ZM37.87 26.8V19.15A2.6 2.6 0 0 1 43.07 19.15V26.8ZM38.77 12.04H42.17V14.35H38.77ZM46.33 38.2V30.91A2.6 2.6 0 0 1 51.53 30.91V38.2ZM46.33 26.8V20.2A2.6 2.6 0 0 1 51.53 20.2V26.8ZM47.23 13.95H50.63V15.4H47.23ZM54.8 38.2V31.55A2.6 2.6 0 0 1 60 31.55V38.2ZM54.8 26.8V21.95A2.6 2.6 0 0 1 60 21.95V26.8ZM0 41.6h64v2.4H0Z'/%3E%3C/g%3E%3C/svg%3E">
 <script>/* Lingua prima del primo disegno: scelta salvata → lingua del dispositivo → italiano (stessa regola di js/i18n.js). */
 (function(){var d=document.documentElement,l=null,s=null;d.classList.add("js");
 try{s=localStorage.getItem("vivi-roma:lingua");}catch(e){}
@@ -23,18 +23,18 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 
 <link rel="preload" href="fonts/playfair-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=06d8e660ec">
+<link rel="stylesheet" href="css/style.css?v=8b13fde78f">
 <!-- copertina su smartphone: richiesta subito dopo il CSS (i browser senza AVIF la ignorano e usano <picture>) -->
-<link rel="preload" as="image" type="image/avif" imagesrcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-900.avif 900w" imagesizes="60vw" media="(max-aspect-ratio: 4/5) and (max-width: 500px)" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-860.avif 860w" imagesizes="70vw" media="(max-width: 760px)" fetchpriority="high">
 <!-- importmap:start -->
-<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=adbbfc5590","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=c0ea4b515c","./js/i18n/it.js":"./js/i18n/it.js?v=5a41537241","./js/main.js":"./js/main.js?v=82df44f0f3","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
+<script type="importmap">{"imports":{"./js/contact.js":"./js/contact.js?v=c592acc8b5","./js/data/photos.js":"./js/data/photos.js?v=0ec07e4b1f","./js/data/places-en.js":"./js/data/places-en.js?v=c6172c315d","./js/data/places.js":"./js/data/places.js?v=afa54f0421","./js/i18n.js":"./js/i18n.js?v=111c7df471","./js/i18n/en.js":"./js/i18n/en.js?v=22f2cee87f","./js/i18n/it.js":"./js/i18n/it.js?v=98f44b7235","./js/main.js":"./js/main.js?v=a9186e0066","./js/map-style.js":"./js/map-style.js?v=bf3dc62ad2","./js/metrics-config.js":"./js/metrics-config.js?v=53ebc59861","./js/metrics-schema.js":"./js/metrics-schema.js?v=798c00bf1e","./js/metrics.js":"./js/metrics.js?v=261ed07f76","./js/planner.js":"./js/planner.js?v=6a1e73a8a9","./js/pwa.js":"./js/pwa.js?v=8fac90f78a","./js/quiz-data.js":"./js/quiz-data.js?v=351776df14","./js/trips.js":"./js/trips.js?v=303cca73c9"}}</script>
 <!-- importmap:end -->
 <!-- modulepreload:start -->
-<link rel="modulepreload" href="./js/data/photos.js?v=adbbfc5590">
+<link rel="modulepreload" href="./js/data/photos.js?v=0ec07e4b1f">
 <link rel="modulepreload" href="./js/data/places.js?v=afa54f0421">
 <link rel="modulepreload" href="./js/i18n.js?v=111c7df471">
-<link rel="modulepreload" href="./js/i18n/it.js?v=5a41537241">
-<link rel="modulepreload" href="./js/main.js?v=82df44f0f3">
+<link rel="modulepreload" href="./js/i18n/it.js?v=98f44b7235">
+<link rel="modulepreload" href="./js/main.js?v=a9186e0066">
 <link rel="modulepreload" href="./js/planner.js?v=6a1e73a8a9">
 <link rel="modulepreload" href="./js/pwa.js?v=8fac90f78a">
 <link rel="modulepreload" href="./js/quiz-data.js?v=351776df14">
@@ -49,33 +49,49 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
 <div class="app" id="app">
 <!-- NAVIGAZIONE: barra inferiore su smartphone e tablet, barra laterale su computer -->
 <nav class="app-nav" id="appNav" data-i18n-attr="aria-label:nav.aria" aria-label="Navigazione principale">
-  <a class="an-brand" href="#scopri" data-route="scopri" data-i18n-attr="aria-label:brand.aria" aria-label="VIVI Roma, torna all'inizio">
-    <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg>
+  <a class="an-brand" href="#scopri" data-route="scopri" data-i18n-attr="aria-label:brand.aria" aria-label="VIVI Roma, vai alla Home">
+    <svg class="brand-mark" viewBox="0 0 64 44" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 40V17Q32 1 62 17V40ZM4 38.2V31.55A2.6 2.6 0 0 1 9.2 31.55V38.2ZM4 26.8V21.95A2.6 2.6 0 0 1 9.2 21.95V26.8ZM12.47 38.2V30.91A2.6 2.6 0 0 1 17.67 30.91V38.2ZM12.47 26.8V20.2A2.6 2.6 0 0 1 17.67 20.2V26.8ZM13.37 13.95H16.77V15.4H13.37ZM20.93 38.2V30.53A2.6 2.6 0 0 1 26.13 30.53V38.2ZM20.93 26.8V19.15A2.6 2.6 0 0 1 26.13 19.15V26.8ZM21.83 12.04H25.23V14.35H21.83ZM29.4 38.2V30.4A2.6 2.6 0 0 1 34.6 30.4V38.2ZM29.4 26.8V18.8A2.6 2.6 0 0 1 34.6 18.8V26.8ZM30.3 11.4H33.7V14H30.3ZM37.87 38.2V30.53A2.6 2.6 0 0 1 43.07 30.53V38.2ZM37.87 26.8V19.15A2.6 2.6 0 0 1 43.07 19.15V26.8ZM38.77 12.04H42.17V14.35H38.77ZM46.33 38.2V30.91A2.6 2.6 0 0 1 51.53 30.91V38.2ZM46.33 26.8V20.2A2.6 2.6 0 0 1 51.53 20.2V26.8ZM47.23 13.95H50.63V15.4H47.23ZM54.8 38.2V31.55A2.6 2.6 0 0 1 60 31.55V38.2ZM54.8 26.8V21.95A2.6 2.6 0 0 1 60 21.95V26.8ZM0 41.6h64v2.4H0Z"/></svg>
     <span class="brand-name"><b>VIVI</b> <i>Roma</i></span>
   </a>
-  <a class="an-item" href="#scopri" data-route="scopri"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span class="an-l" data-i18n="nav.discover">Scopri</span></a>
-  <a class="an-item" href="#viaggi" data-route="viaggi" id="navTrips"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h12v16l-6-4-6 4z"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.trips">I miei viaggi</span><span class="an-short" data-i18n="nav.tripsShort">Viaggi</span></span><span class="an-badge" id="navTripsCount" aria-hidden="true" hidden></span><span class="sr-only" id="navTripsSr"></span></a>
-  <a class="an-create" href="#crea" data-route="crea"><span class="an-plus" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span><span class="an-l"><span class="an-long" data-i18n="nav.create">Crea il tuo viaggio</span><span class="an-short" data-i18n="nav.createShort">Crea</span></span></a>
-  <a class="an-item" href="#mappa" data-route="mappa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span class="an-l" data-i18n="nav.map">Mappa</span></a>
-  <a class="an-item" href="#impostazioni" data-route="impostazioni"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.settings">Impostazioni</span><span class="an-short" data-i18n="nav.settingsShort">Altro</span></span></a>
+  <span class="an-tag" aria-hidden="true" data-i18n="brand.tag">Itinerari su misura</span>
+  <a class="an-item an-home" href="#scopri" data-route="scopri"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><span class="an-l" data-i18n="nav.home">Home</span></a>
+  <a class="an-create" href="#crea" data-route="crea"><span class="an-plus" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span><span class="an-spark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z"/></svg></span><span class="an-l"><span class="an-long" data-i18n="nav.create">Crea il tuo viaggio</span><span class="an-short" data-i18n="nav.createShort">Crea</span></span></a>
+  <a class="an-item an-trips" href="#viaggi" data-route="viaggi" id="navTrips"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4-6.5 4v-16a1 1 0 0 1 1-1z"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.trips">I miei viaggi</span><span class="an-short" data-i18n="nav.tripsShort">Viaggi</span></span><span class="an-badge" id="navTripsCount" aria-hidden="true" hidden></span><span class="sr-only" id="navTripsSr"></span></a>
+  <a class="an-item an-map" href="#mappa" data-route="mappa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6.5 6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="an-l" data-i18n="nav.map">Mappa</span></a>
+  <span class="an-sep" aria-hidden="true"></span>
+  <a class="an-item an-set" href="#impostazioni" data-route="impostazioni"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="an-l"><span class="an-long" data-i18n="nav.settings">Impostazioni</span><span class="an-short" data-i18n="nav.settingsShort">Altro</span></span></a>
+  <label class="an-lang"><span class="sr-only" data-i18n="nav.lang">Lingua</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><select id="navLang"><option value="it" lang="it">Italiano</option><option value="en" lang="en">English</option></select></label>
 </nav>
 
 <main id="main" tabindex="-1">
 
-  <!-- SCOPRI -->
+  <!-- HOME -->
   <section class="screen scr-scopri" id="scopri" data-screen="scopri" aria-labelledby="heroTitle">
-    <div class="hero on-dark" id="home">
-      <!-- copertina nell'HTML: il browser la scarica subito, senza aspettare il JavaScript (LCP) -->
-      <div class="hero-media" id="heroMedia"><picture>
-        <source media="(max-aspect-ratio: 4/5) and (max-width: 500px)" type="image/avif" srcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-900.avif 900w" sizes="60vw">
-        <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="img/hero/hero-portrait-720.webp 720w, img/hero/hero-portrait-1080.webp 1080w" sizes="60vw">
-        <source media="(max-width: 1600px) and (max-resolution: 1.5dppx)" type="image/avif" srcset="img/hero/hero-960.avif 960w, img/hero/hero-1600.avif 1600w" sizes="100vw">
-        <img src="img/hero/hero-1600.webp" srcset="img/hero/hero-960.webp 960w, img/hero/hero-1600.webp 1600w, img/hero/hero-2400.webp 2400w" sizes="100vw" width="1600" height="1067" alt="" fetchpriority="high" decoding="async">
-      </picture></div>
-      <div class="hero-top">
-        <span class="hero-brand" aria-hidden="true"><svg class="brand-mark" viewBox="0 0 48 48" focusable="false"><path class="bm-base" d="M4 44h40" fill="none" stroke-width="2"/><path class="bm-arch" d="M9 44V22a15 15 0 0 1 30 0v22" fill="none" stroke-width="3"/><path class="bm-sun" d="M15.5 44a8.5 8.5 0 0 1 17 0z"/></svg><span class="brand-name"><b>VIVI</b> <i>Roma</i></span></span>
-        <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
+    <header class="home-bar">
+      <span class="hb-brand" aria-hidden="true"><svg class="brand-mark" viewBox="0 0 64 44" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 40V17Q32 1 62 17V40ZM4 38.2V31.55A2.6 2.6 0 0 1 9.2 31.55V38.2ZM4 26.8V21.95A2.6 2.6 0 0 1 9.2 21.95V26.8ZM12.47 38.2V30.91A2.6 2.6 0 0 1 17.67 30.91V38.2ZM12.47 26.8V20.2A2.6 2.6 0 0 1 17.67 20.2V26.8ZM13.37 13.95H16.77V15.4H13.37ZM20.93 38.2V30.53A2.6 2.6 0 0 1 26.13 30.53V38.2ZM20.93 26.8V19.15A2.6 2.6 0 0 1 26.13 19.15V26.8ZM21.83 12.04H25.23V14.35H21.83ZM29.4 38.2V30.4A2.6 2.6 0 0 1 34.6 30.4V38.2ZM29.4 26.8V18.8A2.6 2.6 0 0 1 34.6 18.8V26.8ZM30.3 11.4H33.7V14H30.3ZM37.87 38.2V30.53A2.6 2.6 0 0 1 43.07 30.53V38.2ZM37.87 26.8V19.15A2.6 2.6 0 0 1 43.07 19.15V26.8ZM38.77 12.04H42.17V14.35H38.77ZM46.33 38.2V30.91A2.6 2.6 0 0 1 51.53 30.91V38.2ZM46.33 26.8V20.2A2.6 2.6 0 0 1 51.53 20.2V26.8ZM47.23 13.95H50.63V15.4H47.23ZM54.8 38.2V31.55A2.6 2.6 0 0 1 60 31.55V38.2ZM54.8 26.8V21.95A2.6 2.6 0 0 1 60 21.95V26.8ZM0 41.6h64v2.4H0Z"/></svg><span class="brand-name"><b>VIVI</b> <i>Roma</i></span></span>
+      <button class="lang-toggle" id="langToggle" type="button" lang="en" data-i18n="lang.button" data-i18n-attr="aria-label:lang.aria" aria-label="EN, switch to English">EN</button>
+    </header>
+
+    <div class="home-wrap">
+      <div class="hero" id="home">
+        <!-- copertina nell'HTML: il browser la scarica subito, senza aspettare il JavaScript -->
+        <div class="hero-media" id="heroMedia"><picture>
+          <source media="(max-width: 760px)" type="image/avif" srcset="img/hero/hero-portrait-720.avif 720w, img/hero/hero-portrait-860.avif 860w" sizes="70vw">
+          <source media="(max-width: 760px)" type="image/webp" srcset="img/hero/hero-portrait-720.webp 720w, img/hero/hero-portrait-860.webp 860w" sizes="70vw">
+          <source type="image/avif" srcset="img/hero/hero-960.avif 960w, img/hero/hero-1440.avif 1440w, img/hero/hero-1920.avif 1920w" sizes="(min-width: 1024px) calc(100vw - 300px), 100vw">
+          <img src="img/hero/hero-1440.webp" srcset="img/hero/hero-960.webp 960w, img/hero/hero-1440.webp 1440w, img/hero/hero-1920.webp 1920w" sizes="(min-width: 1024px) calc(100vw - 300px), 100vw" width="1440" height="961" alt="" fetchpriority="high" decoding="async">
+        </picture></div>
+        <div class="hero-inner">
+          <h1 id="heroTitle"><span class="h1a" data-i18n="hero.h1a">Non visitare Roma.</span> <em class="h1b" data-i18n="hero.h1b">Vivila.</em></h1>
+          <p class="hero-lead" data-i18n="hero.lead">Il tuo assistente di viaggio per scoprire la Roma più autentica.</p>
+          <div class="hero-actions">
+            <a class="btn btn-red" href="#crea" data-route="crea"><span data-i18n="hero.cta">Crea il tuo viaggio</span><span class="arrow" aria-hidden="true">→</span></a>
+            <button class="btn btn-white" type="button" id="heroSample"><svg class="play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z"/></svg><span data-i18n="hero.inspire">Guarda un esempio</span></button>
+          </div>
+        </div>
+        <p class="hero-credit" id="heroCredit" hidden></p>
       </div>
+
       <!-- Riprendi il viaggio: itinerario aperto o ultimo viaggio salvato -->
       <button class="resume" id="resumeCard" type="button" hidden>
         <span class="resume-cover" id="resumeCover" aria-hidden="true"></span>
@@ -86,70 +102,63 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
         </span>
         <span class="resume-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
       </button>
-      <div class="hero-inner">
-        <p class="kicker hero-in" style="--d:1"><span class="kicker-mark" aria-hidden="true"></span><span data-i18n="hero.kicker">Itinerari su misura a Roma</span></p>
-        <h1 id="heroTitle"><span class="h1a hero-in" style="--d:2" data-i18n="hero.h1a">Non visitare Roma.</span> <em class="h1b hero-in" style="--d:3" data-i18n="hero.h1b">Vivila.</em></h1>
-        <p class="hero-lead hero-in" style="--d:4" data-i18n="hero.lead">Sei domande, un minuto. Scegliamo i luoghi giusti per te e li uniamo in giornate che hanno senso sulla mappa: non un elenco di monumenti, ma la tua Roma.</p>
-        <div class="hero-actions hero-in" style="--d:5">
-          <a class="btn btn-terra btn-lg" href="#crea" data-route="crea"><span data-i18n="hero.cta">Crea il tuo viaggio</span><span class="arrow" aria-hidden="true">→</span></a>
-          <button class="btn btn-ghost btn-lg" type="button" id="heroSample" data-i18n="hero.inspire">Guarda un esempio</button>
-        </div>
-      </div>
-      <p class="hero-credit" id="heroCredit" hidden></p>
-    </div>
-
-    <div class="home-body">
-
-      <section class="home-sec" aria-labelledby="quickTitle">
-        <div class="home-head">
-          <p class="eyebrow" data-i18n="home.quick.eyebrow">Parti da qui</p>
-          <h2 id="quickTitle" data-i18n="home.quick.title">Quanto tempo hai?</h2>
-        </div>
-        <div class="quick" role="group" aria-labelledby="quickTitle">
-          <button class="quick-chip" type="button" data-duration="half"><strong data-i18n="quick.half">Mezza giornata</strong><small data-i18n="quick.half.sub">Qualche ora</small></button>
-          <button class="quick-chip" type="button" data-duration="one"><strong data-i18n="quick.one">Un giorno</strong><small data-i18n="quick.one.sub">Il meglio in una giornata</small></button>
-          <button class="quick-chip" type="button" data-duration="multi" data-days="2"><strong data-i18n="quick.weekend">Un weekend</strong><small data-i18n="quick.weekend.sub">2 giorni</small></button>
-          <button class="quick-chip" type="button" data-duration="multi" data-days="7"><strong data-i18n="quick.week">Una settimana</strong><small data-i18n="quick.week.sub">7 giorni</small></button>
-        </div>
-      </section>
 
       <section class="home-sec" id="esplora" aria-labelledby="exploreTitle">
-        <div class="home-head">
-          <p class="eyebrow" data-i18n="explore.eyebrow">Otto modi di vivere Roma</p>
-          <h2 id="exploreTitle" data-i18n="explore.title">Quale Roma vuoi incontrare?</h2>
-          <p class="home-hint" data-i18n="home.cats.hint">Tocca una categoria: la aggiungiamo ai tuoi interessi e apriamo il quiz.</p>
-        </div>
-        <div class="cat-rail">
-          <div class="cat-grid">
-            <a class="cat-card" href="#crea" data-interest="history" data-photo="cat-history" data-label="Roma antica" data-alt="Il Colosseo a Roma">
-              <span class="cat-info"><small data-i18n="cat.history.small">Le origini</small><strong data-i18n="cat.history.label">Roma antica</strong><em data-i18n="cat.history.text">Colosseo, Fori e le tracce dell'impero.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="art" data-photo="cat-art" data-label="Arte e meraviglia" data-alt="La scala elicoidale dei Musei Vaticani">
-              <span class="cat-info"><small data-i18n="cat.art.small">La bellezza</small><strong data-i18n="cat.art.label">Arte e meraviglia</strong><em data-i18n="cat.art.text">Musei, capolavori e architetture barocche.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="food" data-photo="cat-food" data-label="Sapori romani" data-alt="Un piatto di spaghetti alla carbonara">
-              <span class="cat-info"><small data-i18n="cat.food.small">A tavola</small><strong data-i18n="cat.food.label">Sapori romani</strong><em data-i18n="cat.food.text">Mercati, trattorie e piatti della tradizione.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="hidden" data-photo="cat-hidden" data-label="Roma segreta" data-alt="L'arco del quartiere Coppedè">
-              <span class="cat-info"><small data-i18n="cat.hidden.small">Fuori rotta</small><strong data-i18n="cat.hidden.label">Roma segreta</strong><em data-i18n="cat.hidden.text">Architetture particolari e luoghi insoliti.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="nature" data-photo="cat-nature" data-label="Verde e quiete" data-alt="Il tempio di Esculapio sul laghetto di Villa Borghese">
-              <span class="cat-info"><small data-i18n="cat.nature.small">Respira</small><strong data-i18n="cat.nature.label">Verde e quiete</strong><em data-i18n="cat.nature.text">Villa Borghese, il suo laghetto e i giardini.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="religious" data-photo="cat-religious" data-label="Roma sacra" data-alt="La basilica di San Pietro in Vaticano">
-              <span class="cat-info"><small data-i18n="cat.religious.small">Spiritualità</small><strong data-i18n="cat.religious.label">Roma sacra</strong><em data-i18n="cat.religious.text">San Pietro, il Vaticano e le grandi basiliche.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="night" data-photo="castel" data-label="Roma di sera" data-alt="Castel Sant'Angelo illuminato di notte">
-              <span class="cat-info"><small data-i18n="cat.night.small">Dopo il tramonto</small><strong data-i18n="cat.night.label">Roma di sera</strong><em data-i18n="cat.night.text">Ponti illuminati, piazze e passeggiate serali.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
-            <a class="cat-card" href="#crea" data-interest="romantic" data-photo="cat-romantic" data-label="Roma romantica" data-alt="Ponte Sant'Angelo e San Pietro al tramonto">
-              <span class="cat-info"><small data-i18n="cat.romantic.small">In due</small><strong data-i18n="cat.romantic.label">Roma romantica</strong><em data-i18n="cat.romantic.text">Panorami, terrazze e scorci suggestivi.</em></span><span class="cat-add" aria-hidden="true">+</span></a>
+        <div class="sec-head">
+          <div>
+            <h2 id="exploreTitle" data-i18n="explore.title">Scegli la tua Roma</h2>
+            <p class="sec-hint" data-i18n="home.cats.hint">Tocca una categoria: la aggiungiamo al tuo viaggio e apriamo il quiz.</p>
           </div>
+          <div class="rail-nav">
+            <button class="rail-btn" type="button" id="catPrev" data-i18n-attr="aria-label:home.cats.prev" aria-label="Categorie precedenti" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6"/></svg></button>
+            <button class="rail-btn" type="button" id="catNext" data-i18n-attr="aria-label:home.cats.next" aria-label="Altre categorie"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></button>
+          </div>
+        </div>
+        <div class="cat-rail" id="catRail">
+          <a class="cat-card" href="#crea" data-interest="history" data-photo="cat-history" data-label="Storia e monumenti" data-alt="Il Colosseo a Roma"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9.5 12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20.5h18"/></svg></span><strong data-i18n="cat.history.label">Storia e monumenti</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="art" data-photo="cat-art" data-label="Arte e architettura" data-alt="La scala elicoidale dei Musei Vaticani"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="m3.5 16 5-5 4 4 2.5-2.5 5 5"/><circle cx="15.5" cy="9" r="1.6"/></svg></span><strong data-i18n="cat.art.label">Arte e architettura</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="food" data-photo="cat-food" data-label="Cibo e tradizioni" data-alt="Un piatto di spaghetti alla carbonara"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.4 1.4-3.5 4-3.5 7.5V14H17"/></svg></span><strong data-i18n="cat.food.label">Cibo e tradizioni</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="nature" data-photo="cat-nature" data-label="Verde e quiete" data-alt="Il tempio di Esculapio sul laghetto di Villa Borghese"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 19c0-8 5.5-13.5 15-14-.5 9.5-6 15-14 15M5 19l7-7"/></svg></span><strong data-i18n="cat.nature.label">Verde e quiete</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="hidden" data-photo="cat-hidden" data-label="Luoghi nascosti" data-alt="L'arco del quartiere Coppedè"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"/></svg></span><strong data-i18n="cat.hidden.label">Luoghi nascosti</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="religious" data-photo="cat-religious" data-label="Roma sacra" data-alt="La basilica di San Pietro in Vaticano"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v3M10.5 4.5h3M6 20v-7a6 6 0 0 1 12 0v7M4 20.5h16M10 20v-4a2 2 0 0 1 4 0v4"/></svg></span><strong data-i18n="cat.religious.label">Roma sacra</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="romantic" data-photo="cat-romantic" data-label="Roma romantica" data-alt="Ponte Sant'Angelo e San Pietro al tramonto"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/></svg></span><strong data-i18n="cat.romantic.label">Roma romantica</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
+          <a class="cat-card" href="#crea" data-interest="night" data-photo="castel" data-label="Roma di sera" data-alt="Castel Sant'Angelo illuminato di notte"><span class="cat-name"><span class="cat-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span><strong data-i18n="cat.night.label">Roma di sera</strong></span><span class="cat-add" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6v12M6 12h12"/></svg></span></a>
         </div>
       </section>
 
-      <!-- ANTEPRIMA: esempio reale calcolato dal motore -->
-      <section class="home-sec" id="anteprima" aria-labelledby="previewTitle">
-        <div class="home-head">
-          <p class="eyebrow" data-i18n="pv.eyebrow">Anteprima</p>
-          <h2 id="previewTitle" data-i18n="home.sample.title">Un itinerario vero</h2>
-          <p class="home-hint" id="previewText"></p>
-        </div>
-        <div class="preview-host" id="previewHost"></div>
-      </section>
+      <div class="home-duo">
+        <section class="quiz-card" aria-labelledby="quizCardTitle">
+          <div class="qc-text">
+            <h2 id="quizCardTitle"><span class="qc-pin" aria-hidden="true"><svg viewBox="0 0 24 32" focusable="false"><path d="M12 0C5.4 0 0 5.3 0 11.9 0 20.5 12 32 12 32s12-11.5 12-20.1C24 5.3 18.6 0 12 0z"/><circle cx="12" cy="11.5" r="4.6"/></svg></span><span data-i18n="home.quiz.title">La tua Roma, su misura</span></h2>
+            <p class="qc-lead" data-i18n="home.quiz.text">Sei domande, un minuto: scegliamo i luoghi giusti per te e li uniamo in giornate sensate sulla mappa.</p>
+            <p class="qc-label" id="quickTitle" data-i18n="home.quick.title">Quanto tempo hai?</p>
+            <div class="quick" role="group" aria-labelledby="quickTitle">
+              <button class="quick-chip" type="button" data-duration="half"><strong data-i18n="quick.half">Mezza giornata</strong></button>
+              <button class="quick-chip" type="button" data-duration="one"><strong data-i18n="quick.one">Un giorno</strong></button>
+              <button class="quick-chip" type="button" data-duration="multi" data-days="2"><strong data-i18n="quick.weekend">Un weekend</strong></button>
+              <button class="quick-chip" type="button" data-duration="multi" data-days="7"><strong data-i18n="quick.week">Una settimana</strong></button>
+            </div>
+            <a class="btn btn-red" href="#crea" data-route="crea"><span data-i18n="home.quiz.cta">Inizia il quiz</span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <img class="qc-art" src="img/home/su-misura.svg" width="400" height="220" alt="" loading="lazy" decoding="async">
+        </section>
+
+        <a class="map-card" href="#mappa" data-route="mappa">
+          <picture>
+            <source type="image/avif" srcset="img/home/mappa-900.avif 900w, img/home/mappa-1800.avif 1800w" sizes="(min-width: 1024px) 40vw, 100vw">
+            <img class="mc-img" src="img/home/mappa-900.webp" srcset="img/home/mappa-900.webp 900w, img/home/mappa-1800.webp 1800w" sizes="(min-width: 1024px) 40vw, 100vw" width="900" height="520" alt="" loading="lazy" decoding="async">
+          </picture>
+          <svg class="mc-pins" viewBox="0 0 900 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <g><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(654 395)"/><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(442 239)"/><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(531 196)"/><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(389 228)"/><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(346 410)"/><path d="M0-34c-7.7 0-14 6.2-14 13.9C-14-10 0 0 0 0s14-10 14-20.1C14-27.8 7.7-34 0-34z" transform="translate(524 336)"/></g>
+          </svg>
+          <span class="mc-panel">
+            <strong id="mapCardTitle" data-i18n="home.map.title">Esplora la mappa</strong>
+            <span id="mapCardText" data-i18n="home.map.text">Le tappe del tuo viaggio sulla mappa di Roma.</span>
+            <span class="mc-go" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+          <small class="mc-attr">© OpenStreetMap</small>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -402,6 +411,6 @@ l=l||"it";d.lang=l;if(l!=="it"){d.classList.add("i18n-wait");setTimeout(function
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=82df44f0f3"></script>
+<script type="module" src="js/main.js?v=a9186e0066"></script>
 </body>
 </html>

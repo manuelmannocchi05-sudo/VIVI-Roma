@@ -1151,7 +1151,6 @@ function applyLang(){
   relabelQuiz();
   $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
   heroCredit();
-  renderPreview();
   renderTrips();
   if(state.plan)rerenderResults();
 }
@@ -1199,6 +1198,14 @@ function initCategories(){
     if(ph)afterLoad(()=>lazyLoad(card,()=>placePhoto(card,ph,t("cat."+card.dataset.interest+".alt"),card.getBoundingClientRect().width||300)));
   });
 }
+function initRail(){
+  const rail=$("#catRail"),prev=$("#catPrev"),next=$("#catNext");if(!rail)return;
+  const sync=()=>{const max=rail.scrollWidth-rail.clientWidth-2;prev.disabled=rail.scrollLeft<=2;next.disabled=rail.scrollLeft>=max;};
+  const go=d=>rail.scrollBy({left:d*rail.clientWidth*.9,behavior:reduceMotion()?"auto":"smooth"});
+  prev.addEventListener("click",()=>go(-1));next.addEventListener("click",()=>go(1));
+  rail.addEventListener("scroll",()=>requestAnimationFrame(sync),{passive:true});
+  window.addEventListener("resize",sync,{passive:true});sync();
+}
 function initHero(){
   /* la copertina è già nell'HTML (index.html), così il browser la scarica prima del JavaScript:
      qui si aggiungono solo il colore medio di riserva e il credito della foto */
@@ -1212,35 +1219,9 @@ function heroCredit(){
   credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+t("photo.commons")}));
   credit.hidden=false;
 }
-/* Anteprima in homepage: un itinerario vero, calcolato adesso dal motore con risposte di esempio (nessun dato inventato). */
+/* Esempio: un itinerario vero, calcolato adesso dal motore con risposte di esempio (nessun dato inventato). */
 const SAMPLE={company:"couple",familiarity:"first",duration:"one",days:null,interests:["history","food","romantic"],mood:["iconic"],pace:"balanced",budget:"mid",walking:"medium"};
 let samplePlan=null;
-function renderPreview(){
-  const host=$("#previewHost");if(!host)return;
-  if(!samplePlan)samplePlan=buildItinerary(engineAnswers(SAMPLE));
-  const day=samplePlan.days[0];if(!day){host.replaceChildren();return;}
-  const list=[answerLabel("company",SAMPLE.company),answerLabel("familiarity",SAMPLE.familiarity),durationLabel(SAMPLE)]
-    .concat(SAMPLE.interests.map(interestLabel)).concat(moodLabels(SAMPLE)).join(" · ");
-  $("#previewText").textContent=t("pv.text",{list});
-  const first=day.stops[0],cover=el("div",{class:"pv-cover"});
-  const ph=PHOTOS[first.id];
-  if(ph)lazyLoad(cover,()=>placePhoto(cover,ph,"",Math.min(560,host.getBoundingClientRect().width||400)));
-  cover.append(el("div",{class:"pv-cover-text"},
-    el("span",{class:"pv-badge",text:t("pv.badge")}),
-    el("h3",{text:tripTitle(SAMPLE)}),
-    el("p",{text:day.areas.slice(0,3).map(areaText).join(" · ")})));
-  const shown=day.stops.slice(0,4);
-  const ol=el("ol",{class:"pv-stops"},shown.map((p,i)=>{
-    const th=el("span",{class:"pv-thumb","aria-hidden":"true"});
-    const tp=PHOTOS[p.id];if(tp)lazyLoad(th,()=>placePhoto(th,tp,"",72));
-    return el("li",null,th,el("span",{class:"pv-n","aria-hidden":"true",text:String(i+1)}),
-      el("span",{class:"pv-info"},el("strong",{lang:"it",text:p.name}),el("small",{text:areaText(p.area)+(p.matches.length?" · "+p.matches.map(interestLabel).join(", "):"")})));
-  }));
-  const foot=el("p",{class:"pv-foot"},t("res.stops",{n:day.stops.length})+" · "+t("res.distance",{km:num1(day.walkKm)})+(day.stops.length>shown.length?" · "+t("pv.more",{n:day.stops.length-shown.length}):""));
-  host.replaceChildren(el("article",{class:"pv-card"},cover,ol,foot,
-    el("div",{class:"pv-actions"},el("button",{type:"button",class:"btn btn-wine",text:t("home.sample.open"),onclick:openSample}),
-      el("a",{class:"btn btn-line",href:"#crea",text:t("nav.create")}))));
-}
 function initReveal(){
   const items=$$(".reveal");
   if(!("IntersectionObserver"in window)||reduceMotion()){items.forEach(i=>i.classList.add("in"));return;}
@@ -1498,6 +1479,7 @@ function syncSettings(){
   const l=getLang();
   $("#setLangIt").setAttribute("aria-pressed",String(l==="it"));
   $("#setLangEn").setAttribute("aria-pressed",String(l==="en"));
+  const nl=$("#navLang");if(nl)nl.value=l;
   const o=offlineInfo();
   $("#offlineState").textContent=t("settings.offline."+o);$("#offlineState").dataset.state=o;
   $("#offlineText").textContent=t("settings.offline."+o+"Text");
@@ -1624,8 +1606,9 @@ async function init(){
   window.addEventListener("beforeprint",()=>{$$("details.more").forEach(d=>{d.open=true;});const n=$("details.res-notes");if(n){notesWasOpen=n.open;n.open=true;}});
   window.addEventListener("afterprint",()=>{const n=$("details.res-notes");if(n&&notesWasOpen===false)n.open=false;notesWasOpen=null;});
   $("#langToggle").addEventListener("click",toggleLang);
+  $("#navLang").addEventListener("change",e=>{const v=e.target.value;setLangTo(v).then(()=>{e.target.value=getLang();});});
   $$("[data-contact]").forEach(a=>armMail(a,()=>({subject:t("contact.subject")})));
-  initCategories();initHero();renderPreview();initReveal();initApp();
+  initCategories();initRail();initHero();initReveal();initApp();
   if(getLang()!=="it")applyLang();else{$("#langToggle").setAttribute("lang","en");renderTrips();}
   document.documentElement.classList.remove("i18n-wait");   /* testi pronti: la pagina diventa visibile */
   if(/[?&]vivitest\b/.test(location.search))window.__vivi=state;   /* solo per i test automatici */

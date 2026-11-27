@@ -28,9 +28,9 @@ test("la copertina è nell'HTML, con priorità alta e densità limitata su smart
   const html=R("index.html");
   const pic=html.slice(html.indexOf('id="heroMedia"'),html.indexOf("</picture>"));
   assert.match(pic,/<img [^>]*fetchpriority="high"/);
-  assert.match(pic,/<img [^>]*width="1600" height="1067"/);
-  /* verticale: sizes 60vw ≈ densità massima 1,8× su un telefono 3× (720 px invece di 1080) */
-  assert.match(pic,/media="\(max-aspect-ratio: 4\/5\)"[^>]*srcset="img\/hero\/hero-portrait-720\.webp 720w, img\/hero\/hero-portrait-1080\.webp 1080w" sizes="60vw"/);
+  assert.match(pic,/<img [^>]*width="1440" height="961"/);
+  /* smartphone: ritaglio verticale, sizes 70vw ≈ densità massima 2,1× su un telefono 3× (860 px al massimo) */
+  assert.match(pic,/media="\(max-width: 760px\)" type="image\/webp" srcset="img\/hero\/hero-portrait-720\.webp 720w, img\/hero\/hero-portrait-860\.webp 860w" sizes="70vw"/);
   assert.doesNotMatch(pic,/loading="lazy"/);
   /* il JavaScript non ricrea la copertina */
   assert.doesNotMatch(R("js/main.js"),/media\.append\(pic\)/);

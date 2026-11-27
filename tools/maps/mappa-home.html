@@ -1,0 +1,14 @@
+<!doctype html><meta charset=utf-8>
+<!-- Genera l'immagine della scheda «Esplora la mappa» (img/home/mappa-*.{webp,avif}) dai tasselli del sito:
+     servire la cartella del progetto, aprire tools/maps/mappa-home.html a 900×520 con densità 2 e fare uno screenshot.
+     Dati © contributori di OpenStreetMap, stile e tasselli Protomaps come nella mappa dell'app. -->
+<link rel=stylesheet href="../../js/vendor/leaflet/leaflet.css">
+<style>html,body{margin:0}#m{width:900px;height:520px}.leaflet-control-container{display:none}</style>
+<div id=m></div>
+<script src="../../js/vendor/leaflet/leaflet.js"></script><script src="../../js/vendor/protomaps-leaflet/protomaps-leaflet.js"></script>
+<script type=module>
+import * as S from "../../js/map-style.js";
+const bb=a=>L.latLngBounds([a.south,a.west],[a.north,a.east]);
+const m=L.map("m",{zoomControl:false,attributionControl:false,zoomSnap:.25}).setView([41.8975,12.4775],14.25);
+protomapsL.leafletLayer({url:S.tileSource("../../"+S.TILE_URL),maxDataZoom:S.TILE_MAX_DATA_ZOOM,minZoom:S.MAP_MIN_ZOOM,maxZoom:19,bounds:bb(S.TILE_AREA_WIDE),...S.mapRules(protomapsL)}).addTo(m);
+</script>
