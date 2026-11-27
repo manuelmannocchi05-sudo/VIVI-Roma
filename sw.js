@@ -12,28 +12,28 @@
    le copie vecchie. La pagina già aperta non viene ricaricata (un quiz in corso non si perde): la nuova
    versione si vede alla prossima apertura. */
 /* precache:start */
-const VERSION="0ec5fa19ac10";
+const VERSION="a6bc8c664996";
 const TILES_VERSION="2026-11-19-dd5a2f8a";
 const PRECACHE=["./",
  "./crediti.html",
  "./manifest.webmanifest",
  "./icon.svg",
- "./css/style.css?v=5309de97dd",
+ "./css/style.css?v=43feaed61c",
  "./js/contact.js?v=c592acc8b5",
  "./js/data/photos.js?v=42bfb2f6cc",
  "./js/data/places-en.js?v=c6172c315d",
  "./js/data/places.js?v=afa54f0421",
  "./js/i18n.js?v=111c7df471",
- "./js/i18n/en.js?v=4a0459dc8b",
- "./js/i18n/it.js?v=b5c1f74cd7",
- "./js/main.js?v=a423ebd511",
+ "./js/i18n/en.js?v=7ac031d86c",
+ "./js/i18n/it.js?v=12a8f0f6c2",
+ "./js/main.js?v=c4d1f5e559",
  "./js/map-style.js?v=bf3dc62ad2",
  "./js/metrics-config.js?v=53ebc59861",
- "./js/metrics-schema.js?v=798c00bf1e",
+ "./js/metrics-schema.js?v=d4d92e7968",
  "./js/metrics.js?v=261ed07f76",
  "./js/planner.js?v=6a1e73a8a9",
  "./js/pwa.js?v=8fac90f78a",
- "./js/quiz-data.js?v=351776df14",
+ "./js/quiz-data.js?v=b57b188003",
  "./js/trips.js?v=303cca73c9",
  "./fonts/dm-sans-latin-wght-normal.woff2",
  "./fonts/playfair-display-latin-wght-italic.woff2",

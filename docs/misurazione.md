@@ -40,7 +40,7 @@ La misurazione ha due parti:
 | Evento | Quando | Campi |
 | --- | --- | --- |
 | `quiz_start` | Prima risposta del quiz | `lang` |
-| `quiz_step` | Passaggio in avanti con «Avanti» | `step`: who, kids, know, time, interests, mood, practical |
+| `quiz_step` | Passaggio in avanti con «Avanti» | `step`: who, kids, know, time, interests, mood, pace, walking, budget (fino al restyling del quiz: practical) |
 | `quiz_complete` | «Crea il mio itinerario» con risposte valide | `company`, `familiarity`, `duration`, `days` (0 se non più giorni), `interests`, `mood`, `pace`, `walking`, `budget`, `lang`. La risposta sui bambini **non** viene inviata |
 | `result_view` | Itinerario mostrato | `source` (quiz, saved, link), `days`, `stops` |
 | `trip_save` | Primo salvataggio dell'itinerario | — |

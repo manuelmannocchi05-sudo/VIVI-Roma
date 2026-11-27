@@ -77,30 +77,37 @@ function toast(msg){
 function scrollToEl(node,block){node.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:block||"start"});}
 
 /* ==========================================================================
-   QUIZ: 6 passaggi (STEPS), ognuno con una o più domande (QUIZ). Le domande multi:true accettano più risposte.
+   QUIZ: 8 passaggi (STEPS, 9 «In famiglia»), una domanda per schermata (QUIZ). Le domande multi:true accettano più risposte.
    ========================================================================== */
 const state={step:0,answers:{company:null,familiarity:null,duration:null,days:null,interests:[],mood:[],pace:null,budget:null,walking:"medium",kids:null},plan:null,active:0,map:null,mapLayers:[],tiles:null,tileOk:false,tileWarned:false,savedId:null,selected:null,status:null};
 const isNarrow=()=>window.matchMedia("(max-width:760px)").matches;
 const stepEls=[];
 const Q=Object.fromEntries(QUIZ.map(q=>[q.key,q]));
 
-function optionButton(q,o){
+const CHECK_SVG='<svg viewBox="0 0 24 24" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+function optionButton(q,o,idx){
   const isText=o[1].charAt(0)==="#",photo=o[5]&&PHOTOS[o[5]];
   const tx=optText(q,o);
-  const check=el("span",{class:"opt-check","aria-hidden":"true"});
+  const check=el("span",{class:"opt-check","aria-hidden":"true"});check.innerHTML=CHECK_SVG;
+  const copy=el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null);
+  const attrs=cls=>({type:"button",class:"option "+cls,"aria-pressed":"false","data-key":q.key,"data-value":o[0]});
   let btn;
   if(photo){
+    /* card fotografica: titolo sulla foto, come nelle categorie della Home */
     const media=el("span",{class:"opt-media","aria-hidden":"true"});
     media.style.backgroundColor=photo.color;
     /* foto della scelta scaricata solo quando il quiz è aperto e la scheda sta per apparire (non al primo caricamento) */
-    lazyLoad(media,()=>media.append(photoImg(photo,"",isNarrow()?200:260)));
-    btn=el("button",{type:"button",class:"option opt-photo","aria-pressed":"false","data-key":q.key,"data-value":o[0]},
-      media,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),check);
+    lazyLoad(media,()=>media.append(photoImg(photo,"",isNarrow()?220:300)));
+    btn=el("button",attrs("opt-photo"),media,copy,check);
+  }else if(q.compact&&!isText){
+    /* ritmo, camminata, budget: un indicatore di intensità (1, 2 o 3 tacche) al posto dell'icona */
+    const lv=el("span",{class:"opt-level","aria-hidden":"true"});
+    q.opts.forEach((x,i)=>lv.append(el("i",{class:i<=idx?"on":null})));
+    btn=el("button",attrs("opt-row"),lv,copy,check);
   }else{
     const ic=el("span",{class:"opt-icon","aria-hidden":"true"});
     if(isText)ic.textContent=o[1].slice(1);else ic.append(icon(o[1]));
-    btn=el("button",{type:"button",class:"option"+(q.compact?" opt-compact":""),"aria-pressed":"false","data-key":q.key,"data-value":o[0]},
-      q.compact?null:ic,el("span",{class:"opt-copy"},el("strong",{text:tx.title}),o[3]?el("small",{text:tx.desc}):null),check);
+    btn=el("button",attrs(q.compact?"opt-compact":"opt-tile"),q.compact?null:ic,copy,check);
   }
   btn.addEventListener("click",()=>onOption(q,o[0],btn));
   return btn;
@@ -109,16 +116,19 @@ function questionBlock(q,single){
   const id="q-"+q.key;
   const label=el("p",{class:"q-label"+(single?" sr-only":""),id:id+"-label",text:qText(q,"title")});
   const group=el("div",{class:"options opts-"+q.key+(q.multi?" multi":"")+(q.compact?" compact":""),role:"group","aria-labelledby":id+"-label"});
-  q.opts.forEach(o=>group.append(optionButton(q,o)));
+  q.opts.forEach((o,i)=>group.append(optionButton(q,o,i)));
   const box=el("div",{class:"q-block",id},label,group);
   if(q.followUp){
     /* domanda aggiuntiva, visibile solo con l'opzione "when" (giorni per «Più giorni», bambini per «In famiglia») */
     const f=q.followUp,lid=f.key==="days"?"daysLabel":"q-"+f.key+"-label";
     const fg=el("div",{class:"options opts-"+f.key+" compact",role:"group","aria-labelledby":lid});
-    f.opts.forEach(o=>fg.append(optionButton({...f,compact:true},o)));
+    f.opts.forEach((o,i)=>fg.append(optionButton({...f,compact:true},o,i)));
     box.append(el("div",{class:"q-follow",id:f.key==="days"?"daysQ":"q-"+f.key+"-follow",hidden:true},el("p",{class:"q-label",id:lid,text:qText(f,"title")}),fg));
   }
-  if(q.multi)box.append(el("p",{class:"sel-count",id:"selCount-"+q.key,"aria-live":"polite"}));
+  if(q.multi){
+    label.after(el("p",{class:"q-multi"},el("span",{class:"q-multi-ico","aria-hidden":"true"}),el("span",{class:"q-multi-t",text:t("quiz.multiHint")})));
+    box.append(el("p",{class:"sel-count",id:"selCount-"+q.key,"aria-live":"polite"}));
+  }
   return box;
 }
 function buildQuiz(){
@@ -139,8 +149,38 @@ function renderBar(){
   [...bar.children].forEach((s,i)=>{s.className=i<pos?"done":i===pos?"now":"";});
   bar.setAttribute("aria-valuenow",String(pos+1));bar.setAttribute("aria-valuemax",String(v.length));
   $("#qCounter").textContent=t("quiz.counter",{n:pos+1,total:v.length});
+  const fr=$("#qzFrac");if(fr)fr.textContent=(pos+1)+"/"+v.length;
+  $("#crea").style.setProperty("--qz-p",String((pos+1)/v.length));
+  renderRecap();
   const last=pos===v.length-1;
   $("#nextBtn").hidden=last;$("#createBtn").hidden=!last;
+}
+/* Riepilogo laterale (computer): i passaggi con le risposte già date, aggiornato a ogni scelta. Solo visivo:
+   le stesse informazioni sono nelle domande (aria-pressed), per questo il pannello è aria-hidden. */
+function recapText(s){
+  const a=state.answers,k=s.keys[0],v=a[k];
+  if(k==="duration")return v&&(v!=="multi"||a.days)?durationLabel(a):"";
+  if(Array.isArray(v))return v.map(x=>answerLabel(k,x)).join(", ");
+  return v?answerLabel(k,v):"";
+}
+function renderRecap(){
+  const list=$("#qzRecap");if(!list)return;
+  const v=visible(),pos=v.indexOf(state.step);
+  list.replaceChildren(...v.map((si,i)=>{
+    const s=STEPS[si],txt=recapText(s),cur=i===pos;
+    const st=cur?"now":txt?"done":"todo";
+    const n=el("span",{class:"rc-n"});
+    if(st==="done")n.innerHTML=CHECK_SVG;else n.textContent=String(i+1);
+    return el("li",{class:"rc rc-"+st},n,el("span",{class:"rc-t"},el("b",{text:stepText(s,"name")}),el("small",{text:txt||(cur?"":t("quiz.recapTodo"))})));
+  }));
+}
+/* Scelte multiple: quante risposte sono segnate, accanto a «Continua» */
+function syncSelPill(){
+  const p=$("#qzSel");if(!p)return;
+  const k=STEPS[state.step].keys[0],q=Q[k];
+  if(!q.multi){p.textContent="";p.classList.remove("on");return;}
+  const n=state.answers[k].length;
+  p.textContent=n?t("quiz.selCount."+k,{n}):"";p.classList.toggle("on",n>0);
 }
 const ORDER=k=>Q[k].opts.map(o=>o[0]);
 function onOption(q,value,btn){
@@ -169,6 +209,7 @@ function syncOptions(){
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
   syncDur();
+  if(stepEls.length){syncSelPill();renderRecap();}
   for(const k of ["interests","mood"]){
     const n=state.answers[k].length,c=$("#selCount-"+k);
     if(c)c.textContent=n?t("quiz.selCount."+k,{n}):t("quiz.selNone."+k);
@@ -194,6 +235,7 @@ function setStep(n,focus){
   $("#prevBtn").disabled=visible()[0]===state.step;
   $("#qName").textContent=stepText(STEPS[state.step],"name");
   renderBar();
+  syncSelPill();
   syncDurPill();
   $("#quizError").textContent="";
   quizPhoto();
@@ -251,6 +293,7 @@ function relabelQuiz(){
       if(q.followUp)$(q.followUp.key==="days"?"#daysLabel":"#q-"+q.followUp.key+"-label").textContent=qText(q.followUp,"title");
     });
   });
+  $$(".q-multi-t").forEach(x=>{x.textContent=t("quiz.multiHint");});
   const shown=!!$("#quizError").textContent;
   setStep(state.step,false);syncOptions();
   if(shown){const err=stepError(state.step);$("#quizError").textContent=err;}
@@ -1184,7 +1227,6 @@ function applyLang(){
   syncSettings();
   relabelQuiz();syncDurPill();
   $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
-  heroCredit();
   renderTrips();
   if(state.plan)rerenderResults();
 }
@@ -1246,12 +1288,6 @@ function initHero(){
   const media=$("#heroMedia"),land=PHOTOS.hero;
   if(!land)return;
   media.style.backgroundColor=land.color;
-  heroCredit();
-}
-function heroCredit(){
-  const land=PHOTOS.hero,credit=$("#heroCredit");if(!land)return;
-  credit.replaceChildren(el("a",{href:land.source,target:"_blank",rel:"noopener noreferrer",text:creditText(land)+t("photo.commons")}));
-  credit.hidden=false;
 }
 /* Esempio: un itinerario vero, calcolato adesso dal motore con risposte di esempio (nessun dato inventato). */
 const SAMPLE={company:"couple",familiarity:"first",duration:"one",days:null,interests:["history","food","romantic"],mood:["iconic"],pace:"balanced",budget:"mid",walking:"medium"};
@@ -1385,7 +1421,7 @@ function syncResBar(){
 }
 
 /* ---------- Quiz a schermo intero ---------- */
-const STEP_PHOTO={who:"hero-portrait",kids:"cat-nature",know:"colosseo",time:"castel",interests:"cat-art",mood:"trevi",practical:"aranci"};
+const STEP_PHOTO={who:"hero-portrait",kids:"cat-nature",know:"colosseo",time:"castel",interests:"cat-art",mood:"trevi",pace:"aranci",walking:"appia",budget:"campo"};
 /* primo passo da mostrare aprendo il quiz: il primo senza risposta; con tutte le risposte già date
    (nuovo viaggio dopo uno appena creato) si riparte dall'inizio, con le scelte precedenti già segnate */
 function firstOpenStep(){const v=visible();return v.find(i=>stepError(i))??v[0];}

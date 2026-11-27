@@ -1,4 +1,6 @@
-# Quiz in 6 passaggi (7 in famiglia): logica e corrispondenza con il motore
+# Quiz in 8 passaggi (9 in famiglia): logica e corrispondenza con il motore
+
+**Restyling del quiz (ramo design-vivi-app):** ritmo, camminata e budget, prima raccolti in «Come ti piace viaggiare?», hanno ora una schermata ciascuno, per avere una domanda per schermata. Domande, opzioni, valori, risposte predefinite e condizioni sono invariati; il motore riceve le stesse risposte.
 
 Restyling, blocco A. Il quiz passa da 7 domande a 5 passaggi e ammette risposte multiple dove le scelte sono compatibili.
 
@@ -30,7 +32,9 @@ In questo blocco il motore cambia solo in un punto: accetta più atmosfere. Il r
 | 3. Quanto tempo hai? | Durata (+ numero di giorni se "più giorni") | singola |
 | 4. Cosa vuoi scoprire e vivere? | Interessi (8 card fotografiche) | **multipla**: da 1 a 8, senza massimo |
 | 5. Che atmosfera preferisci? | Atmosfera (4 card fotografiche) | **multipla**: da 1 a 4, senza massimo |
-| 6. Come ti piace viaggiare? | Ritmo, camminata, budget | singola per ognuna (valori incompatibili tra loro) |
+| 6. Che ritmo preferisci? | Ritmo | singola |
+| 7. Quanto vuoi camminare? | Camminata | singola |
+| 8. Che budget hai in mente? | Budget | singola |
 
 La camminata parte da "Il giusto", come prima. Le altre domande non hanno risposte predefinite.
 

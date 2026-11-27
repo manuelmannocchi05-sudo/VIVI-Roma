@@ -1,4 +1,4 @@
-/* VIVI Roma — quiz in 6 passaggi (7 per chi viaggia in famiglia), una domanda per schermata.
+/* VIVI Roma — quiz in 8 passaggi (9 per chi viaggia in famiglia), una domanda per schermata.
    when: passaggio mostrato solo se la condizione sulle risposte è vera.
    STEPS: i passaggi mostrati; ogni passaggio contiene una o più domande (chiavi di QUIZ).
    QUIZ: le domande. Opzioni: [valore, icona (o "#testo"), titolo, descrizione, etichetta breve per il riepilogo].
@@ -14,7 +14,10 @@ const STEPS=[
  {id:"time",name:"Durata",title:"Quanto tempo hai?",sub:"Giornate realistiche, da mezza giornata a una settimana.",keys:["duration"]},
  {id:"interests",name:"Interessi",title:"Cosa vuoi scoprire e vivere?",sub:"Scegline quante vuoi: anche una sola va benissimo.",keys:["interests"]},
  {id:"mood",name:"Atmosfera",title:"Che atmosfera preferisci?",sub:"Una o più: ci aiutano a scegliere tra luoghi simili.",keys:["mood"]},
- {id:"practical",name:"Preferenze",title:"Come ti piace viaggiare?",sub:"Ritmo, passi e budget: tre scelte rapide.",keys:["pace","walking","budget"]}
+ /* ritmo, camminata e budget: una domanda per schermata (prima erano raccolte in «Come ti piace viaggiare?») */
+ {id:"pace",name:"Ritmo",title:"Che ritmo preferisci?",sub:"Poche tappe con calma o giornate piene: decidi tu.",keys:["pace"]},
+ {id:"walking",name:"Camminata",title:"Quanto vuoi camminare?",sub:"Se preferisci camminare poco, proponiamo meno tappe e più vicine.",keys:["walking"]},
+ {id:"budget",name:"Budget",title:"Che budget hai in mente?",sub:"Con un budget contenuto preferiamo i luoghi gratuiti.",keys:["budget"]}
 ];
 
 const QUIZ=[

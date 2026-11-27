@@ -15,7 +15,7 @@ export const SCHEMA_VERSION=1;
 export const MAX_BODY_BYTES=1024;          /* un evento valido pesa meno di 300 byte */
 
 const LANG=["it","en"];
-const STEP=["who","kids","know","time","interests","mood","practical"];
+const STEP=["who","kids","know","time","interests","mood","pace","walking","budget"];
 const COMPANY=["solo","couple","friends","family"];
 const FAMILIARITY=["first","often"];
 const DURATION=["half","one","multi"];

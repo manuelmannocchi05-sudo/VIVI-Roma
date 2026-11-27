@@ -1,4 +1,4 @@
-/* Test del quiz in 5 passaggi e della corrispondenza con il motore (docs/quiz-logica.md): npm test */
+/* Test del quiz in 8 passaggi e della corrispondenza con il motore (docs/quiz-logica.md): npm test */
 import {test} from "node:test";
 import assert from "node:assert/strict";
 import {STEPS,QUIZ,engineAnswers,moodsOf,activeSteps} from "../js/quiz-data.js";
@@ -8,16 +8,18 @@ import {cleanAnswers,encodeShare,decodeShare,tripFromPlan,createStore,STORE_KEY}
 const ids=plan=>plan.days.map(d=>d.stops.map(s=>s.id));
 const NEW={company:"couple",familiarity:"first",duration:"multi",days:"3",interests:["history","food","romantic"],mood:["iconic","local"],pace:"balanced",budget:"mid",walking:"medium"};
 
-test("quiz: 6 passaggi, 7 per chi viaggia in famiglia, una domanda per schermata", ()=>{
-  assert.equal(STEPS.length,7);
+test("quiz: 8 passaggi, 9 per chi viaggia in famiglia, una domanda per schermata", ()=>{
+  assert.equal(STEPS.length,9);
   const keys=STEPS.flatMap(s=>s.keys);
   assert.deepEqual([...keys].sort(),QUIZ.map(q=>q.key).sort());
   assert.equal(new Set(keys).size,keys.length);
-  assert.deepEqual(STEPS.map(s=>s.keys),[["company"],["kids"],["familiarity"],["duration"],["interests"],["mood"],["pace","walking","budget"]]);
+  assert.ok(STEPS.every(s=>s.keys.length===1),"una sola domanda per schermata");
+  assert.deepEqual(STEPS.map(s=>s.keys),[["company"],["kids"],["familiarity"],["duration"],["interests"],["mood"],["pace"],["walking"],["budget"]]);
   const shown=a=>activeSteps(a).map(i=>STEPS[i].id);
-  for(const company of ["solo","couple","friends"])assert.deepEqual(shown({...NEW,company}),["who","know","time","interests","mood","practical"],company+": 6 passaggi");
-  assert.deepEqual(shown({...NEW,company:"family"}),["who","kids","know","time","interests","mood","practical"],"in famiglia: 7 passaggi, bambini subito dopo la compagnia");
-  assert.deepEqual(shown({...NEW,company:null}),["who","know","time","interests","mood","practical"],"prima di scegliere: 6");
+  const BASE=["who","know","time","interests","mood","pace","walking","budget"];
+  for(const company of ["solo","couple","friends"])assert.deepEqual(shown({...NEW,company}),BASE,company+": 8 passaggi");
+  assert.deepEqual(shown({...NEW,company:"family"}),["who","kids",...BASE.slice(1)],"in famiglia: 9 passaggi, bambini subito dopo la compagnia");
+  assert.deepEqual(shown({...NEW,company:null}),BASE,"prima di scegliere: 8");
 });
 
 test("quiz: la domanda sui bambini non conta se la compagnia cambia", ()=>{
