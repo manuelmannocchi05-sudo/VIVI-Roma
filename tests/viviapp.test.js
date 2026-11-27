@@ -56,3 +56,13 @@ test("mappa: a fine ingresso animato della schermata si rimisura e si inquadra l
   assert.match(f,/addEventListener\("animationend",done\)/);
   assert.match(f,/state\.map\.invalidateSize\(\);fitDay\(false\)/);
 });
+test("durata nella Home: mezza giornata, un giorno, più giorni con 2–7 giorni; niente «weekend»/«settimana»",()=>{
+  const box=html.slice(html.indexOf('id="homeDur"'),html.indexOf('</div>\n            </div>',html.indexOf('id="homeDur"')));
+  assert.deepEqual([...box.matchAll(/data-duration="(\w+)"/g)].map(m=>m[1]),["half","one","multi"]);
+  assert.deepEqual([...box.matchAll(/class="dur-day" type="button" data-days="(\d)"/g)].map(m=>m[1]),["2","3","4","5","6","7"]);
+  assert.match(box,/id="durDays" role="group" aria-labelledby="durDaysLabel" hidden/);
+  assert.doesNotMatch(html,/quick\.weekend|quick\.week"|Un weekend|Una settimana/);
+  const js=R("js/main.js");
+  assert.match(js,/while\(idx<v\.length-1&&state\.quickDuration&&STEPS\[v\[idx\]\]\.id==="time"&&!stepError\(v\[idx\]\)\)idx\+\+/);
+  assert.match(html,/id="qzDur"/);
+});

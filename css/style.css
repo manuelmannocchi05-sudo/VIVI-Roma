@@ -775,6 +775,7 @@ html.quiz-open .toast{bottom:calc(92px + var(--sab))}
 
 /* smartphone stretti */
 @media (max-width:360px){
+  .dur-opt{font-size:.78rem}
   
   .seg-btn{padding:0 10px;font-size:.8rem}
   .set-row{gap:10px;padding:10px 12px}
@@ -1137,11 +1138,31 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
 .qc-pin circle{fill:var(--pink)}
 .qc-lead{margin:0 0 14px;font-size:.92rem;line-height:1.45;color:var(--ink-2)}
 .qc-label{margin:0 0 8px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red-d)}
-.quick{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
-.quick-chip{min-height:40px;padding:0 14px;border:1px solid var(--pink-d);border-radius:999px;background:#FFFFFF;color:var(--ink);font-size:.86rem;transition:border-color .2s,background .2s,transform .15s}
-.quick-chip strong{font-weight:600}
-.quick-chip:hover{border-color:var(--red);color:var(--red-d)}
-.quick-chip:active{transform:scale(.95);background:var(--pink-d)}
+/* durata: controllo segmentato (mezza giornata · un giorno · più giorni) e, per «Più giorni», i giorni da 2 a 7 */
+.dur{margin:0 0 16px}
+.dur-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:16px;background:#FFFFFF;border:1px solid var(--pink-d);box-shadow:var(--shadow-xs)}
+.dur-opt{min-height:44px;padding:0 6px;border:0;border-radius:12px;background:transparent;color:var(--ink);font-size:.86rem;font-weight:600;line-height:1.15;transition:background .2s,color .2s,transform .15s,box-shadow .2s}
+.dur-opt:hover{background:var(--pink);color:var(--red-d)}
+.dur-opt[aria-pressed="true"]{background:var(--red);color:#FFFFFF;box-shadow:0 4px 12px rgba(200,16,46,.28)}
+.dur-opt:active{transform:scale(.96)}
+.dur-days{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;animation:durIn .28s var(--ease)}
+.dur-days[hidden]{display:none}
+.dur-days-label{font-size:.82rem;font-weight:600;color:var(--ink-2)}
+.dur-days-row{display:grid;grid-template-columns:repeat(6,minmax(0,44px));gap:6px;width:100%;max-width:300px}
+.dur-day{display:grid;place-items:center;width:100%;aspect-ratio:1;min-width:0;border-radius:50%;border:1px solid var(--pink-d);background:#FFFFFF;color:var(--ink);font-size:.95rem;font-weight:700;transition:background .2s,color .2s,border-color .2s,transform .15s}
+.dur-day:hover{border-color:var(--red);color:var(--red-d)}
+.dur-day[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#FFFFFF;box-shadow:0 4px 12px rgba(200,16,46,.28)}
+.dur-day:active{transform:scale(.92)}
+.dur-opt:focus-visible,.dur-day:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+@keyframes durIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* promemoria nel quiz: durata scelta nella Home, con «Cambia» */
+.qz-dur{display:inline-flex;align-items:center;gap:8px;min-height:40px;margin:-4px 0 14px;padding:0 6px 0 12px;border:1px solid var(--pink-d);border-radius:999px;background:var(--pink);color:var(--ink);font-size:.86rem;font-weight:600;transition:border-color .2s,transform .15s}
+.qz-dur svg{width:18px;height:18px;fill:none;stroke:var(--red);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.qz-dur-go{padding:4px 10px;border-radius:999px;background:#FFFFFF;color:var(--red-d);font-size:.8rem;font-weight:700}
+.qz-dur:hover{border-color:var(--red)}
+.qz-dur:active{transform:scale(.97)}
+.qz-dur:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.qz-dur[hidden]{display:none}
 .quiz-card .btn{min-height:48px}
 .qc-art{position:absolute;z-index:0;right:-16px;bottom:-6px;width:min(52%,300px);height:auto;pointer-events:none;opacity:.95}
 .map-card{position:relative;display:block;min-height:230px;overflow:hidden;border-radius:22px;background:#EFE8D8;color:var(--ink);text-decoration:none;isolation:isolate;box-shadow:var(--shadow-s);transition:transform .25s var(--ease),box-shadow .25s}
@@ -1225,8 +1246,7 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
   .quiz-card{min-height:270px;padding:28px 34px}
   .qc-text{max-width:none}
   .qc-lead{max-width:min(46ch,60%)}
-  .quick{max-width:min(420px,58%)}
-  .quick-chip{padding:0 13px;white-space:nowrap}
+  .dur{max-width:min(430px,62%)}
   .quiz-card h2{font-size:1.75rem}
   .qc-art{width:min(44%,380px);right:-10px}
   .map-card{min-height:270px}
@@ -1242,6 +1262,7 @@ html.sheet-open,html.sheet-open body{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){
   .cat-card,.cat-card img,.map-card,.resume,.an-plus{transition:none}
+  .dur-days{animation:none}
 }
 
 /* 11. STAMPA — tutte le giornate, senza menu, pulsanti, mappa e decorazioni */

@@ -168,6 +168,7 @@ function syncOptions(){
     b.setAttribute("aria-pressed",String(on));
   });
   const dq=$("#daysQ");if(dq)dq.hidden=state.answers.duration!=="multi";
+  syncDur();
   for(const k of ["interests","mood"]){
     const n=state.answers[k].length,c=$("#selCount-"+k);
     if(c)c.textContent=n?t("quiz.selCount."+k,{n}):t("quiz.selNone."+k);
@@ -193,6 +194,7 @@ function setStep(n,focus){
   $("#prevBtn").disabled=visible()[0]===state.step;
   $("#qName").textContent=stepText(STEPS[state.step],"name");
   renderBar();
+  syncDurPill();
   $("#quizError").textContent="";
   quizPhoto();
   if(focus){
@@ -204,7 +206,10 @@ function setStep(n,focus){
 function goNext(){
   const err=stepError(state.step);
   if(err){$("#quizError").textContent=err;return;}
-  const v=visible(),next=v[v.indexOf(state.step)+1];
+  const v=visible();let idx=v.indexOf(state.step)+1;
+  /* durata già scelta nella Home: non si chiede di nuovo (resta modificabile con «Cambia») */
+  while(idx<v.length-1&&state.quickDuration&&STEPS[v[idx]].id==="time"&&!stepError(v[idx]))idx++;
+  const next=v[idx];
   const st=histState();
   pushState("crea",{qs:next,q0:st&&st.r==="crea"?st.q0:0});   /* ogni domanda è un passo della cronologia: il tasto Indietro torna alla precedente */
   setStep(next,true);
@@ -251,7 +256,7 @@ function relabelQuiz(){
   if(shown){const err=stepError(state.step);$("#quizError").textContent=err;}
 }
 /* Risposte ricevute da un viaggio salvato o da un link: copia indipendente, con le atmosfere sempre in elenco. */
-function loadAnswers(a){state.answers={...a,interests:[...a.interests],mood:moodsOf(a).slice()};syncOptions();}
+function loadAnswers(a){state.answers={...a,interests:[...a.interests],mood:moodsOf(a).slice()};state.quickDuration=false;syncOptions();}
 
 /* ==========================================================================
    IMMAGINI: solo file locali WebP (img/), generati da tools/photos/build.py con licenza verificata.
@@ -1177,7 +1182,7 @@ function applyLang(){
   applyStatic(document);
   $("#langToggle").setAttribute("lang",l==="it"?"en":"it");
   syncSettings();
-  relabelQuiz();
+  relabelQuiz();syncDurPill();
   $$(".cat-card").forEach(card=>{const img=$("img",card);if(img)img.alt=t("cat."+card.dataset.interest+".alt");});
   heroCredit();
   renderTrips();
@@ -1494,13 +1499,42 @@ function openSample(){
   showPlan(restoreItinerary(engineAnswers(state.answers),tripFromPlan(state.answers,samplePlan).days),{savedId:null,source:"sample",status:[["status.sample"]]});
   openItinerary();
 }
+/* Durata dalla Home: stessa logica del quiz (mezza giornata, un giorno, più giorni con 2–7 giorni).
+   Le risposte sono quelle del quiz (state.answers): la scelta resta modificabile da entrambe le parti e,
+   se è completa, il quiz salta la domanda sulla durata (state.quickDuration). */
+function setHomeDuration(duration,days){
+  state.answers.duration=duration;
+  state.answers.days=duration==="multi"?(days||state.answers.days||null):null;
+  state.quickDuration=duration!=="multi"||!!state.answers.days;
+  syncOptions();renderBar();
+}
 function initQuick(){
-  $$(".quick-chip").forEach(b=>b.addEventListener("click",()=>{
-    state.answers.duration=b.dataset.duration;state.answers.days=b.dataset.days||null;
-    syncOptions();renderBar();
-    navigate("crea");
-    toast(t("quick.toast",{label:$("strong",b).textContent}));
+  $$(".dur-opt").forEach(b=>b.addEventListener("click",()=>{
+    setHomeDuration(b.dataset.duration);
+    if(b.dataset.duration==="multi"&&!state.answers.days){const d=$("#durDays");if(d)requestAnimationFrame(()=>d.querySelector(".dur-day").focus({preventScroll:true}));}
   }));
+  $$(".dur-day").forEach(b=>b.addEventListener("click",()=>setHomeDuration("multi",b.dataset.days)));
+  $("#qzDur").addEventListener("click",()=>{
+    const ti=STEPS.findIndex(s=>s.id==="time"),st=histState();
+    pushState("crea",{qs:ti,q0:st&&st.r==="crea"?st.q0:0});setStep(ti,true);
+  });
+}
+/* riflette la durata scelta (dalla Home o dal quiz) nei controlli della Home e nel promemoria del quiz */
+function syncDur(){
+  const a=state.answers,box=$("#homeDur");if(!box)return;
+  $$(".dur-opt",box).forEach(b=>{const on=a.duration===b.dataset.duration;b.setAttribute("aria-pressed",String(on));if(b.dataset.duration==="multi")b.setAttribute("aria-expanded",String(on));});
+  $$(".dur-day",box).forEach(b=>b.setAttribute("aria-pressed",String(a.duration==="multi"&&a.days===b.dataset.days)));
+  const dd=$("#durDays");dd.hidden=a.duration!=="multi";
+  syncDurPill();
+}
+function syncDurPill(){
+  const p=$("#qzDur");if(!p)return;
+  const a=state.answers,ti=STEPS.findIndex(s=>s.id==="time");
+  const show=!!state.quickDuration&&!stepError(ti)&&state.step!==ti;
+  p.hidden=!show;if(!show)return;
+  const label=durationLabel(a);
+  $("#qzDurText").textContent=t("quiz.durFromHome",{label});
+  p.setAttribute("aria-label",t("quiz.durAria",{label}));
 }
 async function setLangTo(l){if(l!==getLang())await toggleLang();}
 /* «Pronto» solo quando la verifica della Cache Storage è andata a buon fine (vedi offlineCheck). */
